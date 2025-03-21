@@ -1,6 +1,8 @@
+import React from "react";
 import { Layout, Menu, Input, Button, Typography, Dropdown, Form } from "antd";
 import { DownOutlined, HeartOutlined } from "@ant-design/icons";
 import * as Yup from "yup"; // Import Yup for validation
+import { GreenPREPLogo } from "@assets/images";
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
@@ -34,8 +36,12 @@ const HomePage = () => {
 
   return (
     <Layout className="min-h-screen">
-      <Header className="flex justify-between items-center bg-[#01033D] !p-5">
-        <Title level={2} className="!text-white !m-0">
+      <Header className="flex justify-between items-center bg-[#01033D] !p-10 !shadow-xl">
+        <Title level={2} className="!text-white !m-0 justify-center flex">
+          <img
+            src={GreenPREPLogo}
+            className="w-10 bg-white rounded-full mr-2 "
+          />
           GreenPREP
         </Title>
         <Dropdown overlay={menu} trigger={["click"]}>
