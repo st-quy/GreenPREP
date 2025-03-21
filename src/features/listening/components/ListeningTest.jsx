@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { FaHeadphones, FaPlay, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import MultipleMatchingQuestion from './MultipleMatchingQuestion';
+import CountdownTimer from './CountdownTimer';
 
 const ListeningTest = () => {
-  const [timeRemaining, setTimeRemaining] = useState('40:00');
   const [currentQuestion, setCurrentQuestion] = useState(1);
-
   const totalQuestions = 17;
 
   const renderQuestionNumbers = () => {
@@ -115,13 +114,7 @@ const ListeningTest = () => {
             {/* Timer and Navigation Combined Card */}
             <div className="p-8">
               {/* Timer */}
-              <div>
-                <h2 className="text-base font-medium text-gray-900">Time Remaining</h2>
-                <div className="text-[40px] font-bold text-blue-600">
-                  {timeRemaining}
-                </div>
-                <div className="h-px bg-gray-200 my-6"></div>
-              </div>
+              <CountdownTimer />
 
               {/* Question Navigation */}
               <div>
