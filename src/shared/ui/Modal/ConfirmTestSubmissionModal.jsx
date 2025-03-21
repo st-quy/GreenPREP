@@ -3,19 +3,24 @@ import { Button } from "antd";
 
 /**
  * ConfirmTestSubmissionModal Component
- * Hiển thị hộp thoại xác nhận trước khi người dùng gửi bài kiểm tra.
  *
  * {boolean} visible - Trạng thái hiển thị modal (true: hiển thị, false: ẩn).
+ * {ReactNode} title - Tiêu đề của hộp thoại, có thể là chuỗi hoặc JSX.
+ * {ReactNode} description - Nội dung mô tả trong hộp thoại, có thể là chuỗi hoặc JSX.
  * {function} onSubmit - Hàm callback được gọi khi người dùng nhấn "Submit".
  * {function} onCancel - Hàm callback được gọi khi người dùng nhấn "Cancel".
- * {boolean}showCancel - Cho phép hiển thị hoặc ẩn nút "Cancel" (mặc định: true).
+ * {boolean} showCancel - Cho phép hiển thị hoặc ẩn nút "Cancel" (mặc định: true).
  */
 
-export default function ConfirmationDialog({
+export default function ConfirmTestSubmissionModal({
   visible,
   onSubmit,
   onCancel,
   showCancel = true,
+  title = "Are you sure you want to submit test?",
+  description = `After you submit your test, you will no longer have access to the
+          questions, nor will you be able to review or make any changes to your
+          answers.`,
 }) {
   if (!visible) return null;
   return (
@@ -25,17 +30,11 @@ export default function ConfirmationDialog({
           {/* Warning icon */}
           <WarningOutlined className="text-amber-500 text-3xl" />
           {/* Heading */}
-          <h1 className="text-xl font-medium text-center">
-            Are you sure you want to submit test?
-          </h1>
+          <h1 className="text-xl font-medium text-center">{title}</h1>
         </div>
 
         {/* Warning message */}
-        <p className="text-gray-600 mb-6">
-          After you submit your test, you will no longer have access to the
-          questions, nor will you be able to review or make any changes to your
-          answers.
-        </p>
+        <div className="text-gray-600 mb-6">{description}</div>
 
         {/* Action buttons */}
         <div className="flex justify-between md:justify-end gap-3">
