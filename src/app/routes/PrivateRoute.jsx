@@ -11,11 +11,7 @@ const PrivateRoute = [
       {
         path: "homepage",
         element: <HomePage />,
-      },
-      {
-        path: "reading",
-        element: <Introduct />,
-      },
+      }
     ],
   },
 ];
