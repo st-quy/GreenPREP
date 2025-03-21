@@ -50,6 +50,7 @@ const PrivateRoute = [
           },
         ],
       },
+      //For full screen test
       // {
       //   path: "enter-test",
       //   element: <EnterTest />,
