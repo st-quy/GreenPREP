@@ -2,6 +2,7 @@
 import HomePage from "@pages/HomePage.jsx";
 import IntroReading from "@pages/Reading/IntroductionScreen.jsx";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
+import NavigationTest from "@shared/ui/NavigationTest";
 import SpeakingPage from "@pages/SpeakingPage.jsx";
 import Introduction from "@features/speaking/ui/Introduction.jsx";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
@@ -47,6 +48,10 @@ const PrivateRoute = [
           },
         ],
       },
+      {
+        path: "navigation",
+        element: <NavigationTest />,
+      }
     ],
   },
 ];
