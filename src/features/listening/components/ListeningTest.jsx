@@ -1,11 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaHeadphones, FaPlay, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import MultipleMatchingQuestion from './MultipleMatchingQuestion';
 import CountdownTimer from './CountdownTimer';
+import QuestionContent from './QuestionContent';
 
 const ListeningTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
-  const totalQuestions = 17;
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        // Replace this with your actual API endpoint
+        const response = await fetch('YOUR_API_ENDPOINT/questions');
+        if (!response.ok) {
+          throw new Error('Failed to fetch questions');
+        }
+        const data = await response.json();
+        setQuestions(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  const totalQuestions = questions.length;
 
   const renderQuestionNumbers = () => {
     const numbers = [];
@@ -26,34 +51,7 @@ const ListeningTest = () => {
     return numbers;
   };
 
-  const renderQuestionContent = () => {
-    // Example: Show different question types based on the current question
-    if (currentQuestion === 1) {
-      return (
-        <div className="space-y-4">
-          <p className="text-gray-800">A doctor's secretary calls about a change to an appointment. What is changing?</p>
-          <p className="text-gray-600 text-sm">Choose only 1 answer:</p>
-          
-          <div className="space-y-3">
-            {['The date', 'The time', 'The place'].map((option, index) => (
-              <label key={index} className="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-blue-50 cursor-pointer">
-                <input
-                  type="radio"
-                  name="answer"
-                  className="w-4 h-4 text-blue-600"
-                />
-                <span className="ml-3">{option}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-      );
-    } else if (currentQuestion === 15) {
-      return <MultipleMatchingQuestion />;
-    }
-    // Add more question types as needed
-    return null;
-  };
+  const currentQuestionData = questions[currentQuestion - 1];
 
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
@@ -74,11 +72,23 @@ const ListeningTest = () => {
                   Part {currentQuestion <= 10 ? '1' : '3'} - Question {currentQuestion}
                 </div>
                 <button className="px-3 py-1 rounded-full bg-orange-100 text-orange-600 text-sm">
-                  {currentQuestion === 15 ? 'Mark' : 'Marked'}
+                  {currentQuestionData?.isMarked ? 'Marked' : 'Mark'}
                 </button>
               </div>
 
-              {renderQuestionContent()}
+              {loading ? (
+                <div className="text-center py-8">Loading questions...</div>
+              ) : error ? (
+                <div className="text-center py-8 text-red-600">{error}</div>
+              ) : currentQuestionData ? (
+                <QuestionContent
+                  question={currentQuestionData.question}
+                  answer={currentQuestionData.answer}
+                  type={currentQuestionData.type}
+                />
+              ) : (
+                <div className="text-center py-8">No question data available</div>
+              )}
             </div>
 
             {/* Audio Controls in separate card */}
@@ -98,11 +108,19 @@ const ListeningTest = () => {
 
             {/* Navigation Buttons */}
             <div className="flex justify-end gap-3">
-              <button className="flex items-center gap-2 px-6 py-2.5 rounded-full text-blue-600 hover:bg-gray-50 bg-white shadow-sm">
+              <button 
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full text-blue-600 hover:bg-gray-50 bg-white shadow-sm"
+                onClick={() => setCurrentQuestion(prev => Math.max(1, prev - 1))}
+                disabled={currentQuestion === 1}
+              >
                 <FaArrowLeft className="text-sm" />
                 Previous
               </button>
-              <button className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-blue-600 text-white shadow-sm hover:bg-blue-700">
+              <button 
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-blue-600 text-white shadow-sm hover:bg-blue-700"
+                onClick={() => setCurrentQuestion(prev => Math.min(totalQuestions, prev + 1))}
+                disabled={currentQuestion === totalQuestions}
+              >
                 Next
                 <FaArrowRight className="text-sm" />
               </button>
@@ -120,10 +138,10 @@ const ListeningTest = () => {
               <div>
                 <h2 className="text-base font-medium text-gray-900 mb-4">Question Navigation</h2>
                 <div className="grid grid-cols-6 gap-2.5">
-                  {[...Array(totalQuestions)].map((_, i) => {
-                    const questionNum = i + 1;
+                  {questions.map((question, index) => {
+                    const questionNum = index + 1;
                     const isSelected = currentQuestion === questionNum;
-                    const hasMarker = [2, 3].includes(questionNum); // Example for questions with markers
+                    const hasMarker = question.isMarked;
                     
                     return (
                       <button
