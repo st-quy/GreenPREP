@@ -2,7 +2,7 @@ import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
 
-const MarkerButton = ({ onClick, marked = false }) => {
+const MarkerButton = ({ onClick = () => {}, marked = false }) => {
   const [isMarked, setIsMarked] = useState(marked);
   const handleMark = async () => {
     try {
