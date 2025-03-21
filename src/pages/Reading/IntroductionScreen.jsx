@@ -28,7 +28,7 @@ const IntroReading = () => {
           <img
             src="/src/assets/Images/ReadingIcon.png"
             alt="Reading Icon"
-            className="w-20 h-20"
+            className="w-12 h-auto sm:w-16 md:w-16 lg:w-18 object-contain"
           />
           <Title level={2} className="!text-3xl !font-bold !text-black !m-0">
             Reading Test
@@ -137,7 +137,14 @@ const IntroReading = () => {
             type="primary"
             onClick={handleBeginTest}
             size="large"
-            className="!bg-blue-600 !border-blue-600 !rounded-full !px-4 !py-2 !h-auto !flex !items-center !font-medium hover:!bg-blue-700 hover:!border-blue-700"
+            className="
+            bg-blue-600 border-blue-600 rounded-full 
+            px-4 py-2 sm:px-6 sm:py-3 
+            h-auto flex items-center font-medium 
+            text-sm sm:text-base 
+            hover:bg-blue-700 hover:border-blue-700
+            transition-colors
+          "
           >
             <span className="mr-2">Begin the Test</span>
             <ArrowRightOutlined />
