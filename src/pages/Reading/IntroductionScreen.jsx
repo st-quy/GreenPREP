@@ -20,104 +20,99 @@ const IntroReading = () => {
 
   return (
     <div className="min-h-screen bg-[#F9F9F9] py-6 sm:py-8 md:py-12">
-      <div className="">
-        {/* Test Structure Card */}
-        <Card
-          className="mb-4 shadow-sm border border-gray-200 sm:mb-6"
-          style={{ borderRadius: "1rem" }}
-          bodyStyle={{ padding: "2rem" }}
-        >
-          <div className="p-4 sm:p-6">
-            {" "}
-            {/* Responsive padding */}
-            <div className="text-lg sm:text-xl md:text-2xl font-semibold text-blue-600 mb-3 sm:mb-4">
-              Test Structure
-            </div>
-            <Paragraph className="mb-3 text-gray-800 text-sm sm:text-base sm:mb-4">
-              The test consists of 4 parts (Parts 1-4) with 4 main question
-              types:
-            </Paragraph>
-            <ul className="list-disc pl-5 space-y-1 text-gray-800 sm:space-y-2">
-              <li className="text-sm sm:text-base">
-                <Text strong className="font-medium">
-                  Part 1:
-                </Text>{" "}
-                Sentence Completion (Fill in the blanks)
-              </li>
-              <li className="text-sm sm:text-base">
-                <Text strong className="font-medium">
-                  Part 2:
-                </Text>{" "}
-                Text Sequencing (Rearrange sentences in a logical order)
-              </li>
-              <li className="text-sm sm:text-base">
-                <Text strong className="font-medium">
-                  Part 3:
-                </Text>{" "}
-                Matching Opinions (Match opinions to the correct speaker)
-              </li>
-              <li className="text-sm sm:text-base">
-                <Text strong className="font-medium">
-                  Part 4:
-                </Text>{" "}
-                Heading Matching (Match headings to paragraphs)
-              </li>
-            </ul>
+      {/* Test Structure Card */}
+      <Card
+        className="mb-4 shadow-sm border border-gray-200 sm:mb-6"
+        style={{ borderRadius: "1rem", body: { padding: "2rem" } }}
+      >
+        <div className="p-2 sm:p-6">
+          {" "}
+          {/* Responsive padding */}
+          <div className="text-lg sm:text-xl md:text-2xl font-semibold text-[#3758F9] mb-3 sm:mb-4">
+            Test Structure
           </div>
-        </Card>
+          <Paragraph className="mb-3 text-[#111928] text-sm sm:text-base sm:mb-4">
+            The test consists of 4 parts (Parts 1-4) with 4 main question types:
+          </Paragraph>
+          <ul className="list-disc pl-5 space-y-1 text-[#111928] sm:space-y-2">
+            <li className="text-sm sm:text-base">
+              <Text strong className="font-medium">
+                Part 1:
+              </Text>{" "}
+              Sentence Completion (Fill in the blanks)
+            </li>
+            <li className="text-sm sm:text-base">
+              <Text strong className="font-medium">
+                Part 2:
+              </Text>{" "}
+              Text Sequencing (Rearrange sentences in a logical order)
+            </li>
+            <li className="text-sm sm:text-base">
+              <Text strong className="font-medium">
+                Part 3:
+              </Text>{" "}
+              Matching Opinions (Match opinions to the correct speaker)
+            </li>
+            <li className="text-sm sm:text-base">
+              <Text strong className="font-medium">
+                Part 4:
+              </Text>{" "}
+              Heading Matching (Match headings to paragraphs)
+            </li>
+          </ul>
+        </div>
+      </Card>
 
-        {/* Form Description Card */}
-        <Card
-          className="mb-8 shadow-sm border border-gray-200 sm:mb-12"
-          style={{ borderRadius: "1rem" }}
-          bodyStyle={{ padding: "2rem" }}
-        >
-          <div className="p-4 sm:p-6">
-            {/* Responsive padding */}
-            <div className="text-lg sm:text-xl md:text-2xl font-semibold text-blue-600 mb-2 sm:mb-4">
-              Form Description
-            </div>
-            <ul className="list-disc pl-5 space-y-1 text-gray-800 sm:space-y-2">
-              <li className="text-sm sm:text-base">
-                <Text strong className="font-medium">
-                  Format:
-                </Text>{" "}
-                Drop down, Drag & Drop.
-              </li>
-              <li className="text-sm sm:text-base">
-                <Text strong className="font-medium">
-                  Total questions:
-                </Text>{" "}
-                30.
-              </li>
-              <li className="text-sm sm:text-base">
-                <Text strong className="font-medium">
-                  Test duration:
-                </Text>{" "}
-                25 minutes.
-              </li>
-            </ul>
+      {/* Form Description Card */}
+      <Card
+        className="mb-8 shadow-sm border border-gray-200 sm:mb-12"
+        style={{ borderRadius: "1rem", body: { padding: "2rem" } }}
+      >
+        <div className="p-2 sm:p-6">
+          {/* Responsive padding */}
+          <div className="text-lg sm:text-xl md:text-2xl font-semibold text-[#3758F9] mb-2 sm:mb-4">
+            Form Description
           </div>
-        </Card>
+          <ul className="list-disc pl-5 space-y-1 text-[#111928] sm:space-y-2">
+            <li className="text-sm sm:text-base">
+              <Text strong className="font-medium">
+                Format:
+              </Text>{" "}
+              Drop down, Drag & Drop.
+            </li>
+            <li className="text-sm sm:text-base">
+              <Text strong className="font-medium">
+                Total questions:
+              </Text>{" "}
+              30.
+            </li>
+            <li className="text-sm sm:text-base">
+              <Text strong className="font-medium">
+                Test duration:
+              </Text>{" "}
+              25 minutes.
+            </li>
+          </ul>
+        </div>
+      </Card>
 
-        {/* Begin Test Button */}
-        <div className="flex justify-end">
-          <Button
-            type="primary"
-            onClick={handleBeginTest}
-            size="large"
-            style={{ borderRadius: "9999px" }}
-            className="
+      {/* Begin Test Button */}
+      <div className="flex justify-end">
+        <Button
+          type="primary"
+          onClick={handleBeginTest}
+          size="large"
+          style={{ borderRadius: "9999px" }}
+          className="
               px-4 py-1 sm:px-6 sm:py-2 
               h-auto flex items-center font-medium 
               text-sm sm:text-base 
               transition-colors
             "
-          >
-            <span className="mr-2">Begin the Test</span>
-            <ArrowRightOutlined />
-          </Button>
-        </div>
+        >
+          <span className="mr-2">Begin the Test</span>
+          <ArrowRightOutlined />
+        </Button>
       </div>
 
       {/* Error Modal for Navigation Failure */}
