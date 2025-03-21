@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect } from "react";
-import { useFullScreen } from "@features/testing/hooks/useFullScreen";
+import { useFullScreen } from "@app/providers/store/useFullScreen";
 
 // Create context
 const FullScreenContext = createContext(null);
@@ -19,7 +19,7 @@ export function FullScreenProvider({ children }) {
     if (testActive && !isFullScreen) {
       enterFullScreen();
     }
-  }, [testActive, isFullScreen]); // Removed enterFullScreen from dependencies
+  }, [testActive, isFullScreen]);
 
   return (
     <FullScreenContext.Provider value={fullScreenState}>
