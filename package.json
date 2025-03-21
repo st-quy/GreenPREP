@@ -21,6 +21,7 @@
     "apexcharts": "^4.3.0",
     "axios": "^1.7.7",
     "dayjs": "^1.11.13",
+    "finance-system": "file:",
     "firebase": "^11.0.1",
     "google-auth-library": "^9.15.0",
     "google-sheets-mapper": "^2.0.0",

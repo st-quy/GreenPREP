@@ -46,7 +46,7 @@ const HomePage = () => {
         </Title>
         <Dropdown overlay={menu} trigger={["click"]}>
           <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-            <Text className="text-white">Hi, </Text>
+            <Text className="text-white">Hi, </Text> 
             <Text className="text-[#f26f21] hover:text-[#e87a39] font-bold">
               Student name
             </Text>
