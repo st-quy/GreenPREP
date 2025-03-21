@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFullScreen } from "../hooks/useFullScreen";
+import { useFullScreenContext } from "@app/providers/FullScreenProvider";
 import { Button, Card, Typography, Space, Alert } from "antd";
 
 const { Title, Text } = Typography;
 
 export const EnterTest = () => {
   const [loading, setLoading] = useState(false);
-  const { startTestInFullScreen, browserInfo } = useFullScreen();
+  const { startTestInFullScreen, browserInfo } = useFullScreenContext();
   const navigate = useNavigate();
 
   const handleEnterTest = () => {

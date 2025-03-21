@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect } from "react";
-import { useFullScreen } from "../hooks/useFullScreen";
+import { useFullScreen } from "@features/testing/hooks/useFullScreen";
 
 // Create context
 const FullScreenContext = createContext(null);

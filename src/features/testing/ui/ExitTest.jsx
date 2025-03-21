@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Typography, Result } from "antd";
-import { useFullScreenContext } from "../context/FullScreenContext";
+import { useFullScreenContext } from "@app/providers/FullScreenProvider";
 
 const { Text } = Typography;
 

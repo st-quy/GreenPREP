@@ -5,7 +5,7 @@ import "./main.css";
 import { Provider } from "react-redux";
 import RouteProvider from "@app/providers/RouteProvider";
 import store from "./providers/store";
-import { FullScreenProvider } from "@features/testing/context/FullScreenContext";
+import { FullScreenProvider } from "./providers/FullScreenProvider";
 
 const queryClient = new QueryClient();
 
