@@ -1,3 +1,4 @@
+import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
 
@@ -16,18 +17,26 @@ const MarkButton = ({ onClick, marked = false }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <Button
-        onClick={handleMark}
-        className={`px-4 py-2 font-semibold rounded-3xl transition-all
-          ${isMarked ? "bg-blue-600 text-white" : "bg-gray-300 text-black"}
-          hover:opacity-80`}
-      >
-        {isMarked ? "Marked" : "Not Mark"}
-      </Button>
-
-      {error && <p className="text-red-500 mt-2">{error}</p>}
-    </div>
+    <Button
+      type="default"
+      shape="round"
+      icon={
+        isMarked ? (
+          <StarFilled style={{ color: "white" }} />
+        ) : (
+          <StarOutlined style={{ color: "#f26f21" }} />
+        )
+      }
+      onClick={handleMark}
+      style={{
+        borderColor: "#f26f21",
+        color: isMarked ? "white" : "#f26f21",
+        fontWeight: "bold",
+        backgroundColor: isMarked ? "#f26f21" : "transparent",
+      }}
+    >
+      Mark
+    </Button>
   );
 };
 
