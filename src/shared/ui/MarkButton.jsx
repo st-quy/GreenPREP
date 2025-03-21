@@ -33,9 +33,11 @@ const MarkButton = ({ onClick, marked = false }) => {
         color: isMarked ? "white" : "#f26f21",
         fontWeight: "bold",
         backgroundColor: isMarked ? "#f26f21" : "transparent",
+        minWidth: "110px",
+        textAlign: "center",
       }}
     >
-      Mark
+      {isMarked ? "Marked" : " Mark  "}
     </Button>
   );
 };
