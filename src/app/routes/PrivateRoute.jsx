@@ -21,10 +21,6 @@ const PrivateRoute = [
             path: "introduction",
             element: <Introduction />,
           },
-          {
-            index: true, 
-            element: <Introduction />,
-          },
         ],
       },
     ],
