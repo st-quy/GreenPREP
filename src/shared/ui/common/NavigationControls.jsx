@@ -1,13 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-// Common navigation controls for handling next/previous actions
+/**
+ * Common navigation controls component for handling next/previous actions
+ * @param {Object} props - Component props
+ * @param {Function} props.onNext - Handler function for next button click
+ * @param {Function} props.onPrevious - Handler function for previous button click
+ * @param {boolean} props.isFirstQuestion - If true, disables previous button
+ * @param {boolean} props.isLastQuestion - If true, disables next button
+ * @param {string} [props.className] - Optional CSS classes for custom styling
+ * @returns {JSX.Element} Navigation controls with previous and next buttons
+ */
 const NavigationControls = ({ 
-  onNext,           // next handler
-  onPrevious,       // previous handler
-  isFirstQuestion,  // disable previous if true
-  isLastQuestion,   // disable next if true
-  className        // custom styles
+  onNext,  // next handle
+  onPrevious,   // previous handle
+  isFirstQuestion,  // disabled previous if true
+  isLastQuestion,   // disabled next if true
+  className        // custom style
 }) => (
   <div className={`flex justify-end space-x-3 ${className}`}>
     <button
@@ -31,13 +39,5 @@ const NavigationControls = ({
     </button>
   </div>
 );
-
-NavigationControls.propTypes = {
-  onNext: PropTypes.func.isRequired,
-  onPrevious: PropTypes.func.isRequired,
-  isFirstQuestion: PropTypes.bool.isRequired,
-  isLastQuestion: PropTypes.bool.isRequired,
-  className: PropTypes.string
-};
 
 export default NavigationControls; 
