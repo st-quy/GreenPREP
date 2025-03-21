@@ -2,8 +2,9 @@
 import HomePage from "@pages/HomePage.jsx";
 import IntroReading from "@pages/Reading/IntroductionScreen.jsx";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
-import SpeakingPage from "@pages/SpeakingPage.jsx";
-import Introduction from "@features/speaking/ui/Introduction.jsx";
+import SpeakingLayout from "@pages/speaking/SpeakingLayout.jsx";
+import SpeakingTransitionPage from "@pages/speaking/SpeakingTransitionPage.jsx";
+import Introduction from "@pages/speaking/IntroductionPage.jsx";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
@@ -18,22 +19,26 @@ const PrivateRoute = [
         element: <HomePage />,
       },
       {
-        path: "speaking",
-        element: <SpeakingPage />,
-        children: [
-          {
-            path: "introduction",
-            element: <Introduction />,
-          },
-        ],
-      },
-      {
         path: "reading",
         element: <ReadingLayout />,
         children: [
           {
             path: "intro",
             element: <IntroReading />,
+          },
+        ],
+      },
+      {
+        path: "speaking",
+        element: <SpeakingLayout />,
+        children: [
+          {
+            path: "part/:partId/introduction",
+            element: <SpeakingTransitionPage />,
+          },
+          {
+            path: "introduction",
+            element: <Introduction />,
           },
         ],
       },
