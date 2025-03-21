@@ -2,7 +2,7 @@ import { Button } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { Card } from "antd";
 
-const Introduction = ({ onNext }) => {
+const Introduction = () => {
   return (
     <div>
       <Card className="mb-2 shadow-sm p-0">
@@ -45,9 +45,8 @@ const Introduction = ({ onNext }) => {
           type="primary" 
           size="middle" 
           className="bg-blue-600 hover:bg-blue-700 flex items-center"
-          onClick={onNext}
         >
-          Next <ArrowRightOutlined className="ml-1" />
+        Begin The Test <ArrowRightOutlined className="ml-1" />
         </Button>
       </div>
     </div>
