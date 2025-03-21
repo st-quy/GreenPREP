@@ -2,17 +2,14 @@ import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState } from "react";
 
-const MarkButton = ({ onClick, marked = false }) => {
+const MarkerButton = ({ onClick, marked = false }) => {
   const [isMarked, setIsMarked] = useState(marked);
-  const [error, setError] = useState(null);
-
-  const handleMark = () => {
+  const handleMark = async () => {
     try {
-      const newStatus = !isMarked;
-      setIsMarked(newStatus);
-      onClick();
+      await onClick();
+      setIsMarked(!isMarked);
     } catch (err) {
-      setError("Failed to mark/unmark. Please try again.");
+      console.error("Failed to mark/unmark. Please try again.");
     }
   };
 
@@ -42,4 +39,4 @@ const MarkButton = ({ onClick, marked = false }) => {
   );
 };
 
-export default MarkButton;
+export default MarkerButton;
