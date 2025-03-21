@@ -6,42 +6,50 @@ import { GreenPREPLogo } from "@assets/images";
 const StepData = [
   {
     title: "Speaking",
-    description: "You'll describe picture, share",
+    description:
+      "You’ll describe pictures, share experiences, and give opinions to showcase your speaking abilities.",
   },
   {
     title: "Listening",
-    description: "You'll describe picture, share",
+    description:
+      "Tune in to various accents and contexts as you answer questions based on dialogues, monologues, and everyday conversations.",
   },
   {
     title: "Grammar & vocabulary",
-    description: "You'll describe picture, share",
+    description:
+      "Demonstrate your understanding of English grammar structures and word usage through a series of engaging questions.",
   },
   {
     title: "Reading",
-    description: "You'll describe picture, share",
+    description:
+      "Analyze different texts, extract key information, and improve your reading comprehension skills with multiple-choice and short-answer questions.",
   },
   {
     title: "Writing",
-    description: "You'll describe picture, share",
+    description:
+      "Conclude your test with a writing task that challenges you to organize your ideas clearly and effectively in written form.",
   },
 ];
-const RejectedRequestPage = () => {
+const IntroductionPage = () => {
   return (
     <Layout>
       <Header className="flex justify-between items-center bg-white !p-5 shadow-[0px_2px_2px_1px_#00000024]">
-        <Title level={3} className="!text-black !m-0 justify-center flex items-center ">
+        <Title
+          level={3}
+          className="!text-black !m-0 justify-center flex items-center "
+        >
           <img
             src={GreenPREPLogo}
             className="w-10 bg-white rounded-full mr-2 "
           />
-          GreenEDP
+          GreenPREP
         </Title>
       </Header>
-      <Content className="h-screen w-screen  ">
+      <Content className="h-screen w-full  ">
         <Flex
           vertical
           gap={16}
-          className="w-full max-w-[1471px] mx-auto px-[calc(10px+4vw)] py-2.5 shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-8 bg-white rounded-lg"
+          className="w-full max-w-[calc(100vw-32px)] lg:max-w-[1471px] mx-auto px-[calc(10px+4vw)] py-2.5 shadow-[0_3px_10px_rgb(0,0,0,0.2)] mt-8 bg-white rounded-lg"
         >
           <Flex gap={5} vertical>
             <Text className="text-lg/[26px] font-bold text-[#3758F9FF]">
@@ -58,11 +66,14 @@ const RejectedRequestPage = () => {
 
           <Flex vertical gap={14}>
             {StepData.map((item, index) => (
-              <Flex gap={20} key={index}>
+              <Flex
+              className="gap-2 sm:gap-3 md:gap-4 gap-5"
+                key={index}
+              >
                 <Flex
                   justify="center"
                   align="center"
-                  className="w-14 h-14 rounded-full text-[28px]/[16px] font-medium border border-solid border-[#3758F9FF] text-[#3758F9FF]  hover:bg-[#3758F9FF] hover:text-white "
+                  className="w-full max-w-10 h-10 md:max-w-10 md:h-10 lg:max-w-14 lg:h-14 rounded-full text-lg md:text-xl lg:text-[28px]/[16px] font-medium border border-solid border-[#3758F9FF] text-[#3758F9FF]  hover:bg-[#3758F9FF] hover:text-white "
                 >
                   0{index + 1}
                 </Flex>
@@ -91,4 +102,4 @@ const RejectedRequestPage = () => {
   );
 };
 
-export default RejectedRequestPage;
+export default IntroductionPage;
