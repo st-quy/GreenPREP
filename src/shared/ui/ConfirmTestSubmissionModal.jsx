@@ -1,5 +1,5 @@
+import { WarningOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { IoWarningOutline } from "react-icons/io5";
 
 /**
  * ConfirmTestSubmissionModal Component
@@ -23,7 +23,7 @@ export default function ConfirmationDialog({
       <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-10">
         <div className="flex flex-col items-center md:flex-row md:items-start gap-3 mb-4">
           {/* Warning icon */}
-          <IoWarningOutline className="text-amber-500 text-3xl" />
+          <WarningOutlined className="text-amber-500 text-3xl" />
           {/* Heading */}
           <h1 className="text-xl font-medium text-center">
             Are you sure you want to submit test?
