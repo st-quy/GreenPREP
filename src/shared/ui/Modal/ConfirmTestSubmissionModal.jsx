@@ -4,12 +4,13 @@ import { Button } from "antd";
 /**
  * ConfirmTestSubmissionModal Component
  *
- * {boolean} visible - Trạng thái hiển thị modal (true: hiển thị, false: ẩn).
- * {ReactNode} title - Tiêu đề của hộp thoại, có thể là chuỗi hoặc JSX.
- * {ReactNode} description - Nội dung mô tả trong hộp thoại, có thể là chuỗi hoặc JSX.
- * {function} onSubmit - Hàm callback được gọi khi người dùng nhấn "Submit".
- * {function} onCancel - Hàm callback được gọi khi người dùng nhấn "Cancel".
- * {boolean} showCancel - Cho phép hiển thị hoặc ẩn nút "Cancel" (mặc định: true).
+ *{boolean} visible - Determines whether the modal is visible (true: shown, false: hidden).
+ *{ReactNode} title - The title of the dialog, can be a string or JSX.
+ *{ReactNode} description - The message/content inside the dialog, can be a string or JSX.
+ *{function} onSubmit - Callback function triggered when the user clicks "Submit".
+ *{function} onCancel - Callback function triggered when the user clicks "Cancel".
+ *{boolean} showCancel - Whether to show the "Cancel" button (default: true).
+ *{string} actionClassName - Optional class for customizing the action buttons container.
  */
 
 export default function ConfirmTestSubmissionModal({
@@ -17,6 +18,7 @@ export default function ConfirmTestSubmissionModal({
   onSubmit,
   onCancel,
   showCancel = true,
+  actionClassName = "",
   title = "Are you sure you want to submit test?",
   description = `After you submit your test, you will no longer have access to the
           questions, nor will you be able to review or make any changes to your
@@ -37,7 +39,9 @@ export default function ConfirmTestSubmissionModal({
         <div className="text-gray-600 mb-6">{description}</div>
 
         {/* Action buttons */}
-        <div className="flex justify-between md:justify-end gap-3">
+        <div
+          className={`flex justify-between md:justify-end gap-3 ${actionClassName}`}
+        >
           {showCancel && (
             <Button
               size="large"
