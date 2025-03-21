@@ -8,6 +8,8 @@ import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
 import IntroductionPage from "@pages/IntroductionPage.jsx";
+import { element } from "prop-types";
+import RejectedRequestPage from "@pages/RejectedRequestPage.jsx";
 
 const PrivateRoute = [
   {
@@ -51,6 +53,10 @@ const PrivateRoute = [
       {
         path: "introduction",
         element: <IntroductionPage />,
+      },
+      {
+        path: "rejected",
+        element: <RejectedRequestPage />,
       },
     ],
   },
