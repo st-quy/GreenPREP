@@ -3,6 +3,7 @@ import { FaHeadphones, FaPlay, FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import MultipleMatchingQuestion from './MultipleMatchingQuestion';
 import CountdownTimer from './CountdownTimer';
 import QuestionContent from './QuestionContent';
+import Marker from './Marker';
 
 const ListeningTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
@@ -19,7 +20,12 @@ const ListeningTest = () => {
           throw new Error('Failed to fetch questions');
         }
         const data = await response.json();
-        setQuestions(data);
+        // Initialize isMarked property for each question
+        const questionsWithMarking = data.map(q => ({
+          ...q,
+          isMarked: false
+        }));
+        setQuestions(questionsWithMarking);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -29,6 +35,14 @@ const ListeningTest = () => {
 
     fetchQuestions();
   }, []);
+
+  const handleToggleMark = (questionIndex) => {
+    setQuestions(prevQuestions => 
+      prevQuestions.map((q, index) => 
+        index === questionIndex ? { ...q, isMarked: !q.isMarked } : q
+      )
+    );
+  };
 
   const totalQuestions = questions.length;
 
@@ -53,6 +67,82 @@ const ListeningTest = () => {
 
   const currentQuestionData = questions[currentQuestion - 1];
 
+  const renderQuestionContent = () => {
+    if (!currentQuestionData) return null;
+
+    const questionTypes = {
+      single_choice: {
+        title: 'Choose only 1 answer:',
+        component: (
+          <div className="space-y-3">
+            {currentQuestionData.answer.options.map((option, index) => (
+              <label key={index} className="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-blue-50 cursor-pointer">
+                <input
+                  type="radio"
+                  name="answer"
+                  value={option}
+                  className="w-4 h-4 text-blue-600"
+                />
+                <span className="ml-3">{option}</span>
+              </label>
+            ))}
+          </div>
+        )
+      },
+      multiple_choice: {
+        title: 'Choose all correct answers:',
+        component: (
+          <div className="space-y-3">
+            {currentQuestionData.answer.options.map((option, index) => (
+              <label key={index} className="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-blue-50 cursor-pointer">
+                <input
+                  type="checkbox"
+                  value={option}
+                  className="w-4 h-4 text-blue-600"
+                />
+                <span className="ml-3">{option}</span>
+              </label>
+            ))}
+          </div>
+        )
+      },
+      multiple_matching: {
+        title: 'Match the statements with the correct options:',
+        component: <MultipleMatchingQuestion question={currentQuestionData.question} answer={currentQuestionData.answer} />
+      },
+      form_completion: {
+        title: 'Fill in the blanks:',
+        component: (
+          <div className="space-y-3">
+            {currentQuestionData.answer.fields.map((field, index) => (
+              <div key={index} className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">{field.label}</label>
+                <input
+                  type="text"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder={field.placeholder}
+                />
+              </div>
+            ))}
+          </div>
+        )
+      }
+    };
+
+    const questionType = questionTypes[currentQuestionData.type];
+    if (!questionType) {
+      return <div className="text-center py-8 text-red-600">Invalid question type</div>;
+    }
+
+    return (
+      <div className="space-y-4">
+        <p className="text-gray-800">{currentQuestionData.question}</p>
+        <p className="text-gray-600 text-sm">{questionType.title}</p>
+        {questionType.component}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
       <div className="container mx-auto px-4 py-8">
@@ -69,25 +159,20 @@ const ListeningTest = () => {
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <div className="flex justify-between items-center mb-4">
                 <div className="text-blue-600 font-medium">
-                  Part {currentQuestion <= 10 ? '1' : '3'} - Question {currentQuestion}
+                  Question {currentQuestion}
                 </div>
-                <button className="px-3 py-1 rounded-full bg-orange-100 text-orange-600 text-sm">
-                  {currentQuestionData?.isMarked ? 'Marked' : 'Mark'}
-                </button>
+                <Marker 
+                  isMarked={currentQuestionData?.isMarked} 
+                  onToggle={() => handleToggleMark(currentQuestion - 1)}
+                />
               </div>
 
               {loading ? (
                 <div className="text-center py-8">Loading questions...</div>
               ) : error ? (
                 <div className="text-center py-8 text-red-600">{error}</div>
-              ) : currentQuestionData ? (
-                <QuestionContent
-                  question={currentQuestionData.question}
-                  answer={currentQuestionData.answer}
-                  type={currentQuestionData.type}
-                />
               ) : (
-                <div className="text-center py-8">No question data available</div>
+                renderQuestionContent()
               )}
             </div>
 
