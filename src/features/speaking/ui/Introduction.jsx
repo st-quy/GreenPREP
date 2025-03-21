@@ -1,8 +1,8 @@
 import { Button } from "antd";
-import { ArrowRightOutlined} from "@ant-design/icons";
+import { ArrowRightOutlined } from "@ant-design/icons";
 import { Card } from "antd";
 
-const Introduction = () => {
+const Introduction = ({ onNext }) => {
   return (
     <div>
       <Card className="mb-2 shadow-sm p-0">
@@ -41,8 +41,13 @@ const Introduction = () => {
       </Card>
 
       <div className="flex justify-end mt-6 pb-5">
-        <Button type="primary" size="middle" className="bg-blue-600 hover:bg-blue-700 flex items-center">
-          Begin the Test <ArrowRightOutlined className="ml-1" />
+        <Button 
+          type="primary" 
+          size="middle" 
+          className="bg-blue-600 hover:bg-blue-700 flex items-center"
+          onClick={onNext}
+        >
+          Next <ArrowRightOutlined className="ml-1" />
         </Button>
       </div>
     </div>
