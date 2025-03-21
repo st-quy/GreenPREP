@@ -38,7 +38,7 @@ const WelcomeScreen = () => {
 
         <div className="w-full flex-1 mt-4 flex justify-center md:mt-0 md:px-8 md:justify-end">
           <img
-            src="/src/assets/Images/Happy_student_rafiki.png"
+            src="public/assets/Images/Happy_student_rafiki.png"
             alt="Welcome Illustration"
             className="w-[400px] h-[320px] object-contain md:w-[550px] md:h-[470px] lg:w-[650px] lg:h-[550px]"
           />
