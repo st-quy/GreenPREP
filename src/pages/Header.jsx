@@ -1,7 +1,7 @@
 const Header = () => {
     return (
-        <div className="w-full px-4 sm:py-3 sm:px-6 md:px-[47px] py-2 md:py-4 shadow-md relative">
-            <div className="flex items-center">
+        <div className="w-full px-4 sm:py-3 sm:px-6 md:px-[47px] py-2 md:py-4 shadow-md relative box-border">
+            <div className="flex items-center w-full">
                 <div className="flex items-center">
                     <img
                         src="src/assets/Images/Logo.png"
@@ -15,4 +15,3 @@ const Header = () => {
 }
 
 export default Header
-
