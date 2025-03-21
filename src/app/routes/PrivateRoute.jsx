@@ -2,7 +2,7 @@
 import HomePage from "@pages/HomePage.jsx";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
-import Header from "@pages/Header.jsx";
+import Layout from "@pages/Layout.jsx";
 
 const PrivateRoute = [
   {
@@ -14,13 +14,14 @@ const PrivateRoute = [
         element: <HomePage />,
       },
       {
-        path: "welcome",
-        element: (
-          <>
-            <Header />
-            <WelcomeScreen />
-          </>
-        ),
+        path: "/",
+        element: <Layout />,
+        children: [
+          {
+            path: "welcome",
+            element: <WelcomeScreen />,
+          },
+        ],
       },
     ],
   },
