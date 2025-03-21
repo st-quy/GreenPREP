@@ -22,6 +22,10 @@ const PrivateRoute = [
           {
             path: "intro",
             element: <IntroReading />,
+          },
+        ],
+      },
+      {
         path: "/",
         element: <Layout />,
         children: [
