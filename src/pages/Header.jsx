@@ -5,7 +5,7 @@ const Header = () => {
                 <div className="flex items-center">
                     <img
                         src="src/assets/Images/Logo.png"
-                        className="w-30 h-8 sm:w-40 sm:h-9 md:w-48 md:h-10 object-cover py-2 px-2 sm:py-3 sm:px-3 md:py-4 md:px-4"
+                        className="w-32 sm:w-40 md:w-48 lg:w-64 h-auto object-contain py-2 px-2 sm:py-3 sm:px-3 md:py-4 md:px-4 ml-[25px]"
                         alt="Logo"
                     />
                 </div>
@@ -14,4 +14,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default Header;
