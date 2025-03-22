@@ -5,6 +5,7 @@ import "./main.css";
 import { Provider } from "react-redux";
 import RouteProvider from "@app/providers/RouteProvider";
 import store from "./providers/store";
+import { FullScreenProvider } from "./providers/FullScreenProvider";
 
 const queryClient = new QueryClient();
 
@@ -12,7 +13,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
       <Suspense>
-        <RouteProvider />
+        <FullScreenProvider>
+          <RouteProvider />
+        </FullScreenProvider>
       </Suspense>
     </QueryClientProvider>
   </Provider>
