@@ -14,7 +14,7 @@ const PrivateRoute = [
         element: <HomePage />,
       },
       {
-        path: "listeningpage",
+        path: "listening",
         element: <ListeningPage />,
       },
     ],
