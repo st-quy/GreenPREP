@@ -2,13 +2,11 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { message, Modal } from "antd";
 
 export function useFullScreen() {
-  // --- State Management ---
-  const [isFullScreen, setIsFullScreen] = useState(false); // Tracks if browser is in fullscreen mode
-  const [testActive, setTestActive] = useState(false); // Tracks if test is currently active
-  const [isTabVisible, setIsTabVisible] = useState(true); // Tracks if tab is visible or hidden
-  const [browserInfo, setBrowserInfo] = useState(null); // Stores browser name, version and capabilities
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [testActive, setTestActive] = useState(false);
+  const [isTabVisible, setIsTabVisible] = useState(true);
+  const [browserInfo, setBrowserInfo] = useState(null);
 
-  // --- Refs (persist between renders without causing re-renders) ---
   const eventListenersSetUp = useRef(false); // Prevents duplicate event listeners
   const modalShownRef = useRef(false); // Prevents multiple modals showing at once
   const messageShownRef = useRef(false); // Prevents multiple messages showing at once
@@ -23,7 +21,6 @@ export function useFullScreen() {
 
     try {
       const docEl = document.documentElement;
-      // Check for standard and vendor-prefixed fullscreen APIs
       const supportsFullScreen =
         docEl.requestFullscreen !== undefined ||
         "webkitRequestFullscreen" in docEl ||
@@ -38,8 +35,6 @@ export function useFullScreen() {
       return false;
     }
   }, []);
-
-  // --- UI Notification Functions ---
 
   // Shows a modal dialog with anti-spam protection
   const showModal = useCallback((modalConfig) => {
@@ -73,14 +68,11 @@ export function useFullScreen() {
     });
   }, []);
 
-  // --- Fullscreen Control Functions ---
-
   // Attempts to enter fullscreen mode
   const enterFullScreen = useCallback(
     (isAutoRestore = false) => {
       autoRestoringFullscreen.current = isAutoRestore;
 
-      // Skip if already in fullscreen
       if (
         document.fullscreenElement ||
         document["webkitFullscreenElement"] ||
@@ -91,7 +83,6 @@ export function useFullScreen() {
         return true;
       }
 
-      // Check browser compatibility
       if (!browserInfo?.supportsFullScreen && !isAutoRestore) {
         showMessage({
           content:
@@ -105,7 +96,6 @@ export function useFullScreen() {
 
       const docEl = document.documentElement;
       try {
-        // Try different fullscreen APIs based on browser support
         let fullscreenPromise;
         if (docEl.requestFullscreen) {
           fullscreenPromise = docEl.requestFullscreen();
@@ -117,12 +107,10 @@ export function useFullScreen() {
           fullscreenPromise = docEl["msRequestFullscreen"]();
         }
 
-        // Modern browsers return a promise from requestFullscreen
         if (fullscreenPromise && fullscreenPromise.then) {
           fullscreenPromise.catch((err) => {
             console.error("Fullscreen request was rejected:", err);
 
-            // Show different messages based on context
             if (!autoRestoringFullscreen.current) {
               showMessage({
                 content:
@@ -148,13 +136,11 @@ export function useFullScreen() {
           });
         }
 
-        // Store fullscreen state for persistence across page loads
         sessionStorage.setItem("testFullscreenActive", "true");
         return true;
       } catch (err) {
         console.error("Failed to enter fullscreen:", err);
 
-        // Handle errors differently based on context
         if (!isAutoRestore) {
           showMessage({
             content:
@@ -186,7 +172,6 @@ export function useFullScreen() {
   // Exits fullscreen mode
   const exitFullScreen = useCallback(() => {
     try {
-      // Skip if not in fullscreen
       if (
         !document.fullscreenElement &&
         !document["webkitFullscreenElement"] &&
@@ -196,7 +181,6 @@ export function useFullScreen() {
         return;
       }
 
-      // Try different exit fullscreen APIs based on browser support
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document["webkitExitFullscreen"]) {
@@ -213,8 +197,6 @@ export function useFullScreen() {
     }
   }, []);
 
-  // --- Event Handling ---
-
   // Sets up all event listeners for test security
   const setupEventListeners = useCallback(() => {
     if (eventListenersSetUp.current) return;
@@ -223,7 +205,6 @@ export function useFullScreen() {
     const handleKeyDown = (e) => {
       if (!testActive) return;
 
-      // Map of blocked keys and their warning messages
       const blockedKeys = {
         F11: {
           title: "Fullscreen Toggle Not Allowed",
@@ -358,17 +339,14 @@ export function useFullScreen() {
       const isVisible = document.visibilityState === "visible";
       setIsTabVisible(isVisible);
 
-      // Re-enter fullscreen if needed when returning to tab
       if (isVisible && testActive && !isFullScreen) {
         enterFullScreen();
       }
 
-      // Track tab switching attempts
       if (!isVisible && testActive) {
         sessionStorage.setItem("tabSwitchAttempted", "true");
       }
 
-      // Show warning if user switched tabs and returned
       if (
         isVisible &&
         sessionStorage.getItem("tabSwitchAttempted") === "true"
@@ -383,7 +361,6 @@ export function useFullScreen() {
       }
     };
 
-    // Detects when fullscreen state changes
     const handleFullScreenChange = () => {
       const isCurrentlyFullScreen = Boolean(
         document.fullscreenElement ||
@@ -398,7 +375,6 @@ export function useFullScreen() {
         isCurrentlyFullScreen.toString()
       );
 
-      // Prompt to re-enter fullscreen if exited during test
       if (
         !isCurrentlyFullScreen &&
         testActive &&
@@ -415,13 +391,11 @@ export function useFullScreen() {
       }
     };
 
-    // Register all event listeners
     window.addEventListener("keydown", handleKeyDown, true);
     document.addEventListener("contextmenu", handleContextMenu, true);
     window.addEventListener("beforeunload", handleBeforeUnload);
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
-    // Register fullscreen change listeners (with browser prefixes)
     document.addEventListener("fullscreenchange", handleFullScreenChange);
     document.addEventListener("webkitfullscreenchange", handleFullScreenChange);
     document.addEventListener("mozfullscreenchange", handleFullScreenChange);
@@ -429,7 +403,6 @@ export function useFullScreen() {
 
     eventListenersSetUp.current = true;
 
-    // Cleanup function to remove all event listeners
     return () => {
       window.removeEventListener("keydown", handleKeyDown, true);
       document.removeEventListener("contextmenu", handleContextMenu, true);
@@ -452,8 +425,6 @@ export function useFullScreen() {
     };
   }, [testActive, isFullScreen, enterFullScreen, showModal, showMessage]);
 
-  // --- Initialization ---
-
   // Detect browser capabilities and set up event listeners
   useEffect(() => {
     // Detect browser type and fullscreen support
@@ -463,7 +434,6 @@ export function useFullScreen() {
         let browserName = "Unknown";
         let browserVersion = "Unknown";
 
-        // Detect browser type from user agent string
         if (
           userAgent.match(/chrome|chromium|crios/i) ||
           userAgent.match(/opr\//i)
@@ -494,7 +464,6 @@ export function useFullScreen() {
           if (match) browserVersion = match[1];
         }
 
-        // Check fullscreen support
         const docEl = document.documentElement;
         const supportsFullScreen =
           docEl.requestFullscreen !== undefined ||
@@ -502,7 +471,6 @@ export function useFullScreen() {
           "mozRequestFullScreen" in docEl ||
           "msRequestFullscreen" in docEl;
 
-        // Cache result for quick access
         supportsFullscreenRef.current = supportsFullScreen;
 
         return {
@@ -513,7 +481,6 @@ export function useFullScreen() {
       } catch (err) {
         console.error("Browser detection failed:", err);
 
-        // Return fallback values
         return {
           name: "Unknown",
           version: "Unknown",
@@ -522,25 +489,19 @@ export function useFullScreen() {
       }
     };
 
-    // Set browser info
     setBrowserInfo(detectBrowser());
 
-    // Check if test is active from previous session
     const isTestActive = sessionStorage.getItem("testStarted") === "true";
     setTestActive(isTestActive);
 
-    // Set up event listeners
     const cleanupListeners = setupEventListeners();
     return cleanupListeners;
   }, [setupEventListeners]);
-
-  // --- Fullscreen Restoration ---
 
   // Handle restoring fullscreen after page reload
   useEffect(() => {
     if (fullscreenRestorationAttempted.current) return;
 
-    // Check if we need to restore fullscreen
     const storedFullscreenState = sessionStorage.getItem(
       "testFullscreenActive"
     );
@@ -554,7 +515,6 @@ export function useFullScreen() {
           document["msFullscreenElement"]
       );
 
-      // If we should be in fullscreen but aren't, prompt user
       if (!isCurrentlyFullScreen) {
         const timer = setTimeout(() => {
           showModal({
@@ -565,7 +525,7 @@ export function useFullScreen() {
             maskClosable: false,
             onOk: () => enterFullScreen(false),
           });
-        }, 500); // Delay to ensure browser is ready
+        }, 500);
 
         return () => clearTimeout(timer);
       }
@@ -573,8 +533,6 @@ export function useFullScreen() {
 
     fullscreenRestorationAttempted.current = true;
   }, [showModal, enterFullScreen]);
-
-  // --- Public API ---
 
   // Starts a test in fullscreen mode
   const startTestInFullScreen = useCallback(() => {
@@ -598,7 +556,6 @@ export function useFullScreen() {
         type: "success",
       });
 
-      // Mark test as active
       setTestActive(true);
       sessionStorage.setItem("testStarted", "true");
       setupEventListeners();
@@ -626,15 +583,14 @@ export function useFullScreen() {
     });
   }, [exitFullScreen, showMessage]);
 
-  // Return public API
   return {
-    isFullScreen, // Current fullscreen state
-    browserInfo, // Browser capabilities (for UI like disabled buttons)
-    testActive, // Whether test is currently active
-    isTabVisible, // Whether tab is currently visible
-    enterFullScreen, // Function to enter fullscreen
-    exitFullScreen, // Function to exit fullscreen
-    startTestInFullScreen, // Function to start test in fullscreen
-    endTest, // Function to end test
+    isFullScreen,
+    browserInfo,
+    testActive,
+    isTabVisible,
+    enterFullScreen,
+    exitFullScreen,
+    startTestInFullScreen,
+    endTest,
   };
 }

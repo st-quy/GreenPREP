@@ -1,21 +1,15 @@
 import { createContext, useContext, useEffect } from "react";
 import { useFullScreen } from "@app/providers/store/useFullScreen";
 
-// Create context
 const FullScreenContext = createContext(null);
 
-/**
- * Provider component that makes fullscreen functionality available throughout the app
- * without needing to call the hook in every component
- */
+// Provider component that makes fullscreen functionality available throughout the app
 export function FullScreenProvider({ children }) {
-  // Call the hook once at the top level
   const fullScreenState = useFullScreen();
   const { isFullScreen, enterFullScreen, testActive } = fullScreenState;
 
   // Enforce fullscreen globally when test is active
   useEffect(() => {
-    // If test is active but not in fullscreen, enter fullscreen
     if (testActive && !isFullScreen) {
       enterFullScreen();
     }
