@@ -1,4 +1,4 @@
 import GreenPREP from "./GreenPREP.png";
 import GreenPREPLogo from "./GreenPREP-logo.png";
-
-export { GreenPREP, GreenPREPLogo };
+import HatLogo from "./Logo.png";
+export { GreenPREP, GreenPREPLogo, HatLogo };

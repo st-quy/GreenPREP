@@ -1,7 +1,7 @@
 import { Layout, Typography, Flex, Grid, Button } from "antd";
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
-import { GreenPREPLogo } from "@assets/images";
+import { HatLogo } from "@assets/images";
 
 const StepData = [
   {
@@ -38,10 +38,7 @@ const IntroductionPage = () => {
           level={3}
           className="!text-black !m-0 justify-center flex items-center "
         >
-          <img
-            src={GreenPREPLogo}
-            className="w-10 bg-white rounded-full mr-2 "
-          />
+          <img src={HatLogo} className="w-10 bg-white rounded-full mr-2 " />
           GreenPREP
         </Title>
       </Header>
@@ -66,10 +63,7 @@ const IntroductionPage = () => {
 
           <Flex vertical gap={14}>
             {StepData.map((item, index) => (
-              <Flex
-              className="gap-2 sm:gap-3 md:gap-4 gap-5"
-                key={index}
-              >
+              <Flex className="gap-2 sm:gap-3 md:gap-4 lg:gap-5" key={index}>
                 <Flex
                   justify="center"
                   align="center"
