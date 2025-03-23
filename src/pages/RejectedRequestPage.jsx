@@ -1,7 +1,7 @@
 import { Layout, Typography, Flex, Grid, Button } from "antd";
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
-import { RejectedImg, GreenPREPLogo } from "@assets/images";
+import { RejectedImg, HatLogo } from "@assets/images";
 import { useNavigate } from "react-router-dom";
 
 const RejectedRequestPage = () => {
@@ -14,10 +14,7 @@ const RejectedRequestPage = () => {
           level={3}
           className="!text-black !m-0 justify-center flex items-center "
         >
-          <img
-            src={GreenPREPLogo}
-            className="w-10 bg-white rounded-full mr-2 "
-          />
+          <img src={HatLogo} className="w-10 bg-white rounded-full mr-2 " />
           GreenPREP
         </Title>
       </Header>
