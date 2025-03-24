@@ -39,6 +39,12 @@ const ButtonNextComponent = ({ url, isLastQuestion = false, onSubmitTest = null 
     if (onSubmitTest) {
       onSubmitTest();
     } else {
+      const defaultSubmit = () => {
+        Modal.error({
+          title: 'Submission Error',
+          content: 'An error occurred while submitting your test. Please try again later.',
+        });
+      };
       defaultSubmit();
     }
   };
