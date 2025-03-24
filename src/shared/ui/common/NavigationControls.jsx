@@ -19,7 +19,7 @@ const NavigationControls = ({
 }) => (
   <div className={`flex justify-end space-x-3 ${className}`}>
     <button
-      onClick={onPrevious}
+      onClick= {(e => onPrevious (e))} 
       disabled={isFirstQuestion}
       className={`px-6 py-2.5 rounded-full border font-medium transition-all ${
         isFirstQuestion ? 'border-gray-200 text-gray-300' : 'border-blue-500 text-blue-500 hover:bg-blue-50'
@@ -29,7 +29,7 @@ const NavigationControls = ({
     </button>
 
     <button
-      onClick={onNext}
+      onClick={(e => onNext(e))}
       disabled={isLastQuestion}
       className={`px-6 py-2.5 rounded-full font-medium transition-all ${
         isLastQuestion ? 'bg-gray-200 text-gray-400' : 'bg-blue-500 text-white hover:bg-blue-600'

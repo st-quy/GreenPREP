@@ -2,10 +2,29 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nextItem, previousItem } from '../../lib/redux/navigationSlice';
 
-// provide the component (Next, previous)
+/**
+ * @typedef {Object} NavigationState
+ * @property {number} currentIndex - Current question index
+ * @property {number} totalItems - Total number of items
+ */
+
+/**
+ * @typedef {Object} RootState
+ * @property {NavigationState} navigation - Navigation state slice
+ */
+
+/**
+ * Navigation component providing next and previous controls
+ * @param {Object} props
+ * @param {string} [props.className] - Optional CSS class name
+ */
 const Navigation = ({ className = '' }) => {
   const dispatch = useDispatch();
-  const { currentIndex, totalItems } = useSelector((state) => state.navigation);
+  
+  const { currentIndex, totalItems } = useSelector(
+    /** @param {RootState} state */
+    (state) => state.navigation
+  );
 
   const handlePrevious = () => {
     dispatch(previousItem());

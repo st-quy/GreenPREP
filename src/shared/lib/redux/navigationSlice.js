@@ -1,8 +1,9 @@
+// Management the state of question
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  currentIndex: 0,
-  totalItems: 0,
+  currentIndex: 0, 
+  totalItems: 0, 
   type: '', // 'grammar', 'listening', 'writing', etc.
 };
 
