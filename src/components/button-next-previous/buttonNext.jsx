@@ -22,7 +22,7 @@ import { Modal } from 'antd';
  * - If it is the last question, the button displays a confirmation modal for test submission.
  * - Users can cancel or confirm the submission through the modal.
  */
-const ButtonNextComponent = ({ url, isLastQuestion, onSubmitTest }) => {
+const ButtonNextComponent = ({ url, isLastQuestion = false, onSubmitTest = null }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
