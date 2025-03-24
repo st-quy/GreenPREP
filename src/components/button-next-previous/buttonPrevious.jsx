@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
  * - If it is the first question, the button will not be displayed to prevent invalid navigation.
  */
 
-const ButtonPreviousComponent = ({ url, isFirstQuestion }) => {
+const ButtonPreviousComponent = ({ url, isFirstQuestion = fasle }) => {
   const navigate = useNavigate();
 
   
