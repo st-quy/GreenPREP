@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FaPlay, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const MultipleMatchingQuestion = ({ question, answer }) => {
   const [answers, setAnswers] = useState(
