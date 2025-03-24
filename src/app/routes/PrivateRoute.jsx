@@ -36,10 +36,6 @@ const PrivateRoute = [
             path: "intro",
             element: <IntroReading />,
           },
-          // {
-          //   path: "navigation",
-          //   element: <NavigationTest />, set the navigation to test module reading with navigation. Test by: reading/navigation 
-          // }
         ],
       },
       {
