@@ -51,12 +51,17 @@ const PrivateRoute = [
         ],
       },
       {
-        path: "introduction",
-        element: <IntroductionPage />,
-      },
-      {
-        path: "rejected",
-        element: <RejectedRequestPage />,
+        path: "/session",
+        children: [
+          {
+            path: "introduction",
+            element: <IntroductionPage />,
+          },
+          {
+            path: "rejected",
+            element: <RejectedRequestPage />,
+          },
+        ],
       },
     ],
   },
