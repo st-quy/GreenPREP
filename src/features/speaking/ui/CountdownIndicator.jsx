@@ -6,11 +6,12 @@ const { Text } = Typography;
 
 export const CountdownIndicator = ({
   duration = 30,
-  onStart = () => {},
+  onRecordingStart = () => {},
   onComplete = () => {},
   className = "",
   size = "medium",
-  autoStart = false,
+  isTestStart = false,
+  forceCompleted = false,
 }) => {
   // States for timer
   const [timeRemaining, setTimeRemaining] = useState(duration);
@@ -92,8 +93,8 @@ export const CountdownIndicator = ({
     setIsPreparationPhase(false);
     setIsRunning(true);
     setIsRecording(true);
-    onStart();
-  }, [onStart]);
+    onRecordingStart();
+  }, [onRecordingStart]);
 
   // Handle timer completion
   const completeTimer = useCallback(() => {
@@ -104,10 +105,18 @@ export const CountdownIndicator = ({
 
   // Auto-start timer if enabled
   useEffect(() => {
-    if (autoStart) {
+    if (isTestStart) {
       startTimer();
     }
-  }, [autoStart, startTimer]);
+  }, [isTestStart, startTimer]);
+
+  // Watch for forceCompleted prop changes
+  useEffect(() => {
+    if (forceCompleted && isRunning) {
+      setTimeRemaining(0);
+      completeTimer();
+    }
+  }, [forceCompleted, isRunning, completeTimer]);
 
   // Preparation phase countdown
   useEffect(() => {
@@ -281,17 +290,19 @@ export const CountdownIndicator = ({
 
 CountdownIndicator.propTypes = {
   duration: PropTypes.number,
-  onStart: PropTypes.func,
+  onRecordingStart: PropTypes.func,
   onComplete: PropTypes.func,
   className: PropTypes.string,
   size: PropTypes.oneOf(["small", "medium", "large"]),
-  autoStart: PropTypes.bool,
+  isTestStart: PropTypes.bool,
+  forceCompleted: PropTypes.bool,
 };
 
-// how to use:
+// how to use
 // const [testDuration, setTestDuration] = useState(30);
 // const [isTestActive, setIsTestActive] = useState(false);
 // const [testStatus, setTestStatus] = useState("idle"); // idle, preparing, recording, completed
+// const [forceCompleted, setForceCompleted] = useState(false);
 
 // useEffect(() => {
 //   handleStartTest();
@@ -300,19 +311,33 @@ CountdownIndicator.propTypes = {
 
 // const handleStartTest = () => {
 //   setIsTestActive(true);
+//   setForceCompleted(false);
 // };
 
 // const handleRecordingStart = () => {
 //   setTestStatus("recording");
+//   console.log("Recording started");
 // };
 
 // const handleRecordingComplete = () => {
 //   setIsTestActive(false);
+//   setTestStatus("completed");
+//   console.log("Recording completed");
 // };
+
+// const handleSubmit = () => {
+//   setForceCompleted(true);
+// };
+
 // <CountdownIndicator
 //   duration={testDuration}
-//   onStart={handleRecordingStart}
+//   onRecordingStart={handleRecordingStart}
 //   onComplete={handleRecordingComplete}
 //   size="medium"
-//   autoStart={isTestActive}
+//   isTestStart={isTestActive}
+//   forceCompleted={forceCompleted}
 // />
+
+// <Button type="primary" onClick={handleSubmit}>
+//   Submit Answer
+// </Button>
