@@ -7,8 +7,7 @@ import Introduction from "@features/speaking/ui/Introduction.jsx";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
-import ListeningLayout from "@features/listening/ui/Layout.jsx";
-import ListeningIntroduction from "@features/listening/ui/Introduction.jsx";
+import SessionRoutes from "./SessionRoutes.jsx";
 
 const PrivateRoute = [
   {
@@ -49,16 +48,7 @@ const PrivateRoute = [
           },
         ],
       },
-      {
-        path: "listening",
-        element: <ListeningLayout />,
-        children: [
-          {
-            path: "introduction",
-            element: <ListeningIntroduction />,
-          },
-        ],
-      },
+      SessionRoutes,
     ],
   },
 ];
