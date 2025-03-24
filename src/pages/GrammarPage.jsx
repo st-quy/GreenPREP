@@ -1,5 +1,6 @@
 import React from 'react';
 import Grammaricon from '../assets/Images/Grammaricon.png';
+import ArrowRight from '../assets/Icons/arrow-right.svg';
 
 const GrammarPage = () => {
   return (
@@ -53,18 +54,11 @@ const GrammarPage = () => {
               className="bg-[#4361ee] text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 text-sm"
             >
               Begin the Test
-              <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                className="h-4 w-4" 
-                viewBox="0 0 20 20" 
-                fill="currentColor"
-              >
-                <path 
-                  fillRule="evenodd" 
-                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" 
-                  clipRule="evenodd" 
-                />
-              </svg>
+              <img 
+                src={ArrowRight}
+                alt="Arrow right"
+                className="h-4 w-4"
+              />
             </button>
           </div>
         </div>

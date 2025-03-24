@@ -4,6 +4,10 @@ import GrammarPage from '@pages/GrammarPage';
 
 const PublicRoute = [
   {
+    path: "/",
+    element: <GrammarPage />,
+  },
+  {
     path: "login",
     element: "login",
   },
