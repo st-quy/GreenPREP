@@ -2,9 +2,11 @@
 import HomePage from "@pages/HomePage.jsx";
 import IntroReading from "@pages/Reading/IntroductionScreen.jsx";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
+import GrammarPage from '@pages/GrammarPage';
+
 import ListeningTest from "@features/listening/components/ListeningTest";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
-import WelcomeScreen from "@pages/WelcomeScreen.jsx";
+import WelcomeScreen from "@pages/Welcome/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
 import SessionLayout from "@pages/SessionLayout";
 import ListeningLayout from "@features/listening/ui/Layout";
@@ -110,6 +112,10 @@ const PrivateRoute = [
       },
     ],
   },
+  {
+    path: "/grammar",
+    element: <GrammarPage />,
+  }
 ];
 
 export default PrivateRoute;
