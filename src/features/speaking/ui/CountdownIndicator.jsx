@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import { Progress, Typography } from "antd";
-import PropTypes from "prop-types";
 
 const { Text } = Typography;
 
@@ -14,7 +13,6 @@ export const CountdownIndicator = ({
   isTestStart = false,
   forceCompleted = false,
 }) => {
-  // States for timer
   const [timeRemaining, setTimeRemaining] = useState(duration);
   const [isRunning, setIsRunning] = useState(false);
   const [isPulsing, setIsPulsing] = useState(false);
@@ -23,10 +21,8 @@ export const CountdownIndicator = ({
     useState(preparationTime);
   const [isRecording, setIsRecording] = useState(false);
 
-  // Calculate percentage of time remaining
   const percentRemaining = (timeRemaining / duration) * 100;
 
-  // Determine the visual state based on time remaining
   const getVisualState = () => {
     if (percentRemaining > 25) return "normal";
     if (percentRemaining > 10) return "warning";
@@ -35,7 +31,6 @@ export const CountdownIndicator = ({
 
   const visualState = getVisualState();
 
-  // Get stroke color based on visual state
   const getStrokeColor = () => {
     switch (visualState) {
       case "normal":
@@ -61,7 +56,6 @@ export const CountdownIndicator = ({
     }
   };
 
-  // Get size based on prop
   const getSize = () => {
     switch (size) {
       case "small":
@@ -75,7 +69,6 @@ export const CountdownIndicator = ({
     }
   };
 
-  // Reset timer
   const resetTimer = useCallback(() => {
     setTimeRemaining(duration);
     setIsRunning(false);
@@ -84,13 +77,11 @@ export const CountdownIndicator = ({
     setIsRecording(false);
   }, [duration]);
 
-  // Start timer with preparation phase
   const startTimer = useCallback(() => {
     resetTimer();
     setIsPreparationPhase(true);
   }, [resetTimer]);
 
-  // Handle preparation phase completion
   const startMainTimer = useCallback(() => {
     setIsPreparationPhase(false);
     setIsRunning(true);
@@ -98,21 +89,18 @@ export const CountdownIndicator = ({
     onRecordingStart();
   }, [onRecordingStart]);
 
-  // Handle timer completion
   const completeTimer = useCallback(() => {
     setIsRunning(false);
     setIsRecording(false);
     onComplete();
   }, [onComplete]);
 
-  // Auto-start timer if enabled
   useEffect(() => {
     if (isTestStart) {
       startTimer();
     }
   }, [isTestStart, startTimer]);
 
-  // Watch for forceCompleted prop changes
   useEffect(() => {
     if (forceCompleted && isRunning) {
       setTimeRemaining(0);
@@ -120,7 +108,6 @@ export const CountdownIndicator = ({
     }
   }, [forceCompleted, isRunning, completeTimer]);
 
-  // Preparation phase countdown
   useEffect(() => {
     let interval;
 
@@ -142,7 +129,6 @@ export const CountdownIndicator = ({
     };
   }, [isPreparationPhase, preparationTimeRemaining, startMainTimer]);
 
-  // Main timer countdown
   useEffect(() => {
     let interval;
 
@@ -164,7 +150,6 @@ export const CountdownIndicator = ({
     };
   }, [isRunning, timeRemaining, completeTimer]);
 
-  // Set pulsing animation for final 5 seconds
   useEffect(() => {
     if (isRunning && timeRemaining <= 5 && timeRemaining > 0) {
       setIsPulsing(true);
@@ -173,7 +158,6 @@ export const CountdownIndicator = ({
     }
   }, [isRunning, timeRemaining]);
 
-  // Keyframes for animations
   const keyframesStyle = `
     @keyframes blink {
       0% {
@@ -192,12 +176,10 @@ export const CountdownIndicator = ({
     }
   `;
 
-  // Get the pulse animation class for the Progress component
   const getPulseClass = () => {
     return isPulsing ? "ant-progress-circle-pulse" : "";
   };
 
-  // Additional styles for the Progress component
   const additionalStyles = `
     .ant-progress-circle-pulse .ant-progress-inner {
       animation: pulse-scale 0.8s infinite alternate;
@@ -213,7 +195,6 @@ export const CountdownIndicator = ({
     }
   `;
 
-  // Render preparation countdown
   if (isPreparationPhase) {
     return (
       <div
@@ -244,7 +225,6 @@ export const CountdownIndicator = ({
     );
   }
 
-  // Render main timer
   return (
     <div
       className={["transition-all duration-300", className]
@@ -289,60 +269,3 @@ export const CountdownIndicator = ({
     </div>
   );
 };
-
-CountdownIndicator.propTypes = {
-  duration: PropTypes.number,
-  preparationTime: PropTypes.number,
-  onRecordingStart: PropTypes.func,
-  onComplete: PropTypes.func,
-  className: PropTypes.string,
-  size: PropTypes.oneOf(["small", "medium", "large"]),
-  isTestStart: PropTypes.bool,
-  forceCompleted: PropTypes.bool,
-};
-
-// how to use
-// const [testDuration, setTestDuration] = useState(30);
-// const [preparationTime, setPreparationTime] = useState(5);
-// const [isTestActive, setIsTestActive] = useState(false);
-// const [testStatus, setTestStatus] = useState("idle"); // idle, preparing, recording, completed
-// const [forceCompleted, setForceCompleted] = useState(false);
-
-// useEffect(() => {
-//   handleStartTest();
-//   setTestStatus("preparing");
-// }, []);
-
-// const handleStartTest = () => {
-//   setIsTestActive(true);
-//   setForceCompleted(false);
-// };
-
-// const handleRecordingStart = () => {
-//   setTestStatus("recording");
-//   console.log("Recording started");
-// };
-
-// const handleRecordingComplete = () => {
-//   setIsTestActive(false);
-//   setTestStatus("completed");
-//   console.log("Recording completed");
-// };
-
-// const handleSubmit = () => {
-//   setForceCompleted(true);
-// };
-
-// <CountdownIndicator
-//   duration={testDuration}
-//   preparationTime={preparationTime}
-//   onRecordingStart={handleRecordingStart}
-//   onComplete={handleRecordingComplete}
-//   size="medium"
-//   isTestStart={isTestActive}
-//   forceCompleted={forceCompleted}
-// />
-
-// <Button type="primary" onClick={handleSubmit}>
-//   Submit Answer
-// </Button>
