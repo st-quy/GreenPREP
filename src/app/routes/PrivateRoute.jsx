@@ -21,7 +21,7 @@ const PrivateRoute = [
         element: <HomePage />,
       },
       {
-        path: " session",
+        path: "session",
         children: [
           {
             path: "listening",
