@@ -7,9 +7,6 @@ import Introduction from "@features/speaking/ui/Introduction.jsx";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
-// import { TestPage } from "@features/testing/ui/Test.jsx";
-// import { EnterTest } from "@features/testing/ui/EnterTest.jsx";
-// import { ExitTest } from "@features/testing/ui/ExitTest.jsx";
 
 const PrivateRoute = [
   {
@@ -50,19 +47,6 @@ const PrivateRoute = [
           },
         ],
       },
-      //For full screen test
-      // {
-      //   path: "enter-test",
-      //   element: <EnterTest />,
-      // },
-      // {
-      //   path: "test",
-      //   element: <TestPage />,
-      // },
-      // {
-      //   path: "exit-test",
-      //   element: <ExitTest />,
-      // },
     ],
   },
 ];
