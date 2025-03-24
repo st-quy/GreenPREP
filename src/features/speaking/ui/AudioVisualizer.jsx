@@ -57,7 +57,7 @@ const AudioVisualizer = ({ isRecording }) => {
 
       for (let i = 0; i < bufferLengthRef.current; i++) {
         let v = dataArrayRef.current[i] / 128.0;
-        let y = (v * canvas.height) / 1.5; // Tăng độ cao của sóng
+        let y = (v * canvas.height) / 1.5; 
 
         if (i === 0) {
           ctx.moveTo(x, y);
@@ -81,5 +81,5 @@ const AudioVisualizer = ({ isRecording }) => {
     </div>
   );
 };
-
+//Import useState, use useState for the isRecording variable, and pass it to the AudioVisualizer component.
 export default AudioVisualizer;
