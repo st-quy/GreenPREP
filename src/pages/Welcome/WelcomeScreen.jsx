@@ -34,12 +34,12 @@ const WelcomeScreen = () => {
             <div className="w-full bg-white p-3 flex flex-col items-center md:flex-row md:items-start md:justify-between md:p-6">
                 {!isModalOpen && (
                     <div className="w-full flex-1 text-center px-2 mt-4 md:text-left md:px-8 md:mt-[85px] ml-[30px]">
-                        <h1 className="text-lg font-bold mb-2 text-[#111928] md:text-3xl md:mb-4 font-inter">
+                        <h1 className="text-lg font-bold mb-2 text-[#111928] md:text-3xl md:mb-4">
                             Assess, Improve, and
                             <br />
                             Achieve <span className="text-[#3758F9]">Your Goals!</span>
                         </h1>
-                        <p className="text-gray-500 text-[9px] mb-4 mx-auto max-w-xs md:text-sm md:mb-8 md:max-w-md md:mx-0 font-inter">
+                        <p className="text-gray-500 text-[9px] mb-4 mx-auto max-w-xs md:text-sm md:mb-8 md:max-w-md md:mx-0">
                             This mock test is designed to help you assess your proficiency, identify areas for improvement, and build
                             confidence in your English skills. Whether you're preparing for an exam or simply looking to enhance your
                             language abilities, this is the perfect place to start.
@@ -66,8 +66,8 @@ const WelcomeScreen = () => {
             {isModalOpen && (
                 <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-8 rounded-lg w-[90%] sm:w-[450px] lg:w-[550px] h-auto sm:h-[450px] md:h-[500px] shadow-2xl absolute top-[20%] md:top-40 left-[5%] md:left-[70px] z-60 md:w-[600px] sm:w-[90%] xl:w-[550px]">
-                        <h2 className="text-4xl font-semibold text-black mb-4 pt-7 font-inter">Ready to Go?</h2>
-                        <p className="text-xs text-gray-500 mb-4 pt-5 pb-2 break-words font-inter">
+                        <h2 className="text-4xl font-semibold text-black mb-4 pt-7">Ready to Go?</h2>
+                        <p className="text-xs text-gray-500 mb-4 pt-5 pb-2 break-words">
                             This is your chance to assess your English skills, track your progress, and improve with every attempt.
                         </p>
                         <Form
