@@ -1,46 +1,21 @@
 import React, { useState } from 'react';
 import { FaHeadphones, FaPlay, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import CountdownTimer from '../../../shared/ui/CountdownTimer';
 import QuestionContent from './QuestionContent';
 import MarkerButton from '../../../shared/ui/MarkerButton';
+import { useListeningTest } from '../../auth/hooks/useListeningTest';
 
 /**
  * @typedef {Object} Question
  * @property {boolean} isMarked
  */
 
-const fetchQuestions = async () => {
-  const response = await fetch('src/features/auth/hooks/index.js');
-  if (!response.ok) {
-    throw new Error('Failed to fetch questions');
-  }
-  const data = await response.json();
-  return data.map(q => ({
-    ...q,
-    isMarked: false
-  }));
-};
-
 const ListeningTest = () => {
   const [currentQuestion, setCurrentQuestion] = useState(1);
-  const queryClient = useQueryClient();
-  const { data: questions = [], isLoading, error } = useQuery({
-    queryKey: ['listeningQuestions'],
-    queryFn: fetchQuestions,
-  });
+  const { questions, isLoading, error, handleToggleMark } = useListeningTest();
 
   const handleTimeUp = () => {
     alert("Time's up! Please submit your test.");
-  };
-
-  const handleToggleMark = (questionIndex) => {
-    queryClient.setQueryData(['listeningQuestions'], oldData => {
-      const currentQuestions = Array.isArray(oldData) ? oldData : [];
-      return currentQuestions.map((q, index) => 
-        index === questionIndex ? { ...q, isMarked: !q.isMarked } : q
-      );
-    });
   };
 
   const totalQuestions = questions.length;
