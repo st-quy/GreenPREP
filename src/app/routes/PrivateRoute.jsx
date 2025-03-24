@@ -6,6 +6,9 @@ import ListeningTest from "@features/listening/components/ListeningTest";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
+import SessionLayout from "@pages/SessionLayout";
+import ListeningLayout from "@features/listening/ui/Layout";
+import ListeningIntroduction from "@features/listening/ui/Introduction";
 import SpeakingLayout from "@pages/speaking/SpeakingLayout";
 import Introduction from "@pages/speaking/IntroductionPage";
 import SpeakingTransitionPage from "@pages/speaking/SpeakingTransitionPage";
@@ -66,16 +69,42 @@ const PrivateRoute = [
         ],
       },
       {
-        path: "speaking",
-        element: <SpeakingLayout />,
+        path: "session",
+        element: <SessionLayout />,
         children: [
           {
-            index: true,
-            element: <Introduction />,
+            path: "listening",
+            element: <ListeningLayout />,
+            children: [
+              {
+                index: true,
+                element: <ListeningIntroduction />,
+              },
+            ],
           },
           {
-            path: "part/:partId/introduction",
-            element: <SpeakingTransitionPage />,
+            path: "speaking",
+            element: <SpeakingLayout />,
+            children: [
+              {
+                index: true,
+                element: <Introduction />,
+              },
+              {
+                path: "part/:partId/introduction",
+                element: <SpeakingTransitionPage />,
+              },
+            ],
+          },
+          {
+            path: "reading",
+            element: <ReadingLayout />,
+            children: [
+              {
+                index: true,
+                element: <IntroReading />,
+              },
+            ],
           },
         ],
       },
