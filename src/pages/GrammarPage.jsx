@@ -1,6 +1,4 @@
 import React from 'react';
-import Grammaricon from '../assets/Images/Grammaricon.png';
-import ArrowRight from '../assets/Icons/arrow-right.svg';
 
 const GrammarPage = () => {
   return (
@@ -10,7 +8,7 @@ const GrammarPage = () => {
         <div className="flex items-center gap-3 mb-8">
           <div className="w-12 h-12 bg-[#4361ee] rounded-xl flex items-center justify-center">
             <img 
-              src={Grammaricon}
+              src="/assets/images/Grammaricon.png"
               alt="Grammar icon" 
               className="w-6 h-6"
             />
@@ -55,7 +53,7 @@ const GrammarPage = () => {
             >
               Begin the Test
               <img 
-                src={ArrowRight}
+                src="/assets/icons/arrow-right.svg"
                 alt="Arrow right"
                 className="h-4 w-4"
               />
