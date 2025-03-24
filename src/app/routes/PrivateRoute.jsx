@@ -8,6 +8,8 @@ import Layout from "@pages/Layout.jsx";
 import SpeakingLayout from "@pages/speaking/SpeakingLayout";
 import Introduction from "@pages/speaking/IntroductionPage";
 import SpeakingTransitionPage from "@pages/speaking/SpeakingTransitionPage";
+import WritingPage from "@pages/WritingPage.jsx";
+import IntroWriting from "@features/writing/ui/IntroWriting.jsx";
 
 const PrivateRoute = [
   {
@@ -25,6 +27,16 @@ const PrivateRoute = [
           {
             path: "intro",
             element: <IntroReading />,
+          },
+        ],
+      },
+      {
+        path: "writing",
+        element: <WritingPage />,
+        children: [
+          {
+            path: "intro",
+            element: <IntroWriting />,
           },
         ],
       },
