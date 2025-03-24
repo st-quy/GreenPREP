@@ -5,8 +5,9 @@ import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
-
-import SpeakingRoutes from "./SpeakingRoutes.jsx";
+import SpeakingLayout from "@pages/speaking/SpeakingLayout";
+import Introduction from "@pages/speaking/IntroductionPage";
+import SpeakingTransitionPage from "@pages/speaking/SpeakingTransitionPage";
 
 const PrivateRoute = [
   {
@@ -37,7 +38,20 @@ const PrivateRoute = [
           },
         ],
       },
-      ...SpeakingRoutes,
+      {
+        path: "speaking",
+        element: <SpeakingLayout />,
+        children: [
+          {
+            index: true,
+            element: <Introduction />,
+          },
+          {
+            path: "part/:partId/introduction",
+            element: <SpeakingTransitionPage />,
+          },
+        ],
+      },
     ],
   },
 ];
