@@ -6,6 +6,7 @@ const { Text } = Typography;
 
 export const CountdownIndicator = ({
   duration = 30,
+  preparationTime = 5,
   onRecordingStart = () => {},
   onComplete = () => {},
   className = "",
@@ -18,7 +19,8 @@ export const CountdownIndicator = ({
   const [isRunning, setIsRunning] = useState(false);
   const [isPulsing, setIsPulsing] = useState(false);
   const [isPreparationPhase, setIsPreparationPhase] = useState(false);
-  const [preparationTimeRemaining, setPreparationTimeRemaining] = useState(5);
+  const [preparationTimeRemaining, setPreparationTimeRemaining] =
+    useState(preparationTime);
   const [isRecording, setIsRecording] = useState(false);
 
   // Calculate percentage of time remaining
@@ -78,7 +80,7 @@ export const CountdownIndicator = ({
     setTimeRemaining(duration);
     setIsRunning(false);
     setIsPreparationPhase(false);
-    setPreparationTimeRemaining(5);
+    setPreparationTimeRemaining(preparationTime);
     setIsRecording(false);
   }, [duration]);
 
@@ -224,7 +226,7 @@ export const CountdownIndicator = ({
         <div className="flex flex-col items-center">
           <Progress
             type="circle"
-            percent={(preparationTimeRemaining / 5) * 100}
+            percent={(preparationTimeRemaining / preparationTime) * 100}
             format={() => `${preparationTimeRemaining}`}
             strokeColor={{
               "0%": "#1677ff",
@@ -290,6 +292,7 @@ export const CountdownIndicator = ({
 
 CountdownIndicator.propTypes = {
   duration: PropTypes.number,
+  preparationTime: PropTypes.number,
   onRecordingStart: PropTypes.func,
   onComplete: PropTypes.func,
   className: PropTypes.string,
@@ -300,6 +303,7 @@ CountdownIndicator.propTypes = {
 
 // how to use
 // const [testDuration, setTestDuration] = useState(30);
+// const [preparationTime, setPreparationTime] = useState(5);
 // const [isTestActive, setIsTestActive] = useState(false);
 // const [testStatus, setTestStatus] = useState("idle"); // idle, preparing, recording, completed
 // const [forceCompleted, setForceCompleted] = useState(false);
@@ -331,6 +335,7 @@ CountdownIndicator.propTypes = {
 
 // <CountdownIndicator
 //   duration={testDuration}
+//   preparationTime={preparationTime}
 //   onRecordingStart={handleRecordingStart}
 //   onComplete={handleRecordingComplete}
 //   size="medium"
