@@ -2,13 +2,13 @@
 import HomePage from "@pages/HomePage.jsx";
 import IntroReading from "@pages/Reading/IntroductionScreen.jsx";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
-import SpeakingLayout from "@pages/speaking/SpeakingLayout";
-import Introduction from "@pages/speaking/IntroductionPage";
-import SpeakingTransitionPage from "@pages/speaking/SpeakingTransitionPage";
 import ListeningTest from "@features/listening/components/ListeningTest";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
+import SpeakingLayout from "@pages/speaking/SpeakingLayout";
+import Introduction from "@pages/speaking/IntroductionPage";
+import SpeakingTransitionPage from "@pages/speaking/SpeakingTransitionPage";
 import WritingPage from "@pages/WritingPage.jsx";
 import IntroWriting from "@features/writing/ui/IntroWriting.jsx";
 
