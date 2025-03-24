@@ -5,15 +5,15 @@ import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
 import GrammarPage from '@pages/GrammarPage';
 
 import ListeningTest from "@features/listening/components/ListeningTest";
-
-import SpeakingPage from "@pages/SpeakingPage.jsx";
-import Introduction from "@features/speaking/ui/Introduction.jsx";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/Welcome/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
 import SessionLayout from "@pages/SessionLayout";
 import ListeningLayout from "@features/listening/ui/Layout";
 import ListeningIntroduction from "@features/listening/ui/Introduction";
+import SpeakingLayout from "@pages/speaking/SpeakingLayout";
+import Introduction from "@pages/speaking/IntroductionPage";
+import SpeakingTransitionPage from "@pages/speaking/SpeakingTransitionPage";
 import WritingPage from "@pages/WritingPage.jsx";
 import IntroWriting from "@features/writing/ui/IntroWriting.jsx";
 
@@ -37,16 +37,6 @@ const PrivateRoute = [
                 element: <ListeningTest />,
               },
             ],
-          },
-        ],
-      },
-      {
-        path: "speaking",
-        element: <SpeakingPage />,
-        children: [
-          {
-            path: "introduction",
-            element: <Introduction />,
           },
         ],
       },
@@ -96,11 +86,15 @@ const PrivateRoute = [
           },
           {
             path: "speaking",
-            element: <SpeakingPage />,
+            element: <SpeakingLayout />,
             children: [
               {
                 index: true,
                 element: <Introduction />,
+              },
+              {
+                path: "part/:partId/introduction",
+                element: <SpeakingTransitionPage />,
               },
             ],
           },
