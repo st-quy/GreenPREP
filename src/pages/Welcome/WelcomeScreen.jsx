@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { welcomeSchema } from './welcomeSchema';
 
 const WelcomeScreen = () => {
     const [sessionKey, setSessionKey] = useState('');
@@ -11,22 +12,14 @@ const WelcomeScreen = () => {
         setSessionKey(event.target.value);
     };
 
-    const validateSessionKey = (key) => {
-        const regex = /^[a-zA-Z0-9!@#$%^&*()_+={}\[\]:;"'<>?,./`|\\-]*$/;
-        return regex.test(key);
-    };
-
-    const handleSubmit = () => {
-        if (!sessionKey) {
-            setErrorMessage("The key is invalid. Please try again.");
-        } else if (sessionKey.length > 100) {
-            setErrorMessage("Session key is too long. It should be 100 characters or less.");
-        } else if (!validateSessionKey(sessionKey)) {
-            setErrorMessage("Session key contains invalid characters.");
-        } else {
+    const handleSubmit = async () => {
+        try {
+            await welcomeSchema.validate({ sessionKey });
             navigate("/waiting-for-approval");
             console.log("Sending request for approval with session key:", sessionKey);
             setIsModalOpen(false);
+        } catch (error) {
+            setErrorMessage(error.message);
         }
     };
 
@@ -51,10 +44,11 @@ const WelcomeScreen = () => {
                         </p>
                         <button
                             onClick={handleGetStarted}
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-full text-xs transition duration-300 ease-in-out md:px-6 md:py-2 md:text-base"
+                            className="bg-[#3758F9] border-[#3758F9] hover:bg-blue-700 text-white px-4 py-1.5 rounded-full text-xs transition duration-300 ease-in-out md:px-6 md:py-2 md:text-base outline-none"
                         >
                             Get Started
                         </button>
+
                     </div>
                 )}
 
@@ -86,7 +80,7 @@ const WelcomeScreen = () => {
                         <div className="flex justify-center mt-5">
                             <button
                                 onClick={handleSubmit}
-                                className="bg-blue-600 text-white px-6 py-2 rounded-full"
+                                className="bg-blue-600 text-white px-6 py-2 rounded-full border-[#3758F9]"
                             >
                                 Submit Key
                             </button>
