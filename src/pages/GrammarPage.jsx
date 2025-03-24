@@ -51,7 +51,7 @@ const GrammarPage = () => {
           {/* Begin Test Button */}
           <div className="flex justify-end mt-4">
             <button 
-              className="bg-[#4361ee] text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 text-sm"
+              className="bg-[#4361ee] text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm hover:bg-[#4361ee]/90 transition-all duration-200"
             >
               Begin the Test
               <img 
