@@ -2,10 +2,7 @@ import React from "react";
 import { Layout, Menu, Input, Button, Typography, Dropdown, Form } from "antd";
 import { DownOutlined, HeartOutlined } from "@ant-design/icons";
 import * as Yup from "yup"; // Import Yup for validation
-<<<<<<< HEAD
-import GreenPREPLogo from "../../public/assets/images/GreenPREP-logo.png";
-=======
->>>>>>> 819788031eb935741d8267afa2fb92bebb1726a3
+
 
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
