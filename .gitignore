@@ -24,6 +24,4 @@ dist-ssr
 *.sw?
 .env
 .package-lock.json
-.qodo
-yarn.lock
-
+.yarn.lock
