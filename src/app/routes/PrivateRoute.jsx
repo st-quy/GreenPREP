@@ -2,6 +2,7 @@
 import HomePage from "@pages/HomePage.jsx";
 import IntroReading from "@pages/Reading/IntroductionScreen.jsx";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
+import GrammarPage from '@pages/GrammarPage';
 
 import ListeningTest from "@features/listening/components/ListeningTest";
 
@@ -117,6 +118,10 @@ const PrivateRoute = [
       },
     ],
   },
+  {
+    path: "/grammar",
+    element: <GrammarPage />,
+  }
 ];
 
 export default PrivateRoute;
