@@ -10,19 +10,40 @@ const QuestionContent = ({ questionData }) => {
   const questionTypes = {
     single_choice: {
       title: 'Choose only 1 answer:',
-      component: <SingleChoiceQuestion options={questionData.answer.options} />
+      component: <SingleChoiceQuestion 
+        options={questionData.answer.options} 
+        onAnswerChange={(answer) => {
+          console.log('Selected answer:', answer);
+        }}
+      />
     },
     multiple_choice: {
       title: 'Choose all correct answers:',
-      component: <MultipleChoiceQuestion options={questionData.answer.options} />
+      component: <MultipleChoiceQuestion 
+        options={questionData.answer.options} 
+        onAnswerChange={(answers) => {
+          console.log('Selected answers:', answers);
+        }}
+      />
     },
     multiple_matching: {
       title: 'Match the statements with the correct options:',
-      component: <MultipleMatchingQuestion question={questionData.question} answer={questionData.answer} />
+      component: <MultipleMatchingQuestion 
+        question={questionData.question} 
+        answer={questionData.answer}
+        onAnswerChange={(answers) => {
+          console.log('Matching answers:', answers);
+        }}
+      />
     },
     form_completion: {
       title: 'Fill in the blanks:',
-      component: <FormCompletionQuestion fields={questionData.answer.fields} />
+      component: <FormCompletionQuestion 
+        fields={questionData.answer.fields} 
+        onAnswerChange={(answers) => {
+          console.log('Form answers:', answers);
+        }}
+      />
     }
   };
 

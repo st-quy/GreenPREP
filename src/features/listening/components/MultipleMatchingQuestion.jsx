@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const MultipleMatchingQuestion = ({ question, answer }) => {
+const MultipleMatchingQuestion = ({ question, answer, onAnswerChange }) => {
   const [answers, setAnswers] = useState(
     Object.fromEntries(
       Array.from({ length: question.statements.length }, (_, i) => [i + 1, ''])
@@ -8,10 +8,12 @@ const MultipleMatchingQuestion = ({ question, answer }) => {
   );
 
   const handleAnswerChange = (statementIndex, value) => {
-    setAnswers(prev => ({
-      ...prev,
+    const newAnswers = {
+      ...answers,
       [statementIndex + 1]: value
-    }));
+    };
+    setAnswers(newAnswers);
+    onAnswerChange?.(newAnswers);
   };
 
   return (
@@ -45,9 +47,6 @@ const MultipleMatchingQuestion = ({ question, answer }) => {
           ))}
         </div>
       </div>
-
-      {/* Navigation Buttons */}
-
     </div>
   );
 };

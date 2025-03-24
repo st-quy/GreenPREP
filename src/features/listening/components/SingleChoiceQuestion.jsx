@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const SingleChoiceQuestion = ({ options }) => {
+const SingleChoiceQuestion = ({ options, onAnswerChange }) => {
+  const [selectedAnswer, setSelectedAnswer] = useState('');
+
+  const handleChange = (option) => {
+    setSelectedAnswer(option);
+    onAnswerChange?.(option);
+  };
+
   return (
     <div className="space-y-3">
       {options.map((option, index) => (
@@ -8,7 +15,8 @@ const SingleChoiceQuestion = ({ options }) => {
           <input
             type="radio"
             name="answer"
-            value={option}
+            checked={selectedAnswer === option}
+            onChange={() => handleChange(option)}
             className="w-4 h-4 text-blue-600"
           />
           <span className="ml-3">{option}</span>
