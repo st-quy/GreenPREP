@@ -68,8 +68,8 @@ const WelcomeScreen = () => {
             </div>
 
             {isModalOpen && (
-                <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50 md:left-[70px]">
-                    <div className="bg-white p-8 rounded-lg w-auto sm:w-[450px] md:w-auto lg:w-[550px] h-[400px] sm:h-[450px] md:h-[500px] shadow-2xl absolute top-40 left-4 z-60">
+                <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-white p-8 rounded-lg w-[90%] sm:w-[450px] lg:w-[550px] h-auto sm:h-[450px] md:h-[500px] shadow-2xl absolute top-[20%] md:top-40 left-[5%] md:left-[70px] z-60 md:w-[600px] sm:w-[90%] xl:w-[550px]">
                         <h2 className="text-4xl font-semibold text-black mb-4 pt-7">Ready to Go?</h2>
                         <p className="text-xs text-gray-500 mb-4 pt-5 pb-2 break-words">
                             This is your chance to assess your English skills, track your progress, and improve with every attempt.
