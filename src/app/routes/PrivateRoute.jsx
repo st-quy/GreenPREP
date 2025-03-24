@@ -1,13 +1,12 @@
 // import { lazy } from 'react';
-import HomePage from "@pages/HomePage.jsx";
 import IntroReading from "@pages/Reading/IntroductionScreen.jsx";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
-import GrammarPage from '@pages/GrammarPage';
+import GrammarPage from "@pages/GrammarPage";
 
 import ListeningTest from "@features/listening/components/ListeningTest";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/Welcome/WelcomeScreen.jsx";
-import Layout from "@pages/Layout.jsx";
+import LayoutWelcome from "@pages/Layout.jsx";
 import SessionLayout from "@pages/SessionLayout";
 import ListeningLayout from "@features/listening/ui/Layout";
 import ListeningIntroduction from "@features/listening/ui/Introduction";
@@ -23,52 +22,8 @@ const PrivateRoute = [
     element: <ProtectedRoute />,
     children: [
       {
-        path: "homepage",
-        element: <HomePage />,
-      },
-      {
-        path: "session",
-        children: [
-          {
-            path: "listening",
-            children: [
-              {
-                path: "test",
-                element: <ListeningTest />,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: "reading",
-        element: <ReadingLayout />,
-        children: [
-          {
-            path: "intro",
-            element: <IntroReading />,
-          },
-        ],
-      },
-      {
-        path: "writing",
-        element: <WritingPage />,
-        children: [
-          {
-            path: "intro",
-            element: <IntroWriting />,
-          },
-        ],
-      },
-      {
-        path: "/",
-        element: <Layout />,
-        children: [
-          {
-            path: "welcome",
-            element: <WelcomeScreen />,
-          },
-        ],
+        path: "",
+        element: <WelcomeScreen />,
       },
       {
         path: "session",
@@ -81,6 +36,10 @@ const PrivateRoute = [
               {
                 index: true,
                 element: <ListeningIntroduction />,
+              },
+              {
+                path: "test",
+                element: <ListeningTest />,
               },
             ],
           },
@@ -108,14 +67,24 @@ const PrivateRoute = [
               },
             ],
           },
+          {
+            path: "writing",
+            element: <WritingPage />,
+            children: [
+              {
+                index: true,
+                element: <IntroWriting />,
+              },
+            ],
+          },
+          {
+            path: "grammar",
+            element: <GrammarPage />,
+          },
         ],
       },
     ],
   },
-  {
-    path: "/grammar",
-    element: <GrammarPage />,
-  }
 ];
 
 export default PrivateRoute;
