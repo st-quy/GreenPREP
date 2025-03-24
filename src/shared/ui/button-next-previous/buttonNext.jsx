@@ -3,25 +3,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
 
-/**
- * ButtonNextComponent
- * --------------------
- * This is a "Next" button component used to navigate users
- * to the next question or submit the test if on the last question.
- * 
- * Props:
- * - url: The path to navigate to when the button is clicked. If not provided,
- *   the default value is '/' (homepage).
- * - isLastQuestion: A boolean flag indicating whether the current question is the last one.
- *   If it is the last question (isLastQuestion = true), the button will display "Submit" instead of "Next".
- * - onSubmitTest: A callback function triggered when the user confirms test submission.
- *   If not provided, a default handler will be used.
- * 
- * Behavior:
- * - If not the last question, the button navigates to the specified path.
- * - If it is the last question, the button displays a confirmation modal for test submission.
- * - Users can cancel or confirm the submission through the modal.
- */
+
 const ButtonNextComponent = ({ url, isLastQuestion = false, onSubmitTest = null }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);

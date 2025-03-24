@@ -2,23 +2,6 @@ import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-/**
- * ButtonPreviousComponent
- * ------------------------
- * This is a "Previous" button component used to navigate users
- * back to the previous question in an application.
- * 
- * Props:
- * - url: The path to navigate to when the button is clicked. If not provided,
- *   the default value is '/' (homepage).
- * - isFirstQuestion: A boolean flag indicating whether the current question is the first one.
- *   If it is the first question (isFirstQuestion = true), the button will not be displayed.
- * 
- * Behavior:
- * - The button only works if it is not the first question and a valid URL is provided.
- * - When clicked, the user is navigated to the specified path.
- * - If it is the first question, the button will not be displayed to prevent invalid navigation.
- */
 
 const ButtonPreviousComponent = ({ url, isFirstQuestion = false }) => {
   const navigate = useNavigate();
