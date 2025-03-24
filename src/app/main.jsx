@@ -4,8 +4,8 @@ import ReactDOM from "react-dom/client";
 import "./main.css";
 import { Provider } from "react-redux";
 import RouteProvider from "@app/providers/RouteProvider";
-import store from "./providers/store";
-import { FullScreenProvider } from "./providers/FullScreenProvider";
+import store from "./app/providers/store";
+import { FullScreenProvider } from "./app/providers/FullScreenProvider";
 
 const queryClient = new QueryClient();
 
