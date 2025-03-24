@@ -8,7 +8,7 @@ import ListeningTest from "@features/listening/components/ListeningTest";
 import SpeakingPage from "@pages/SpeakingPage.jsx";
 import Introduction from "@features/speaking/ui/Introduction.jsx";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
-import WelcomeScreen from "@pages/WelcomeScreen.jsx";
+import WelcomeScreen from "@pages/Welcome/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
 import SessionLayout from "@pages/SessionLayout";
 import ListeningLayout from "@features/listening/ui/Layout";
