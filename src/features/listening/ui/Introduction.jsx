@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "@features/listening/ui/Header";
 
 const Introduction = () => {
   return (

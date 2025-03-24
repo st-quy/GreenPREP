@@ -1,4 +1,6 @@
-import React from 'react';
+import { ArrowRightIcon } from "@assets/icons";
+import { GrammarIcon } from "@assets/images";
+import React from "react";
 
 const GrammarPage = () => {
   return (
@@ -7,11 +9,7 @@ const GrammarPage = () => {
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
           <div className="w-12 h-12 bg-[#4361ee] rounded-xl flex items-center justify-center">
-            <img 
-              src="/assets/images/Grammaricon.png"
-              alt="Grammar icon" 
-              className="w-6 h-6"
-            />
+            <img src={GrammarIcon} alt="Grammar icon" className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-bold">Grammar & Vocabulary Test</h1>
         </div>
@@ -19,8 +17,13 @@ const GrammarPage = () => {
         <div className="space-y-4">
           {/* Test Structure */}
           <div className="bg-white rounded-2xl px-10 py-6">
-            <h2 className="text-[#4361ee] text-lg font-semibold mb-4">Test Structure</h2>
-            <p className="mb-4">The test consists of 2 parts (Parts 1-2) with a total of 30 questions:</p>
+            <h2 className="text-[#4361ee] text-lg font-semibold mb-4">
+              Test Structure
+            </h2>
+            <p className="mb-4">
+              The test consists of 2 parts (Parts 1-2) with a total of 30
+              questions:
+            </p>
             <ul className="list-disc pl-5 space-y-1">
               <li>Part 1: Grammar (25 questions)</li>
               <li>Part 2: Vocabulary (5 questions)</li>
@@ -29,7 +32,9 @@ const GrammarPage = () => {
 
           {/* Form Description */}
           <div className="bg-white rounded-2xl px-10 py-6">
-            <h2 className="text-[#4361ee] text-lg font-semibold mb-4">Form Description</h2>
+            <h2 className="text-[#4361ee] text-lg font-semibold mb-4">
+              Form Description
+            </h2>
             <ul className="space-y-1">
               <li className="flex gap-1">
                 <span className="font-medium">Format:</span>
@@ -48,15 +53,9 @@ const GrammarPage = () => {
 
           {/* Begin Test Button */}
           <div className="flex justify-end mt-4">
-            <button 
-              className="bg-[#4361ee] text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm hover:bg-[#4361ee]/90 transition-all duration-200"
-            >
+            <button className="bg-[#4361ee] text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm hover:bg-[#4361ee]/90 transition-all duration-200">
               Begin the Test
-              <img 
-                src="/assets/icons/arrow-right.svg"
-                alt="Arrow right"
-                className="h-4 w-4"
-              />
+              <img src={ArrowRightIcon} alt="Arrow right" className="h-4 w-4" />
             </button>
           </div>
         </div>
