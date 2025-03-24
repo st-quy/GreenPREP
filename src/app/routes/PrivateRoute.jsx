@@ -18,7 +18,7 @@ import Introduction from "@pages/speaking/IntroductionPage";
 import SpeakingTransitionPage from "@pages/speaking/SpeakingTransitionPage";
 import WritingPage from "@pages/WritingPage.jsx";
 import IntroWriting from "@features/writing/ui/IntroWriting.jsx";
-import WaitingApproval from "@pages/WaitingApproval.jsx";
+import WaitingApproval from "@pages/Welcome/WaitingApproval.jsx";
 
 
 const PrivateRoute = [
@@ -29,10 +29,12 @@ const PrivateRoute = [
       {
         path: "",
         element: <WelcomeScreen />,
-      },
-      {
-        path: "waiting-approval",
-        element: <WaitingApproval />
+        children: [
+              {
+                path: "waiting-for-approval",
+                element: <WaitingApproval />,
+              },
+            ]
       },
       {
         path: "session",
