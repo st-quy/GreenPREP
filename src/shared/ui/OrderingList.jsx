@@ -64,7 +64,7 @@ const OrderingList = ({ options, onChange }) => {
   };
 
   return (
-    <div className="bg-[#F3F4F6] p-6 rounded-2xl border border-solid border-[#E4E4E4] mt-6">
+    <div className="bg-[#F3F4F6] p-6 w-full rounded-2xl border border-solid border-[#E4E4E4] mt-6">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
