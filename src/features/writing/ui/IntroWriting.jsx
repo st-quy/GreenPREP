@@ -1,48 +1,6 @@
 import React from "react";
 
 const IntroWriting = () => {
-  const headingStyle = {
-    fontFamily: "Inter",
-    fontSize: "24px",
-    fontWeight: 600,
-    lineHeight: "30px",
-    letterSpacing: "0px",
-    color: "#3758F9",
-  };
-
-  const descriptionStyle = {
-    fontFamily: "Inter",
-    fontSize: "18px",
-    fontWeight: 500,
-    lineHeight: "26px",
-    letterSpacing: "0px",
-  };
-
-  const partNumberStyle = {
-    fontFamily: "Inter",
-    fontSize: "18px",
-    fontWeight: 700,
-    lineHeight: "26px",
-    letterSpacing: "0px",
-  };
-
-  const partDescriptionStyle = {
-    fontFamily: "Inter",
-    fontSize: "18px",
-    fontWeight: 500,
-    lineHeight: "26px",
-    letterSpacing: "0px",
-  };
-
-  const buttonStyle = {
-    fontFamily: "Inter",
-    fontSize: "16px",
-    fontWeight: 500,
-    backgroundColor: "#3758F9",
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-    cursor: "pointer",
-    transition: "all 0.2s ease-in-out",
-  };
 
   const containerStyle = {
     border: "0.5px solid rgba(0, 0, 0, 0.3)"
@@ -132,18 +90,11 @@ const IntroWriting = () => {
           className="bg-[#3758F9] text-white px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none"
         >
           Begin the Test
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <img 
+            src="/assets/images/right-arrow.svg" 
+            alt="arrow" 
+            className="h-5 w-5 invert"
+          />
         </button>
       </div>
     </>
