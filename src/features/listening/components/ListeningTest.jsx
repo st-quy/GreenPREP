@@ -11,7 +11,7 @@ import MarkerButton from '../../../shared/ui/MarkerButton';
  */
 
 const fetchQuestions = async () => {
-  const response = await fetch('YOUR_API_ENDPOINT/questions');
+  const response = await fetch('src/features/auth/hooks/index.js');
   if (!response.ok) {
     throw new Error('Failed to fetch questions');
   }
