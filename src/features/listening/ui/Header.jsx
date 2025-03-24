@@ -1,3 +1,4 @@
+import { ListenIcon } from "@assets/images";
 import React from "react";
 
 const Header = () => {
@@ -5,7 +6,7 @@ const Header = () => {
     <div className="flex py-7 items-center mb-6">
       <div className="mr-3">
         <img
-          src="/assets/images/ListenIcon.png"
+          src={window.location.origin + ListenIcon}
           alt="listening icon"
           className="w-20 h-20 object-cover"
         />
