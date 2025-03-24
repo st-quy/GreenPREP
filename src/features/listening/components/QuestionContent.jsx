@@ -1,5 +1,8 @@
 import React from 'react';
+import SingleChoiceQuestion from './SingleChoiceQuestion';
+import MultipleChoiceQuestion from './MultipleChoiceQuestion';
 import MultipleMatchingQuestion from './MultipleMatchingQuestion';
+import FormCompletionQuestion from './FormCompletionQuestion';
 
 const QuestionContent = ({ questionData }) => {
   if (!questionData) return null;
@@ -7,38 +10,11 @@ const QuestionContent = ({ questionData }) => {
   const questionTypes = {
     single_choice: {
       title: 'Choose only 1 answer:',
-      component: (
-        <div className="space-y-3">
-          {questionData.answer.options.map((option, index) => (
-            <label key={index} className="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-blue-50 cursor-pointer">
-              <input
-                type="radio"
-                name="answer"
-                value={option}
-                className="w-4 h-4 text-blue-600"
-              />
-              <span className="ml-3">{option}</span>
-            </label>
-          ))}
-        </div>
-      )
+      component: <SingleChoiceQuestion options={questionData.answer.options} />
     },
     multiple_choice: {
       title: 'Choose all correct answers:',
-      component: (
-        <div className="space-y-3">
-          {questionData.answer.options.map((option, index) => (
-            <label key={index} className="flex items-center p-4 rounded-lg bg-gray-50 hover:bg-blue-50 cursor-pointer">
-              <input
-                type="checkbox"
-                value={option}
-                className="w-4 h-4 text-blue-600"
-              />
-              <span className="ml-3">{option}</span>
-            </label>
-          ))}
-        </div>
-      )
+      component: <MultipleChoiceQuestion options={questionData.answer.options} />
     },
     multiple_matching: {
       title: 'Match the statements with the correct options:',
@@ -46,20 +22,7 @@ const QuestionContent = ({ questionData }) => {
     },
     form_completion: {
       title: 'Fill in the blanks:',
-      component: (
-        <div className="space-y-3">
-          {questionData.answer.fields.map((field, index) => (
-            <div key={index} className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">{field.label}</label>
-              <input
-                type="text"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder={field.placeholder}
-              />
-            </div>
-          ))}
-        </div>
-      )
+      component: <FormCompletionQuestion fields={questionData.answer.fields} />
     }
   };
 
