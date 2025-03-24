@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { welcomeSchema } from './welcomeSchema';
+import { Input } from 'antd';
 
 const WelcomeScreen = () => {
     const [sessionKey, setSessionKey] = useState('');
@@ -16,7 +17,6 @@ const WelcomeScreen = () => {
         try {
             await welcomeSchema.validate({ sessionKey });
             navigate("/waiting-for-approval");
-            console.log("Sending request for approval with session key:", sessionKey);
             setIsModalOpen(false);
         } catch (error) {
             setErrorMessage(error.message);
@@ -68,7 +68,7 @@ const WelcomeScreen = () => {
                         <p className="text-xs text-gray-500 mb-4 pt-5 pb-2 break-words">
                             This is your chance to assess your English skills, track your progress, and improve with every attempt.
                         </p>
-                        <input
+                        <Input
                             type="text"
                             value={sessionKey}
                             onChange={handleInputChange}
