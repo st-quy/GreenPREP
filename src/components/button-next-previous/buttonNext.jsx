@@ -6,31 +6,26 @@ import { Modal } from 'antd';
 /**
  * ButtonNextComponent
  * --------------------
- * Đây là một component nút "Next" được sử dụng để điều hướng người dùng
- * đến câu hỏi tiếp theo hoặc nộp bài kiểm tra nếu đang ở câu hỏi cuối cùng.
+ * This is a "Next" button component used to navigate users
+ * to the next question or submit the test if on the last question.
  * 
  * Props:
- * - url: Đường dẫn để điều hướng khi người dùng nhấn nút. Nếu không được truyền vào,
- *   giá trị mặc định là '/' (trang chủ).
- * - isLastQuestion: Cờ boolean xác định xem câu hỏi hiện tại có phải là câu hỏi cuối cùng hay không.
- *   Nếu là câu hỏi cuối cùng (isLastQuestion = true), nút sẽ hiển thị "Submit" thay vì "Next".
- * - onSubmitTest: Hàm callback được gọi khi người dùng xác nhận nộp bài kiểm tra.
- *   Nếu không được truyền vào, sẽ sử dụng hàm xử lý mặc định.
+ * - url: The path to navigate to when the button is clicked. If not provided,
+ *   the default value is '/' (homepage).
+ * - isLastQuestion: A boolean flag indicating whether the current question is the last one.
+ *   If it is the last question (isLastQuestion = true), the button will display "Submit" instead of "Next".
+ * - onSubmitTest: A callback function triggered when the user confirms test submission.
+ *   If not provided, a default handler will be used.
  * 
- * Hành vi:
- * - Nếu không phải câu hỏi cuối cùng, nút sẽ điều hướng đến đường dẫn được chỉ định.
- * - Nếu là câu hỏi cuối cùng, nút sẽ hiển thị modal xác nhận nộp bài kiểm tra.
- * - Người dùng có thể hủy hoặc xác nhận nộp bài thông qua modal.
+ * Behavior:
+ * - If not the last question, the button navigates to the specified path.
+ * - If it is the last question, the button displays a confirmation modal for test submission.
+ * - Users can cancel or confirm the submission through the modal.
  */
 const ButtonNextComponent = ({ url, isLastQuestion, onSubmitTest }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  /**
-   * Xử lý sự kiện click vào nút
-   * - Nếu là câu hỏi cuối (isLastQuestion = true): Hiển thị modal xác nhận nộp bài
-   * - Nếu không phải câu hỏi cuối: Điều hướng đến url được truyền vào
-   */
   const handleClick = () => {
     if (isLastQuestion) {
       setIsModalOpen(true);
@@ -48,9 +43,6 @@ const ButtonNextComponent = ({ url, isLastQuestion, onSubmitTest }) => {
     }
   };
 
-  /**
-   * Xử lý khi người dùng đóng modal (click Cancel hoặc nút X)
-   */
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -71,7 +63,7 @@ const ButtonNextComponent = ({ url, isLastQuestion, onSubmitTest }) => {
         {!isLastQuestion && <FaArrowRight className="w-[20px] h-[20px]" />}
       </button>
 
-      {/* Nếu có component modal riêng, thay thế phần Modal này. */}
+      {/* if have component modal,change this default Modal. */}
 
       <Modal
         title="Submit Test"
@@ -91,7 +83,7 @@ const ButtonNextComponent = ({ url, isLastQuestion, onSubmitTest }) => {
   );
 };
 
-// Giá trị mặc định cho props
+// Default values of props
 ButtonNextComponent.defaultProps = {
   url: '/', 
   isLastQuestion: true, 

@@ -5,29 +5,25 @@ import { useNavigate } from 'react-router-dom';
 /**
  * ButtonPreviousComponent
  * ------------------------
- * Đây là một component nút "Previous" được sử dụng để điều hướng người dùng
- * quay lại câu hỏi trước đó trong một ứng dụng.
+ * This is a "Previous" button component used to navigate users
+ * back to the previous question in an application.
  * 
  * Props:
- * - url: Đường dẫn để điều hướng khi người dùng nhấn nút. Nếu không được truyền vào,
- *   giá trị mặc định là '/' (trang chủ).
- * - isFirstQuestion: Cờ boolean xác định xem câu hỏi hiện tại có phải là câu hỏi đầu tiên hay không.
- *   Nếu là câu hỏi đầu tiên (isFirstQuestion = true), nút sẽ không hiển thị.
+ * - url: The path to navigate to when the button is clicked. If not provided,
+ *   the default value is '/' (homepage).
+ * - isFirstQuestion: A boolean flag indicating whether the current question is the first one.
+ *   If it is the first question (isFirstQuestion = true), the button will not be displayed.
  * 
- * Hành vi:
- * - Nút chỉ hoạt động khi không phải câu hỏi đầu tiên và có đường dẫn hợp lệ.
- * - Khi nhấn nút, người dùng sẽ được điều hướng đến đường dẫn được chỉ định.
+ * Behavior:
+ * - The button only works if it is not the first question and a valid URL is provided.
+ * - When clicked, the user is navigated to the specified path.
+ * - If it is the first question, the button will not be displayed to prevent invalid navigation.
  */
 
 const ButtonPreviousComponent = ({ url, isFirstQuestion }) => {
   const navigate = useNavigate();
 
-  /**
-   * Xử lý sự kiện click vào nút
-   * Chỉ điều hướng khi:
-   * - Không phải câu hỏi đầu tiên (isFirstQuestion = false)
-   * - Có đường dẫn url được truyền vào
-   */
+  
   const handleClick = () => {
     if (!isFirstQuestion && url) {
       navigate(url);
@@ -52,7 +48,7 @@ const ButtonPreviousComponent = ({ url, isFirstQuestion }) => {
   );
 };
 
-// Giá trị mặc định cho props
+// Default values of props
 
 ButtonPreviousComponent.defaultProps = {
   url: '/',
