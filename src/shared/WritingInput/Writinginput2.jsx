@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input } from 'antd';
-import PropTypes from 'prop-types';
+
+const { TextArea } = Input;
 
 /**
 
@@ -14,13 +15,11 @@ import PropTypes from 'prop-types';
 * Props:
 * - partNumber: part number (required)
 * - maxWords: word limit (default: 150)
-* - subPart: sub sentence number in the part
+* - subPart: sub sentence number in the part  
 * - height: height of the input box (default: "188px")
  */
 
-const { TextArea } = Input;
-
-const WritingInput2 = ({ maxWords = 50, partNumber , height = '188px', subPart }) => {
+const WritingInput2 = ({ maxWords = 50, partNumber, height = '188px', subPart }) => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [wordCount, setWordCount] = useState(0);
 
@@ -40,15 +39,13 @@ const WritingInput2 = ({ maxWords = 50, partNumber , height = '188px', subPart }
     setWordCount(words.length);
   };
 
-  
-
   return (
     <div className="w-full max-w-[795px]">
       <TextArea
         value={currentMessage}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
-        placeholder="Type your answer here" 
+        placeholder="Type your answer here"
         className="w-full rounded-[6px] resize-none bg-[#F9FAFB]
           font-inter text-base font-normal leading-6
           focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500
@@ -63,13 +60,6 @@ const WritingInput2 = ({ maxWords = 50, partNumber , height = '188px', subPart }
       </div>
     </div>
   );
-};
-
-WritingInput2.propTypes = {
-  maxWords: PropTypes.number,
-  partNumber: PropTypes.number.isRequired,
-  height: PropTypes.string,
-  subPart: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default WritingInput2;
