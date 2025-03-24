@@ -20,7 +20,7 @@ import { useNavigate } from 'react-router-dom';
  * - If it is the first question, the button will not be displayed to prevent invalid navigation.
  */
 
-const ButtonPreviousComponent = ({ url, isFirstQuestion = fasle }) => {
+const ButtonPreviousComponent = ({ url, isFirstQuestion = false }) => {
   const navigate = useNavigate();
 
   
@@ -30,14 +30,15 @@ const ButtonPreviousComponent = ({ url, isFirstQuestion = fasle }) => {
     }
   };
 
-  if (isFirstQuestion) {
-    return null;
-  }
-
   return (
     <button
       onClick={handleClick}
-      className="w-[142px] h-[48px] rounded-[50px] px-6 py-3 gap-[10px] bg-white text-[#3758F9] flex items-center justify-center border-none cursor-pointer shadow-[0_1px_3px_#A6AFC366] transition-all duration-300 ease-in-out hover:bg-[#3758F9] hover:text-white"
+      disabled={isFirstQuestion} 
+      className={`w-[142px] h-[48px] rounded-[50px] px-6 py-3 gap-[10px] bg-white text-[#3758F9] flex items-center justify-center border-none cursor-pointer shadow-[0_1px_3px_#A6AFC366] transition-all duration-300 ease-in-out ${
+        isFirstQuestion
+          ? 'opacity-50 cursor-not-allowed' 
+          : 'hover:bg-[#3758F9] hover:text-white' 
+      }`}
     >
       <FaArrowLeft className="w-[20px] h-[20px]" />
 
@@ -46,13 +47,6 @@ const ButtonPreviousComponent = ({ url, isFirstQuestion = fasle }) => {
       </span>
     </button>
   );
-};
-
-// Default values of props
-
-ButtonPreviousComponent.defaultProps = {
-  url: '/',
-  isFirstQuestion: true
 };
 
 export default ButtonPreviousComponent;

@@ -89,11 +89,6 @@ const ButtonNextComponent = ({ url, isLastQuestion = false, onSubmitTest = null 
   );
 };
 
-// Default values of props
-ButtonNextComponent.defaultProps = {
-  url: '/', 
-  isLastQuestion: true, 
-  onSubmitTest: null
-};
+
 
 export default ButtonNextComponent;
