@@ -1,55 +1,14 @@
 import { useState, useEffect } from 'react';
-import MarkerButton from './MarkerButton';
 
 const MultipleChoiceQuestion = ({
   questionNumber,
   partNumber,
-  onAnswerChange,
-  onMarkQuestion,
-  isMarked = false,
+  options,
+  question,
+  selectedAnswer,
+  handleAnswerSelect,
 }) => {
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [isMarkedState, setIsMarkedState] = useState(isMarked);
-  const [question, setQuestion] = useState('');
-  const [options, setOptions] = useState([]);
-
-  useEffect(() => {
-    const fetchQuestion = async () => {
-      try {
-        const response = await fetch('https://greenprep-api.onrender.com/api/topics/ef6b69aa-2ec2-4c65-bf48-294fd12e13fc?questionType=multiple-choice');
-        const data = await response.json();
-        console.log(data);
-        if (data && data.Parts && data.Parts.length > 0) {
-          const part = data.Parts[0];
-          setQuestion(part.Questions[0].Content);
-          setOptions(part.Questions[0].AnswerContent[0].options.map(option => ({
-            value: option.key,
-            label: option.key,
-            text: option.value
-          })));
-        }
-      } catch (error) {
-        console.error('Error fetching question:', error);
-      }
-    };
-
-    fetchQuestion();
-  }, []);
-
-  const handleAnswerSelect = (value) => {
-    setSelectedAnswer(value);
-    if (onAnswerChange) {
-      onAnswerChange(value);
-    }
-  };
-
-  const handleMarkToggle = () => {
-    const newMarkedState = !isMarkedState;
-    setIsMarkedState(newMarkedState);
-    if (onMarkQuestion) {
-      onMarkQuestion(newMarkedState);
-    }
-  };
+  
 
   return (
     <div className="bg-gray-50 flex items-center justify-center min-h-screen p-4">
@@ -59,7 +18,6 @@ const MultipleChoiceQuestion = ({
           <h2 className="text-lg font-semibold text-blue-600">
             Part {partNumber} - Question {questionNumber}
           </h2>
-          <MarkerButton onClick={handleMarkToggle} marked={isMarkedState} />
         </div>
 
         {/* Question Text */}
