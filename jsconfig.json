@@ -10,7 +10,7 @@
       "@*": ["./src/*"],
       "@app/*": ["./src/app/*"],
       "@pages/*": ["src/pages/*"],
-      "@assets/*": ["./src/assets/*"],
+      "@assets/*": ["public/assets/*"],
       "@features/*": ["./src/features/*"],
       "@shared/*": ["./src/shared/*"]
     }
