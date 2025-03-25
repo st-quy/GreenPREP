@@ -26,6 +26,9 @@ const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
 const SpeakingTests = lazy(() => import("@pages/speaking/SpeakingTests.jsx"));
+const SpeakingSubmissionSucces = lazy(
+  () => import("@pages/speaking/SpeakingSubmissionSuccess.jsx")
+);
 
 const PrivateRoute = [
   {
@@ -67,8 +70,12 @@ const PrivateRoute = [
                 element: <SpeakingTransitionPage />,
               },
               {
-                path: "test/:partId/:questionsId",
+                path: "test/:partId/question/:questionsId",
                 element: <SpeakingTests />,
+              },
+              {
+                path: "submission",
+                element: <SpeakingSubmissionSucces />,
               },
             ],
           },
