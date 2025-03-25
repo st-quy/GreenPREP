@@ -163,7 +163,9 @@ export default function SpeakingTests() {
               {partFourQuest && (
                 <div className="Flex flex-col">
                   {partFourQuest.map((quest) => (
-                    <p key={quest.ID}>{quest?.Content || ""}</p>
+                    <p key={quest.ID} className="py-1">
+                      {quest?.Content || ""}
+                    </p>
                   ))}
                 </div>
               )}
