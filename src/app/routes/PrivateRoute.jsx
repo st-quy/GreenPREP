@@ -36,11 +36,12 @@ const PrivateRoute = [
         path: "",
         element: <WelcomeScreen />,
         children: [
-              {
-                path: "waiting-for-approval",
-                element: <WaitingApproval />,
-              },
-            ]
+              
+        ]
+      },
+      {
+        path: "waiting-for-approval",
+        element: <WaitingApproval />,
       },
       {
         path: "session",

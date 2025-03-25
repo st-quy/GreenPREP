@@ -1,4 +1,5 @@
 import React from 'react';
+import { WaitingApprovalImg } from '@assets/images';
 
 const WaitingApproval = () => {
   return (
@@ -7,7 +8,7 @@ const WaitingApproval = () => {
         {/* Hình ảnh minh họa */}
         <div className="relative">
           <img
-            src="\assets\images\waiting.png"
+            src={WaitingApprovalImg}
             alt="Waiting Illustration"
             className="w-40 h-40 sm:w-60 sm:h-60 md:w-[300px] md:h-auto lg:w-[337px] lg:h-auto sm:-translate-y-2 md:-translate-y-4 lg:-translate-y-6 xl:-translate-y-8"/>
         </div>
