@@ -6,8 +6,12 @@ const Introduction = () => {
   return (
     <div>
       <Card className="mb-2 shadow-sm p-0">
-        <h2 className="text-base font-medium text-blue-600 mb-1">Test Structure</h2>
-        <p className="text-sm mb-1">The test consists of 4 parts with different types of questions.</p>
+        <h2 className="text-base font-medium text-blue-600 mb-1">
+          Test Structure
+        </h2>
+        <p className="text-sm mb-1">
+          The test consists of 4 parts with different types of questions.
+        </p>
 
         <ul className="list-disc pl-4 text-sm">
           <li>Part 1: 3 questions.</li>
@@ -18,7 +22,9 @@ const Introduction = () => {
       </Card>
 
       <Card className="mb-2 shadow-sm p-0">
-        <h2 className="text-base font-medium text-blue-600 mb-1">Form Description</h2>
+        <h2 className="text-base font-medium text-blue-600 mb-1">
+          Form Description
+        </h2>
 
         <ul className="list-disc pl-4 text-sm">
           <li>
@@ -31,22 +37,27 @@ const Introduction = () => {
       </Card>
 
       <Card className="mb-2 shadow-sm p-0">
-        <h2 className="text-base font-medium text-blue-600 mb-1">Important Notes</h2>
+        <h2 className="text-base font-medium text-blue-600 mb-1">
+          Important Notes
+        </h2>
 
         <ul className="list-disc pl-4 text-sm">
           <li>Read the questions carefully to avoid going off-topic.</li>
-          <li>Provide at least a simple response—do not leave any answers blank.</li>
+          <li>
+            Provide at least a simple response—do not leave any answers blank.
+          </li>
           <li>Keep answers concise to finish within the given time.</li>
         </ul>
       </Card>
 
       <div className="flex justify-end mt-6 pb-5">
-        <Button 
-          type="primary" 
-          size="middle" 
+        <Button
+          type="primary"
+          size="middle"
+          shape="round"
           className="bg-blue-600 hover:bg-blue-700 flex items-center"
         >
-        Begin The Test <ArrowRightOutlined className="ml-1" />
+          Begin The Test <ArrowRightOutlined className="ml-1" />
         </Button>
       </div>
     </div>

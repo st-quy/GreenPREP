@@ -10,13 +10,13 @@ const AudioVisualizer = ({ isRecording }) => {
 
   useEffect(() => {
     if (!isRecording) return;
-  
-    const audioContext = new AudioContext(); // ✅ Không cần kiểm tra webkitAudioContext
+
+    const audioContext = new AudioContext();
     const analyser = audioContext.createAnalyser();
-    analyser.fftSize = 2048;
+    analyser.fftSize = 1024;
     bufferLengthRef.current = analyser.frequencyBinCount;
     dataArrayRef.current = new Uint8Array(bufferLengthRef.current);
-  
+
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
@@ -27,7 +27,7 @@ const AudioVisualizer = ({ isRecording }) => {
         visualize();
       })
       .catch((err) => console.error("Microphone access denied:", err));
-  
+
     return () => {
       if (audioContextRef.current) {
         audioContextRef.current.close();
@@ -44,15 +44,21 @@ const AudioVisualizer = ({ isRecording }) => {
     const draw = () => {
       if (!analyserRef.current) return;
       analyserRef.current.getByteTimeDomainData(dataArrayRef.current);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
       ctx.beginPath();
 
       let sliceWidth = (canvas.width * 1.0) / bufferLengthRef.current;
       let x = 0;
 
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = "#3758f9";
+
       for (let i = 0; i < bufferLengthRef.current; i++) {
         let v = dataArrayRef.current[i] / 128.0;
-        let y = (v * canvas.height) / 2;
+        let y = (v * canvas.height) / 1.5; 
 
         if (i === 0) {
           ctx.moveTo(x, y);
@@ -62,10 +68,7 @@ const AudioVisualizer = ({ isRecording }) => {
         x += sliceWidth;
       }
 
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "#4F46E5"; // Tailwind blue-700
       ctx.stroke();
-
       animationIdRef.current = requestAnimationFrame(draw);
     };
 
@@ -73,12 +76,11 @@ const AudioVisualizer = ({ isRecording }) => {
   };
 
   return (
-    <div className="relative w-full h-32 bg-gray-900 rounded-lg flex items-center justify-center">
-      <canvas ref={canvasRef} width={400} height={100} className="w-full h-full" />
-      {!isRecording && <p className="absolute text-white">🎤 Micro Off</p>}
+    <div className="relative w-[60vw] h-40 bg-white rounded-lg flex items-center justify-center border border-gray-300">
+      <canvas ref={canvasRef} width={600} height={160} className="w-full h-full" />
+      {!isRecording && <p className="absolute text-black text-xs font-semibold">🎤 Micro Off</p>}
     </div>
   );
 };
-
-//Import useState, use useState for the isLoading variable, and pass it to the AudioVisualizer component.
+//Import useState, use useState for the isRecording variable, and pass it to the AudioVisualizer component.
 export default AudioVisualizer;

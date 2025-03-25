@@ -2,9 +2,16 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { decrementTime } from "../../app/providers/reducer/timeSlice";
 
+/**
+ * @typedef {Object} RootState
+ * @property {Object} countdown
+ * @property {number} countdown.timeLeft
+ */
+
 const CountdownTimer = ({ onTimeUp }) => {
   const dispatch = useDispatch();
-  const timeLeft = useSelector((state) => state.countdown.timeLeft);
+  /** @type {number} */
+  const timeLeft = useSelector((/** @type {RootState} */ state) => state.countdown.timeLeft);
 
   useEffect(() => {
     if (timeLeft > 0) {
