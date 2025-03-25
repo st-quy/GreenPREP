@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
+import { element } from "prop-types";
 
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
@@ -24,6 +25,10 @@ const SpeakingTransitionPage = lazy(
 const WritingPage = lazy(() => import("@pages/WritingPage.jsx"));
 const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
+);
+
+const NavigationFeature = lazy(
+  () => import("@features/navigation/navigationFeatures.jsx")
 );
 
 const PrivateRoute = [
@@ -93,6 +98,10 @@ const PrivateRoute = [
           },
         ],
       },
+      {
+        path: "navigation",
+        element: <NavigationFeature/>
+      }
     ],
   },
 ];
