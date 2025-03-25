@@ -33,6 +33,7 @@ const ReadingParts = () => {
 
   const currentPart = exams.Parts[currentPartIndex] || { Questions: [] };
   const currentQuestion = currentPart.Questions[currentQuestionIndex] || {};
+  const isPart2 = currentPart.Content.includes("Part 2");
 
   const totalQuestions = exams.Parts.reduce(
     (sum, part) => sum + (part.Questions ? part.Questions.length : 0),
@@ -82,17 +83,32 @@ const ReadingParts = () => {
 
   return (
     <div className="question-list order-2 md:order-1 lg:order-1">
-      <div className="w-full rounded-[20px] bg-white p-6 shadow-lg border border-black border-opacity-30 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
-        <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
-          <h6 className="mb-2 text-lg font-bold">{currentPart.Content}</h6>
-          <ReadingMarkButton questionId={currentQuestion.ID} />
+      {isPart2 ? (
+        <div>
+          <div className="w-full rounded-[20px] bg-white p-6 mb-4 shadow-lg border border-black border-opacity-30 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+            <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
+              <h6 className="mb-2 text-lg font-bold">{currentPart.Content}</h6>
+              <ReadingMarkButton questionId={currentQuestion.ID} />
+            </div>
+          </div>
+          <div className="w-full rounded-[20px] bg-white p-6 shadow-lg border border-black border-opacity-30 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+            <div className="mb-4">
+              <AnswerType question={currentQuestion} />
+            </div>
+          </div>
         </div>
-        <div className="mb-4">
-          <AnswerType question={currentQuestion} />
+      ) : (
+        <div className="w-full rounded-[20px] bg-white p-6 shadow-lg border border-black border-opacity-30 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+          <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
+            <h6 className="mb-2 text-lg font-bold">{currentPart.Content}</h6>
+            <ReadingMarkButton questionId={currentQuestion.ID} />
+          </div>
+          <div className="mb-4">
+            <AnswerType question={currentQuestion} />
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Navigation Buttons */}
       <div className="mt-4 flex justify-end gap-2">
         <PreviousButton
           event={handlePrev}
