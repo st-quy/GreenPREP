@@ -1,6 +1,6 @@
 import React from "react";
 
-export function renderTextWithDropdowns(text) {
+export function renderTextWithDropdowns(text, answerContent) {
   if (!text) return null;
 
   return text.split("\n").map((line, index) => (
@@ -8,7 +8,8 @@ export function renderTextWithDropdowns(text) {
       {line.split(/(\d+\.\s\([^)]*\))/g).map((part, i) => {
         const match = part.match(/\d+\.\s\(([^)]+)\)/);
         if (match) {
-          const options = match[1].split("/").map((opt) => opt.trim());
+          const key = (i + 1).toString();
+          const options = answerContent?.options?.find(opt => opt.key === key)?.value || match[1].split("/").map(opt => opt.trim());
           return (
             <select
               key={i}
