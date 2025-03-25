@@ -8,7 +8,7 @@ const Header = () => {
         alt="Reading Icon"
         className="h-auto w-10 sm:w-12 md:w-16 lg:w-[45px] lg:h-[45px] object-contain"
       />
-      <div className="text-xl font-bold text-black sm:text-2xl md:text-3xl">
+      <div className="text-xl font-bold text-black sm:text-2xl md:text-[40px] lg:text-[40px]">
         Reading Test
       </div>
     </div>

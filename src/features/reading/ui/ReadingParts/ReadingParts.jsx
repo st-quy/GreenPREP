@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useQuestionsQuery } from "@features/reading/hooks";
 import AnswerType from "../AnswerTypes/AnswerType";
 import PreviousButton from "../Button/PreviousButton";
 import NextButton from "../Button/NextButton";
 import SubmitButton from "../Button/SubmitButton";
-import ReadingMarkButton from "../ReadingMarkButton";
+import ReadingMarkButton from "../ReadingMarkButton/ReadingMarkButton";
 import { useReading } from "@features/reading/hooks/useReading";
+import { formatStringWithNewlines } from "@shared/lib/utils/formatString";
 
 const ReadingParts = () => {
   // const { data: exams, isLoading, error } = useQuestionsQuery();
@@ -99,21 +99,21 @@ const ReadingParts = () => {
 
   if (isLoading)
     return (
-      <div className="w-full rounded-md border-2 border-gray-400 bg-white p-6 shadow-xl md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
-        <div className="w-6 h-6 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6  md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+        <div className="w-6 h-6 shadow-sm border border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
 
   if (error)
     return (
-      <div className="w-full rounded-md border-2 border-gray-400 bg-white p-6 shadow-xl md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
         Error
       </div>
     );
 
   if (!exams || !exams.Parts || exams.Parts.length === 0)
     return (
-      <div className="w-full rounded-md border-2 border-gray-400 bg-white p-6 shadow-xl md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
         No exams available.
       </div>
     );
@@ -122,22 +122,26 @@ const ReadingParts = () => {
     <div className="question-list order-2 md:order-1 lg:order-1">
       {isPart2 ? (
         <div>
-          <div className="w-full rounded-[20px] bg-white p-6 mb-4 shadow-lg border border-black border-opacity-30 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+          <div className="w-full rounded-[20px] bg-white p-6 pb-0 mb-4 shadow-sm border border-gray-200 md:w-[650px] lg:w-[900px] lg:p-8 lg:pb-0 lg:h-fit">
             <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
-              <h6 className="mb-2 text-lg font-bold">{currentPart.Content}</h6>
+              <h6 className="mb-2 font-[600] lg:text-[24px]">
+                {formatStringWithNewlines(currentPart.Content)}
+              </h6>
               <ReadingMarkButton questionId={currentQuestion.ID} />
             </div>
           </div>
-          <div className="w-full rounded-[20px] bg-white p-6 shadow-lg border border-black border-opacity-30 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+          <div className="w-full rounded-[20px] bg-white p-6 shadow-sm border border-gray-200 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
             <div className="mb-4">
               <AnswerType question={currentQuestion} />
             </div>
           </div>
         </div>
       ) : (
-        <div className="w-full rounded-[20px] bg-white p-6 shadow-lg border border-black border-opacity-30 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+        <div className="w-full rounded-[20px] bg-white p-6 shadow-sm border border-gray-200 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
           <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
-            <h6 className="mb-2 text-lg font-bold">{currentPart.Content}</h6>
+            <h6 className="mb-2 font-[600] lg:text-[24px]">
+              {formatStringWithNewlines(currentPart.Content)}
+            </h6>
             <ReadingMarkButton questionId={currentQuestion.ID} />
           </div>
           <div className="mb-4">

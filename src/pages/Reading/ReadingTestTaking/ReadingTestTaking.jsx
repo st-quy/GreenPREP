@@ -1,4 +1,4 @@
-import RQuestionNavigator from "@features/reading/ui/ReadingNavigator";
+import RQuestionNavigator from "@features/reading/ui/ReadingNavigator/ReadingNavigator";
 import ReadingParts from "@features/reading/ui/ReadingParts/ReadingParts";
 import Sidebar from "@features/reading/ui/Sidebar/Sidebar";
 import React from "react";

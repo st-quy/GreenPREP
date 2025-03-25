@@ -1,8 +1,9 @@
 import React from "react";
+import DropInline from "./DropInline/DropInline";
 
 const ReadingDropdownList = ({ dataSource }) => {
   if (dataSource.AnswerContent.options) {
-    return <h1>Dropdown Inline</h1>;
+    return <DropInline data={dataSource} />;
   }
 
   console.log(dataSource);
