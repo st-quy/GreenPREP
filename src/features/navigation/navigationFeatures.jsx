@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Radio, Space, Typography, Spin } from "antd";
-import QuestionNavigation from "./components/questionNavigation";
+import NavigationControl from "./components/navigationControl";
 import MarkerButton from "@shared/ui/MarkerButton";
 import { 
   toggleMarkedQuestion, 
@@ -40,7 +40,7 @@ const NavigationFeature = () => {
   }, [dispatch]);
 
   const handleMarkQuestion = () => {
-    dispatch(toggleMarkedQuestion(currentQuestion)); // ⚡ Chuyển trạng thái Mark vào Redux
+    dispatch(toggleMarkedQuestion(currentQuestion)); 
   };
 
   const handleAnswerSelect = (e) => {
@@ -52,14 +52,14 @@ const NavigationFeature = () => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <div className="flex justify-center items-center h-screen">
         <Spin size="large" />
       </div>
     );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="text-red-500 text-center">Error: {error}</div>;
   }
 
   if (!testData) {
@@ -71,65 +71,48 @@ const NavigationFeature = () => {
   const options = currentQuestionData.AnswerContent[0].options;
 
   return (
-    <div style={{ padding: "24px", maxWidth: "1200px", margin: "0 auto" }}>
-      <div className="test-header" style={{ display: 'flex', alignItems: 'center', marginBottom: '24px' }}>
-        <div className="test-icon" style={{ 
-          width: '48px', 
-          height: '48px', 
-          backgroundColor: '#4070f4', 
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: '12px'
-        }}>
-          <span style={{ color: 'white', fontSize: '24px' }}>📝</span>
+    <div className="p-6 max-w-5xl mx-auto">
+      <div className="flex items-center mb-6">
+        <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
+          <span className="text-white text-2xl">📝</span>
         </div>
-        <Text strong style={{ fontSize: '24px' }}>{testData.Name}</Text>
+        <Text strong className="text-2xl">{testData.Name}</Text>
       </div>
 
-      <div style={{ display: "flex", gap: "24px" }}>
+      <div className="flex gap-6">
         {/* Left side - Question content */}
-        <div style={{ flex: "1" }}>
-          <Card style={{ borderRadius: '8px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <div className="flex-1">
+          <Card className="rounded-lg">
+            <div className="flex justify-between items-center mb-4">
               <div>
-                <Text strong style={{ color: '#4070f4' }}>Part {currentPart.Content.split(':')[0]}</Text>
+                <Text strong className="text-blue-500">Part {currentPart.Content.split(':')[0]}</Text>
                 <Text strong> - Question {currentQuestion}</Text>
               </div>
               <MarkerButton
-                marked={markedQuestions.includes(currentQuestion)} // ⚡ Lấy trạng thái từ Redux
-                onClick={handleMarkQuestion} // ⚡ Gọi Redux để cập nhật trạng thái
-                />
+                marked={markedQuestions.includes(currentQuestion)}
+                onClick={handleMarkQuestion}
+              />
             </div>
 
-            <div style={{ marginBottom: '20px' }}>
+            <div className="mb-5">
               <Text>{currentQuestionData.Content}</Text>
             </div>
 
-            <div style={{ marginBottom: '20px' }}>
+            <div className="mb-5">
               <Text type="secondary">Choose only 1 answer:</Text>
             </div>
 
             <Radio.Group 
               onChange={handleAnswerSelect}
               value={answeredQuestions[currentQuestion]}
-              style={{ width: '100%' }}
+              className="w-full"
             >
-              <Space direction="vertical" style={{ width: '100%' }}>
+              <Space direction="vertical" className="w-full">
                 {options.map((option) => (
                   <Radio
                     key={option.key}
                     value={option.value}
-                    style={{
-                      width: '100%',
-                      padding: '12px 16px',
-                      border: '1px solid #e8e8e8',
-                      borderRadius: '4px',
-                      marginRight: 0,
-                      marginBottom: '8px',
-                      backgroundColor: answeredQuestions[currentQuestion] === option.value ? '#e6f4ff' : 'white'
-                    }}
+                    className={`w-full px-4 py-3 border rounded-md mb-2 transition-colors ${answeredQuestions[currentQuestion] === option.value ? 'bg-blue-100' : 'bg-white'}`}
                   >
                     {option.key}. {option.value}
                   </Radio>
@@ -140,9 +123,9 @@ const NavigationFeature = () => {
         </div>
 
         {/* Right side - Navigation */}
-        <div style={{ width: "300px" }}>
-          <Card style={{ borderRadius: '8px' }}>
-            <QuestionNavigation />
+        <div className="w-72">
+          <Card className="rounded-lg">
+            <NavigationControl />
           </Card>
         </div>
       </div>
