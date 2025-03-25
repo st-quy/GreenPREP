@@ -1,11 +1,12 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
 import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
+import { element } from "prop-types";
 
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
 );
-const GrammarPage = lazy(() => import("@pages/GrammarPage"));
+const GrammarPage = lazy(() => import("@pages/Grammar/GrammarPage.jsx"));
 const ListeningTest = lazy(
   () => import("@features/listening/components/ListeningTest")
 );
@@ -26,6 +27,7 @@ const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
 const WelcomeLayout = lazy(() => import("@pages/Welcome/WelcomeLayout.jsx"));
+const GrammarLayout = lazy(() => import("@pages/Grammar/GrammarLayout.jsx"));
 
 const PrivateRoute = [
   {
@@ -95,7 +97,13 @@ const PrivateRoute = [
           },
           {
             path: "grammar",
-            element: <GrammarPage />,
+            element: <GrammarLayout />,
+            children: [
+              {
+                index: true,
+                element: <GrammarPage />,
+              },
+            ],
           },
         ],
       },

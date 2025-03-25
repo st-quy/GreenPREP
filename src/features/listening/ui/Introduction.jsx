@@ -3,7 +3,7 @@ import React from "react";
 const Introduction = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto py-6 max-w-[1550px]">
+      <div className="container mx-auto pb-6 max-w-[1550px]">
         {/* Test Structure Section */}
         <div className="mb-2 bg-white rounded-2xl p-5 shadow-sm">
           <h2 className="text-lg font-semibold text-[#4361ee] mb-2">

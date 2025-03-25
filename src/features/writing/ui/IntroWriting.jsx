@@ -2,14 +2,10 @@ import { ArrowRightIcon } from "@assets/icons";
 import React from "react";
 
 const IntroWriting = () => {
-  const containerStyle = {
-    border: "0.5px solid rgba(0, 0, 0, 0.3)",
-  };
-
   return (
     <>
       {/* Test Structure Section */}
-      <div style={containerStyle} className="bg-white rounded-2xl p-8 mb-4">
+      <div className="bg-white shadow-sm rounded-2xl mb-4 p-2 sm:p-12">
         <h2 className="text-[#3758F9] text-xl font-semibold mb-4">
           Test Structure
         </h2>
@@ -61,7 +57,7 @@ const IntroWriting = () => {
       </div>
 
       {/* Form Description Section */}
-      <div style={containerStyle} className="bg-white rounded-2xl p-8 mb-4">
+      <div className="bg-white rounded-2xl p-2 sm:p-12 mb-4">
         <h2 className="text-[#3758F9] text-xl font-semibold mb-4">
           Form Description
         </h2>

@@ -5,7 +5,7 @@ import { Card } from "antd";
 const Introduction = () => {
   return (
     <div>
-      <Card className="mb-2 shadow-sm p-0">
+      <Card className="mb-2 shadow-sm p-2 sm:p-6">
         <h2 className="text-base font-medium text-blue-600 mb-1">
           Test Structure
         </h2>
@@ -21,7 +21,7 @@ const Introduction = () => {
         </ul>
       </Card>
 
-      <Card className="mb-2 shadow-sm p-0">
+      <Card className="mb-2 shadow-sm p-2 sm:p-6">
         <h2 className="text-base font-medium text-blue-600 mb-1">
           Form Description
         </h2>
@@ -36,7 +36,7 @@ const Introduction = () => {
         </ul>
       </Card>
 
-      <Card className="mb-2 shadow-sm p-0">
+      <Card className="mb-2 shadow-sm p-2 sm:p-6">
         <h2 className="text-base font-medium text-blue-600 mb-1">
           Important Notes
         </h2>

@@ -1,12 +1,16 @@
-import { WriteImg } from "@assets/images";
+import { WrittingIcon } from "@assets/images";
 
 const WritingHeader = () => {
   return (
-    <div className="flex items-center mb-6 mt-6">
-      <div className="w-12 h-12 bg-[#3758F9] rounded-lg flex items-center justify-center mr-3">
-        <img src={WriteImg} alt="Writing Test Logo" className="w-6 h-6" />
+    <div className="flex items-center gap-3 sm:gap-4 bg-[#F9F9F9] mb-6 sm:mb-8">
+      <img
+        src={WrittingIcon}
+        alt="Writing Icon"
+        className="w-10 h-auto sm:w-12 md:w-16 lg:w-20 object-contain"
+      />
+      <div className="text-xl sm:text-2xl md:text-3xl font-bold text-black m-0">
+        Writing Test
       </div>
-      <h1 className="text-2xl font-bold">Writing Test</h1>
     </div>
   );
 };

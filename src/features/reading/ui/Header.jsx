@@ -2,7 +2,7 @@ import { ReadingIcon } from "@assets/images";
 
 const Header = () => {
   return (
-    <div className="flex items-center mt-10 gap-3 sm:gap-4 bg-[#F9F9F9] ">
+    <div className="flex items-center gap-3 sm:gap-4 bg-[#F9F9F9] mb-6 sm:mb-8">
       <img
         src={ReadingIcon}
         alt="Reading Icon"
