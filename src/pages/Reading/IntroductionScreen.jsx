@@ -23,7 +23,7 @@ const IntroReading = () => {
       {/* Test Structure Card */}
       <Card
         className="mb-4 shadow-sm border border-gray-200 sm:mb-6"
-        style={{ borderRadius: "1rem", body: { padding: "2rem" } }}
+        style={{ borderRadius: "1rem", padding: "2rem" }}
       >
         <div className="p-2 sm:p-6">
           {" "}
@@ -66,7 +66,7 @@ const IntroReading = () => {
       {/* Form Description Card */}
       <Card
         className="mb-8 shadow-sm border border-gray-200 sm:mb-12"
-        style={{ borderRadius: "1rem", body: { padding: "2rem" } }}
+        style={{ borderRadius: "1rem", padding: "2rem" }}
       >
         <div className="p-2 sm:p-6">
           {/* Responsive padding */}
@@ -108,6 +108,7 @@ const IntroReading = () => {
               h-auto flex items-center font-medium 
               text-sm sm:text-base 
               transition-colors
+              bg-[#3758F9]
             "
         >
           <span className="mr-2">Begin the Test</span>
