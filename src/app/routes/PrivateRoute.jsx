@@ -67,7 +67,7 @@ const PrivateRoute = [
                 element: <SpeakingTransitionPage />,
               },
               {
-                path: "tests/:partId/:questionsId?",
+                path: "test/:partId/:questionsId",
                 element: <SpeakingTests />,
               },
             ],

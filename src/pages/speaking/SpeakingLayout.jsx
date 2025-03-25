@@ -4,7 +4,7 @@ import SpeakingHeader from "./SpeakingHeader";
 const SpeakingLayout = () => {
   return (
     <>
-      <div className="px-8 md:px-16 pt-16 min-h-screen bg-gray-50 ">
+      <div className="px-8 md:px-16 min-h-screen bg-gray-50 ">
         <SpeakingHeader />
         <Outlet />
       </div>
