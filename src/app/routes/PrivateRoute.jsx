@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
 import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
+import IntroductionPage from "@pages/Welcome/IntroductionPage.jsx";
 
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
@@ -58,6 +59,10 @@ const PrivateRoute = [
           {
             path: "rejected",
             element: <RejectedRequestPage />,
+          },
+          {
+            path: "introduction",
+            element: <IntroductionPage />,
           },
           {
             path: "speaking",
