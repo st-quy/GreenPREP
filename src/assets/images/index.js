@@ -8,8 +8,7 @@ import ListenIcon from "./ListenIcon.png";
 import Logo from "./Logo.png";
 import ReadingIcon from "./ReadingIcon.png";
 import WriteImg from "./write.png";
-import RecordIcon from "./Record.png";
-
+import RejectedImg from "./RejectedImg.png";
 export {
   GreenPREP,
   GreenPREPLogo,
@@ -21,5 +20,5 @@ export {
   Logo,
   ReadingIcon,
   WriteImg,
-  RecordIcon,
+  RejectedImg,
 };

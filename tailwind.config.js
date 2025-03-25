@@ -23,7 +23,7 @@ export default {
       xl: "1920px",
     },
     fontFamily: {
-      sans: ['Inter', 'sans-serif'],
+      sans: ["Inter", "sans-serif"],
     },
     extend: {},
   },
