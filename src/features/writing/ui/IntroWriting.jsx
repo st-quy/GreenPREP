@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 const IntroWriting = () => {
   const navigate = useNavigate();
+
   const containerStyle = {
     border: "0.5px solid rgba(0, 0, 0, 0.3)",
   };
 
   const handleBeginTest = () => {
-    navigate("/session/writing/writingtestpage");
+    navigate(`/session/writing/part/1`);
   };
 
   return (

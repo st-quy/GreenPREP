@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
 import MarkerButton from '@shared/ui/MarkerButton';
-import { useWritingPart1 } from '../hooks/useWritingPart1';
+import { useDispatch } from 'react-redux';
+import { setTime } from '@app/providers/reducer/timeSlice';
 import WritingInput from '@shared/WritingInput/Writinginput1';
 import ButtonNextComponent from '@shared/ui/button-next-previous/buttonNext';
 import ButtonPreviousComponent from '@shared/ui/button-next-previous/buttonPrevious';
 import CountdownTimer from '@shared/ui/CountdownTimer';
-import { useDispatch } from 'react-redux';
-import { setTime } from '@app/providers/reducer/timeSlice';
 
-const WritingPart1 = () => {
-  const { data, isLoading, error } = useWritingPart1();
+const WritingPart1 = ({ content, subContent, questions, partId }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,26 +19,23 @@ const WritingPart1 = () => {
     alert("Time's up!");
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
     <div className="w-full flex flex-col lg:flex-row gap-4">
       <div className="flex flex-col">
         {/* Left Side - Questions */}
         <div className="w-full lg:w-full bg-[#FFFFFF] rounded-lg p-6 inline-block " style={{ border: '0.5px solid rgba(0, 0, 0, 0.3)' }}>
           <div className="flex justify-between items-center mb-4">
-            <h2><span className="text-[#3758F9]">Part 1</span> of 4</h2>
+            <h2><span className="text-[#3758F9]">Part {partId}</span> of 4</h2>
             <MarkerButton onClick={() => console.log('Marked!')} />
           </div>
 
           <div className="space-y-4">
-            <div className="text-lg">{data.content}</div>
-            <div className="text-sm text-gray-600">{data.subContent}</div>
+            <div className="text-lg">{content}</div>
+            <div className="text-sm text-gray-600">{subContent}</div>
             
             {/* Questions */}
             <div className="space-y-4 mt-6">
-              {data.questions.map((question) => (
+              {questions.map((question) => (
                 <div key={question.ID} className="flex flex-col gap-2">
                   <div className="p-4 rounded-lg">
                     <p className="font-medium">{question.Content}</p>
