@@ -1,4 +1,4 @@
-import { useMarkContext } from "../context/markContext";
+import { useMarkContext } from "@features/reading/context/markContext";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
@@ -25,11 +25,11 @@ const ReadingMarkButton = ({ questionId }) => {
       style={{
         borderColor: "#f26f21",
         color: isMarked ? "white" : "#f26f21",
-        fontWeight: "bold",
         backgroundColor: isMarked ? "#f26f21" : "transparent",
         minWidth: "110px",
         textAlign: "center",
       }}
+      className="font-[500] lg:text-[16px]"
     >
       {isMarked ? "Marked" : "Mark"}
     </Button>

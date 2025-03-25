@@ -5,6 +5,15 @@ export const useReading = () => {
   const { data: exams, isLoading, error } = useQuestionsQuery();
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [markedQuestions, setMarkedQuestions] = useState([]);
+
+  const toggleMark = (questionId) => {
+    setMarkedQuestions((prev) =>
+      prev.includes(questionId)
+        ? prev.filter((q) => q !== questionId)
+        : [...prev, questionId]
+    );
+  };
 
   if (
     isLoading ||
@@ -18,7 +27,11 @@ export const useReading = () => {
 
   const currentPart = exams.Parts[currentPartIndex] || { Questions: [] };
   const currentQuestion = currentPart.Questions[currentQuestionIndex] || {};
-  const isPart2 = currentPart.Content.includes("Part 2");
+  const isPart2 = currentPart.Content?.includes("Part 2") || false;
+  const totalQuestions = exams.Parts.reduce(
+    (sum, part) => sum + (part.Questions?.length || 0),
+    0
+  );
 
   const isLastQuestion =
     currentPartIndex === exams.Parts.length - 1 &&
@@ -39,9 +52,9 @@ export const useReading = () => {
   const handleNext = () => {
     if (!isLastQuestion) {
       if (currentQuestionIndex < currentPart.Questions.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
+        setCurrentQuestionIndex((prev) => prev + 1);
       } else if (currentPartIndex < exams.Parts.length - 1) {
-        setCurrentPartIndex(currentPartIndex + 1);
+        setCurrentPartIndex((prev) => prev + 1);
         setCurrentQuestionIndex(0);
       }
     }
@@ -49,7 +62,7 @@ export const useReading = () => {
 
   const handlePrev = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setCurrentQuestionIndex((prev) => prev - 1);
     } else if (currentPartIndex > 0) {
       const prevPartIndex = currentPartIndex - 1;
       setCurrentPartIndex(prevPartIndex);
@@ -58,7 +71,8 @@ export const useReading = () => {
   };
 
   const handleSubmit = () => {
-    alert("Exam Submitted! 🎉"); // Thay thế bằng logic submit thực tế
+    console.log("Submitting Exam:", { exams, markedQuestions });
+    alert("Exam Submitted! 🎉");
   };
 
   return {
@@ -69,6 +83,9 @@ export const useReading = () => {
     currentQuestion,
     isPart2,
     isLastQuestion,
+    totalQuestions,
+    markedQuestions,
+    toggleMark,
     handleNavigate,
     handleNext,
     handlePrev,
