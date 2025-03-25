@@ -4,6 +4,7 @@ import { welcomeSchema } from "./welcomeSchema";
 import { Button, Form, Input } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { WelcomeImage } from "@assets/images";
+import OrderingList from "@shared/ui/OrderingList";
 
 const WelcomeScreen = () => {
   const [sessionKey, setSessionKey] = useState("");
@@ -31,6 +32,20 @@ const WelcomeScreen = () => {
 
   return (
     <div className="w-full bg-white overflow-x-hidden">
+      <div className="w-full flex flex-col content-center items-center self-center">
+        <div className="mx-10">
+          <OrderingList
+            options={[
+              "A. You must return truck keys to the office after being back.",
+              "B. In the company office, you can take a map with you.",
+              "C. You should arrive the office by 6 am and have your truck keys.",
+              "D. When you complete delivers, return to the company office.",
+              "E. You must follow the map to send your products.",
+            ]}
+            onChange={() => {}}
+          />
+        </div>
+      </div>
       <div className="w-full bg-white p-3 flex flex-col items-center md:flex-row md:items-start md:justify-between md:p-6">
         {!isModalOpen && (
           <div className="w-full flex-1 text-center px-2 mt-4 md:text-left md:px-8 md:mt-[85px] ml-[30px]">
