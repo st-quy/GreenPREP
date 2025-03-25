@@ -1,6 +1,8 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
 import { element } from "prop-types";
+import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
+
 
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
@@ -11,7 +13,6 @@ const ListeningTest = lazy(
 );
 const ReadingLayout = lazy(() => import("@features/reading/ui/Layout.jsx"));
 const WelcomeScreen = lazy(() => import("@pages/Welcome/WelcomeScreen.jsx"));
-const LayoutWelcome = lazy(() => import("@pages/Layout.jsx"));
 const SessionLayout = lazy(() => import("@pages/SessionLayout"));
 const ListeningLayout = lazy(() => import("@features/listening/ui/Layout"));
 const ListeningIntroduction = lazy(
@@ -26,6 +27,7 @@ const WritingPage = lazy(() => import("@pages/WritingPage.jsx"));
 const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
+const WelcomeLayout = lazy(() => import("@pages/Welcome/WelcomeLayout.jsx"));
 
 const NavigationFeature = lazy(
   () => import("@features/navigation/navigationFeatures.jsx")
@@ -38,7 +40,8 @@ const PrivateRoute = [
     children: [
       {
         path: "",
-        element: <WelcomeScreen />,
+        element: <WelcomeLayout />,
+        children: [{ index: true, element: <WelcomeScreen /> }],
       },
       {
         path: "session",
@@ -57,6 +60,10 @@ const PrivateRoute = [
                 element: <ListeningTest />,
               },
             ],
+          },
+          {
+            path: "rejected",
+            element: <RejectedRequestPage />,
           },
           {
             path: "speaking",
