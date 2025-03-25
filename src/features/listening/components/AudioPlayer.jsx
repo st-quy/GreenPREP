@@ -149,7 +149,7 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
   };
 
   return (
-    <div className="space-y-4 w-full max-w-md mx-auto">
+    <div className="w-full">
       <audio 
         ref={audioRef} 
         src={audioUrl}

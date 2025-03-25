@@ -53,10 +53,12 @@ const ListeningTest = () => {
             {/* Audio Controls in separate card */}
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <p className="text-gray-700 mb-3">Listen audio file here:</p>
-              <AudioPlayer 
-                audioUrl={currentQuestionData?.audioUrl} 
-                questionId={currentQuestion - 1} 
-              />
+              <div className="flex justify-start">
+                <AudioPlayer 
+                  audioUrl={currentQuestionData?.audioUrl} 
+                  questionId={currentQuestion - 1} 
+                />
+              </div>
             </div>
 
             {/* Navigation Buttons */}
