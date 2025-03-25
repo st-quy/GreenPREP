@@ -51,6 +51,7 @@ const WelcomeScreen = () => {
               shape="round"
               type="primary"
               size="large"
+              style={{ backgroundColor: '#3758F9', borderColor: '#3758F9' }}
             >
               Get Started
               <ArrowRightOutlined />
@@ -115,6 +116,7 @@ const WelcomeScreen = () => {
                 shape="round"
                 type="primary"
                 size="large"
+                style={{ backgroundColor: '#3758F9', borderColor: '#3758F9' }}
               >
                 Submit Key
               </Button>
