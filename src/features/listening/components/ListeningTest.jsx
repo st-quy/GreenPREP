@@ -5,6 +5,8 @@ import QuestionContent from './QuestionContent';
 import MarkerButton from '../../../shared/ui/MarkerButton';
 import AudioPlayer from './AudioPlayer';
 import { useListeningTest } from '../../auth/hooks/useListeningTest';
+import ButtonNext from '../../../shared/ui/button-next-previous/buttonNext';
+import ButtonPrevious from '../../../shared/ui/button-next-previous/buttonPrevious';
 
 /**
  * @typedef {Object} Question
@@ -59,22 +61,17 @@ const ListeningTest = () => {
 
             {/* Navigation Buttons */}
             <div className="flex justify-end gap-3">
-              <button 
-                className="flex items-center gap-2 px-6 py-2.5 rounded-full text-blue-600 hover:bg-gray-50 bg-white shadow-sm"
-                onClick={() => setCurrentQuestion(prev => Math.max(1, prev - 1))}
-                disabled={currentQuestion === 1}
-              >
-                <FaArrowLeft className="text-sm" />
-                Previous
-              </button>
-              <button 
-                className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-blue-600 text-white shadow-sm hover:bg-blue-700"
-                onClick={() => setCurrentQuestion(prev => Math.min(totalQuestions, prev + 1))}
-                disabled={currentQuestion === totalQuestions}
-              >
-                Next
-                <FaArrowRight className="text-sm" />
-              </button>
+              <ButtonPrevious 
+                url={`/listening/${currentQuestion - 1}`}
+                isFirstQuestion={currentQuestion === 1}
+              />
+              <ButtonNext 
+                url={`/listening/${currentQuestion + 1}`}
+                isLastQuestion={currentQuestion === totalQuestions}
+                onSubmitTest={() => {
+                  // Handle test submission if needed
+                }}
+              />
             </div>
           </div>
 
