@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
+import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
 
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
@@ -52,6 +53,10 @@ const PrivateRoute = [
                 element: <ListeningTest />,
               },
             ],
+          },
+          {
+            path: "rejected",
+            element: <RejectedRequestPage />,
           },
           {
             path: "speaking",
