@@ -1,6 +1,7 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
 import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
+import IntroductionPage from "@pages/Welcome/IntroductionPage.jsx";
 
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
@@ -27,6 +28,10 @@ const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
 const WelcomeLayout = lazy(() => import("@pages/Welcome/WelcomeLayout.jsx"));
+const SpeakingTests = lazy(() => import("@pages/speaking/SpeakingTests.jsx"));
+const SpeakingSubmissionSucces = lazy(
+  () => import("@pages/speaking/SpeakingSubmissionSuccess.jsx")
+);
 
 const PrivateRoute = [
   {
@@ -66,6 +71,10 @@ const PrivateRoute = [
             element: <RejectedRequestPage />,
           },
           {
+            path: "introduction",
+            element: <IntroductionPage />,
+          },
+          {
             path: "speaking",
             element: <SpeakingLayout />,
             children: [
@@ -76,6 +85,14 @@ const PrivateRoute = [
               {
                 path: "part/:partId/introduction",
                 element: <SpeakingTransitionPage />,
+              },
+              {
+                path: "test/:partId/question/:questionsId",
+                element: <SpeakingTests />,
+              },
+              {
+                path: "submission",
+                element: <SpeakingSubmissionSucces />,
               },
             ],
           },
