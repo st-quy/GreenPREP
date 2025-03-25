@@ -34,4 +34,5 @@ const RouteProvider = () => {
     />
   );
 };
+
 export default RouteProvider;

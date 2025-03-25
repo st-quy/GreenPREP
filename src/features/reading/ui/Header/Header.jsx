@@ -1,4 +1,4 @@
-import ReadingIcon from "/assets/images/ReadingIcon.png";
+import { ReadingIcon } from "@assets/images";
 
 const Header = () => {
   return (
