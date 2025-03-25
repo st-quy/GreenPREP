@@ -1,7 +1,7 @@
 import { Layout, Typography, Flex, Grid, Button } from "antd";
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
-import { RejectedImg, HatLogo } from "@assets/images";
+import { RejectedImg } from "@assets/images";
 import { useNavigate } from "react-router-dom";
 
 const RejectedRequestPage = () => {
@@ -9,15 +9,6 @@ const RejectedRequestPage = () => {
   const handleClickBackHome = () => navigate("/");
   return (
     <Layout>
-      <Header className="flex justify-between items-center bg-white !p-5 shadow-[0px_2px_2px_1px_#00000024]">
-        <Title
-          level={3}
-          className="!text-black !m-0 justify-center flex items-center "
-        >
-          <img src={HatLogo} className="w-10 bg-white rounded-full mr-2 " />
-          GreenPREP
-        </Title>
-      </Header>
       <Content className="h-screen max-h-[calc(100vh-64px)] w-screen">
         <Flex
           vertical

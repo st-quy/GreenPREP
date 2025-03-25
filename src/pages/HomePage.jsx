@@ -38,7 +38,7 @@ const HomePage = () => {
       <Header className="flex justify-between items-center bg-[#01033D] !p-10 !shadow-xl">
         <Title level={2} className="!text-white !m-0 justify-center flex">
           <img
-            src="/assets/images/GreenPREP_logo.png"
+            src="public/assets/images/GreenPREP_logo.png"
             className="w-10 bg-white rounded-full mr-2 "
           />
           GreenPREP
