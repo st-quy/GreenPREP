@@ -10,7 +10,6 @@ const ListeningTest = lazy(
 );
 const ReadingLayout = lazy(() => import("@features/reading/ui/Layout.jsx"));
 const WelcomeScreen = lazy(() => import("@pages/Welcome/WelcomeScreen.jsx"));
-const LayoutWelcome = lazy(() => import("@pages/Layout.jsx"));
 const SessionLayout = lazy(() => import("@pages/SessionLayout"));
 const ListeningLayout = lazy(() => import("@features/listening/ui/Layout"));
 const ListeningIntroduction = lazy(
@@ -25,6 +24,7 @@ const WritingPage = lazy(() => import("@pages/WritingPage.jsx"));
 const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
+const WelcomeLayout = lazy(() => import("@pages/Welcome/WelcomeLayout.jsx"));
 
 const PrivateRoute = [
   {
@@ -33,7 +33,8 @@ const PrivateRoute = [
     children: [
       {
         path: "",
-        element: <WelcomeScreen />,
+        element: <WelcomeLayout />,
+        children: [{ index: true, element: <WelcomeScreen /> }],
       },
       {
         path: "session",
