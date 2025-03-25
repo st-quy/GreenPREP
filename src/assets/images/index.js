@@ -22,6 +22,6 @@ export {
   Logo,
   ReadingIcon,
   WriteImg,
-  WaitingApprovalImg
+  WaitingApprovalImg,
   RejectedImg,
 };
