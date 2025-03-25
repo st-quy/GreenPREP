@@ -8,7 +8,10 @@ import ListenIcon from "./ListenIcon.png";
 import Logo from "./Logo.png";
 import ReadingIcon from "./ReadingIcon.png";
 import WriteImg from "./write.png";
+import WaitingApprovalImg from "./waiting.png";
 import RejectedImg from "./RejectedImg.png";
+import RecordIcon from "./Record.png";
+
 import SpeakingIcon from "./SpeakingIcon.png";
 import WrittingIcon from "./WritingIcon.png";
 export {
@@ -22,7 +25,9 @@ export {
   Logo,
   ReadingIcon,
   WriteImg,
+  WaitingApprovalImg,
   RejectedImg,
+  RecordIcon,
   SpeakingIcon,
   WrittingIcon,
 };

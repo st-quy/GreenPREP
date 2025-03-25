@@ -6,18 +6,26 @@ const Introduction = () => {
   return (
     <div>
       <Card className="mb-2 shadow-sm p-2 sm:p-6">
-        <h2 className="text-base font-medium text-blue-600 mb-1">
+        <h2 className="text-2xl font-medium text-blue-600 mb-1">
           Test Structure
         </h2>
-        <p className="text-sm mb-1">
+        <p className="text-lg mb-1">
           The test consists of 4 parts with different types of questions.
         </p>
 
-        <ul className="list-disc pl-4 text-sm">
-          <li>Part 1: 3 questions.</li>
-          <li>Part 2: 3 questions.</li>
-          <li>Part 3: 3 questions.</li>
-          <li>Part 4: 3 questions.</li>
+        <ul className="list-disc pl-4 text-lg">
+          <li>
+            <strong>Part 1:</strong> 3 questions.
+          </li>
+          <li>
+            <strong>Part 2:</strong> 3 questions.
+          </li>
+          <li>
+            <strong>Part 3:</strong> 3 questions.
+          </li>
+          <li>
+            <strong>Part 4:</strong> 3 questions.
+          </li>
         </ul>
       </Card>
 
@@ -26,7 +34,7 @@ const Introduction = () => {
           Form Description
         </h2>
 
-        <ul className="list-disc pl-4 text-sm">
+        <ul className="list-disc pl-4 text-lg">
           <li>
             <strong>Format:</strong> Responses are recorded.
           </li>
@@ -37,11 +45,11 @@ const Introduction = () => {
       </Card>
 
       <Card className="mb-2 shadow-sm p-2 sm:p-6">
-        <h2 className="text-base font-medium text-blue-600 mb-1">
+        <h2 className="text-2xl font-medium text-blue-600 mb-1">
           Important Notes
         </h2>
 
-        <ul className="list-disc pl-4 text-sm">
+        <ul className="list-disc pl-4 text-lg">
           <li>Read the questions carefully to avoid going off-topic.</li>
           <li>
             Provide at least a simple response—do not leave any answers blank.
@@ -55,7 +63,7 @@ const Introduction = () => {
           type="primary"
           size="middle"
           shape="round"
-          className="bg-blue-600 hover:bg-blue-700 flex items-center"
+          className="!text-base bg-[#3758F9] hover:bg-blue-700 flex items-center"
         >
           Begin The Test <ArrowRightOutlined className="ml-1" />
         </Button>
