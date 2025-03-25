@@ -138,9 +138,10 @@ export default function SpeakingTests() {
     }
   }, [partId, questionsId, navigate]);
 
+  const componentKey = `${partId}-${questionsId}`;
   return (
     <>
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-4" key={componentKey}>
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-8 px-12">
           <div className="text-blue-600 font-medium mb-2 flex">
             Part {partId}{" "}
