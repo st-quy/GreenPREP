@@ -13,7 +13,7 @@ const Introduction = () => {
           The test consists of 4 parts with different types of questions.
         </p>
 
-        <ul className="list-disc pl-4 text-lg">
+        <ul className="list-disc pl-7 text-lg">
           <li>
             <strong>Part 1:</strong> 3 questions.
           </li>
@@ -34,7 +34,7 @@ const Introduction = () => {
           Form Description
         </h2>
 
-        <ul className="list-disc pl-4 text-lg">
+        <ul className="list-disc pl-7 text-lg">
           <li>
             <strong>Format:</strong> Responses are recorded.
           </li>
@@ -49,7 +49,7 @@ const Introduction = () => {
           Important Notes
         </h2>
 
-        <ul className="list-disc pl-4 text-lg">
+        <ul className="list-disc pl-7 text-lg">
           <li>Read the questions carefully to avoid going off-topic.</li>
           <li>
             Provide at least a simple response—do not leave any answers blank.
