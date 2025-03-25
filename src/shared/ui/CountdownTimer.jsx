@@ -23,14 +23,16 @@ const CountdownTimer = ({ onTimeUp }) => {
   const formattedTime = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
   return (
-    <div className="flex justify-center items-center bg-white w-20 h-10 shadow-md font-medium text-md md:text-lg" style={{ color: "#3758F9" }}>
+    <div
+      className="flex justify-center items-center bg-white w-20 h-10 shadow-md font-medium text-md md:text-lg"
+      style={{ color: "#3758F9" }}
+    >
       {formattedTime}
     </div>
   );
 };
 
 export default CountdownTimer;
-
 
 // You can setup <CountdownTimer> as below!
 

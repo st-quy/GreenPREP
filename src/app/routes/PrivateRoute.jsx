@@ -7,6 +7,7 @@ import Introduction from "@features/speaking/ui/Introduction.jsx";
 import ReadingLayout from "@features/reading/ui/Layout.jsx";
 import WelcomeScreen from "@pages/WelcomeScreen.jsx";
 import Layout from "@pages/Layout.jsx";
+import ReadingTestTaking from "@pages/Reading/ReadingTestTaking/ReadingTestTaking.jsx";
 
 const PrivateRoute = [
   {
@@ -34,6 +35,10 @@ const PrivateRoute = [
           {
             path: "intro",
             element: <IntroReading />,
+          },
+          {
+            path: "reading-test",
+            element: <ReadingTestTaking />,
           },
         ],
       },
