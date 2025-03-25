@@ -27,6 +27,10 @@ const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
 const WelcomeLayout = lazy(() => import("@pages/Welcome/WelcomeLayout.jsx"));
+const SpeakingTests = lazy(() => import("@pages/speaking/SpeakingTests.jsx"));
+const SpeakingSubmissionSucces = lazy(
+  () => import("@pages/speaking/SpeakingSubmissionSuccess.jsx")
+);
 
 const PrivateRoute = [
   {
@@ -75,6 +79,14 @@ const PrivateRoute = [
               {
                 path: "part/:partId/introduction",
                 element: <SpeakingTransitionPage />,
+              },
+              {
+                path: "test/:partId/question/:questionsId",
+                element: <SpeakingTests />,
+              },
+              {
+                path: "submission",
+                element: <SpeakingSubmissionSucces />,
               },
             ],
           },

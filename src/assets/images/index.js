@@ -9,6 +9,7 @@ import Logo from "./Logo.png";
 import ReadingIcon from "./ReadingIcon.png";
 import WriteImg from "./write.png";
 import RejectedImg from "./RejectedImg.png";
+import RecordIcon from "./Record.png";
 export {
   GreenPREP,
   GreenPREPLogo,
@@ -21,4 +22,5 @@ export {
   ReadingIcon,
   WriteImg,
   RejectedImg,
+  RecordIcon,
 };
