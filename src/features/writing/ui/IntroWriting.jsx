@@ -1,9 +1,9 @@
+import { ArrowRightIcon } from "@assets/icons";
 import React from "react";
 
 const IntroWriting = () => {
-
   const containerStyle = {
-    border: "0.5px solid rgba(0, 0, 0, 0.3)"
+    border: "0.5px solid rgba(0, 0, 0, 0.3)",
   };
 
   return (
@@ -33,22 +33,19 @@ const IntroWriting = () => {
               </li>
               <li className="pl-2">
                 <span className="font-bold">Part 4: </span>
-                Write an email (50-70 words for part 1, 120-150 words for part 2)
+                Write an email (50-70 words for part 1, 120-150 words for part
+                2)
               </li>
             </ul>
           </div>
           <div className="flex-1 md:max-w-[250px]">
-            <p className="mb-4 text-base">
-              Recommended times:
-            </p>
+            <p className="mb-4 text-base">Recommended times:</p>
             <ul className="list-disc pl-8 space-y-2">
               <li className="pl-2">
-                <span className="font-bold">Part 1: </span>
-                3 minutes
+                <span className="font-bold">Part 1: </span>3 minutes
               </li>
               <li className="pl-2">
-                <span className="font-bold">Part 2: </span>
-                7 minutes
+                <span className="font-bold">Part 2: </span>7 minutes
               </li>
               <li className="pl-2">
                 <span className="font-bold">Part 3: </span>
@@ -86,19 +83,13 @@ const IntroWriting = () => {
 
       {/* Begin Test Button */}
       <div className="flex justify-end mt-4">
-        <button
-          className="bg-[#3758F9] text-white px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none"
-        >
+        <button className="bg-[#3758F9] text-white px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none">
           Begin the Test
-          <img 
-            src="/assets/images/right-arrow.svg" 
-            alt="arrow" 
-            className="h-5 w-5 invert"
-          />
+          <img src={ArrowRightIcon} alt="arrow" className="h-5 w-5 invert" />
         </button>
       </div>
     </>
   );
 };
 
-export default IntroWriting; 
+export default IntroWriting;
