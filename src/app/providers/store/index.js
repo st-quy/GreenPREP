@@ -4,7 +4,7 @@ import timeSlice from "../reducer/timeSlice";
 const store = configureStore({
   reducer: {
     auth: authSlice,
-    countdown: timeSlice
+    countdown: timeSlice,
   },
 });
 
