@@ -22,15 +22,15 @@ const WritingInput = () => {
         onChange={(e) => setCurrentMessage(e.target.value)}
         onKeyPress={handleKeyPress}
         placeholder="Type your answer here"   
-        autoSize={{ minRows: 1, maxRows: 4 }}
-        className="w-full h-[57px] rounded-[6px] resize-none
+        autoSize={{ minRows: 1 }}
+        className="w-full min-h-[57px] rounded-[6px] resize-none p-3
           font-inter text-base font-normal leading-6
           focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500
           transition-all duration-200
           placeholder:font-inter placeholder:text-base placeholder:font-normal placeholder:leading-6"
         style={{
           minHeight: '57px',
-          maxHeight: '57px'
+          height: '57px'
         }}
       />
     </div>

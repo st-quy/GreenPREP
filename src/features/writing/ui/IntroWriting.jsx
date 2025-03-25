@@ -1,9 +1,15 @@
 import { ArrowRightIcon } from "@assets/icons";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const IntroWriting = () => {
+  const navigate = useNavigate();
   const containerStyle = {
     border: "0.5px solid rgba(0, 0, 0, 0.3)",
+  };
+
+  const handleBeginTest = () => {
+    navigate("/session/writing/writingtestpage");
   };
 
   return (
@@ -83,7 +89,10 @@ const IntroWriting = () => {
 
       {/* Begin Test Button */}
       <div className="flex justify-end mt-4">
-        <button className="bg-[#3758F9] text-white px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none">
+        <button 
+          onClick={handleBeginTest}
+          className="bg-[#3758F9] text-white px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none"
+        >
           Begin the Test
           <img src={ArrowRightIcon} alt="arrow" className="h-5 w-5 invert" />
         </button>

@@ -22,6 +22,21 @@ const SpeakingTransitionPage = lazy(
   () => import("@pages/speaking/SpeakingTransitionPage")
 );
 const WritingPage = lazy(() => import("@pages/WritingPage.jsx"));
+const WritingPart1 = lazy(
+  () => import("@features/writing/ui/WritingPart1.jsx")
+);
+const WritingPart2 = lazy(
+  () => import("@features/writing/ui/WritingPart2.jsx")
+);
+const WritingPart3 = lazy(
+  () => import("@features/writing/ui/WritingPart3.jsx")
+);
+const WritingPart4 = lazy(
+  () => import("@features/writing/ui/WritingPart4.jsx")
+);
+const WritingTest = lazy(
+  () => import("@pages/Writing/WritingTest"));
+
 const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
@@ -84,6 +99,26 @@ const PrivateRoute = [
               {
                 index: true,
                 element: <IntroWriting />,
+              },
+              {
+                path: "writingtestpage",
+                element: <WritingTest />,
+              },
+              {
+                path: "part1",
+                element: <WritingPart1 />,
+              },
+              {
+                path: "part2",
+                element: <WritingPart2 />,
+              },  
+              {
+                path: "part3",
+                element: <WritingPart3 />,
+              },
+              {
+                path: "part4",
+                element: <WritingPart4 />,
               },
             ],
           },
