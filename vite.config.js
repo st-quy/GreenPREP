@@ -11,22 +11,7 @@ export default defineConfig({
       "@features": path.resolve("./src/features"),
       "@shared": path.resolve("./src/shared"),
       "@pages": path.resolve("./src/pages"),
-      "@assets": path.resolve("./public/assets"),
-    },
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            return id
-              .toString()
-              .split("node_modules/")[1]
-              .split("/")[0]
-              .toString();
-          }
-        },
-      },
+      "@assets": path.resolve("./src/assets"),
     },
   },
 });
