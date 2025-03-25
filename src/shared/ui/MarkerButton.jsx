@@ -7,20 +7,17 @@ const MarkerButton = ({ onClick = () => {}, marked = false }) => {
       type="default"
       shape="round"
       icon={marked ? (
-        <StarFilled style={{ color: "white" }} />
+        <StarFilled className="text-[#FFFFFF]" />
       ) : (
-        <StarOutlined style={{ color: "#f26f21" }} />
+        <StarOutlined className="text-[#E1580E]" />
       )}
-      onClick={onClick} 
-      style={{
-        borderColor: "#f26f21",
-        color: marked ? "white" : "#f26f21",
-        fontWeight: "bold",
-        backgroundColor: marked ? "#f26f21" : "transparent",
-        minWidth: "110px",
-        textAlign: "center",
-      }}
-    >
+        onClick={onClick}
+        className={`border text-center font-bold min-w-[110px] ${
+          marked
+            ? "border-[#E1580E] text-[#FFFFFF] bg-[#E1580E] text-[#E1580E] hover:!text-[#E1580E] hover:!border-[#E1580E]"
+            : "border-[#E1580E] text-[#E1580E] bg-transparent text-[#E1580E] hover:!text-[#E1580E] hover:!border-[#E1580E]"
+        }`}
+      >
       {marked ? "Marked" : "Mark"}
     </Button>
   );
