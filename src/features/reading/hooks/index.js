@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchReadingQuestions } from "../api";
+import { getReadingQuestions } from "../api";
 
 export const useQuestionsQuery = () => {
   return useQuery({
     queryKey: ["exams"],
-    queryFn: fetchReadingQuestions,
+    queryFn: getReadingQuestions,
     staleTime: 60000, // Cache for 1 minute
   });
 };

@@ -1,37 +1,15 @@
 import React from "react";
 
-export function renderTextWithDropdowns(text, answerContent) {
-  if (!text) return null;
-
-  return text.split("\n").map((line, index) => (
-    <p key={index} className="mb-4">
-      {line.split(/(\d+\.\s\([^)]*\))/g).map((part, i) => {
-        const match = part.match(/\d+\.\s\(([^)]+)\)/);
-        if (match) {
-          const key = (i + 1).toString();
-          const options = answerContent?.options?.find(opt => opt.key === key)?.value || match[1].split("/").map(opt => opt.trim());
-          return (
-            <select
-              key={i}
-              className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mx-2"
-            >
-              <option>Select answer</option>
-              {options.map((opt, idx) => (
-                <option key={idx} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          );
-        }
-        return part;
-      })}
-    </p>
-  ));
-}
-
 const ReadingDropdownList = ({ dataSource }) => {
-  return <div>{renderTextWithDropdowns(dataSource.Content)}</div>;
+  if (dataSource.AnswerContent.options) {
+    return <h1>Dropdown Inline</h1>;
+  }
+
+  return (
+    <div>
+      <h1>Dropdown Part 3</h1>
+    </div>
+  );
 };
 
 export default ReadingDropdownList;
