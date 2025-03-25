@@ -12,6 +12,7 @@ const ListeningTest = lazy(
 );
 const ReadingLayout = lazy(() => import("@features/reading/ui/Layout.jsx"));
 const WelcomeScreen = lazy(() => import("@pages/Welcome/WelcomeScreen.jsx"));
+const WaitingApproval = lazy(() => import("@pages/Welcome/WaitingApproval.jsx"));
 const SessionLayout = lazy(() => import("@pages/SessionLayout"));
 const ListeningLayout = lazy(() => import("@features/listening/ui/Layout"));
 const ListeningIntroduction = lazy(
@@ -40,7 +41,12 @@ const PrivateRoute = [
       {
         path: "",
         element: <WelcomeLayout />,
-        children: [{ index: true, element: <WelcomeScreen /> }],
+        children: [{ index: true, element: <WelcomeScreen /> },
+                    {
+                      path: "waiting-for-approval",
+                      element: <WaitingApproval />,
+                     }
+                    ],
       },
       {
         path: "session",
