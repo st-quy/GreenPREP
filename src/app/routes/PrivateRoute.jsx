@@ -117,15 +117,9 @@ const PrivateRoute = [
             element: <Introduction />,
           },
           {
-<<<<<<< HEAD
             path: "testing",
             element: <TestingMicrophone />,
           },
-=======
-            path: 'testing',
-            element: <TestingMicrophone/>
-          }
->>>>>>> 858a5a2 (feat(GP-88): Implement Microphone Testing Feature)
         ],
       },
       {
