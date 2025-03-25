@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { FaHeadphones, FaPlay, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaHeadphones, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import CountdownTimer from '../../../shared/ui/CountdownTimer';
 import QuestionContent from './QuestionContent';
 import MarkerButton from '../../../shared/ui/MarkerButton';
+import AudioPlayer from './AudioPlayer';
 import { useListeningTest } from '../../auth/hooks/useListeningTest';
 
 /**
@@ -23,14 +24,7 @@ const ListeningTest = () => {
 
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="bg-blue-600 p-3 rounded-lg">
-            <FaHeadphones className="text-white text-3xl" />
-          </div>
-          <h1 className="text-2xl font-bold">Listening Test</h1>
-        </div>
-
+      <div className="container mx-auto py-6 max-w-[1550px]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             {/* Question Content */}
@@ -57,16 +51,10 @@ const ListeningTest = () => {
             {/* Audio Controls in separate card */}
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <p className="text-gray-700 mb-3">Listen audio file here:</p>
-              <div className="flex gap-3">
-                <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-blue-600 hover:bg-gray-50 shadow-sm border border-blue-600">
-                  <FaPlay className="text-sm" />
-                  <span>Play first time</span>
-                </button>
-                <button className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-blue-600 hover:bg-gray-50 shadow-sm border border-blue-600">
-                  <FaPlay className="text-sm" />
-                  <span>Play second time</span>
-                </button>
-              </div>
+              <AudioPlayer 
+                audioUrl={currentQuestionData?.audioUrl} 
+                questionId={currentQuestion - 1} 
+              />
             </div>
 
             {/* Navigation Buttons */}
