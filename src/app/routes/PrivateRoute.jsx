@@ -1,5 +1,7 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
+import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
+import IntroductionPage from "@pages/Welcome/IntroductionPage.jsx";
 
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
@@ -11,7 +13,6 @@ const ListeningTest = lazy(
 const ReadingLayout = lazy(() => import("@features/reading/ui/Layout.jsx"));
 const WelcomeScreen = lazy(() => import("@pages/Welcome/WelcomeScreen.jsx"));
 const WaitingApproval = lazy(() => import("@pages/Welcome/WaitingApproval.jsx"));
-const LayoutWelcome = lazy(() => import("@pages/Layout.jsx"));
 const SessionLayout = lazy(() => import("@pages/SessionLayout"));
 const ListeningLayout = lazy(() => import("@features/listening/ui/Layout"));
 const ListeningIntroduction = lazy(
@@ -26,6 +27,11 @@ const WritingPage = lazy(() => import("@pages/WritingPage.jsx"));
 const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
+const WelcomeLayout = lazy(() => import("@pages/Welcome/WelcomeLayout.jsx"));
+const SpeakingTests = lazy(() => import("@pages/speaking/SpeakingTests.jsx"));
+const SpeakingSubmissionSucces = lazy(
+  () => import("@pages/speaking/SpeakingSubmissionSuccess.jsx")
+);
 
 const PrivateRoute = [
   {
@@ -34,14 +40,13 @@ const PrivateRoute = [
     children: [
       {
         path: "",
-        element: <WelcomeScreen />,
-        children: [
-              
-        ]
-      },
-      {
-        path: "waiting-for-approval",
-        element: <WaitingApproval />,
+        element: <WelcomeLayout />,
+        children: [{ index: true, element: <WelcomeScreen /> },
+                    {
+                      path: "waiting-for-approval",
+                      element: <WaitingApproval />,
+                     }
+                    ],
       },
       {
         path: "session",
@@ -62,6 +67,14 @@ const PrivateRoute = [
             ],
           },
           {
+            path: "rejected",
+            element: <RejectedRequestPage />,
+          },
+          {
+            path: "introduction",
+            element: <IntroductionPage />,
+          },
+          {
             path: "speaking",
             element: <SpeakingLayout />,
             children: [
@@ -72,6 +85,14 @@ const PrivateRoute = [
               {
                 path: "part/:partId/introduction",
                 element: <SpeakingTransitionPage />,
+              },
+              {
+                path: "test/:partId/question/:questionsId",
+                element: <SpeakingTests />,
+              },
+              {
+                path: "submission",
+                element: <SpeakingSubmissionSucces />,
               },
             ],
           },

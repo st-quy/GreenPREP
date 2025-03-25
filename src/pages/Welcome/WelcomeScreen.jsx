@@ -58,34 +58,19 @@ const WelcomeScreen = () => {
             </Button>
           </div>
         )}
-
-        <div className="w-full flex-1 mt-4 flex justify-center md:mt-0 md:px-8 md:justify-end">
-          <img
-            src={WelcomeImage}
-            alt="Welcome Illustration"
-            className="w-[400px] h-[320px] object-contain md:w-[550px] md:h-[470px] lg:w-[650px] lg:h-[550px]"
-          />
-        </div>
-      </div>
-
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg w-[90%] sm:w-[450px] lg:w-[550px] h-auto sm:h-[450px] md:h-[500px] shadow-2xl absolute top-[20%] md:top-40 left-[5%] md:left-[70px] z-60 md:w-[600px] sm:w-[90%] xl:w-[550px]">
-            <h2 className="text-4xl font-semibold text-black mb-4 pt-7">
+        {isModalOpen && (
+          <div className="bg-white p-4 sm:p-6 rounded-lg md:ml-[60px] w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl z-60 sm:w-[90%] md:w-[40%] md:h-[450px] mt-3 sm:mt-3 md:mt-5 xl:w-[550px]">
+            <h2 className="text-3xl sm:text-4xl font-semibold text-black mb-2 sm:mb-4 pt-2 sm:pt-4">
               Ready to Go?
             </h2>
-            <p className="text-xs text-gray-500 mb-4 pt-5 pb-2 break-words">
-              This is your chance to assess your English skills, track your
-              progress, and improve with every attempt.
+            <p className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-4 break-words">
+              This is your chance to assess your English skills, track your progress, and improve with every attempt.
             </p>
             <Form onFinish={handleSubmit} initialValues={{ sessionKey }}>
               <Form.Item
                 name="sessionKey"
                 rules={[
-                  {
-                    required: true,
-                    message: "Please enter the session key!",
-                  },
+                  { required: true, message: "Please enter the session key!" },
                   {
                     validator: async (_, value) => {
                       try {
@@ -108,9 +93,9 @@ const WelcomeScreen = () => {
               </Form.Item>
             </Form>
             {errorMessage && (
-              <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
+              <p className="text-red-500 text-sm mb-2">{errorMessage}</p>
             )}
-            <div className="flex justify-center mt-5">
+            <div className="flex justify-center mt-4">
               <Button
                 onClick={handleSubmit}
                 shape="round"
@@ -122,8 +107,13 @@ const WelcomeScreen = () => {
               </Button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+        <img
+          src={WelcomeImage}
+          alt="Welcome Illustration"
+          className="block md:block w-[400px] h-[320px] object-contain md:w-[550px] md:h-[470px] lg:w-[650px] lg:h-[550px]"
+        />
+      </div>
     </div>
   );
 };
