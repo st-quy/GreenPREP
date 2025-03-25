@@ -6,9 +6,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif !important;
+  font-family: "Inter", sans-serif !important;
+  font-optical-sizing: auto;
 }
 .ant-layout {
   background: #f3f4f6 !important;
 }
-

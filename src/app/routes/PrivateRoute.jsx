@@ -1,21 +1,30 @@
-// import { lazy } from 'react';
-import HomePage from "@pages/HomePage.jsx";
-import IntroReading from "@pages/Reading/IntroductionScreen.jsx";
+import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
-import GrammarPage from '@pages/GrammarPage';
 
-import ListeningTest from "@features/listening/components/ListeningTest";
-
-import SpeakingPage from "@pages/SpeakingPage.jsx";
-import Introduction from "@features/speaking/ui/Introduction.jsx";
-import ReadingLayout from "@features/reading/ui/Layout.jsx";
-import WelcomeScreen from "@pages/Welcome/WelcomeScreen.jsx";
-import Layout from "@pages/Layout.jsx";
-import SessionLayout from "@pages/SessionLayout";
-import ListeningLayout from "@features/listening/ui/Layout";
-import ListeningIntroduction from "@features/listening/ui/Introduction";
-import WritingPage from "@pages/WritingPage.jsx";
-import IntroWriting from "@features/writing/ui/IntroWriting.jsx";
+const IntroReading = lazy(
+  () => import("@pages/Reading/IntroductionScreen.jsx")
+);
+const GrammarPage = lazy(() => import("@pages/GrammarPage"));
+const ListeningTest = lazy(
+  () => import("@features/listening/components/ListeningTest")
+);
+const ReadingLayout = lazy(() => import("@features/reading/ui/Layout.jsx"));
+const WelcomeScreen = lazy(() => import("@pages/Welcome/WelcomeScreen.jsx"));
+const SessionLayout = lazy(() => import("@pages/SessionLayout"));
+const ListeningLayout = lazy(() => import("@features/listening/ui/Layout"));
+const ListeningIntroduction = lazy(
+  () => import("@features/listening/ui/Introduction")
+);
+const SpeakingLayout = lazy(() => import("@pages/speaking/SpeakingLayout"));
+const Introduction = lazy(() => import("@pages/speaking/IntroductionPage"));
+const SpeakingTransitionPage = lazy(
+  () => import("@pages/speaking/SpeakingTransitionPage")
+);
+const WritingPage = lazy(() => import("@pages/WritingPage.jsx"));
+const IntroWriting = lazy(
+  () => import("@features/writing/ui/IntroWriting.jsx")
+);
+const WelcomeLayout = lazy(() => import("@pages/Welcome/WelcomeLayout.jsx"));
 
 const PrivateRoute = [
   {
@@ -23,62 +32,9 @@ const PrivateRoute = [
     element: <ProtectedRoute />,
     children: [
       {
-        path: "homepage",
-        element: <HomePage />,
-      },
-      {
-        path: "session",
-        children: [
-          {
-            path: "listening",
-            children: [
-              {
-                path: "test",
-                element: <ListeningTest />,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: "speaking",
-        element: <SpeakingPage />,
-        children: [
-          {
-            path: "introduction",
-            element: <Introduction />,
-          },
-        ],
-      },
-      {
-        path: "reading",
-        element: <ReadingLayout />,
-        children: [
-          {
-            path: "intro",
-            element: <IntroReading />,
-          },
-        ],
-      },
-      {
-        path: "writing",
-        element: <WritingPage />,
-        children: [
-          {
-            path: "intro",
-            element: <IntroWriting />,
-          },
-        ],
-      },
-      {
-        path: "/",
-        element: <Layout />,
-        children: [
-          {
-            path: "welcome",
-            element: <WelcomeScreen />,
-          },
-        ],
+        path: "",
+        element: <WelcomeLayout />,
+        children: [{ index: true, element: <WelcomeScreen /> }],
       },
       {
         path: "session",
@@ -92,15 +48,23 @@ const PrivateRoute = [
                 index: true,
                 element: <ListeningIntroduction />,
               },
+              {
+                path: "test",
+                element: <ListeningTest />,
+              },
             ],
           },
           {
             path: "speaking",
-            element: <SpeakingPage />,
+            element: <SpeakingLayout />,
             children: [
               {
                 index: true,
                 element: <Introduction />,
+              },
+              {
+                path: "part/:partId/introduction",
+                element: <SpeakingTransitionPage />,
               },
             ],
           },
@@ -114,14 +78,24 @@ const PrivateRoute = [
               },
             ],
           },
+          {
+            path: "writing",
+            element: <WritingPage />,
+            children: [
+              {
+                index: true,
+                element: <IntroWriting />,
+              },
+            ],
+          },
+          {
+            path: "grammar",
+            element: <GrammarPage />,
+          },
         ],
       },
     ],
   },
-  {
-    path: "/grammar",
-    element: <GrammarPage />,
-  }
 ];
 
 export default PrivateRoute;

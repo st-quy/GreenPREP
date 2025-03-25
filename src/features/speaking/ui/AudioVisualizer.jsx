@@ -10,13 +10,13 @@ const AudioVisualizer = ({ isRecording }) => {
 
   useEffect(() => {
     if (!isRecording) return;
-  
+
     const audioContext = new AudioContext();
     const analyser = audioContext.createAnalyser();
     analyser.fftSize = 1024;
     bufferLengthRef.current = analyser.frequencyBinCount;
     dataArrayRef.current = new Uint8Array(bufferLengthRef.current);
-  
+
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
@@ -27,7 +27,7 @@ const AudioVisualizer = ({ isRecording }) => {
         visualize();
       })
       .catch((err) => console.error("Microphone access denied:", err));
-  
+
     return () => {
       if (audioContextRef.current) {
         audioContextRef.current.close();
@@ -36,6 +36,7 @@ const AudioVisualizer = ({ isRecording }) => {
     };
   }, [isRecording]);
   
+
   const visualize = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
