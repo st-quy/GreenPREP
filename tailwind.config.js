@@ -22,6 +22,9 @@ export default {
       lgL: "1600px",
       xl: "1920px",
     },
+    fontFamily: {
+      sans: ["Inter", "sans-serif"],
+    },
     extend: {},
   },
   plugins: [],

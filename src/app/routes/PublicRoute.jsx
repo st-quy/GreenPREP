@@ -4,7 +4,7 @@ const PublicRoute = [
   {
     path: "login",
     element: "login",
-  },
+  }
 ];
 
 export default PublicRoute;
