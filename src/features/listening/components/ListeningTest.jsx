@@ -24,14 +24,7 @@ const ListeningTest = () => {
 
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="bg-blue-600 p-3 rounded-lg">
-            <FaHeadphones className="text-white text-3xl" />
-          </div>
-          <h1 className="text-2xl font-bold">Listening Test</h1>
-        </div>
-
+      <div className="container mx-auto py-6 max-w-[1550px]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             {/* Question Content */}
