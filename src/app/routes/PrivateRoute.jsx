@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
+import ReadingTestTaking from "@pages/Reading/ReadingTestTaking/ReadingTestTaking.jsx";
 
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
@@ -74,6 +75,10 @@ const PrivateRoute = [
               {
                 index: true,
                 element: <IntroReading />,
+              },
+              {
+                path: "reading-test",
+                element: <ReadingTestTaking />,
               },
             ],
           },

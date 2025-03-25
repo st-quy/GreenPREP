@@ -11,7 +11,7 @@ const IntroReading = () => {
 
   const handleBeginTest = () => {
     try {
-      navigate("/reading/reading-test");
+      navigate("../reading/reading-test");
     } catch (error) {
       console.error("Navigation error:", error);
       setIsError(true);

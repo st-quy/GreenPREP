@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import { useQuestionsQuery } from "@features/reading/hooks";
 import AnswerType from "../AnswerTypes/AnswerType";
-import MarkButton from "../MarkButton";
-import RQuestionNavigator from "../ReadingNavigator";
+import PreviousButton from "../Button/PreviousButton";
+import NextButton from "../Button/NextButton";
+import SubmitButton from "../Button/SubmitButton";
+import ReadingMarkButton from "../ReadingMarkButton";
 
 const ReadingParts = () => {
   const { data: exams, isLoading, error } = useQuestionsQuery();
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [markedQuestions, setMarkedQuestions] = useState([]); // Store marked question IDs
+  const [markedQuestions, setMarkedQuestions] = useState([]);
 
   if (isLoading)
     return (
-      <div className="bg-white border-2 border-gray-400 shadow-xl rounded-md lg:w-[70%] lg:h-fit lg:p-8">
+      <div className="w-full rounded-md border-2 border-gray-400 bg-white p-6 shadow-xl md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
         <div className="w-6 h-6 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
   if (error)
     return (
-      <div className="bg-white border-2 border-gray-400 shadow-xl rounded-md lg:w-[950px] lg:h-fit lg:p-8">
+      <div className="w-full rounded-md border-2 border-gray-400 bg-white p-6 shadow-xl md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
         Error
       </div>
     );
   if (!exams || !exams.Parts || exams.Parts.length === 0)
     return (
-      <div className="bg-white border-2 border-gray-400 shadow-xl rounded-md lg:w-[950px] lg:h-fit lg:p-8">
+      <div className="w-full rounded-md border-2 border-gray-400 bg-white p-6 shadow-xl md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
         No exams available.
       </div>
     );
@@ -78,21 +80,12 @@ const ReadingParts = () => {
     alert("Exam Submitted! 🎉"); // Replace this with actual submit logic
   };
 
-  const toggleMark = (questionId) => {
-    setMarkedQuestions(
-      (prev) =>
-        prev.includes(questionId)
-          ? prev.filter((q) => q !== questionId) // Unmark
-          : [...prev, questionId] // Mark
-    );
-  };
-
   return (
-    <div className="question-list">
-      <div className="bg-white border-2 border-gray-400 shadow-xl rounded-md lg:w-[950px] lg:h-fit lg:p-8">
-        <div className="flex justify-between">
-          <h6 className="text-lg font-bold mb-2">{currentPart.Content}</h6>
-          <MarkButton questionId={currentQuestion.ID} />
+    <div className="question-list order-2 md:order-1 lg:order-1">
+      <div className="w-full rounded-[20px] bg-white p-6 shadow-lg border border-black border-opacity-30 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+        <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
+          <h6 className="mb-2 text-lg font-bold">{currentPart.Content}</h6>
+          <ReadingMarkButton questionId={currentQuestion.ID} />
         </div>
         <div className="mb-4">
           <AnswerType question={currentQuestion} />
@@ -100,36 +93,17 @@ const ReadingParts = () => {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-end gap-2 mt-4">
-        <button
-          onClick={handlePrev}
-          disabled={currentPartIndex === 0 && currentQuestionIndex === 0}
-          className="bg-white text-blue-500 p-2 h-[48px] w-[114px] rounded-3xl"
-        >
-          Previous
-        </button>
+      <div className="mt-4 flex justify-end gap-2">
+        <PreviousButton
+          event={handlePrev}
+          isDisabled={currentPartIndex === 0 && currentQuestionIndex === 0}
+        />
         {isLastQuestion ? (
-          <button
-            className="bg-blue-500 text-white p-2 h-[48px] w-[114px] rounded-3xl"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+          <SubmitButton event={handleSubmit} />
         ) : (
-          <button
-            className="bg-blue-500 text-white p-2 h-[48px] w-[114px] rounded-3xl"
-            onClick={handleNext}
-          >
-            Next
-          </button>
+          <NextButton event={handleNext} />
         )}
       </div>
-
-      <RQuestionNavigator
-        totalQuestions={totalQuestions}
-        onNavigate={handleNavigate}
-        markedQuestions={markedQuestions}
-      />
     </div>
   );
 };

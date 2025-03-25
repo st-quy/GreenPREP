@@ -2,9 +2,13 @@ import { useMarkContext } from "../context/markContext";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 
-const MarkButton = ({ questionId }) => {
+const ReadingMarkButton = ({ questionId }) => {
   const { markedQuestions, toggleMark } = useMarkContext();
   const isMarked = markedQuestions.includes(questionId);
+
+  const handleMark = () => {
+    toggleMark(questionId);
+  };
 
   return (
     <Button
@@ -17,7 +21,7 @@ const MarkButton = ({ questionId }) => {
           <StarOutlined style={{ color: "#f26f21" }} />
         )
       }
-      onClick={() => toggleMark(questionId)}
+      onClick={handleMark} // Sử dụng handleMark thay vì lỗi undefined
       style={{
         borderColor: "#f26f21",
         color: isMarked ? "white" : "#f26f21",
@@ -32,4 +36,4 @@ const MarkButton = ({ questionId }) => {
   );
 };
 
-export default MarkButton;
+export default ReadingMarkButton;

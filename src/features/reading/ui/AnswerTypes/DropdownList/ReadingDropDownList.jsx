@@ -29,8 +29,8 @@ export function renderTextWithDropdowns(text) {
   ));
 }
 
-const RDropDownList = ({ dataSource }) => {
+const ReadingDropdownList = ({ dataSource }) => {
   return <div>{renderTextWithDropdowns(dataSource.Content)}</div>;
 };
 
-export default RDropDownList;
+export default ReadingDropdownList;
