@@ -30,7 +30,7 @@ export default function ConfirmTestSubmissionModal({
       <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-10">
         <div className="flex flex-col items-center md:flex-row md:items-start gap-3 mb-4">
           {/* Warning icon */}
-          <WarningOutlined className="text-amber-500 text-3xl" />
+          <WarningOutlined className="text-[#D97706] text-3xl" />
           {/* Heading */}
           <h1 className="text-xl font-medium text-center">{title}</h1>
         </div>
