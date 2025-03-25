@@ -36,6 +36,7 @@ export default function SpeakingTests() {
     setForceCompleted(false);
     setIsRecordingActive(false);
     setQuestionsData({});
+    setPartFourQuestion([]);
 
     setTestDuration(partId == "1" ? 30 : partId == "4" ? 120 : 45);
     setPreparationTime(partId == "4" ? 60 : 5);
