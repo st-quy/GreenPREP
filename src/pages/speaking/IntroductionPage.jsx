@@ -45,7 +45,7 @@ const Introduction = () => {
           type="primary" 
           size="middle" 
           shape="round"
-          className="!text-base bg-[ #3758F9] hover:bg-blue-700 flex items-center"
+          className="!text-base bg-[#3758F9] hover:bg-blue-700 flex items-center"
         >
         Begin The Test <ArrowRightOutlined className="ml-1" />
         </Button>
