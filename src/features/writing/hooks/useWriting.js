@@ -1,27 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
-import { getWritingTopic, getWritingPart } from '../api';
+import { getWritingTopic } from '../api';
 
-
-
-// Get the current part number from the URL
-export const useWritingPart = (partId) => {
+export const useWritingPart = () => {
   const queryResult = useQuery({
-    queryKey: ['writing', `part-${partId}`, 'ef6b69aa-2ec2-4c65-bf48-294fd12e13fc'],
+    queryKey: ['writing', 'ef6b69aa-2ec2-4c65-bf48-294fd12e13fc'],
     queryFn: async () => {
-      const data = await getWritingTopic(); // Fetch the writing topic data
+      const data = await getWritingTopic();
 
-      // Use the helper function from api.js to get the specific part
-      const part = getWritingPart(data, partId);
-
-      if (!part) {
-        throw new Error(`Part ${partId} not found`);
+      if (!data || !data.Parts || data.Parts.length !== 4) {
+        throw new Error('Invalid data structure');
       }
 
-      return {
-        content: part.Content,
-        subContent: part.SubContent,
-        questions: part.Questions,
-      };
+      // Tổ chức data theo từng part
+      const organizedData = data.Parts.reduce((acc, part, index) => {
+        acc[index + 1] = {
+          content: part.Content,
+          subContent: part.SubContent,
+          questions: part.Questions,
+        };
+        return acc;
+      }, {});
+
+      return organizedData;
     },
   });
 
@@ -31,6 +31,5 @@ export const useWritingPart = (partId) => {
     exams,
     isLoading,
     error,
-    currentPath: partId,
   };
 };

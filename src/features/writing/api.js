@@ -14,10 +14,6 @@ export const getWritingTopic = async () => {
   return response.data;
 };
 
-// Helper functions to get specific parts
-export const getWritingPart = (data, partNumber) => {
-  return data.Parts.find(part => part.Content.startsWith(`Part ${partNumber}:`));
-};
 
 
 
