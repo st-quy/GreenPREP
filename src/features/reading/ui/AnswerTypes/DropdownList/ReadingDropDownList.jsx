@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import DropInline from "./DropInline/DropInline";
 import DropdownList from "@shared/ui/DropdownList";
 
 const ReadingDropdownList = ({ dataSource }) => {
+  const [userAnswers, setUserAnswers] = useState({});
+
+  const handleAnswerChange = (idx, value) => {
+    setUserAnswers((prev) => ({
+      ...prev,
+      [idx]: value,
+    }));
+  };
+
   if (dataSource.AnswerContent.options) {
     return <DropInline data={dataSource} />;
   }
-
-  console.log("dataSource:", dataSource);
-  console.log("handleAnswerChange:", dataSource.handleAnswerChange);
 
   return (
     <div className="text-sm md:text-base">
@@ -42,12 +48,8 @@ const ReadingDropdownList = ({ dataSource }) => {
 
           <DropdownList
             options={dataSource.AnswerContent.rightItems || []}
-            selectedValue={dataSource.userAnswers?.[idx] || ""}
-            onChange={(value) =>
-              dataSource.handleAnswerChange
-                ? dataSource.handleAnswerChange(idx, value)
-                : console.error("handleAnswerChange is not defined")
-            }
+            selectedValue={userAnswers[idx] || ""}
+            onChange={(value) => handleAnswerChange(idx, value)}
             selectClassName="min-w-[169px]"
           />
         </div>
