@@ -27,6 +27,7 @@ const ReadingParts = () => {
 
   const handleSubmit = () => {
     setIsModalVisible(true);
+    localStorage.removeItem("countdownTime");
   };
 
   if (isLoading)
