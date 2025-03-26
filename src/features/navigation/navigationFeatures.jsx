@@ -125,7 +125,7 @@ const NavigationFeature = () => {
         {/* Right side - Navigation */}
         <div className="w-72">
           <Card className="rounded-lg">
-            <NavigationControl />
+            <NavigationControl/>
           </Card>
         </div>
       </div>

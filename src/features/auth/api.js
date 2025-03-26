@@ -23,3 +23,12 @@ export const ListeningApi = {
     return axiosInstance.put(`/listening/questions/${questionId}/mark`, { isMarked });
   }
 }; 
+
+export const NavigationApi = {
+  getQuestions: (topicId, questionType = "multiple-choice") => {
+    return axiosInstance.get(`/api/topics/${topicId}`, {
+      params: { questionType }
+    });
+  },
+};
+

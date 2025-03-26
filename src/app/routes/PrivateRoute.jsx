@@ -1,6 +1,5 @@
 import { lazy } from "react";
 import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
-import { element } from "prop-types";
 import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
 
 
