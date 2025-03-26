@@ -4,8 +4,8 @@ import PreviousButton from "../Button/PreviousButton";
 import NextButton from "../Button/NextButton";
 import SubmitButton from "../Button/SubmitButton";
 import ReadingMarkButton from "../ReadingMarkButton/ReadingMarkButton";
-import { useReading } from "@features/reading/hooks/useReading";
 import { formatStringWithNewlines } from "@shared/lib/utils/formatString";
+import { useReadingContext } from "@features/reading/context/ReadingContext";
 
 const ReadingParts = () => {
   const {
@@ -21,7 +21,7 @@ const ReadingParts = () => {
     handleSubmit,
     currentPartIndex,
     currentQuestionIndex,
-  } = useReading();
+  } = useReadingContext();
 
   if (isLoading)
     return (

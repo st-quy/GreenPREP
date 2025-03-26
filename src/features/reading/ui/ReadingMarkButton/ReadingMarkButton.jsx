@@ -1,9 +1,9 @@
-import { useMarkContext } from "@features/reading/context/markContext";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { useReadingContext } from "@features/reading/context/ReadingContext";
 
 const ReadingMarkButton = ({ questionId }) => {
-  const { markedQuestions, toggleMark } = useMarkContext();
+  const { markedQuestions, toggleMark } = useReadingContext();
   const isMarked = markedQuestions.includes(questionId);
 
   const handleMark = () => {
