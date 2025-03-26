@@ -8,7 +8,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import ButtonNextComponent from '@shared/ui/button-next-previous/buttonNext';
 import ButtonPreviousComponent from '@shared/ui/button-next-previous/buttonPrevious';
 
-const WritingParts = () => {
+const WritingParts = ({ onSubmit }) => {
   const { partId } = useParams();
   const navigate = useNavigate();
   const { 
@@ -55,19 +55,21 @@ const WritingParts = () => {
 
   return (
     <div className="flex flex-col">
-      {renderCurrentPart()}
+      <div className="mb-4">
+        {renderCurrentPart()}
+      </div>
       
-      {/* Common Navigation Buttons */}
-      <div className="flex justify-end gap-4 mt-8">
+      {/* Navigation Buttons */}
+      <div className="flex justify-end gap-4 mb-4 ml-auto">
         <ButtonPreviousComponent 
           url={`/session/writing/part/${parseInt(currentPath) - 1}`}
           isFirstQuestion={currentPath === "1"}
           onClick={() => handleNavigation('prev')}
         />
         <ButtonNextComponent 
-          url={`/session/writing/part/${parseInt(currentPath) + 1}`}
+          url={currentPath === "4" ? "#" : `/session/writing/part/${parseInt(currentPath) + 1}`}
           isLastQuestion={currentPath === "4"}
-          onClick={() => handleNavigation('next')}
+          onClick={currentPath === "4" ? onSubmit : () => handleNavigation('next')}
         />
       </div>
     </div>

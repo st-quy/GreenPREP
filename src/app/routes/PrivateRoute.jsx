@@ -25,6 +25,9 @@ const WritingPage = lazy(() => import("@pages/WritingPage.jsx"));
 const WritingPartTaking = lazy(
   () => import("@features/writing/ui/WritingPartTaking.jsx")
 );
+const WritingSuccess = lazy(
+  () => import("@features/writing/ui/WritingSuccess.jsx")
+);
 
 const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
@@ -92,6 +95,10 @@ const PrivateRoute = [
               {
                 path: "part/:partId",
                 element: <WritingPartTaking />,
+              },
+              {
+                path: "success",
+                element: <WritingSuccess />,
               },
             ],
           },

@@ -6,7 +6,6 @@ const WritingPage = () => {
     <div className="w-full h-screen bg-[#F9F9F9]">
         <WritingHeader />
         <Outlet />
-      
     </div>
   );
 };
