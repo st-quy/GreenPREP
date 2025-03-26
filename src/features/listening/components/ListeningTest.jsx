@@ -18,7 +18,6 @@ const ListeningTest = () => {
   const { questions, isLoading, error, handleToggleMark } = useListeningTest();
 
   const handleTimeUp = () => {
-    alert("Time's up! Please submit your test.");
   };
 
   const totalQuestions = questions.length;
