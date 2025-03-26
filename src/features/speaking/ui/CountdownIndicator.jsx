@@ -75,7 +75,7 @@ export const CountdownIndicator = ({
     setIsPreparationPhase(false);
     setPreparationTimeRemaining(preparationTime);
     setIsRecording(false);
-  }, [duration]);
+  }, [duration, preparationTime]);
 
   const startTimer = useCallback(() => {
     resetTimer();
@@ -86,8 +86,13 @@ export const CountdownIndicator = ({
     setIsPreparationPhase(false);
     setIsRunning(true);
     setIsRecording(true);
-    onRecordingStart();
-  }, [onRecordingStart]);
+  }, []);
+
+  useEffect(() => {
+    if (isRecording) {
+      onRecordingStart();
+    }
+  }, [isRecording, onRecordingStart]);
 
   const completeTimer = useCallback(() => {
     setIsRunning(false);

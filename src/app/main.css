@@ -12,3 +12,15 @@
 .ant-layout {
   background: #f3f4f6 !important;
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
