@@ -22,6 +22,7 @@ export default function SpeakingTests() {
   const [forceCompleted, setForceCompleted] = useState(false);
   const [isRecordingActive, setIsRecordingActive] = useState(false);
   const [questionsData, setQuestionsData] = useState({});
+  const [partFourQuest, setPartFourQuestion] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const result = useQuery({
@@ -35,6 +36,7 @@ export default function SpeakingTests() {
     setForceCompleted(false);
     setIsRecordingActive(false);
     setQuestionsData({});
+    setPartFourQuestion([]);
 
     setTestDuration(partId == "1" ? 30 : partId == "4" ? 120 : 45);
     setPreparationTime(partId == "4" ? 60 : 5);
@@ -45,15 +47,24 @@ export default function SpeakingTests() {
       try {
         const parts = result.data.data.Parts;
         if (parts && parts.length > 0) {
-          const part = parts[Number(partId) - 1];
+          let currentPart = `PART ${partId}`;
+          const currentPartIndex = parts.findIndex(
+            (p) => p.Content == currentPart
+          );
+          const part = parts[currentPartIndex];
+          if (currentPartIndex !== -1) {
+            const part = parts[currentPartIndex];
+          } else {
+            const part = parts[Number(partId) - 1];
+          }
           if (part && part.Questions && part.Questions.length > 0) {
-            const question = part.Questions[Number(questionsId) - 1];
-            console.log(question);
-            if (question) {
-              setQuestionsData(question);
-              handleStartTest();
-              setTestStatus("preparing");
+            if (partId == "4") {
+              setPartFourQuestion(part.Questions);
+            } else {
+              setQuestionsData(part.Questions[Number(questionsId) - 1]);
             }
+            handleStartTest();
+            setTestStatus("preparing");
           }
         }
       } catch (error) {
@@ -110,13 +121,7 @@ export default function SpeakingTests() {
           );
           break;
         case "4":
-          if (questionsId == "3") {
-            setIsModalOpen(true);
-            break;
-          }
-          navigate(
-            `/session/speaking/test/4/question/${Number(questionsId) + 1}`
-          );
+          setIsModalOpen(true);
           break;
         default:
           break;
@@ -133,7 +138,11 @@ export default function SpeakingTests() {
   };
 
   useEffect(() => {
-    if (Number(partId) > 4 || Number(questionsId) > 3) {
+    if (
+      Number(partId) > 4 ||
+      Number(questionsId) > 3 ||
+      (Number(partId) == 4 && Number(questionsId) > 1)
+    ) {
       navigate("/session/speaking");
     }
   }, [partId, questionsId, navigate]);
@@ -145,7 +154,9 @@ export default function SpeakingTests() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-8 px-12">
           <div className="text-blue-600 font-medium mb-2 flex">
             Part {partId}{" "}
-            <div className="text-black">&nbsp;- Question {questionsId}</div>
+            {partId != "4" && (
+              <div className="text-black">&nbsp;- Question {questionsId}</div>
+            )}
           </div>
           {questionsData && (
             <div>
@@ -153,11 +164,37 @@ export default function SpeakingTests() {
                 {questionsData?.Content || ""}
               </div>
               {questionsData?.ImageKeys && (
-                <img
-                  src={questionsData?.ImageKeys || ""}
-                  alt="speaking pic"
-                  className="w-1/3 pt-8"
-                />
+                <div className="flex items-center pt-3 flex-col md:flex-row gap-6">
+                  {questionsData?.ImageKeys.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image || ""}
+                      alt="speaking pic"
+                      className="w-1/3"
+                    />
+                  ))}
+                </div>
+              )}
+              {partFourQuest && (
+                <>
+                  <div className="flex items-center pt-3 flex-col md:flex-row gap-6 mb-5">
+                    {partFourQuest[0]?.ImageKeys.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image || ""}
+                        alt="speaking pic"
+                        className="w-1/3"
+                      />
+                    ))}
+                  </div>
+                  <div className="Flex flex-col">
+                    {partFourQuest.map((quest) => (
+                      <p key={quest.ID} className="py-1">
+                        {quest?.Content || ""}
+                      </p>
+                    ))}
+                  </div>
+                </>
               )}
               {questionsData?.SubContent && (
                 <div className="text-gray-800 pt-8">
