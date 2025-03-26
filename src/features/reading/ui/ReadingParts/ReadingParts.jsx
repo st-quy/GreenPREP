@@ -6,6 +6,7 @@ import SubmitButton from "../Button/SubmitButton";
 import ReadingMarkButton from "../ReadingMarkButton/ReadingMarkButton";
 import { formatStringWithNewlines } from "@shared/lib/utils/formatString";
 import { useReadingContext } from "@features/reading/context/ReadingContext";
+import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 
 const ReadingParts = () => {
   const {
@@ -18,10 +19,15 @@ const ReadingParts = () => {
     isLastQuestion,
     handleNext,
     handlePrev,
-    handleSubmit,
     currentPartIndex,
     currentQuestionIndex,
   } = useReadingContext();
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleSubmit = () => {
+    setIsModalVisible(true);
+  };
 
   if (isLoading)
     return (
@@ -75,7 +81,6 @@ const ReadingParts = () => {
           </div>
         </div>
       )}
-
       <div className="mt-4 flex justify-end gap-2">
         <PreviousButton
           event={handlePrev}
@@ -87,6 +92,14 @@ const ReadingParts = () => {
           <NextButton event={handleNext} />
         )}
       </div>
+      <ConfirmTestSubmissionModal
+        visible={isModalVisible}
+        onSubmit={() => {
+          handleSubmit();
+          setIsModalVisible(false);
+        }}
+        onCancel={() => setIsModalVisible(false)}
+      />
     </div>
   );
 };
