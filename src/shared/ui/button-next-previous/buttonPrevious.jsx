@@ -1,18 +1,10 @@
-import React from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-
-const ButtonPreviousComponent = ({ url, isFirstQuestion = false, onClick }) => {
+const ButtonPreviousComponent = ({ url, isFirstQuestion = false }) => {
   const navigate = useNavigate();
 
-  
   const handleClick = () => {
-    if (onClick) {
-      onClick();
-      return;
-    }
-
     if (!isFirstQuestion && url) {
       navigate(url);
     }
@@ -21,11 +13,11 @@ const ButtonPreviousComponent = ({ url, isFirstQuestion = false, onClick }) => {
   return (
     <button
       onClick={handleClick}
-      disabled={isFirstQuestion} 
+      disabled={isFirstQuestion}
       className={`w-[142px] h-[48px] rounded-[50px] px-6 py-3 gap-[10px] bg-white text-[#3758F9] flex items-center justify-center border-none cursor-pointer shadow-[0_1px_3px_#A6AFC366] transition-all duration-300 ease-in-out ${
         isFirstQuestion
-          ? 'opacity-50 cursor-not-allowed' 
-          : 'hover:bg-[#3758F9] hover:text-white' 
+          ? "opacity-50 cursor-not-allowed"
+          : "hover:bg-[#3758F9] hover:text-white"
       }`}
     >
       <FaArrowLeft className="w-[20px] h-[20px]" />
