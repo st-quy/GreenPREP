@@ -8,6 +8,13 @@ const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
 );
 const GrammarPage = lazy(() => import("@pages/GrammarPage"));
+const GrammarVocabTest = lazy(
+  () => import("@pages/GrammarVocab/GrammarVocabTest.jsx")
+);
+const GVSubmissionSuccess = lazy(
+  () => import("@pages/GrammarVocab/GVSubmissionSuccess.jsx")
+);
+
 const ListeningTest = lazy(
   () => import("@features/listening/components/ListeningTest")
 );
@@ -22,7 +29,7 @@ const ListeningIntroduction = lazy(
   () => import("@features/listening/ui/Introduction")
 );
 const ListeningSubmissionSuccess = lazy(
-  () => import("@pages/listening/ListeningSubmissionSuccess.jsx")
+  () => import("@pages/Listening/ListeningSubmissionSuccess.jsx")
 );
 const SpeakingLayout = lazy(() => import("@pages/speaking/SpeakingLayout"));
 const Introduction = lazy(() => import("@pages/speaking/IntroductionPage"));
@@ -107,7 +114,6 @@ const PrivateRoute = [
                 index: true,
                 element: <Introduction />,
               },
-
               {
                 path: "part/:partId/introduction",
                 element: <SpeakingTransitionPage />,
@@ -153,6 +159,14 @@ const PrivateRoute = [
               {
                 index: true,
                 element: <GrammarPage />,
+              },
+              {
+                path: "test",
+                element: <GrammarVocabTest />,
+              },
+              {
+                path: "submission",
+                element: <GVSubmissionSuccess />,
               },
             ],
           },

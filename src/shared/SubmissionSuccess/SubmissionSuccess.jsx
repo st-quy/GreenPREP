@@ -34,7 +34,7 @@ const SubmissionSuccess = ({
   };
 
   return (
-    <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-lg w-full max-w-7xl flex items-center justify-center mx-auto">
+    <div className="bg-white p-8 rounded-lg shadow-lg w-full flex items-center justify-center">
       <div className="flex flex-col items-center w-full max-w-xl">
         <div className="w-full flex flex-col items-center px-4 sm:px-0 py-8 sm:py-12">
           <div className="relative flex items-center justify-center h-[100px] sm:h-[120px] md:h-[136px]">

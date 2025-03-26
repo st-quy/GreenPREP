@@ -171,7 +171,7 @@ export default function SpeakingTests() {
                       key={index}
                       src={image || ""}
                       alt="speaking pic"
-                      className="w-1/3"
+                      className="w-11/12 md:w-1/3"
                     />
                   ))}
                 </div>
@@ -184,7 +184,7 @@ export default function SpeakingTests() {
                         key={index}
                         src={image || ""}
                         alt="speaking pic"
-                        className="w-1/3"
+                        className="w-11/12 md:w-1/3"
                       />
                     ))}
                   </div>

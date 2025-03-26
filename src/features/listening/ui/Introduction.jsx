@@ -65,26 +65,6 @@ const Introduction = () => {
           Begin the Test -&gt;
         </Button>
       </div>
-
-      {/* Error Modal for Navigation Failure */}
-      <Modal
-        title="Navigation Error"
-        open={isError}
-        onCancel={() => setIsError(false)}
-        footer={[
-          <Button key="back" onClick={() => setIsError(false)}>
-            Go Back
-          </Button>,
-          <Button key="retry" type="primary" onClick={handleBeginTest}>
-            Retry
-          </Button>,
-        ]}
-        className="max-w-[90vw] sm:max-w-md"
-      >
-        <p className="text-sm sm:text-base">
-          Failed to start the test. Please check your connection and try again.
-        </p>
-      </Modal>
     </div>
   );
 };

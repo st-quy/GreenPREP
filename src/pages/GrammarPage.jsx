@@ -1,19 +1,12 @@
 import { ArrowRightIcon } from "@assets/icons";
-import { GrammarIcon } from "@assets/images";
 import React from "react";
 import { Card } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const GrammarPage = () => {
+  const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="flex items-center gap-4 my-10">
-        <div className="w-14 h-14 bg-[#3758F9] rounded-xl flex items-center justify-center">
-          <img src={GrammarIcon} alt="Grammar icon" className="w-14 h-14" />
-        </div>
-        <h1 className="text-[40px] font-bold">Grammar & Vocabulary Test</h1>
-      </div>
-
+    <div className="bg-gray-50">
       <div className="space-y-4">
         {/* Test Structure */}
         <Card className="bg-white rounded-2xl px-10 py-6">
@@ -58,7 +51,10 @@ const GrammarPage = () => {
 
         {/* Begin Test Button */}
         <div className="flex justify-end mt-4">
-          <button className="bg-[#3758F9] text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-[16px] hover:bg-[#3758F9]/90 transition-all duration-200 border-none outline-none">
+          <button
+            className="bg-[#3758F9] text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-[16px] hover:bg-[#3758F9]/90 transition-all duration-200 border-none outline-none"
+            onClick={() => navigate("test")}
+          >
             Begin the Test
             <img src={ArrowRightIcon} alt="Arrow right" className="h-4 w-4" />
           </button>
