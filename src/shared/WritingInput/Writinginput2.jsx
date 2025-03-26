@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Input } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateWritingInput } from '@features/writing/writingredux/actions/writingActions';
 
 const { TextArea } = Input;
 
@@ -19,30 +21,37 @@ const { TextArea } = Input;
 * - height: height of the input box (default: "188px")
  */
 
-const WritingInput2 = ({ maxWords = 50, partNumber, height = '188px', subPart }) => {
-  const [currentMessage, setCurrentMessage] = useState('');
-  const [wordCount, setWordCount] = useState(0);
+const WritingInput2 = ({ maxWords = 50, partNumber, height = '188px', subPart = 1 }) => {
+  const dispatch = useDispatch();
+  
+  // Get value from Redux store with safe fallback
+  const value = useSelector((state) => {
+    // @ts-ignore
+    const inputs = state?.writing?.inputs;
+    if (!inputs) return '';
+    const questionId = `part${partNumber}_${subPart}`;
+    return inputs[partNumber]?.[questionId] || '';
+  });
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      if (currentMessage.trim()) {
-        setCurrentMessage('');
-      }
     }
   };
 
   const handleChange = (e) => {
-    const value = e.target.value;
-    setCurrentMessage(value);
-    const words = value.trim().split(/\s+/).filter(word => word.length > 0);
-    setWordCount(words.length);
+    const newValue = e.target.value;
+    const questionId = `part${partNumber}_${subPart}`;
+    dispatch(updateWritingInput(partNumber, questionId, newValue));
   };
+
+  // Calculate word count from value
+  const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
 
   return (
     <div className="w-full max-w-[795px]">
       <TextArea
-        value={currentMessage}
+        value={value}
         onChange={handleChange}
         onKeyPress={handleKeyPress}
         placeholder="Type your answer here"

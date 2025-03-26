@@ -18,7 +18,7 @@ const WritingPart2 = ({ content, subContent, questions, partId }) => {
           
           {/* Questions */}
           <div className="space-y-4 mt-6">
-            {questions.map((question) => (
+            {questions.map((question, index) => (
               <div key={question.ID} className="flex flex-col gap-2">
                 <div className="p-4 rounded-lg">
                   <p className="font-medium">{question.Content}</p>
@@ -27,7 +27,11 @@ const WritingPart2 = ({ content, subContent, questions, partId }) => {
                   )}
                 </div>
                 <div className="px-4">
-                  <WritingInput2 partNumber={2} maxWords={50} subPart={1} />
+                  <WritingInput2 
+                    partNumber={partId} 
+                    maxWords={50} 
+                    subPart={index + 1} 
+                  />
                 </div>
               </div>
             ))}

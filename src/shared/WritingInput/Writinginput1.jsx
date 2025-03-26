@@ -1,25 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Input } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateWritingInput } from '@features/writing/writingredux/actions/writingActions';
 
 const { TextArea } = Input;
 
-const WritingInput = () => {
-  const [currentMessage, setCurrentMessage] = useState('');
+const WritingInput = ({ partId, questionId }) => {
+  const dispatch = useDispatch();
+  
+  // Get value from Redux store with safe fallback
+  const value = useSelector((state) => {
+    // @ts-ignore
+    if (!state || !state.writing || !state.writing.inputs) return '';
+    // @ts-ignore
+    return state.writing.inputs[partId]?.[questionId] || '';
+  });
+
+  const handleChange = (e) => {
+    dispatch(updateWritingInput(partId, questionId, e.target.value));
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      if (currentMessage.trim()) {
-        setCurrentMessage('');
-      }
     }
   };  
 
   return (
     <div className="w-full max-w-[795px]">
       <TextArea
-        value={currentMessage}
-        onChange={(e) => setCurrentMessage(e.target.value)}
+        value={value}
+        onChange={handleChange}
         onKeyPress={handleKeyPress}
         placeholder="Type your answer here"   
         autoSize={{ minRows: 1 }}

@@ -28,7 +28,7 @@ const WritingPart4 = ({ content, subContent, questions, partId }) => {
                 </div>
                 <div className="px-4">
                   <WritingInput2 
-                    partNumber={4} 
+                    partNumber={partId} 
                     subPart={index + 1} 
                     maxWords={index === 0 ? 50 : 150} 
                   />

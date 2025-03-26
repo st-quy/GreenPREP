@@ -27,7 +27,7 @@ const WritingPart1 = ({ content, subContent, questions, partId }) => {
                   )}
                 </div>
                 <div className="px-4">
-                  <WritingInput />
+                  <WritingInput partId={partId} questionId={question.ID} />
                 </div>
               </div>
             ))}
