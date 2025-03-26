@@ -6,6 +6,7 @@ import SubmitButton from "../Button/SubmitButton";
 import ReadingMarkButton from "../ReadingMarkButton/ReadingMarkButton";
 import { formatStringWithNewlines } from "@shared/lib/utils/formatString";
 import { useReadingContext } from "@features/reading/context/ReadingContext";
+import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 
 const ReadingParts = () => {
   const {
@@ -18,28 +19,33 @@ const ReadingParts = () => {
     isLastQuestion,
     handleNext,
     handlePrev,
-    handleSubmit,
     currentPartIndex,
     currentQuestionIndex,
   } = useReadingContext();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleSubmit = () => {
+    setIsModalVisible(true);
+  };
+
   if (isLoading)
     return (
-      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6  md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+      <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
         <div className="w-6 h-6 shadow-sm border border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
 
   if (error)
     return (
-      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+      <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
         Error
       </div>
     );
 
   if (!exams || !exams.Parts || exams.Parts.length === 0)
     return (
-      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+      <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
         No exams available.
       </div>
     );
@@ -75,7 +81,6 @@ const ReadingParts = () => {
           </div>
         </div>
       )}
-
       <div className="mt-4 flex justify-end gap-2">
         <PreviousButton
           event={handlePrev}
@@ -87,6 +92,14 @@ const ReadingParts = () => {
           <NextButton event={handleNext} />
         )}
       </div>
+      <ConfirmTestSubmissionModal
+        visible={isModalVisible}
+        onSubmit={() => {
+          handleSubmit();
+          setIsModalVisible(false);
+        }}
+        onCancel={() => setIsModalVisible(false)}
+      />
     </div>
   );
 };
