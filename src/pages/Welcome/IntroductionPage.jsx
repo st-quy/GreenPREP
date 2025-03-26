@@ -19,7 +19,7 @@ const IntroductionPage = () => {
               Test Structure & FLow
             </Text>
             <Text className="text-2xl md:text-3xl lg:text-[40px]/[48px] font-bold">
-              Welcome to Englist Mock Test Journey
+              Welcome to English Mock Test Journey
             </Text>
           </Flex>
           <Text className="text-sm lg:text-lg/[26px] font-semibold">
@@ -35,7 +35,7 @@ const IntroductionPage = () => {
                   align="center"
                   className="w-full max-w-10 h-10 md:max-w-10 md:h-10 lg:max-w-14 lg:h-14 rounded-full text-lg md:text-xl lg:text-[28px]/[16px] font-medium border border-solid border-[#3758F9FF] text-[#3758F9FF]  hover:bg-[#3758F9FF] hover:text-white "
                 >
-                  0{index + 1}
+                  {index + 1}
                 </Flex>
                 <Flex vertical justify="space-between">
                   <Text className="text-lg md:text-xl lg:text-2xl font-bold">

@@ -151,7 +151,7 @@ export default function SpeakingTests() {
   return (
     <>
       <div className="w-full space-y-4" key={componentKey}>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-8 px-12">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12">
           <div className="text-blue-600 font-medium mb-2 flex">
             Part {partId}{" "}
             {partId != "4" && (
@@ -160,37 +160,36 @@ export default function SpeakingTests() {
           </div>
           {questionsData && (
             <div>
-              <div className="text-gray-800">
+              <div className="text-gray-800 text-sm md:text-base">
                 {questionsData?.Content || ""}
               </div>
-              {console.log(questionsData, "questionsData")}
-              {questionsData?.ImageKeys && (
-                <div className="flex items-center pt-3 flex-col md:flex-row gap-6">
-                  {questionsData?.ImageKeys.map((image, index) => (
+              {questionsData?.ImageKeys?.length > 0 ? (
+                <div className="flex items-center pt-3 flex-col md:flex-row gap-4 md:gap-6">
+                  {questionsData?.ImageKeys?.map((image, index) => (
                     <img
                       key={index}
                       src={image || ""}
                       alt="speaking pic"
-                      className="w-1/3"
+                      className="w-full md:w-1/4"
                     />
                   ))}
                 </div>
-              )}
+              ) : null}
               {partFourQuest && (
                 <>
-                  <div className="flex items-center pt-3 flex-col md:flex-row gap-6 mb-5">
+                  <div className="flex items-center pt-3 flex-col md:flex-row gap-4 md:gap-6 mb-3 md:mb-5">
                     {partFourQuest[0]?.ImageKeys.map((image, index) => (
                       <img
                         key={index}
                         src={image || ""}
                         alt="speaking pic"
-                        className="w-1/3"
+                        className="w-full md:w-1/3"
                       />
                     ))}
                   </div>
-                  <div className="Flex flex-col">
+                  <div className="flex flex-col">
                     {partFourQuest.map((quest) => (
-                      <p key={quest.ID} className="py-1">
+                      <p key={quest.ID} className="py-1 text-sm md:text-base">
                         {quest?.Content || ""}
                       </p>
                     ))}
@@ -198,7 +197,7 @@ export default function SpeakingTests() {
                 </>
               )}
               {questionsData?.SubContent && (
-                <div className="text-gray-800 pt-8">
+                <div className="text-gray-800 pt-4 md:pt-8 text-sm md:text-base">
                   {questionsData?.SubContent || ""}
                 </div>
               )}
@@ -207,7 +206,7 @@ export default function SpeakingTests() {
         </div>
 
         {!result.isPending && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-8 px-12 flex flex-col gap-6 md:flex-row justify-between items-center">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12 flex flex-col gap-4 md:flex-row justify-between items-center">
             <CountdownIndicator
               duration={testDuration}
               preparationTime={preparationTime}
@@ -221,24 +220,21 @@ export default function SpeakingTests() {
           </div>
         )}
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-8 px-12">
-          <p className="font-semibold text-sm">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12 flex flex-col md:flex-row justify-between gap-4 md:gap-0">
+          <p className="font-semibold text-xs md:text-sm">
             Click the 'Finish Recording' button to stop recording.
           </p>
-        </div>
-
-        {(testStatus === "recording" || testStatus === "completed") && (
-          <div className="flex justify-end">
+          {(testStatus === "recording" || testStatus === "completed") && (
             <Button
               type="primary"
-              className="bg-blue-700 hover:bg-blue-600 rounded-2xl py-4"
+              className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
               onClick={handleFinish}
             >
               Finish Recording{" "}
               <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
             </Button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <ConfirmTestSubmissionModal
         visible={isModalOpen}

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const MultipleMatchingQuestion = ({ question, answer, onAnswerChange }) => {
   const [answers, setAnswers] = useState(
     Object.fromEntries(
-      Array.from({ length: question.statements.length }, (_, i) => [i + 1, ''])
+      Array.from({ length: question.statements.length }, (_, i) => [i + 1, ""])
     )
   );
 
   const handleAnswerChange = (statementIndex, value) => {
     const newAnswers = {
       ...answers,
-      [statementIndex + 1]: value
+      [statementIndex + 1]: value,
     };
     setAnswers(newAnswers);
     onAnswerChange?.(newAnswers);
@@ -19,9 +19,7 @@ const MultipleMatchingQuestion = ({ question, answer, onAnswerChange }) => {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <p className="text-gray-800">
-          {question.description}
-        </p>
+        <p className="text-gray-800">{question.description}</p>
         <p className="font-medium text-gray-800">{question.title}</p>
 
         <div className="space-y-4">
@@ -51,4 +49,4 @@ const MultipleMatchingQuestion = ({ question, answer, onAnswerChange }) => {
   );
 };
 
-export default MultipleMatchingQuestion; 
+export default MultipleMatchingQuestion;
