@@ -9,15 +9,16 @@ export default [
   {
     files: ["**/*.{js,jsx}"],
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: "latest",
       globals: globals.browser,
       parserOptions: {
-        ecmaVersion: "latest",
         ecmaFeatures: { jsx: true },
         sourceType: "module",
+        parser: "@babel/eslint-parser", // Thêm parser
+        requireConfigFile: false, // Không cần file cấu hình Babel riêng
       },
     },
-    settings: { react: { version: "18.3" } },
+    settings: { react: { version: "detect" } }, // Để ESLint tự xác định version React
     plugins: {
       react,
       "react-hooks": reactHooks,
@@ -34,6 +35,10 @@ export default [
       ],
       "react/prop-types": 0,
     },
-    extends: ["plugin:react/recommended"],
+    extends: [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+    ],
   },
 ];

@@ -8,16 +8,28 @@ const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
 );
 const GrammarPage = lazy(() => import("@pages/GrammarPage"));
+const GrammarVocabTest = lazy(
+  () => import("@pages/GrammarVocab/GrammarVocabTest.jsx")
+);
+const GVSubmissionSuccess = lazy(
+  () => import("@pages/GrammarVocab/GVSubmissionSuccess.jsx")
+);
+
 const ListeningTest = lazy(
   () => import("@features/listening/components/ListeningTest")
 );
 const ReadingLayout = lazy(() => import("@features/reading/ui/Layout.jsx"));
 const WelcomeScreen = lazy(() => import("@pages/Welcome/WelcomeScreen.jsx"));
-const WaitingApproval = lazy(() => import("@pages/Welcome/WaitingApproval.jsx"));
+const WaitingApproval = lazy(
+  () => import("@pages/Welcome/WaitingApproval.jsx")
+);
 const SessionLayout = lazy(() => import("@pages/SessionLayout"));
 const ListeningLayout = lazy(() => import("@features/listening/ui/Layout"));
 const ListeningIntroduction = lazy(
   () => import("@features/listening/ui/Introduction")
+);
+const ListeningSubmissionSuccess = lazy(
+  () => import("@pages/Listening/ListeningSubmissionSuccess.jsx")
 );
 const SpeakingLayout = lazy(() => import("@pages/speaking/SpeakingLayout"));
 const Introduction = lazy(() => import("@pages/speaking/IntroductionPage"));
@@ -35,6 +47,7 @@ const SpeakingSubmissionSucces = lazy(
 );
 import Layout from "@pages/Layout.jsx";
 import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
+import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
 
 const PrivateRoute = [
   {
@@ -44,12 +57,27 @@ const PrivateRoute = [
       {
         path: "",
         element: <WelcomeLayout />,
-        children: [{ index: true, element: <WelcomeScreen /> },
-                    {
-                      path: "waiting-for-approval",
-                      element: <WaitingApproval />,
-                     }
-                    ],
+        children: [
+          { index: true, element: <WelcomeScreen /> },
+          {
+            path: "waiting-for-approval",
+            element: <WaitingApproval />,
+          },
+          {
+            path: "introduction",
+            element: <IntroductionPage />,
+          },
+        ],
+      },
+      {
+        path: "pre-condition",
+        element: <PreConditionLayout />,
+        children: [
+          {
+            path: "",
+            element: <TestingMicrophone />,
+          },
+        ],
       },
       {
         path: "session",
@@ -67,16 +95,17 @@ const PrivateRoute = [
                 path: "test",
                 element: <ListeningTest />,
               },
+              {
+                path: "submission",
+                element: <ListeningSubmissionSuccess />,
+              },
             ],
           },
           {
             path: "rejected",
             element: <RejectedRequestPage />,
           },
-          {
-            path: "introduction",
-            element: <IntroductionPage />,
-          },
+
           {
             path: "speaking",
             element: <SpeakingLayout />,
@@ -124,32 +153,22 @@ const PrivateRoute = [
             ],
           },
           {
-            path: "introduction",
-            element: <Introduction />,
-          },
-          {
-            path: "testing",
-            element: <TestingMicrophone />,
-          },
-        ],
-      },
-      {
-        path: "reading",
-        element: <ReadingLayout />,
-        children: [
-          {
-            path: "intro",
-            element: <IntroReading />,
-          },
-        ],
-      },
-      {
-        path: "/",
-        element: <Layout />,
-        children: [
-          {
             path: "grammar",
-            element: <GrammarPage />,
+            element: <Layout />,
+            children: [
+              {
+                index: true,
+                element: <GrammarPage />,
+              },
+              {
+                path: "test",
+                element: <GrammarVocabTest />,
+              },
+              {
+                path: "submission",
+                element: <GVSubmissionSuccess />,
+              },
+            ],
           },
         ],
       },

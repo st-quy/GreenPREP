@@ -163,6 +163,7 @@ export default function SpeakingTests() {
               <div className="text-gray-800">
                 {questionsData?.Content || ""}
               </div>
+              {console.log(questionsData, "questionsData")}
               {questionsData?.ImageKeys && (
                 <div className="flex items-center pt-3 flex-col md:flex-row gap-6">
                   {questionsData?.ImageKeys.map((image, index) => (

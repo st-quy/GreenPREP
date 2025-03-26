@@ -1,12 +1,12 @@
 import SubmissionSuccess from "@shared/SubmissionSuccess/SubmissionSuccess";
 import { useNavigate } from "react-router-dom";
 
-const SpeakingSubmissionSucces = () => {
+const ListeningSubmissionSuccess = () => {
   const navigate = useNavigate();
   const handleNextTest = () => {
-    navigate("/session/listening");
+    navigate("/session/grammar");
   };
-  return <SubmissionSuccess testType="speaking" onNextTest={handleNextTest} />;
+  return <SubmissionSuccess testType="Listening" onNextTest={handleNextTest} />;
 };
 
-export default SpeakingSubmissionSucces;
+export default ListeningSubmissionSuccess;
