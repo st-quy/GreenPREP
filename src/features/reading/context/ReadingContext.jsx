@@ -1,24 +1,25 @@
-// QuestionContext.js
+// Import necessary dependencies
 import React, { createContext, useState, useContext } from "react";
 import { useQuestionsQuery } from "../hooks";
 
+// Create a context for managing reading questions
 const ReadingContext = createContext(null);
 
 export const ReadingProvider = ({ children }) => {
-  // Fetch exam data
+  // Fetch exam data using custom hook
   const { data: exams, isLoading, error } = useQuestionsQuery();
 
-  // State management
+  // State management for current part, question, and marked questions
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [markedQuestions, setMarkedQuestions] = useState([]);
 
   // Early return if data is unavailable
   if (isLoading || error || !exams?.Parts?.length) {
-    return <div>Loading...</div>; // Hoặc có thể return null
+    return <div>Loading...</div>; // Alternatively, return null
   }
 
-  // Extract current part and question
+  // Extract the current part and question
   const currentPart = exams.Parts[currentPartIndex] || { Questions: [] };
   const currentQuestion = currentPart.Questions[currentQuestionIndex] || {};
 
@@ -33,33 +34,31 @@ export const ReadingProvider = ({ children }) => {
     currentPartIndex === exams.Parts.length - 1 &&
     currentQuestionIndex === currentPart.Questions.length - 1;
 
-  // Event Handlers
+  // Function to toggle mark on a question
   const toggleMark = (questionId) => {
     setMarkedQuestions((prev) => {
-      const newMarks = new Set(prev);
-      newMarks.has(questionId)
-        ? newMarks.delete(questionId)
-        : newMarks.add(questionId);
-      return Array.from(newMarks);
+      if (prev.includes(questionId)) {
+        return prev.filter((id) => id !== questionId);
+      } else {
+        return [...prev, questionId];
+      }
     });
   };
 
+  // Function to navigate to a specific question by index
   const handleNavigate = (index) => {
     let questionCount = 0;
-    const partIndex = exams.Parts.findIndex((part) => {
-      if (index < questionCount + part.Questions.length) return true;
-      questionCount += part.Questions.length;
-      return false;
-    });
-
-    if (partIndex !== -1) {
-      setCurrentPartIndex(partIndex);
-      setCurrentQuestionIndex(
-        index - (questionCount - exams.Parts[partIndex].Questions.length)
-      );
+    for (let i = 0; i < exams.Parts.length; i++) {
+      if (index < questionCount + exams.Parts[i].Questions.length) {
+        setCurrentPartIndex(i);
+        setCurrentQuestionIndex(index - questionCount);
+        return;
+      }
+      questionCount += exams.Parts[i].Questions.length;
     }
   };
 
+  // Function to navigate to the next question
   const handleNext = () => {
     if (!isLastQuestion) {
       if (currentQuestionIndex < currentPart.Questions.length - 1) {
@@ -71,6 +70,7 @@ export const ReadingProvider = ({ children }) => {
     }
   };
 
+  // Function to navigate to the previous question
   const handlePrev = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1);
@@ -82,6 +82,7 @@ export const ReadingProvider = ({ children }) => {
     }
   };
 
+  // Function to handle exam submission
   const handleSubmit = () => {
     console.log("Submitting Exam:", { exams, markedQuestions });
     alert("Exam Submitted! 🎉");
@@ -113,6 +114,7 @@ export const ReadingProvider = ({ children }) => {
   );
 };
 
+// Custom hook to use the ReadingContext
 export const useReadingContext = () => {
   return useContext(ReadingContext);
 };
