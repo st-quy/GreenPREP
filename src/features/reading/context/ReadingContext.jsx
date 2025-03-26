@@ -1,5 +1,5 @@
 // Import necessary dependencies
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useRef } from "react";
 import { useQuestionsQuery } from "../hooks";
 
 // Create a context for managing reading questions
@@ -13,7 +13,7 @@ export const ReadingProvider = ({ children }) => {
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [markedQuestions, setMarkedQuestions] = useState([]);
-
+  const userAnswers = useRef([]);
   // Early return if data is unavailable
   if (isLoading || error || !exams?.Parts?.length) {
     return (
@@ -85,6 +85,53 @@ export const ReadingProvider = ({ children }) => {
       );
     }
   };
+  const getAnswerData = () => {
+    const currentIndex = userAnswers.current.findIndex(
+      (ans) => ans.id === currentQuestion.ID
+    );
+    if (currentIndex !== -1) {
+      return userAnswers.current[currentIndex].answer;
+    }
+    return null;
+  };
+  const updateAllCurrentQuestionAnswer = (answerData) => {
+    const currentIndex = userAnswers.current.findIndex(
+      (ans) => ans.id === currentQuestion.ID
+    );
+
+    if (currentIndex !== -1) {
+      userAnswers.current[currentIndex].answer = answerData;
+    } else {
+      userAnswers.current.push({
+        id: currentQuestion.ID,
+        answer: answerData,
+      });
+    }
+    console.log(JSON.stringify(userAnswers.current));
+  };
+  const updateAnswer = (key, value) => {
+    const currentIndex = userAnswers.current.findIndex(
+      (ans) => ans.id === currentQuestion.ID
+    );
+
+    if (currentIndex !== -1) {
+      let answers = userAnswers.current[currentIndex].answer;
+      const existingAnswerIndex = answers.findIndex((ans) => ans.key === key);
+
+      if (existingAnswerIndex !== -1) {
+        answers[existingAnswerIndex].value = value;
+      } else {
+        answers.push({ key, value });
+      }
+    } else {
+      userAnswers.current.push({
+        id: currentQuestion.ID,
+        answer: [{ key, value }],
+      });
+    }
+
+    console.log(JSON.stringify(userAnswers.current));
+  };
 
   return (
     <ReadingContext.Provider
@@ -98,6 +145,9 @@ export const ReadingProvider = ({ children }) => {
         isLastQuestion,
         totalQuestions,
         markedQuestions,
+        updateAnswer,
+        updateAllCurrentQuestionAnswer,
+        getAnswerData,
         toggleMark,
         handleNavigate,
         handleNext,
