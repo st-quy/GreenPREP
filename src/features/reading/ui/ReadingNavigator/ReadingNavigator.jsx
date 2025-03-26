@@ -18,7 +18,7 @@ const ReadingQuestionNavigator = () => {
     exams.Parts[currentPartIndex].Questions[currentQuestionIndex];
 
   return (
-    <div className="mt-4 rounded-md border bg-white p-2">
+    <div className="mt-4 rounded-md border bg-white ">
       <div className="flex flex-wrap gap-2">
         {allQuestions.map((question, index) => {
           const isMarked = markedQuestions.includes(question.ID);
@@ -29,7 +29,7 @@ const ReadingQuestionNavigator = () => {
               key={question.ID}
               onClick={() => handleNavigate(index)}
               className={`relative flex h-10 w-10 items-center justify-center rounded-md border text-sm font-medium transition
-                ${isActive ? "bg-blue-100 text-blue-600 border-blue-500" : "bg-gray-100 text-gray-700"}
+                ${isActive ? "bg-[#E1E8FF] text-[#3758F9] border-blue-500" : "bg-gray-100 text-gray-700"}
                 hover:bg-gray-200
               `}
             >

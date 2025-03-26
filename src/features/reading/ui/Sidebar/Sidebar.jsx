@@ -12,11 +12,13 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="w-full rounded-[20px] border border-black border-opacity-30 bg-white p-6 shadow-xl sticky top-0 lg:h-[500px] lg:p-8">
-      <h6 className="mb-4 font-[600] lg:text-[24px]">Time Remaining</h6>
+    <div className="w-full rounded-[20px] border border-black border-opacity-30 bg-white p-6 shadow-xl sticky top-0 lg:h-[500px] xl:h-[800px] lg:p-8">
+      <h6 className="mb-4 font-semibold text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
+        Time Remaining
+      </h6>
       <CountdownTimer initialTime={3000} onSubmit={handleSubmitTest} />
-      <h6 className="mb-4 font-[600] lg:text-[24px] lg:mt-4">
-        Question Navigator
+      <h6 className="mb-4 font-semibold text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl lg:mt-4">
+        Question Control
       </h6>
       <ReadingQuestionNavigator />
     </div>

@@ -2,8 +2,6 @@ import { useState } from "react";
 import DropdownList from "@shared/ui/DropdownList";
 
 const ReadingMatchingList = ({ dataSource }) => {
-  console.log("dataSource:", dataSource);
-
   const [selectedHeadings, setSelectedHeadings] = useState({});
   const [isMarked, setIsMarked] = useState(false);
 
