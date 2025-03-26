@@ -1,11 +1,14 @@
 import { Outlet } from "react-router-dom";
-import Header from "@features/reading/ui/Header";
+import { ReadingProvider } from "../context/ReadingContext";
+import Header from "./Header/Header";
 
 const ReadingLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#F9F9F9] w-full px-4 sm:px-8 md:px-32">
-      <Header />
-      <Outlet />
+    <div className="w-full min-h-screen bg-[#F9F9F9] px-4 md:px-4 lg:px-16">
+      <ReadingProvider>
+        <Header />
+        <Outlet />
+      </ReadingProvider>
     </div>
   );
 };

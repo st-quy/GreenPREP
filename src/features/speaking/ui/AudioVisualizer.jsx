@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-
 const AudioVisualizer = ({ isRecording }) => {
   const canvasRef = useRef(null);
   const audioContextRef = useRef(null);
@@ -7,16 +6,12 @@ const AudioVisualizer = ({ isRecording }) => {
   const animationIdRef = useRef(null);
   const dataArrayRef = useRef(null);
   const bufferLengthRef = useRef(null);
-
   useEffect(() => {
-    if (!isRecording) return;
-
     const audioContext = new AudioContext();
     const analyser = audioContext.createAnalyser();
     analyser.fftSize = 1024;
     bufferLengthRef.current = analyser.frequencyBinCount;
     dataArrayRef.current = new Uint8Array(bufferLengthRef.current);
-
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
@@ -27,7 +22,6 @@ const AudioVisualizer = ({ isRecording }) => {
         visualize();
       })
       .catch((err) => console.error("Microphone access denied:", err));
-
     return () => {
       if (audioContextRef.current) {
         audioContextRef.current.close();
@@ -35,31 +29,22 @@ const AudioVisualizer = ({ isRecording }) => {
       cancelAnimationFrame(animationIdRef.current);
     };
   }, [isRecording]);
-  
-
   const visualize = () => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
     const draw = () => {
-      if (!analyserRef.current) return;
+      if (!analyserRef.current || !isRecording) return;
       analyserRef.current.getByteTimeDomainData(dataArrayRef.current);
-      
       ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
       ctx.beginPath();
-
       let sliceWidth = (canvas.width * 1.0) / bufferLengthRef.current;
       let x = 0;
-
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = "#3758f9";
-
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "#3758F9";
       for (let i = 0; i < bufferLengthRef.current; i++) {
         let v = dataArrayRef.current[i] / 128.0;
-        let y = (v * canvas.height) / 1.5; 
-
+        let y = (v * canvas.height) / 1.5;
         if (i === 0) {
           ctx.moveTo(x, y);
         } else {
@@ -67,18 +52,14 @@ const AudioVisualizer = ({ isRecording }) => {
         }
         x += sliceWidth;
       }
-
       ctx.stroke();
       animationIdRef.current = requestAnimationFrame(draw);
     };
-
     draw();
   };
-
   return (
-    <div className="relative w-[60vw] h-40 bg-white rounded-lg flex items-center justify-center border border-gray-300">
-      <canvas ref={canvasRef} width={600} height={160} className="w-full h-full" />
-      {!isRecording && <p className="absolute text-black text-xs font-semibold">🎤 Micro Off</p>}
+    <div className="relative w-[60vw] h-40 bg-white rounded-lg flex items-center justify-center outline outline-1 outline-blue-500">
+      <canvas ref={canvasRef} className="w-[95%] h-[90%] pb-8" />
     </div>
   );
 };

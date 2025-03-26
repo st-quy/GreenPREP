@@ -18,7 +18,11 @@ const countdownSlice = createSlice({
     },
     setTime: (state, action) => {
       state.timeLeft = action.payload;
-      localStorage.setItem("countdownTime", state.timeLeft.toString());
+      if (action.payload === 0) {
+        localStorage.removeItem("countdownTime");
+      } else {
+        localStorage.setItem("countdownTime", state.timeLeft.toString());
+      }
     },
   },
 });
