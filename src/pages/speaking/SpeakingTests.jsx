@@ -57,6 +57,7 @@ export default function SpeakingTests() {
           } else {
             const part = parts[Number(partId) - 1];
           }
+          console.log("part", part);
           if (part && part.Questions && part.Questions.length > 0) {
             if (partId == "4") {
               setPartFourQuestion(part.Questions);
@@ -164,20 +165,37 @@ export default function SpeakingTests() {
                 {questionsData?.Content || ""}
               </div>
               {questionsData?.ImageKeys && (
-                <img
-                  src={questionsData?.ImageKeys || ""}
-                  alt="speaking pic"
-                  className="w-1/3 pt-8"
-                />
-              )}
-              {partFourQuest && (
-                <div className="Flex flex-col">
-                  {partFourQuest.map((quest) => (
-                    <p key={quest.ID} className="py-1">
-                      {quest?.Content || ""}
-                    </p>
+                <div className="flex items-center pt-8 flex-col md:flex-row gap-6">
+                  {questionsData?.ImageKeys.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image || ""}
+                      alt="speaking pic"
+                      className="w-1/3"
+                    />
                   ))}
                 </div>
+              )}
+              {partFourQuest && (
+                <>
+                  <div className="flex items-center pt-8 flex-col md:flex-row gap-6 mb-5">
+                    {partFourQuest[0]?.ImageKeys.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image || ""}
+                        alt="speaking pic"
+                        className="w-1/3"
+                      />
+                    ))}
+                  </div>
+                  <div className="Flex flex-col">
+                    {partFourQuest.map((quest) => (
+                      <p key={quest.ID} className="py-1">
+                        {quest?.Content || ""}
+                      </p>
+                    ))}
+                  </div>
+                </>
               )}
               {questionsData?.SubContent && (
                 <div className="text-gray-800 pt-8">
