@@ -12,7 +12,9 @@ const ListeningTest = lazy(
 );
 const ReadingLayout = lazy(() => import("@features/reading/ui/Layout.jsx"));
 const WelcomeScreen = lazy(() => import("@pages/Welcome/WelcomeScreen.jsx"));
-const WaitingApproval = lazy(() => import("@pages/Welcome/WaitingApproval.jsx"));
+const WaitingApproval = lazy(
+  () => import("@pages/Welcome/WaitingApproval.jsx")
+);
 const SessionLayout = lazy(() => import("@pages/SessionLayout"));
 const ListeningLayout = lazy(() => import("@features/listening/ui/Layout"));
 const ListeningIntroduction = lazy(
@@ -34,6 +36,7 @@ const SpeakingSubmissionSucces = lazy(
 );
 import Layout from "@pages/Layout.jsx";
 import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
+import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
 
 const PrivateRoute = [
   {
@@ -43,12 +46,27 @@ const PrivateRoute = [
       {
         path: "",
         element: <WelcomeLayout />,
-        children: [{ index: true, element: <WelcomeScreen /> },
-                    {
-                      path: "waiting-for-approval",
-                      element: <WaitingApproval />,
-                     }
-                    ],
+        children: [
+          { index: true, element: <WelcomeScreen /> },
+          {
+            path: "waiting-for-approval",
+            element: <WaitingApproval />,
+          },
+          {
+            path: "introduction",
+            element: <IntroductionPage />,
+          },
+        ],
+      },
+      {
+        path: "pre-condition",
+        element: <PreConditionLayout />,
+        children: [
+          {
+            path: "",
+            element: <TestingMicrophone />,
+          },
+        ],
       },
       {
         path: "session",
@@ -72,10 +90,7 @@ const PrivateRoute = [
             path: "rejected",
             element: <RejectedRequestPage />,
           },
-          {
-            path: "introduction",
-            element: <IntroductionPage />,
-          },
+
           {
             path: "speaking",
             element: <SpeakingLayout />,
@@ -84,6 +99,7 @@ const PrivateRoute = [
                 index: true,
                 element: <Introduction />,
               },
+
               {
                 path: "part/:partId/introduction",
                 element: <SpeakingTransitionPage />,
@@ -117,14 +133,6 @@ const PrivateRoute = [
                 element: <IntroWriting />,
               },
             ],
-          },
-          {
-            path: "introduction",
-            element: <Introduction />,
-          },
-          {
-            path: "testing",
-            element: <TestingMicrophone />,
           },
         ],
       },

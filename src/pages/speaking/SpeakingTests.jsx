@@ -152,6 +152,7 @@ export default function SpeakingTests() {
               <div className="text-gray-800">
                 {questionsData?.Content || ""}
               </div>
+              {console.log(questionsData, "questionsData")}
               {questionsData?.ImageKeys && (
                 <img
                   src={questionsData?.ImageKeys || ""}

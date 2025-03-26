@@ -9,7 +9,6 @@ import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionMo
  * @property {number} countdown.timeLeft
  */
 
-
 /*
   ------Import CountdownTimer--------
 
@@ -31,7 +30,9 @@ const CountdownTimer = ({ initialTime = 600, onSubmit }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   /** @type {number} */
-  const timeLeft = useSelector((/** @type {RootState} */ state) => state.countdown.timeLeft);
+  const timeLeft = useSelector(
+    (/** @type {RootState} */ state) => state.countdown.timeLeft
+  );
 
   useEffect(() => {
     if (!localStorage.getItem("countdownTime")) {

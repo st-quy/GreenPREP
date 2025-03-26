@@ -1,8 +1,10 @@
 import { Button, Card, Flex, Typography } from "antd";
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const { Title, Text } = Typography;
 
 const TestingMicrophone = () => {
+  const navigate = useNavigate();
   const [isMicrophone, setIsMicrophone] = useState(false);
   const [statusRecord, setStatusRecord] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
@@ -85,23 +87,23 @@ const TestingMicrophone = () => {
   return (
     <>
       <Flex vertical className="w-full mx-auto gap-[13px] md:gap-[27px]">
-        <Card className=" w-full !border-black/15">
+        <Card className=" w-full !border-black/15 p-8">
           <Flex vertical className="gap-3 md:gap-4 lg:gap-5">
-            <Text className="text-2xl/[30px] font-semibold ">
+            <Text className="text-[20px] font-semibold ">
               Before we get started, let's test your microphone.
             </Text>
-            <Text className="text-lg/[26px] font-normal ">
+            <Text className="text-[20px] font-normal ">
               It's important to make sure we can hear you clearly so we can mark
               your response.
             </Text>
           </Flex>
         </Card>
-        <Card className=" w-full !border-black/15">
+        <Card className=" w-full !border-black/15 p-8">
           <Flex vertical className="gap-3 md:gap-4 lg:gap-5">
             <Flex
               justify="center"
               align="center"
-              className="w-full h-[150px] max-w-[150px] border-solid border-[1px] border-[#3758F9] rounded-full cursor-pointer"
+              className="w-full h-[120px] max-w-[120px] border-solid border-[1px] border-[#3758F9] rounded-full cursor-pointer"
               onClick={handleClickStartMicrophone}
             >
               <div className={`w-[60px] h-[60px]`}>
@@ -188,18 +190,19 @@ const TestingMicrophone = () => {
         </Card>
         {isMicrophone && (
           <>
-            <Card className=" w-full !border-black/15">
-              <Text className="text-lg/[26px] font-bold">
+            <Card className=" w-full !border-black/15 p-8">
+              <Text className="text-[20px] font-bold">
                 {`Click the "Next" button when you're ready to proceed.`}
               </Text>
             </Card>
             <Button
               type="primary"
               size="middle"
-              className="rounded-full py-3 w-[114px] ml-auto mt-1"
+              className="rounded-full bg-[#3658f9] py-3 w-[114px] ml-auto mt-1 !p-6"
               htmlType="submit"
+              onClick={() => navigate("/session/speaking")}
             >
-              Next
+              Start Test -&gt;
             </Button>
           </>
         )}
