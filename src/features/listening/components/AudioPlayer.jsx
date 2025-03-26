@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { FaPlay, FaPause } from 'react-icons/fa';
 
 const STORAGE_KEY_PREFIX = 'listening_test_audio_';
@@ -9,25 +9,46 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [isLoading, setIsLoading] = useState(true);
   const audioRef = useRef(null);
+  const updateTimeoutRef = useRef(null);
 
   // Get stored values from localStorage using questionId as unique identifier
-  const getStoredData = () => {
+  const getStoredData = useCallback(() => {
     const key = `${STORAGE_KEY_PREFIX}${questionId}`;
     const storedData = localStorage.getItem(key);
     return storedData ? JSON.parse(storedData) : { playCount: 0, position: 0, lastButton: null };
-  };
+  }, [questionId]);
 
   const [playData, setPlayData] = useState(getStoredData());
   const { playCount, position, lastButton: currentButton } = playData;
 
-  // Update localStorage whenever playData changes
-  const updateStoredData = (newData) => {
-    const key = `${STORAGE_KEY_PREFIX}${questionId}`;
-    setPlayData(newData);
-    localStorage.setItem(key, JSON.stringify(newData));
-  };
+  // Update localStorage with debounce
+  const updateStoredData = useCallback((newData) => {
+    if (updateTimeoutRef.current) {
+      clearTimeout(updateTimeoutRef.current);
+    }
+
+    updateTimeoutRef.current = setTimeout(() => {
+      const key = `${STORAGE_KEY_PREFIX}${questionId}`;
+      setPlayData(newData);
+      localStorage.setItem(key, JSON.stringify(newData));
+    }, 500); // Debounce for 500ms
+  }, [questionId]);
 
   useEffect(() => {
+    console.log('AudioPlayer received URL:', audioUrl);
+    console.log('Question ID:', questionId);
+    
+    if (!audioUrl) {
+      console.warn('No audio URL provided to AudioPlayer for question:', questionId);
+      setError('No audio URL provided');
+      setIsLoading(false);
+      return;
+    }
+
+    // Reset error state when new URL is provided
+    setError(null);
+    setIsLoading(true);
+
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 
@@ -43,7 +64,10 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
       audioRef.current.addEventListener('error', handleError);
       audioRef.current.addEventListener('ended', handleEnded);
       audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
-      audioRef.current.addEventListener('loadeddata', () => setIsLoading(false));
+      audioRef.current.addEventListener('loadeddata', () => {
+        console.log('Audio loaded successfully');
+        setIsLoading(false);
+      });
       audioRef.current.addEventListener('waiting', () => setIsLoading(true));
       audioRef.current.addEventListener('canplaythrough', () => setIsLoading(false));
       
@@ -70,8 +94,12 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
         audioRef.current.removeEventListener('waiting', () => setIsLoading(true));
         audioRef.current.removeEventListener('canplaythrough', () => setIsLoading(false));
       }
+
+      if (updateTimeoutRef.current) {
+        clearTimeout(updateTimeoutRef.current);
+      }
     };
-  }, [position, questionId]);
+  }, [position, questionId, audioUrl]);
 
   const preventSeeking = (e) => {
     if (audioRef.current && position !== audioRef.current.currentTime) {
@@ -79,34 +107,35 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
     }
   };
 
-  const handleTimeUpdate = () => {
+  const handleTimeUpdate = useCallback(() => {
     if (audioRef.current) {
       updateStoredData({
         ...playData,
         position: audioRef.current.currentTime
       });
     }
-  };
+  }, [playData, updateStoredData]);
 
-  const handleError = () => {
+  const handleError = useCallback((e) => {
+    console.error('Audio error:', e);
     setError(isOnline 
       ? 'Audio failed to load. Please try again or contact support.'
       : 'No internet connection. Please check your connection and try again.');
     setIsPlaying(false);
     setIsLoading(false);
     updateStoredData({ ...playData, lastButton: null });
-  };
+  }, [isOnline, playData, updateStoredData]);
 
-  const handleEnded = () => {
+  const handleEnded = useCallback(() => {
     setIsPlaying(false);
     updateStoredData({
       ...playData,
       position: 0,
       lastButton: null
     });
-  };
+  }, [playData, updateStoredData]);
 
-  const handlePlayPause = (buttonNumber) => {
+  const handlePlayPause = useCallback((buttonNumber) => {
     if (playCount >= 2 && !isPlaying) {
       setError('You have reached the maximum number of plays (2)');
       return;
@@ -146,7 +175,7 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
         setError('Failed to play audio. Please try again.');
       });
     }
-  };
+  }, [isOnline, isLoading, isPlaying, currentButton, playData, playCount, position, updateStoredData]);
 
   return (
     <div className="w-full">
