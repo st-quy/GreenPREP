@@ -45,10 +45,10 @@ const ReadingParts = () => {
     );
 
   return (
-    <div className="question-list">
+    <div className="question-list ">
       {isPart2 ? (
         <div>
-          <div className="w-[100%] rounded-[20px] bg-white p-6 pb-0 mb-4 shadow-sm border border-gray-200 lg:p-8 lg:pb-0 lg:h-fit">
+          <div className="w-[100%] rounded-[20px] bg-white p-6 pb-0 mb-4 border shadow-xl border-gray-200 lg:p-8 lg:pb-0 lg:h-fit">
             <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
               <h6 className="mb-2 font-[600] lg:text-[24px]">
                 {formatStringWithNewlines(currentPart.Content)}
@@ -56,14 +56,14 @@ const ReadingParts = () => {
               <ReadingMarkButton questionId={currentQuestion.ID} />
             </div>
           </div>
-          <div className="w-full rounded-[20px] bg-white p-6 shadow-sm border border-gray-200 lg:p-8">
+          <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200 lg:p-8">
             <div className="mb-4">
               <AnswerType question={currentQuestion} />
             </div>
           </div>
         </div>
       ) : (
-        <div className="w-full rounded-[20px] bg-white p-6 shadow-sm border border-gray-200  lg:p-8 lg:h-fit">
+        <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
           <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
             <h6 className="mb-2 font-[600] lg:text-[24px]">
               {formatStringWithNewlines(currentPart.Content)}

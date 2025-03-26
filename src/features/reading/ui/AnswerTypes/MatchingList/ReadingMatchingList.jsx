@@ -30,7 +30,7 @@ const ReadingMatchingList = ({ dataSource }) => {
   const title = dataSource.Content.split("\n")[0];
 
   return (
-    <div className="max-w-3xl bg-white rounded-lg">
+    <div className=" bg-white rounded-lg">
       <h3 className="text-lg font-medium mb-4">{title}</h3>
 
       {leftItems.map((item, index) => (
