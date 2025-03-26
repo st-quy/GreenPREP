@@ -1,30 +1,46 @@
-import { useRef, useState } from "react";
-import { Card, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { Card } from "antd";
 import OrderingList from "@shared/ui/OrderingList";
+import { useReadingContext } from "@features/reading/context/ReadingContext";
+
 const ReadingOrderingList = ({ dataSource }) => {
+  const { updateAllCurrentQuestionAnswer, getAnswerData, currentQuestionIndex } =
+    useReadingContext();
+
   const formatAnswersData = (data) => {
-    if (data && Array.isArray(data)) {
-      return data.map((item, index) => ({
-        key: item,
-        value: index + 1,
-      }));
+    return data?.map((item, index) => ({ key: item, value: index + 1 })) || [];
+  };
+
+  const reverseFormatAnswersData = (formattedData) => {
+    return formattedData?.map((item) => item.key) || [];
+  };
+
+  const [option, setOption] = useState([...dataSource.AnswerContent.options]);
+
+  useEffect(() => {
+    const answerData = getAnswerData();
+    console.log("Answer Data:", answerData);
+
+    if (answerData?.length) {
+      const orderedOptions = reverseFormatAnswersData(answerData).map((key) =>
+        dataSource.AnswerContent.options.find((item) => item === key)
+      );
+      setOption([...orderedOptions]);
+    } else {
+      setOption([...dataSource.AnswerContent.options]); 
     }
-    return {};
-  };
-  const answers = useRef(formatAnswersData(dataSource));
+  }, [getAnswerData, currentQuestionIndex]);
+
   const handleOrderingChange = (data) => {
-    answers.current = formatAnswersData(data);
-    console.log(JSON.stringify(answers.current));
+    updateAllCurrentQuestionAnswer(formatAnswersData(data));
   };
+
   return (
     <Card className="w-full mx-auto border-none">
-      <div>
-        <OrderingList
-          options={dataSource.AnswerContent.options}
-          onChange={handleOrderingChange}
-        />
-      </div>
+      {/* Thêm key để ép re-render */}
+      <OrderingList key={option.join("-")} options={option} onChange={handleOrderingChange} />
     </Card>
   );
 };
+
 export default ReadingOrderingList;
