@@ -1,33 +1,31 @@
-import React, { useState, useEffect } from "react";
-import WritingParts from "./WritingParts";
-import WritingSidebar from '@features/writing/ui/sidebar-writing/WritingSidebar';
-import ConfirmTestSubmissionModal from '@shared/ui/Modal/ConfirmTestSubmissionModal';
-import { useDispatch } from 'react-redux';
-import { setTime } from '@app/providers/reducer/timeSlice';
+import { setTime } from "@app/providers/reducer/timeSlice";
+import WritingSidebar from "@features/writing/ui/sidebar-writing/WritingSidebar";
+import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import WritingParts from "./WritingParts";
 
-const WritingTestTaking = () => {
+const WritingPartTaking = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTimeUp, setIsTimeUp] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    
-    dispatch(setTime(3000));
+    dispatch(setTime(5));
   }, [dispatch]);
 
-  const handleTimeUp = (timeUp) => {
-    if (timeUp) {
-      setIsTimeUp(true);
-      setIsModalVisible(true);
-    }
+  const handleTimeUp = () => {
+    setIsTimeUp(true);
+    setIsModalVisible(true);
   };
 
   const handleSubmitTest = () => {
-    
     setIsModalVisible(false);
-    navigate("/session/writing/success");
+    setTimeout(() => {
+      navigate("/session/writing/success");
+    }, 300);
   };
 
   const handleOpenModal = () => {
@@ -43,20 +41,22 @@ const WritingTestTaking = () => {
         <WritingSidebar onTimeUp={handleTimeUp} />
       </div>
 
-      
       <ConfirmTestSubmissionModal
         visible={isModalVisible}
         onSubmit={handleSubmitTest}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={() => {
+          if (!isTimeUp) {
+            setIsModalVisible(false);
+          }
+        }}
         showCancel={!isTimeUp}
-        title={isTimeUp ? "Time's up!" : "Are you sure you want to submit test?"}
-        description={isTimeUp 
-          ? "Your time has expired. Your test will be submitted automatically."
-          : "After you submit your test, you will no longer have access to the questions, nor will you be able to review or make any changes to your answers."
+        title={"Are you sure you want to submit test?"}
+        description={
+          "After you submit your test, you will no longer have access to the questions, nor will you be able to review or make any changes to your answers."
         }
       />
     </div>
   );
 };
 
-export default WritingTestTaking;
+export default WritingPartTaking;

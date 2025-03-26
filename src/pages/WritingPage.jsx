@@ -3,10 +3,10 @@ import { Outlet } from "react-router-dom";
 
 const WritingPage = () => {
   return (
-    <div className="absolute inset-0 w-full h-screen bg-[#F9F9F9] z-50">
-      <div className="max-w-[1440px] mx-auto px-6 py-4 h-full flex flex-col">
+    <div className="w-full min-h-screen bg-[#F9F9F9]">
+      <div className="max-w-[1440px] mx-auto px-6 py-4">
         <WritingHeader />
-        <div className="flex-1">
+        <div>
           <Outlet />
         </div>
       </div>
