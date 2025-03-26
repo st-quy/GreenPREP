@@ -16,7 +16,11 @@ export const ReadingProvider = ({ children }) => {
 
   // Early return if data is unavailable
   if (isLoading || error || !exams?.Parts?.length) {
-    return <div>Loading...</div>; // Alternatively, return null
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+      </div>
+    );
   }
 
   // Extract the current part and question
