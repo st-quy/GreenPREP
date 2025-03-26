@@ -30,8 +30,8 @@ const WelcomeScreen = () => {
   };
 
   return (
-    <div className="w-full bg-white overflow-x-hidden">
-      <div className="w-full bg-white p-3 flex flex-col items-center md:flex-row md:items-start md:justify-between md:p-6">
+    <div className="w-full bg-white overflow-x-hidden h-screen max-h-full">
+      <div className="w-full bg-white flex flex-col items-center md:flex-row md:items-start md:justify-between">
         {!isModalOpen && (
           <div className="w-full flex-1 text-center px-2 mt-4 md:text-left md:px-8 md:mt-[85px] ml-[30px]">
             <h1 className="text-lg font-bold mb-2 text-[#111928] md:text-3xl md:mb-4">
@@ -51,7 +51,7 @@ const WelcomeScreen = () => {
               shape="round"
               type="primary"
               size="large"
-              style={{ backgroundColor: '#3758F9', borderColor: '#3758F9' }}
+              style={{ backgroundColor: "#3758F9", borderColor: "#3758F9" }}
             >
               Get Started
               <ArrowRightOutlined />
@@ -59,12 +59,13 @@ const WelcomeScreen = () => {
           </div>
         )}
         {isModalOpen && (
-          <div className="bg-white p-4 sm:p-6 rounded-lg md:ml-[60px] w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl z-60 sm:w-[90%] md:w-[40%] md:h-[450px] mt-3 sm:mt-3 md:mt-5 xl:w-[550px]">
+          <div className="bg-white p-4 sm:p-6 rounded-lg md:ml-[60px] w-[90%] max-h-[90vh] overflow-y-auto shadow-2xl z-60 sm:w-[90%] md:w-[40%] md:h-[450px] mt-12 xl:w-[550px]">
             <h2 className="text-3xl sm:text-4xl font-semibold text-black mb-2 sm:mb-4 pt-2 sm:pt-4">
               Ready to Go?
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-4 break-words">
-              This is your chance to assess your English skills, track your progress, and improve with every attempt.
+              This is your chance to assess your English skills, track your
+              progress, and improve with every attempt.
             </p>
             <Form onFinish={handleSubmit} initialValues={{ sessionKey }}>
               <Form.Item
@@ -101,7 +102,7 @@ const WelcomeScreen = () => {
                 shape="round"
                 type="primary"
                 size="large"
-                style={{ backgroundColor: '#3758F9', borderColor: '#3758F9' }}
+                style={{ backgroundColor: "#3758F9", borderColor: "#3758F9" }}
               >
                 Submit Key
               </Button>

@@ -1,38 +1,31 @@
 import React, { useEffect, useState, useRef } from "react";
-import CountdownTimer from "../../../shared/ui/CountdownTimer";
+import CountdownTimer from "@shared/ui/CountdownTimer";
 import { useNavigate } from "react-router-dom";
 import { Button, Card } from "antd";
-import { FlagOutlined, PlayCircleOutlined } from "@ant-design/icons";
-import QuestionMuitipleChoice from "./QuestionMuitipleChoice";
-import QuestionDropdownList from "./QuestionDropdownList";
-import { useListeningTest } from "../hooks/useListeningTest";
+import { FlagOutlined } from "@ant-design/icons";
+import QuestionMuitipleChoice from "@features/grammarvocab/components/QuestionMuitipleChoice";
+import QuestionDropdownList from "@features/grammarvocab/components/QuestionDropdownList";
+import { useGrammarVocabTest } from "@features/grammarvocab/hooks";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 
-const ListeningTest = () => {
+const GrammarVocabTest = () => {
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [currentPartsID, setCurrentPartsID] = useState(0);
   const [listQuestion, setListQuestion] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
-    JSON.parse(localStorage.getItem("selectedAnswers")) || {}
+    JSON.parse(localStorage.getItem("selectedAnswersGVocab")) || {}
   );
   const [markedQuestions, setMarkedQuestions] = useState(() => {
-    return JSON.parse(localStorage.getItem("markedQuestions")) || {};
+    return JSON.parse(localStorage.getItem("markedQuestionsGVocab")) || {};
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [historyListen, setHistoryListen] = useState([]);
-  const [currentAudio, setCurrentAudio] = useState("");
   const [totalQuestions, setTotalQuestion] = useState(0);
 
-  const audioRef = useRef(null);
-
-  const [audio, setAudio] = useState();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const { data: questions } = useListeningTest();
+  const { data: questions } = useGrammarVocabTest();
 
   const handleOnSubmit = () => {
-    navigate("/session/listening/submission");
+    navigate("/session/grammar/submission");
   };
 
   const handleCancelModal = () => {
@@ -41,8 +34,6 @@ const ListeningTest = () => {
 
   useEffect(() => {
     if (questions) {
-      setCurrentPartsID(0);
-      setAudio(questions.Parts[0].Questions[0].AudioKeys);
       const totalQ = questions.Parts.reduce((total, part, index) => {
         if (part.Questions && Array.isArray(part.Questions)) {
           return total + part.Questions.length;
@@ -58,29 +49,32 @@ const ListeningTest = () => {
   }, [questions]);
 
   useEffect(() => {
-    if (audio) {
-      audioRef.current = new Audio(audio);
-    }
-  }, [audio]);
-
-  useEffect(() => {
-    localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
+    localStorage.setItem(
+      "selectedAnswersGVocab",
+      JSON.stringify(selectedAnswers)
+    );
   }, [selectedAnswers]);
 
   useEffect(() => {
-    localStorage.setItem("markedQuestions", JSON.stringify(markedQuestions));
+    localStorage.setItem(
+      "markedQuestionsGVocab",
+      JSON.stringify(markedQuestions)
+    );
   }, [markedQuestions]);
 
   const handleSubmitTest = () => {
     navigate("/session/reading");
     localStorage.removeItem("countdownTime");
-    localStorage.removeItem("selectedAnswers");
+    localStorage.removeItem("selectedAnswersGVocab");
   };
 
   const handleAnswerSelect = (questionId, answer) => {
     setSelectedAnswers((prev) => {
       const updatedAnswers = { ...prev, [questionId]: answer };
-      localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
+      localStorage.setItem(
+        "selectedAnswersGVocab",
+        JSON.stringify(updatedAnswers)
+      );
       return updatedAnswers;
     });
   };
@@ -105,64 +99,6 @@ const ListeningTest = () => {
       [questionId]: !prev[questionId],
     }));
   };
-
-  const toggleAudio = (valueTime) => {
-    setCurrentAudio(valueTime);
-    if (isPlaying) {
-      localStorage.setItem(
-        "history_listen",
-        JSON.stringify(
-          historyListen.map((item) =>
-            item.key === valueTime
-              ? {
-                  ...item,
-                  value: [valueTime],
-                }
-              : item
-          )
-        )
-      );
-      audioRef.current.pause();
-    } else {
-      localStorage.setItem(
-        "history_listen",
-        JSON.stringify([
-          ...historyListen,
-          {
-            key: valueTime,
-            value: [],
-          },
-        ])
-      );
-      audioRef.current.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-      localStorage.setItem(
-        "history_listen",
-        JSON.stringify(
-          historyListen.map((item) =>
-            item.key === currentAudio
-              ? {
-                  ...item,
-                  value: [currentAudio],
-                }
-              : item
-          )
-        )
-      );
-    }
-    setAudio(listQuestion?.[currentQuestionIndex]?.AudioKeys);
-  }, [currentQuestionIndex]);
-
-  useEffect(() => {
-    setHistoryListen(JSON.parse(localStorage.getItem("history_listen")) || []);
-  }, [localStorage.getItem("history_listen")]);
 
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
@@ -200,7 +136,7 @@ const ListeningTest = () => {
                   </Button>
                 </div>
 
-                {listQuestion.length > 0 &&
+                {listQuestion.length &&
                 listQuestion?.[currentQuestionIndex].Type ===
                   "multiple-choice" ? (
                   <QuestionMuitipleChoice
@@ -221,85 +157,6 @@ const ListeningTest = () => {
                 )}
               </div>
             )}
-          </Card>
-          <Card className="p-8">
-            <h2 className="mb-2">Listen audio file here:</h2>
-            <div className="flex gap-6">
-              <Button
-                className="!rounded-full"
-                type="primary"
-                ghost
-                icon={<PlayCircleOutlined />}
-                onClick={() =>
-                  toggleAudio(`audio-${currentQuestionIndex}-first`)
-                }
-                key={`audio-${currentQuestionIndex}-first`}
-                disabled={
-                  historyListen.length > 0 &&
-                  historyListen
-                    .find(
-                      (item) =>
-                        item.key === `audio-${currentQuestionIndex}-first`
-                    )
-                    ?.value.includes(`audio-${currentQuestionIndex}-first`)
-                }
-              >
-                {historyListen.length &&
-                historyListen.find(
-                  (item) => item.key === `audio-${currentQuestionIndex}-first`
-                )
-                  ? historyListen
-                      .find(
-                        (item) =>
-                          item.key === `audio-${currentQuestionIndex}-first`
-                      )
-                      ?.value.includes(`audio-${currentQuestionIndex}-first`)
-                    ? ""
-                    : "Stop"
-                  : "Play first time"}
-              </Button>
-              <Button
-                className="!rounded-full"
-                type="primary"
-                ghost
-                icon={<PlayCircleOutlined />}
-                onClick={() =>
-                  toggleAudio(`audio-${currentQuestionIndex}-second`)
-                }
-                key={`audio-${currentQuestionIndex}-second`}
-                disabled={
-                  (historyListen.length > 0 &&
-                    historyListen
-                      .find(
-                        (item) =>
-                          item.key === `audio-${currentQuestionIndex}-second`
-                      )
-                      ?.value.includes(
-                        `audio-${currentQuestionIndex}-second`
-                      )) ||
-                  !historyListen
-                    .find(
-                      (item) =>
-                        item.key === `audio-${currentQuestionIndex}-first`
-                    )
-                    ?.value.includes(`audio-${currentQuestionIndex}-first`)
-                }
-              >
-                {historyListen.length &&
-                historyListen.find(
-                  (item) => item.key === `audio-${currentQuestionIndex}-second`
-                )
-                  ? historyListen
-                      .find(
-                        (item) =>
-                          item.key === `audio-${currentQuestionIndex}-second`
-                      )
-                      ?.value.includes(`audio-${currentQuestionIndex}-second`)
-                    ? ""
-                    : "Stop"
-                  : "Play second time"}
-              </Button>
-            </div>
           </Card>
           <div className="flex justify-end gap-6">
             <Button
@@ -363,4 +220,4 @@ const ListeningTest = () => {
   );
 };
 
-export default ListeningTest;
+export default GrammarVocabTest;

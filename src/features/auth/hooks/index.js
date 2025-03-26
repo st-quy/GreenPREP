@@ -17,8 +17,8 @@ const useUpdateRequest = () => {
       const { data } = await RequestApi.update(params);
       return data;
     },
-    onError({ response }) {
-      message.error(response.data.message);
+    onError(response) {
+      message.error(response.message);
     },
   });
 };
@@ -33,8 +33,8 @@ const useAddRequest = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["requests"]);
     },
-    onError({ response }) {
-      message.error(response.data.message);
+    onError(response) {
+      message.error(response.message);
     },
   });
 };
