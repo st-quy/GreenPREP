@@ -48,7 +48,6 @@ export default function SpeakingTests() {
           const part = parts[Number(partId) - 1];
           if (part && part.Questions && part.Questions.length > 0) {
             const question = part.Questions[Number(questionsId) - 1];
-            console.log(question);
             if (question) {
               setQuestionsData(question);
               handleStartTest();
