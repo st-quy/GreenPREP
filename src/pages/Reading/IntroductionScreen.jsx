@@ -24,36 +24,36 @@ const IntroReading = () => {
       <Card className="mb-4 shadow-sm border border-gray-200 sm:mb-6 rounded-[20px]  border-1 p-2">
         <div className="p-2 sm:p-6">
           {/* Responsive padding */}
-          <div className="text-lg sm:text-xl md:text-2xl font-semibold text-[#3758F9] mb-3 sm:mb-4">
+          <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-[#3758F9] mb-3 sm:mb-4">
             Test Structure
           </div>
-          <Paragraph className="mb-3 text-[#111928] text-sm sm:text-base sm:mb-4">
+          <Paragraph className="mb-3 text-[#111928] text-sm sm:text-[18px] sm:mb-4">
             The test consists of 4 parts (Parts 1-4) with 4 main question types:
           </Paragraph>
           <ul className="list-disc pl-5 space-y-1 text-[#111928] sm:space-y-2">
-            <li className="text-sm sm:text-base">
-              <Text strong className="font-medium">
-                Part 1:
-              </Text>{" "}
-              Sentence Completion (Fill in the blanks)
+            <li className="text-sm sm:text-[18px]">
+              <div className="flex">
+                <p className="font-bold whitespace-pre">Part 1: </p> Sentence
+                Completion (Fill in the blanks)
+              </div>
             </li>
-            <li className="text-sm sm:text-base">
-              <Text strong className="font-medium">
-                Part 2:
-              </Text>{" "}
-              Text Sequencing (Rearrange sentences in a logical order)
+            <li className="text-sm sm:text-[18px]">
+              <div className="flex">
+                <p className="font-bold whitespace-pre">Part 2: </p> Text
+                Sequencing (Rearrange sentences in a logical order)
+              </div>
             </li>
-            <li className="text-sm sm:text-base">
-              <Text strong className="font-medium">
-                Part 3:
-              </Text>{" "}
-              Matching Opinions (Match opinions to the correct speaker)
+            <li className="text-sm sm:text-[18px]">
+              <div className="flex">
+                <p className="font-bold whitespace-pre">Part 3: </p> Matching
+                Opinions (Match opinions to the correct speaker)
+              </div>
             </li>
-            <li className="text-sm sm:text-base">
-              <Text strong className="font-medium">
-                Part 4:
-              </Text>{" "}
-              Heading Matching (Match headings to paragraphs)
+            <li className="text-sm sm:text-[18px]">
+              <div className="flex">
+                <p className="font-bold whitespace-pre">Part 4: </p> Heading
+                Matching (Match headings to paragraphs)
+              </div>
             </li>
           </ul>
         </div>
@@ -63,27 +63,27 @@ const IntroReading = () => {
       <Card className="mb-8 shadow-sm border border-gray-200 sm:mb-12 boder-1 rounded-[20px] p-2">
         <div className="p-2 sm:p-6">
           {/* Responsive padding */}
-          <div className="text-lg sm:text-xl md:text-2xl font-semibold text-[#3758F9] mb-2 sm:mb-4">
+          <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-[#3758F9] mb-2 sm:mb-4">
             Form Description
           </div>
           <ul className="list-disc pl-5 space-y-1 text-[#111928] sm:space-y-2">
-            <li className="text-sm sm:text-base">
-              <Text strong className="font-medium">
-                Format:
-              </Text>{" "}
-              Drop down, Drag & Drop.
+            <li className="text-sm sm:text-[18px]">
+              <div className="flex">
+                <p className="font-bold whitespace-pre">Format: </p> Drop down,
+                Drag & Drop.
+              </div>
             </li>
-            <li className="text-sm sm:text-base">
-              <Text strong className="font-medium">
-                Total questions:
-              </Text>{" "}
-              30.
+            <li className="text-sm sm:text-[18px]">
+              <div className="flex">
+                <p className="font-bold whitespace-pre">Total questions: </p>
+                30.
+              </div>
             </li>
-            <li className="text-sm sm:text-base">
-              <Text strong className="font-medium">
-                Test duration:
-              </Text>{" "}
-              25 minutes.
+            <li className="text-sm sm:text-[18px]">
+              <div className="flex">
+                <p className="font-bold whitespace-pre">Test duration: </p> 25
+                minutes.
+              </div>
             </li>
           </ul>
         </div>
@@ -104,7 +104,7 @@ const IntroReading = () => {
               bg-[#3758F9]
             "
         >
-          <span className="mr-2">Begin the Test</span>
+          <span>Begin the Test</span>
           <ArrowRightOutlined />
         </Button>
       </div>
