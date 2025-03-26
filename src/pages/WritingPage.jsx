@@ -7,6 +7,7 @@ const WritingPage = () => {
       <div className="w-full max-w-[1400px] mx-auto p-4 sm:p-6 md:p-6 font-sans h-full flex flex-col">
         <WritingHeader />
         <Outlet />
+        </div>
     </div>
   );
 };
