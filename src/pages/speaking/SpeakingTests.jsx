@@ -47,7 +47,11 @@ export default function SpeakingTests() {
       try {
         const parts = result.data.data.Parts;
         if (parts && parts.length > 0) {
-          const part = parts[Number(partId) - 1];
+          let currentPart = `PART ${partId}`;
+          const currentPartIndex = parts.findIndex(
+            (p) => p.Content == currentPart
+          );
+          const part = parts[currentPartIndex];
           if (part && part.Questions && part.Questions.length > 0) {
             if (partId == "4") {
               setPartFourQuestion(part.Questions);
