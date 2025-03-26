@@ -57,7 +57,6 @@ export default function SpeakingTests() {
           } else {
             const part = parts[Number(partId) - 1];
           }
-          console.log("part", part);
           if (part && part.Questions && part.Questions.length > 0) {
             if (partId == "4") {
               setPartFourQuestion(part.Questions);
@@ -165,7 +164,7 @@ export default function SpeakingTests() {
                 {questionsData?.Content || ""}
               </div>
               {questionsData?.ImageKeys && (
-                <div className="flex items-center pt-8 flex-col md:flex-row gap-6">
+                <div className="flex items-center pt-3 flex-col md:flex-row gap-6">
                   {questionsData?.ImageKeys.map((image, index) => (
                     <img
                       key={index}
@@ -178,7 +177,7 @@ export default function SpeakingTests() {
               )}
               {partFourQuest && (
                 <>
-                  <div className="flex items-center pt-8 flex-col md:flex-row gap-6 mb-5">
+                  <div className="flex items-center pt-3 flex-col md:flex-row gap-6 mb-5">
                     {partFourQuest[0]?.ImageKeys.map((image, index) => (
                       <img
                         key={index}
