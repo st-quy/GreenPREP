@@ -1,63 +1,31 @@
 import React from 'react';
 import SingleChoiceQuestion from './SingleChoiceQuestion';
-import MultipleChoiceQuestion from './MultipleChoiceQuestion';
+import MultipleChoiceQuestion from '@shared/ui/MultipleChoiceQuestion';
 import MultipleMatchingQuestion from './MultipleMatchingQuestion';
 import FormCompletionQuestion from './FormCompletionQuestion';
 
-const QuestionContent = ({ questionData }) => {
-  if (!questionData) return null;
-
-  const questionTypes = {
-    single_choice: {
-      title: 'Choose only 1 answer:',
-      component: <SingleChoiceQuestion 
-        options={questionData.answer.options} 
-        onAnswerChange={(answer) => {
-          console.log('Selected answer:', answer);
-        }}
-      />
-    },
-    multiple_choice: {
-      title: 'Choose all correct answers:',
-      component: <MultipleChoiceQuestion 
-        options={questionData.answer.options} 
-        onAnswerChange={(answers) => {
-          console.log('Selected answers:', answers);
-        }}
-      />
-    },
-    multiple_matching: {
-      title: 'Match the statements with the correct options:',
-      component: <MultipleMatchingQuestion 
-        question={questionData.question} 
-        answer={questionData.answer}
-        onAnswerChange={(answers) => {
-          console.log('Matching answers:', answers);
-        }}
-      />
-    },
-    form_completion: {
-      title: 'Fill in the blanks:',
-      component: <FormCompletionQuestion 
-        fields={questionData.answer.fields} 
-        onAnswerChange={(answers) => {
-          console.log('Form answers:', answers);
-        }}
-      />
-    }
-  };
-
-  const questionType = questionTypes[questionData.type];
-  if (!questionType) {
-    return <div className="text-center py-8 text-red-600">Invalid question type</div>;
+const QuestionContent = ({ questionData, onAnswerSelect, selectedAnswer }) => {
+  if (!questionData || !questionData.AnswerContent) {
+    return <div>No question data available</div>;
   }
 
+  // Transform options to match MultipleChoiceQuestion component's expected format
+  const options = questionData.AnswerContent.options.map((option, index) => ({
+    value: String.fromCharCode(65 + index), // A, B, C, etc.
+    text: option
+  }));
+
   return (
-    <div className="space-y-4">
-      <p className="text-gray-800">{questionData.question}</p>
-      <p className="text-gray-600 text-sm">{questionType.title}</p>
-      {questionType.component}
-    </div>
+
+      <MultipleChoiceQuestion
+        questionNumber={parseInt(questionData.Content.split('.')[0]) || 1}
+        partNumber={parseInt(questionData.Part.Content.split(' ')[1])}
+        options={options}
+        question={questionData.Content}
+        selectedAnswer={selectedAnswer}
+        handleAnswerSelect={onAnswerSelect}
+      />
+
   );
 };
 

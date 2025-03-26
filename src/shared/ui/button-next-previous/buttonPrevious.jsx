@@ -1,15 +1,10 @@
 import React from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 
-
-const ButtonPreviousComponent = ({ url, isFirstQuestion = false }) => {
-  const navigate = useNavigate();
-
-  
+const ButtonPrevious = ({ onClick, isFirstQuestion = false }) => {
   const handleClick = () => {
-    if (!isFirstQuestion && url) {
-      navigate(url);
+    if (!isFirstQuestion && onClick) {
+      onClick();
     }
   };
 
@@ -24,7 +19,6 @@ const ButtonPreviousComponent = ({ url, isFirstQuestion = false }) => {
       }`}
     >
       <FaArrowLeft className="w-[20px] h-[20px]" />
-
       <span className="w-[66px] h-[24px] flex items-center justify-center font-medium">
         Previous
       </span>
@@ -32,4 +26,4 @@ const ButtonPreviousComponent = ({ url, isFirstQuestion = false }) => {
   );
 };
 
-export default ButtonPreviousComponent;
+export default ButtonPrevious;
