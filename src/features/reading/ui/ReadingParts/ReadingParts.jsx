@@ -25,21 +25,21 @@ const ReadingParts = () => {
 
   if (isLoading)
     return (
-      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6  md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+      <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
         <div className="w-6 h-6 shadow-sm border border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
 
   if (error)
     return (
-      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+      <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
         Error
       </div>
     );
 
   if (!exams || !exams.Parts || exams.Parts.length === 0)
     return (
-      <div className="w-full rounded-md shadow-sm border border-gray-200 bg-white p-6 md:w-[650px] lg:w-[900px] lg:p-8 lg:h-fit">
+      <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
         No exams available.
       </div>
     );
