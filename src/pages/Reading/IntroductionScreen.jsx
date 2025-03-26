@@ -21,8 +21,8 @@ const IntroReading = () => {
   return (
     <div className="min-h-screen bg-[#F9F9F9] py-6 sm:py-8 md:py-12">
       {/* Test Structure Card */}
-      <Card className="mb-4 shadow-sm border border-gray-200 sm:mb-6 rounded-[20px]  border-1 p-2">
-        <div className="p-2 sm:p-6">
+      <Card className="mb-4 shadow-sm border border-gray-200 sm:mb-6 rounded-[20px]  border-1 sm:p-2 md:p-10">
+        <div>
           {/* Responsive padding */}
           <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-[#3758F9] mb-3 sm:mb-4">
             Test Structure
@@ -60,8 +60,8 @@ const IntroReading = () => {
       </Card>
 
       {/* Form Description Card */}
-      <Card className="mb-8 shadow-sm border border-gray-200 sm:mb-12 boder-1 rounded-[20px] p-2">
-        <div className="p-2 sm:p-6">
+      <Card className="mb-8 shadow-sm border border-gray-200 sm:mb-12 boder-1 rounded-[20px] sm:p-2 md:p-10">
+        <div>
           {/* Responsive padding */}
           <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-[#3758F9] mb-2 sm:mb-4">
             Form Description
@@ -97,7 +97,7 @@ const IntroReading = () => {
           size="large"
           style={{ borderRadius: "9999px" }}
           className="
-              px-4 py-1 sm:px-6 sm:py-2 
+              px-4 py-1 sm:px-6 sm:py-3 
               h-auto flex items-center font-medium 
               text-sm sm:text-base 
               transition-colors
