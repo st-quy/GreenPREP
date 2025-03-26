@@ -1,7 +1,9 @@
 import { Button, Card } from "antd";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Introduction = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-gray-50">
       {/* Test Structure Section */}
@@ -56,7 +58,10 @@ const Introduction = () => {
 
       {/* Begin Test Button */}
       <div className="flex justify-end mt-3">
-        <Button className="bg-[#4361ee] !text-white px-4 p-6 rounded-full flex items-center gap-2 hover:!bg-[#3651d4] text-sm">
+        <Button
+          className="bg-[#4361ee] !text-white px-4 p-6 rounded-full flex items-center gap-2 hover:!bg-[#3651d4] text-sm"
+          onClick={() => navigate("test")}
+        >
           Begin the Test -&gt;
         </Button>
       </div>

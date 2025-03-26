@@ -1,9 +1,9 @@
-import Header from '@pages/Header';
-import { Outlet } from 'react-router-dom';
+import Header from "@pages/Header";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div>
+    <div className="px-20">
       <Outlet />
     </div>
   );

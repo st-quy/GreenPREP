@@ -20,6 +20,9 @@ const ListeningLayout = lazy(() => import("@features/listening/ui/Layout"));
 const ListeningIntroduction = lazy(
   () => import("@features/listening/ui/Introduction")
 );
+const ListeningSubmissionSuccess = lazy(
+  () => import("@pages/listening/ListeningSubmissionSuccess.jsx")
+);
 const SpeakingLayout = lazy(() => import("@pages/speaking/SpeakingLayout"));
 const Introduction = lazy(() => import("@pages/speaking/IntroductionPage"));
 const SpeakingTransitionPage = lazy(
@@ -84,6 +87,10 @@ const PrivateRoute = [
                 path: "test",
                 element: <ListeningTest />,
               },
+              {
+                path: "submission",
+                element: <ListeningSubmissionSuccess />,
+              },
             ],
           },
           {
@@ -134,25 +141,15 @@ const PrivateRoute = [
               },
             ],
           },
-        ],
-      },
-      {
-        path: "reading",
-        element: <ReadingLayout />,
-        children: [
-          {
-            path: "intro",
-            element: <IntroReading />,
-          },
-        ],
-      },
-      {
-        path: "/",
-        element: <Layout />,
-        children: [
           {
             path: "grammar",
-            element: <GrammarPage />,
+            element: <Layout />,
+            children: [
+              {
+                index: true,
+                element: <GrammarPage />,
+              },
+            ],
           },
         ],
       },
