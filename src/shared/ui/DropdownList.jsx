@@ -8,17 +8,19 @@ const DropdownList = ({
   selectedValue,
   onChange,
   selectClassName = "",
+  placeholder = "Select option",
 }) => {
   return (
     <Select
       value={selectedValue || undefined}
       onChange={onChange}
       className={`inline-block mx-1 h-10 ${selectClassName}`}
-      placeholder="Select option"
+      placeholder={placeholder}
+      dropdownMatchSelectWidth={false}
     >
       {options.map((option, index) => (
         <Option key={index} value={option}>
-          {option}
+          <div className="">{option}</div>
         </Option>
       ))}
     </Select>
