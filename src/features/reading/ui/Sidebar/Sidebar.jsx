@@ -3,10 +3,6 @@ import CountdownTimer from "@shared/ui/CountdownTimer";
 import { useNavigate } from "react-router-dom";
 import ReadingQuestionNavigator from "../ReadingNavigator/ReadingNavigator";
 
-const handleTimeUp = () => {
-  alert("Time out!");
-};
-
 const Sidebar = () => {
   const navigator = useNavigate();
 
