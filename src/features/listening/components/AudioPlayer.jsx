@@ -163,7 +163,7 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
           <button
             onClick={() => handlePlayPause(1)}
             disabled={(playCount >= 1 && !isPlaying && currentButton !== 1) || !isOnline || isLoading}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full border
+            className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-colors duration-200
               ${(playCount >= 1 && !isPlaying && currentButton !== 1) || !isOnline || isLoading
                 ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50' 
                 : 'border-[#4255D4] text-[#4255D4] hover:bg-[#F8F9FF] bg-white'
@@ -171,16 +171,20 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
           >
             {isLoading ? (
               <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+            ) : isPlaying && currentButton === 1 ? (
+              <FaPause className="text-sm" />
             ) : (
               <FaPlay className="text-sm" />
             )}
-            <span className="text-sm font-medium">Play first time</span>
+            <span className="text-sm font-medium">
+              {isPlaying && currentButton === 1 ? 'Pause' : 'Play first time'}
+            </span>
           </button>
 
           <button
             onClick={() => handlePlayPause(2)}
             disabled={(playCount >= 2 && !isPlaying && currentButton !== 2) || playCount === 0 || !isOnline || isLoading}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full border
+            className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-colors duration-200
               ${((playCount >= 2 && !isPlaying && currentButton !== 2) || playCount === 0 || !isOnline || isLoading)
                 ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50' 
                 : 'border-[#4255D4] text-[#4255D4] hover:bg-[#F8F9FF] bg-white'
@@ -188,10 +192,14 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
           >
             {isLoading ? (
               <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+            ) : isPlaying && currentButton === 2 ? (
+              <FaPause className="text-sm" />
             ) : (
               <FaPlay className="text-sm" />
             )}
-            <span className="text-sm font-medium">Play second time</span>
+            <span className="text-sm font-medium">
+              {isPlaying && currentButton === 2 ? 'Pause' : 'Play second time'}
+            </span>
           </button>
         </div>
       )}

@@ -82,7 +82,7 @@ const ListeningTest = () => {
             {/* Timer Section */}
             <div className="mb-8">
               <h2 className="text-base font-medium text-gray-900 mb-4">Time Remaining</h2>
-              <CountdownTimer onTimeUp={handleTimeUp} />
+              <CountdownTimer onSubmit={handleTimeUp} />
             </div>
 
             {/* Question Navigation */}
