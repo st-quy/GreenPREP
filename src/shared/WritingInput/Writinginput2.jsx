@@ -12,7 +12,7 @@ const { TextArea } = Input;
 * <WritingInput2 partNumber={4} subPart={1} maxWords={50} />
 * <WritingInput2 partNumber={4} subPart={2} maxWords={150} />
 *
-* Props:
+
 * - partNumber: part number (required)
 * - maxWords: word limit (default: 150)
 * - subPart: sub sentence number in the part  

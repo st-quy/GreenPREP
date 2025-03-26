@@ -3,11 +3,16 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 
-const ButtonPreviousComponent = ({ url, isFirstQuestion = false }) => {
+const ButtonPreviousComponent = ({ url, isFirstQuestion = false, onClick }) => {
   const navigate = useNavigate();
 
   
   const handleClick = () => {
+    if (onClick) {
+      onClick();
+      return;
+    }
+
     if (!isFirstQuestion && url) {
       navigate(url);
     }

@@ -3,8 +3,6 @@ import MarkerButton from '@shared/ui/MarkerButton';
 import { useDispatch } from 'react-redux';
 import { setTime } from '@app/providers/reducer/timeSlice';
 import WritingInput from '@shared/WritingInput/Writinginput1';
-import ButtonNextComponent from '@shared/ui/button-next-previous/buttonNext';
-import ButtonPreviousComponent from '@shared/ui/button-next-previous/buttonPrevious';
 import CountdownTimer from '@shared/ui/CountdownTimer';
 
 const WritingPart1 = ({ content, subContent, questions, partId }) => {
@@ -50,12 +48,6 @@ const WritingPart1 = ({ content, subContent, questions, partId }) => {
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Navigation Buttons - Below left grid */}
-        <div className="flex justify-end gap-4 mt-8">
-          <ButtonPreviousComponent url="/writing/part4" isFirstQuestion={true} />
-          <ButtonNextComponent url="/writing/part2" />
         </div>
       </div>
 
