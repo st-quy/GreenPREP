@@ -59,7 +59,7 @@ const WritingParts = ({ onSubmit }) => {
         {renderCurrentPart()}
       </div>
       
-      {/* Navigation Buttons */}
+   
       <div className="flex justify-end gap-4 mb-4 ml-auto">
         <ButtonPreviousComponent 
           url={`/session/writing/part/${parseInt(currentPath) - 1}`}

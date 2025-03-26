@@ -8,7 +8,7 @@ const { TextArea } = Input;
 const WritingInput = ({ partId, questionId }) => {
   const dispatch = useDispatch();
   
-  // Get value from Redux store with safe fallback
+  
   const value = useSelector((state) => {
     // @ts-ignore
     if (!state || !state.writing || !state.writing.inputs) return '';

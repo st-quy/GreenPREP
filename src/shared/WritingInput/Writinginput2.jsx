@@ -24,7 +24,7 @@ const { TextArea } = Input;
 const WritingInput2 = ({ maxWords = 50, partNumber, height = '188px', subPart = 1 }) => {
   const dispatch = useDispatch();
   
-  // Get value from Redux store with safe fallback
+  
   const value = useSelector((state) => {
     // @ts-ignore
     const inputs = state?.writing?.inputs;
@@ -45,7 +45,7 @@ const WritingInput2 = ({ maxWords = 50, partNumber, height = '188px', subPart = 
     dispatch(updateWritingInput(partNumber, questionId, newValue));
   };
 
-  // Calculate word count from value
+  
   const wordCount = value.trim().split(/\s+/).filter(word => word.length > 0).length;
 
   return (
@@ -55,13 +55,14 @@ const WritingInput2 = ({ maxWords = 50, partNumber, height = '188px', subPart = 
         onChange={handleChange}
         onKeyPress={handleKeyPress}
         placeholder="Type your answer here"
+        autoSize={true}
         className="w-full rounded-[6px] resize-none bg-[#F9FAFB]
           font-inter text-base font-normal leading-6
           focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500
           transition-all duration-200
           placeholder:font-inter placeholder:text-base placeholder:font-normal placeholder:leading-6"
         style={{
-          height: height
+          minHeight: height
         }}
       />
       <div className={`flex justify-end mt-2 text-sm ${wordCount > maxWords ? 'text-red-500' : 'text-gray-500'}`}>

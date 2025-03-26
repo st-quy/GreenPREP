@@ -15,7 +15,7 @@ const IntroWriting = () => {
 
   return (
     <>
-      {/* Test Structure Section */}
+    
       <div style={containerStyle} className="bg-white rounded-2xl p-8 mb-4">
         <h2 className="text-[#3758F9] text-xl font-semibold mb-4">
           Test Structure
@@ -67,7 +67,7 @@ const IntroWriting = () => {
         </div>
       </div>
 
-      {/* Form Description Section */}
+     
       <div style={containerStyle} className="bg-white rounded-2xl p-8 mb-4">
         <h2 className="text-[#3758F9] text-xl font-semibold mb-4">
           Form Description
@@ -88,7 +88,7 @@ const IntroWriting = () => {
         </ul>
       </div>
 
-      {/* Begin Test Button */}
+      
       <div className="flex justify-end mt-4">
         <button 
           onClick={handleBeginTest}

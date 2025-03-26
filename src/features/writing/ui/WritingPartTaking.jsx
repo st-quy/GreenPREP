@@ -13,7 +13,7 @@ const WritingTestTaking = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Set initial time to 50 minutes (3000 seconds)
+    
     dispatch(setTime(3000));
   }, [dispatch]);
 
@@ -25,7 +25,7 @@ const WritingTestTaking = () => {
   };
 
   const handleSubmitTest = () => {
-    // TODO: Add any additional submit logic here if needed
+    
     setIsModalVisible(false);
     navigate("/session/writing/success");
   };
@@ -43,7 +43,7 @@ const WritingTestTaking = () => {
         <WritingSidebar onTimeUp={handleTimeUp} />
       </div>
 
-      {/* Confirm Submit Modal */}
+      
       <ConfirmTestSubmissionModal
         visible={isModalVisible}
         onSubmit={handleSubmitTest}
