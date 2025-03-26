@@ -5,7 +5,7 @@ import Header from "./Header";
 const Layout = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto pl-1 py-6 max-w-[1550px]">
+      <div className="container mx-auto max-w-[1649px]">
         <Header />
         <Outlet />
       </div>
