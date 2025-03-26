@@ -10,22 +10,27 @@ import ButtonPreviousComponent from '@shared/ui/button-next-previous/buttonPrevi
 
 const WritingParts = ({ onSubmit }) => {
   const { partId } = useParams();
+  const currentPath = String(partId); // Đảm bảo partId là string
+  
   const { 
     exams,
     isLoading, 
     error,
-    currentPath 
-  } = useWritingPart(partId);
+  } = useWritingPart();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
   if (!exams) return <div>No data available</div>;
 
+  // Lấy data cho part hiện tại
+  const currentPartData = exams[currentPath];
+  if (!currentPartData) return <div>Part not found</div>;
+
   const renderCurrentPart = () => {
     const commonProps = {
-      content: exams.content,
-      subContent: exams.subContent,
-      questions: exams.questions,
+      content: currentPartData.content,
+      subContent: currentPartData.subContent,
+      questions: currentPartData.questions,
       partId: currentPath
     };
 
