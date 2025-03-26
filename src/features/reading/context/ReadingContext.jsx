@@ -133,12 +133,6 @@ export const ReadingProvider = ({ children }) => {
     console.log(JSON.stringify(userAnswers.current));
   };
 
-  // Function to handle exam submission
-  const handleSubmit = () => {
-    console.log("Submitting Exam:", { exams, markedQuestions });
-    alert("Exam Submitted! 🎉");
-  };
-
   return (
     <ReadingContext.Provider
       value={{
@@ -158,7 +152,6 @@ export const ReadingProvider = ({ children }) => {
         handleNavigate,
         handleNext,
         handlePrev,
-        handleSubmit,
         currentPartIndex,
         currentQuestionIndex,
       }}
