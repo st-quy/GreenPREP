@@ -31,7 +31,10 @@ const WelcomeLayout = lazy(() => import("@pages/Welcome/WelcomeLayout.jsx"));
 const SpeakingTests = lazy(() => import("@pages/speaking/SpeakingTests.jsx"));
 const SpeakingSubmissionSucces = lazy(
   () => import("@pages/speaking/SpeakingSubmissionSuccess.jsx")
+  
 );
+const GrammarVocabulary = lazy(() => import("@features/grammarandvocabulary/GrammarVocabulary.jsx"));
+
 import Layout from "@pages/Layout.jsx";
 import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
 
@@ -145,6 +148,10 @@ const PrivateRoute = [
           {
             path: "grammar",
             element: <GrammarPage />,
+          },
+          {
+            path: "grammarvocabulary",
+            element: <GrammarVocabulary />,
           },
         ],
       },

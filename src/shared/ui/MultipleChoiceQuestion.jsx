@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import MarkerButton from '../../shared/ui/MarkerButton';
 
 const MultipleChoiceQuestion = ({
   questionNumber,
@@ -7,6 +8,8 @@ const MultipleChoiceQuestion = ({
   question,
   selectedAnswer,
   handleAnswerSelect,
+  isMarked,
+  onMarkQuestion,
 }) => {
   
 
@@ -18,6 +21,7 @@ const MultipleChoiceQuestion = ({
           <h2 className="text-lg font-semibold text-blue-600">
             Part {partNumber} - Question {questionNumber}
           </h2>
+          <MarkerButton onClick={onMarkQuestion} marked={isMarked} />
         </div>
 
         {/* Question Text */}
@@ -44,7 +48,7 @@ const MultipleChoiceQuestion = ({
                 className="form-radio h-5 w-5 text-blue-600"
               />
               <span className="ml-3 text-gray-800">
-                {option.label}. {option.text}
+                {option.key}. {option.value}
               </span>
             </label>
           ))}
