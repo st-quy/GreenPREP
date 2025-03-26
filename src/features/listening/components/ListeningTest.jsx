@@ -4,7 +4,7 @@ import CountdownTimer from '../../../shared/ui/CountdownTimer';
 import QuestionContent from './QuestionContent';
 import MarkerButton from '../../../shared/ui/MarkerButton';
 import AudioPlayer from './AudioPlayer';
-import { useListeningTest } from '../../auth/hooks/useListeningTest';
+import { useListeningTest } from '../hooks/useListeningTest';
 import ButtonNext from '../../../shared/ui/button-next-previous/buttonNext';
 import ButtonPrevious from '../../../shared/ui/button-next-previous/buttonPrevious';
 

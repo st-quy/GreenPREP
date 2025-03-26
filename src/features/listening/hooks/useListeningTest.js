@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { ListeningApi } from '../../auth/api';
+import { ListeningApi } from '../../listening/api';
 
 export const useListeningTest = () => {
   const queryClient = useQueryClient();
