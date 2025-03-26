@@ -14,7 +14,7 @@ const WritingTestTaking = () => {
 
   useEffect(() => {
     
-    dispatch(setTime(3000));
+    dispatch(setTime(5));
   }, [dispatch]);
 
   const handleTimeUp = (timeUp) => {
@@ -25,7 +25,6 @@ const WritingTestTaking = () => {
   };
 
   const handleSubmitTest = () => {
-    
     setIsModalVisible(false);
     navigate("/session/writing/success");
   };
@@ -49,10 +48,8 @@ const WritingTestTaking = () => {
         onSubmit={handleSubmitTest}
         onCancel={() => setIsModalVisible(false)}
         showCancel={!isTimeUp}
-        title={isTimeUp ? "Time's up!" : "Are you sure you want to submit test?"}
-        description={isTimeUp 
-          ? "Your time has expired. Your test will be submitted automatically."
-          : "After you submit your test, you will no longer have access to the questions, nor will you be able to review or make any changes to your answers."
+        title={"Are you sure you want to submit test?"}
+        description={"After you submit your test, you will no longer have access to the questions, nor will you be able to review or make any changes to your answers."
         }
       />
     </div>
