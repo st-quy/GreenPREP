@@ -4,11 +4,9 @@ import Header from "./Header";
 
 const Layout = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto max-w-[1649px]">
-        <Header />
-        <Outlet />
-      </div>
+    <div className="px-20">
+      <Header />
+      <Outlet />
     </div>
   );
 };

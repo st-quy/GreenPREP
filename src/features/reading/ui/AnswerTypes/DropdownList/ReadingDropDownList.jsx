@@ -1,21 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropInline from "./DropInline/DropInline";
 import DropdownList from "@shared/ui/DropdownList";
+import { useReadingContext } from "@features/reading/context/ReadingContext";
 
 const ReadingDropdownList = ({ dataSource }) => {
   const [userAnswers, setUserAnswers] = useState({});
+  const { updateAnswer, getAnswerData } = useReadingContext();
+  const { leftItems, rightItems } = dataSource.AnswerContent;
+  useEffect(() => {
+    const answerData = getAnswerData();
+    if (answerData) {
+      const initialAnswers = answerData.reduce((acc, { key, value }) => {
+        acc[key] = value; // Sử dụng key là tên đoạn văn
+        return acc;
+      }, {});
+      setUserAnswers(initialAnswers);
+    }
+  }, []);
+  const handleAnswerChange = (index, value) => {
+    const key = leftItems?.[index];
+    setUserAnswers((prev) => ({ ...prev, [key]: value }));
 
-  const handleAnswerChange = (idx, value) => {
-    setUserAnswers((prev) => ({
-      ...prev,
-      [idx]: value,
-    }));
+    updateAnswer(key, value);
   };
 
   if (dataSource.AnswerContent.options) {
     return <DropInline data={dataSource} />;
   }
-
   return (
     <div className="text-sm md:text-[18px]">
       {dataSource.AnswerContent.content && (
@@ -50,9 +61,9 @@ const ReadingDropdownList = ({ dataSource }) => {
           <label className="text-[#111928]">{question}</label>
 
           <DropdownList
-            options={dataSource.AnswerContent.rightItems || []}
-            selectedValue={userAnswers[idx] || ""}
-            onChange={(value) => handleAnswerChange(idx, value)}
+            options={rightItems || []}
+            selectedValue={userAnswers[question] || ""}
+            onChange={(value) => handleAnswerChange(index, value)}
             selectClassName="min-w-[169px]"
           />
         </div>
