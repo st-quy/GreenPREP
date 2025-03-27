@@ -33,7 +33,7 @@ const WritingTest = () => {
 
   useEffect(() => {
     if (questions) {
-      setTotalQuestion(questions?.Parts?.length);
+      setTotalQuestion(questions.Parts.length);
     }
   }, [questions]);
 
