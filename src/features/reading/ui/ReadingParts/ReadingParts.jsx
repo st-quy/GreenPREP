@@ -7,6 +7,7 @@ import ReadingMarkButton from "../ReadingMarkButton/ReadingMarkButton";
 import { formatStringWithNewlines } from "@shared/lib/utils/formatString";
 import { useReadingContext } from "@features/reading/context/ReadingContext";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
+import { useNavigate } from "react-router-dom";
 
 const ReadingParts = () => {
   const {
@@ -24,9 +25,11 @@ const ReadingParts = () => {
   } = useReadingContext();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     setIsModalVisible(true);
+    localStorage.removeItem("countdownTime");
   };
 
   if (isLoading)
@@ -95,7 +98,7 @@ const ReadingParts = () => {
       <ConfirmTestSubmissionModal
         visible={isModalVisible}
         onSubmit={() => {
-          handleSubmit();
+          navigate("/session/reading/reading-success");
           setIsModalVisible(false);
         }}
         onCancel={() => setIsModalVisible(false)}

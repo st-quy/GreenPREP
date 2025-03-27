@@ -1,11 +1,16 @@
 import Header from "@pages/Header";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 export default function WelcomeLayout() {
+  const location = useLocation();
+  const isWelcomeScreen = location.pathname === "/"; // Adjust the path as needed
+
   return (
     <>
       <Header />
-      <Outlet />
+      <div className={isWelcomeScreen ? "" : "p-10"}>
+        <Outlet />
+      </div>
     </>
   );
 }
