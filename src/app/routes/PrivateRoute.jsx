@@ -48,6 +48,7 @@ const SpeakingSubmissionSucces = lazy(
 import Layout from "@pages/Layout.jsx";
 import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
 import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
+import ReadingSuccess from "@pages/Reading/ReadingSuccess/ReadingSuccess.jsx";
 
 const PrivateRoute = [
   {
@@ -139,6 +140,10 @@ const PrivateRoute = [
               {
                 path: "reading-test",
                 element: <ReadingTestTaking />,
+              },
+              {
+                path: "reading-success",
+                element: <ReadingSuccess />,
               },
             ],
           },
