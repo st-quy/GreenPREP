@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const SpeakingSubmissionSucces = () => {
   const navigate = useNavigate();
   const handleNextTest = () => {
-    navigate("");
+    navigate("/session/listening");
   };
   return <SubmissionSuccess testType="speaking" onNextTest={handleNextTest} />;
 };
