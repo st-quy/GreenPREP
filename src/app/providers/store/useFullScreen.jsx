@@ -205,40 +205,96 @@ export function useFullScreen() {
     const handleKeyDown = (e) => {
       if (!testActive) return;
 
+      // Handle Ctrl+C (copy)
+      if (e.ctrlKey && e.key === "c") {
+        e.preventDefault();
+        e.stopPropagation();
+        showModal({
+          title: "Copy Not Allowed",
+          content: "Copying content during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
+        return false;
+      }
+
+      // Handle Ctrl+V (paste)
+      if (e.ctrlKey && e.key === "v") {
+        e.preventDefault();
+        e.stopPropagation();
+        showModal({
+          title: "Paste Not Allowed",
+          content: "Pasting content during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
+        return false;
+      }
+
+      // Handle Ctrl+W (close tab)
+      if (e.ctrlKey && e.key === "w") {
+        e.preventDefault();
+        e.stopPropagation();
+        showModal({
+          title: "Closing Tab Not Allowed",
+          content: "Closing the tab during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
+        return false;
+      }
+
+      if (e.ctrlKey && e.key === "Tab") {
+        e.preventDefault();
+        e.stopPropagation();
+        showModal({
+          title: "Tab Switching Not Allowed",
+          content: "Switching tabs during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
+        return false;
+      }
+      if (e.ctrlKey && e.key === "Tab") {
+        e.preventDefault();
+        e.stopPropagation();
+        showModal({
+          title: "Tab Switching Not Allowed",
+          content: "Switching tabs during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
+        return false;
+      }
+      if (e.ctrlKey && e.key === "n") {
+        e.preventDefault();
+        e.stopPropagation();
+        showModal({
+          title: "New Window Not Allowed",
+          content: "Opening new windows during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
+        return false;
+      }
+      if (e.ctrlKey && e.key === "t") {
+        e.preventDefault();
+        e.stopPropagation();
+        showModal({
+          title: "New Tab Not Allowed",
+          content: "Opening new tabs during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
+        return false;
+      }
+
+      //Macos
+
       const blockedKeys = {
         F11: {
           title: "Fullscreen Toggle Not Allowed",
           content: "Toggling fullscreen during the test is not allowed.",
-        },
-        Tab: {
-          condition: e.ctrlKey,
-          title: "Tab Switching Not Allowed",
-          content: "Switching tabs during the test is not allowed.",
-        },
-        t: {
-          condition: e.ctrlKey,
-          title: "New Tab Not Allowed",
-          content: "Opening new tabs during the test is not allowed.",
-        },
-        n: {
-          condition: e.ctrlKey,
-          title: "New Window Not Allowed",
-          content: "Opening new windows during the test is not allowed.",
-        },
-        w: {
-          condition: e.ctrlKey,
-          title: "Closing Tab Not Allowed",
-          content: "Closing the tab during the test is not allowed.",
-        },
-        c: {
-          condition: e.ctrlKey,
-          title: "Copy Not Allowed",
-          content: "Copying content during the test is not allowed.",
-        },
-        v: {
-          condition: e.ctrlKey,
-          title: "Paste Not Allowed",
-          content: "Pasting content during the test is not allowed.",
         },
         F4: {
           condition: e.altKey,
@@ -396,7 +452,22 @@ export function useFullScreen() {
         });
       }
     };
-
+    window.addEventListener("copy", (event) => {
+      showModal({
+        title: "Copy Not Allowed",
+        content: "Copy Function during the test is not allowed.",
+        okText: "Continue Test",
+        maskClosable: false,
+      });
+    });
+    window.addEventListener("paste", (event) => {
+      showModal({
+        title: "Paste Not Allowed",
+        content: "Paste Function during the test is not allowed.",
+        okText: "Continue Test",
+        maskClosable: false,
+      });
+    });
     window.addEventListener("keydown", handleKeyDown, true);
     document.addEventListener("contextmenu", handleContextMenu, true);
     window.addEventListener("beforeunload", handleBeforeUnload);
