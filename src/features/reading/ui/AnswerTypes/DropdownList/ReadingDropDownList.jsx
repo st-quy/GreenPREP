@@ -56,8 +56,8 @@ const ReadingDropdownList = ({ dataSource }) => {
         </div>
       )}
 
-      {dataSource.AnswerContent.leftItems.map((question, idx) => (
-        <div key={idx} className="flex items-center my-4 justify-between">
+      {leftItems.map((question, index) => (
+        <div key={index} className="flex items-center my-4 justify-between">
           <label className="text-[#111928]">{question}</label>
 
           <DropdownList
