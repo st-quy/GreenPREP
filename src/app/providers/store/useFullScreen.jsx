@@ -206,7 +206,7 @@ export function useFullScreen() {
       if (!testActive) return;
 
       // Handle Ctrl+C (copy)
-      if (e.ctrlKey && e.key === "c") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "c") {
         e.preventDefault();
         e.stopPropagation();
         showModal({
@@ -219,7 +219,7 @@ export function useFullScreen() {
       }
 
       // Handle Ctrl+V (paste)
-      if (e.ctrlKey && e.key === "v") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "v") {
         e.preventDefault();
         e.stopPropagation();
         showModal({
@@ -232,7 +232,7 @@ export function useFullScreen() {
       }
 
       // Handle Ctrl+W (close tab)
-      if (e.ctrlKey && e.key === "w") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "w") {
         e.preventDefault();
         e.stopPropagation();
         showModal({
@@ -244,7 +244,7 @@ export function useFullScreen() {
         return false;
       }
 
-      if (e.ctrlKey && e.key === "Tab") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Tab") {
         e.preventDefault();
         e.stopPropagation();
         showModal({
@@ -255,7 +255,7 @@ export function useFullScreen() {
         });
         return false;
       }
-      if (e.ctrlKey && e.key === "Tab") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Tab") {
         e.preventDefault();
         e.stopPropagation();
         showModal({
@@ -266,7 +266,7 @@ export function useFullScreen() {
         });
         return false;
       }
-      if (e.ctrlKey && e.key === "n") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "n") {
         e.preventDefault();
         e.stopPropagation();
         showModal({
@@ -277,7 +277,7 @@ export function useFullScreen() {
         });
         return false;
       }
-      if (e.ctrlKey && e.key === "t") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "t") {
         e.preventDefault();
         e.stopPropagation();
         showModal({
@@ -295,7 +295,7 @@ export function useFullScreen() {
           content: "Toggling fullscreen during the test is not allowed.",
         },
         F4: {
-          condition: e.altKey,
+          condition: e.altKey || e.metaKey,
           title: "Closing Window Not Allowed",
           content: "Closing the window during the test is not allowed.",
         },
@@ -307,7 +307,7 @@ export function useFullScreen() {
 
       // Handle Ctrl+1 through Ctrl+9 (tab switching)
       if (
-        e.ctrlKey &&
+        (e.ctrlKey || e.metaKey) &&
         !e.altKey &&
         !e.shiftKey &&
         !isNaN(Number.parseInt(e.key)) &&
@@ -325,7 +325,10 @@ export function useFullScreen() {
       }
 
       // Handle Alt+Left/Right (browser navigation)
-      if (e.altKey && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+      if (
+        (e.altKey || e.metaKey) &&
+        (e.key === "ArrowLeft" || e.key === "ArrowRight")
+      ) {
         e.preventDefault();
         e.stopPropagation();
         showModal({
