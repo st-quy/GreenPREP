@@ -210,11 +210,6 @@ export function useFullScreen() {
           title: "Fullscreen Toggle Not Allowed",
           content: "Toggling fullscreen during the test is not allowed.",
         },
-        Escape: {
-          title: "Fullscreen Required", // Can't prevent because of browse policies
-          content:
-            "You must remain in fullscreen mode during the test. Please re-enter fullscreen manually.",
-        },
         Tab: {
           condition: e.ctrlKey,
           title: "Tab Switching Not Allowed",
@@ -250,6 +245,10 @@ export function useFullScreen() {
           title: "Closing Window Not Allowed",
           content: "Closing the window during the test is not allowed.",
         },
+        F12: {
+          title: "Developer Tools Not Allowed",
+          content: "Opening developer tools during the test is not allowed.",
+        },
       };
 
       // Handle Ctrl+1 through Ctrl+9 (tab switching)
@@ -284,29 +283,20 @@ export function useFullScreen() {
         return false;
       }
 
-      // Handle Alt+Tab (can't prevent because of Alt+Tab is handled outside the browser entirely, by the Windows DWM, but can warn)
-      // Do something here according to the schools/web polices
-      if (e.altKey && e.key === "Tab") {
-        showModal({
-          title: "Warning",
-          content:
-            "Switching applications during the test is not allowed. Please remain in the test window.",
-          okText: "Continue Test",
-        });
-      }
-
       // Check other blocked keys
       const keyInfo = blockedKeys[e.key];
-      if (keyInfo && (!keyInfo.condition || keyInfo.condition === true)) {
-        e.preventDefault();
-        e.stopPropagation();
-        showModal({
-          title: keyInfo.title,
-          content: keyInfo.content,
-          okText: "Continue Test",
-          maskClosable: false,
-        });
-        return false;
+      if (keyInfo) {
+        if (keyInfo.condition === undefined || keyInfo.condition === true) {
+          e.preventDefault();
+          e.stopPropagation();
+          showModal({
+            title: keyInfo.title,
+            content: keyInfo.content,
+            okText: "Continue Test",
+            maskClosable: false,
+          });
+          return false;
+        }
       }
     };
 
@@ -351,6 +341,12 @@ export function useFullScreen() {
         isVisible &&
         sessionStorage.getItem("tabSwitchAttempted") === "true"
       ) {
+        //send log to backend or somthing else here
+        console.log("Security Alert: Change Tab detected", {
+          timestamp: new Date().toISOString(),
+          event: "Tab change",
+          userAgent: navigator.userAgent,
+        });
         sessionStorage.removeItem("tabSwitchAttempted");
         showModal({
           title: "Tab Switching Detected",
@@ -374,6 +370,16 @@ export function useFullScreen() {
         "testFullscreenActive",
         isCurrentlyFullScreen.toString()
       );
+
+      // Log fullscreen exit attempts
+      if (!isCurrentlyFullScreen && testActive) {
+        // send to back-end or somthing else here
+        console.log("Security Alert: Fullscreen exited", {
+          timestamp: new Date().toISOString(),
+          event: "fullscreen_exit",
+          userAgent: navigator.userAgent,
+        });
+      }
 
       if (
         !isCurrentlyFullScreen &&
