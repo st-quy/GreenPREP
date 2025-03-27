@@ -57,8 +57,8 @@ const OrderingList = ({ options, onChange }) => {
         {...listeners}
         className="bg-white border flex flex-row items-center min-h-[20px] sm:min-h-[50px] border-[#E4E4E4] rounded-md shadow-sm cursor-grab py-0 px-3"
       >
-        <img src={OrderingItemIcon} className="w-4 h-4" />
-        <span className="ml-6">{text}</span>
+        <img src={OrderingItemIcon} className="w-4 h-4 " />
+        <span className="ml-6 md:text-[18px]">{text}</span>
       </div>
     );
   };
