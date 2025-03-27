@@ -255,17 +255,7 @@ export function useFullScreen() {
         });
         return false;
       }
-      if ((e.ctrlKey || e.metaKey) && e.key === "Tab") {
-        e.preventDefault();
-        e.stopPropagation();
-        showModal({
-          title: "Tab Switching Not Allowed",
-          content: "Switching tabs during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
-        return false;
-      }
+
       if ((e.ctrlKey || e.metaKey) && e.key === "n") {
         e.preventDefault();
         e.stopPropagation();
