@@ -87,6 +87,7 @@ export default function SpeakingTests() {
     setIsTestActive(false);
     setTestStatus("completed");
     setIsRecordingActive(false);
+    handleFinish();
   };
 
   const handleFinish = () => {
@@ -240,6 +241,7 @@ export default function SpeakingTests() {
         visible={isModalOpen}
         onSubmit={handleOnSubmit}
         onCancel={handleCancelModal}
+        showCancel={false}
       />
     </>
   );
