@@ -5,10 +5,10 @@ import SubmissionSuccess from "@shared/SubmissionSuccess/SubmissionSuccess";
 const ReadingSuccess = () => {
   const navigate = useNavigate();
   const handleNextTest = () => {
-    navigate("/");
+    navigate("/session/writing");
   };
   return (
-    <div className="py-6 sm:py-8 md:py-12">
+    <div className="py-6">
       <SubmissionSuccess testType="Reading" onNextTest={handleNextTest} />
     </div>
   );

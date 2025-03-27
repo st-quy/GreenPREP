@@ -2,7 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import CountdownTimer from "../../../shared/ui/CountdownTimer";
 import { useNavigate } from "react-router-dom";
 import { Button, Card } from "antd";
-import { FlagOutlined, PlayCircleOutlined } from "@ant-design/icons";
+import {
+  FlagOutlined,
+  PauseCircleOutlined,
+  PlayCircleOutlined,
+} from "@ant-design/icons";
 import QuestionMuitipleChoice from "./QuestionMuitipleChoice";
 import QuestionDropdownList from "./QuestionDropdownList";
 import { useListeningTest } from "../hooks/useListeningTest";
@@ -224,7 +228,16 @@ const ListeningTest = () => {
               className="!rounded-full"
               type="primary"
               ghost
-              icon={<PlayCircleOutlined />}
+              icon={
+                historyListen.length &&
+                historyListen.find(
+                  (item) => item.key === `audio-${currentQuestionIndex}-first`
+                ) ? (
+                  <PauseCircleOutlined />
+                ) : (
+                  <PlayCircleOutlined />
+                )
+              }
               onClick={() => toggleAudio(`audio-${currentQuestionIndex}-first`)}
               key={`audio-${currentQuestionIndex}-first`}
               disabled={
@@ -254,7 +267,16 @@ const ListeningTest = () => {
               className="!rounded-full"
               type="primary"
               ghost
-              icon={<PlayCircleOutlined />}
+              icon={
+                historyListen.length &&
+                historyListen.find(
+                  (item) => item.key === `audio-${currentQuestionIndex}-second`
+                ) ? (
+                  <PauseCircleOutlined />
+                ) : (
+                  <PlayCircleOutlined />
+                )
+              }
               onClick={() =>
                 toggleAudio(`audio-${currentQuestionIndex}-second`)
               }
