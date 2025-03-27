@@ -14,28 +14,6 @@ export function useFullScreen() {
   const fullscreenRestorationAttempted = useRef(false); // Prevents multiple restoration attempts
   const supportsFullscreenRef = useRef(null); // Cached fullscreen support check
 
-  // Helper function to check if fullscreen is supported (with caching)
-  const checkFullscreenSupport = useCallback(() => {
-    if (supportsFullscreenRef.current !== null)
-      return supportsFullscreenRef.current;
-
-    try {
-      const docEl = document.documentElement;
-      const supportsFullScreen =
-        docEl.requestFullscreen !== undefined ||
-        "webkitRequestFullscreen" in docEl ||
-        "mozRequestFullScreen" in docEl ||
-        "msRequestFullscreen" in docEl;
-
-      supportsFullscreenRef.current = supportsFullScreen;
-      return supportsFullScreen;
-    } catch (err) {
-      console.error("Error checking fullscreen support:", err);
-      supportsFullscreenRef.current = false;
-      return false;
-    }
-  }, []);
-
   // Shows a modal dialog with anti-spam protection
   const showModal = useCallback((modalConfig) => {
     if (modalShownRef.current) return;
