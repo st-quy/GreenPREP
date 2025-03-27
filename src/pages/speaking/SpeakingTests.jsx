@@ -24,6 +24,8 @@ export default function SpeakingTests() {
   const [questionsData, setQuestionsData] = useState({});
   const [partFourQuest, setPartFourQuestion] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [canStartEarly, setCanStartEarly] = useState(false);
+  const [forceStartRecording, setForceStartRecording] = useState(false);
 
   const result = useQuery({
     queryKey: ["speakingData"],
@@ -37,6 +39,8 @@ export default function SpeakingTests() {
     setIsRecordingActive(false);
     setQuestionsData({});
     setPartFourQuestion([]);
+    setCanStartEarly(false);
+    setForceStartRecording(false);
 
     setTestDuration(partId == "1" ? 30 : partId == "4" ? 120 : 45);
     setPreparationTime(partId == "4" ? 60 : 5);
@@ -47,7 +51,7 @@ export default function SpeakingTests() {
       try {
         const parts = result.data.data.Parts;
         if (parts && parts.length > 0) {
-          let currentPart = `PART ${partId}`;
+          const currentPart = `PART ${partId}`;
           const currentPartIndex = parts.findIndex(
             (p) => p.Content == currentPart
           );
@@ -81,17 +85,18 @@ export default function SpeakingTests() {
   const handleRecordingStart = () => {
     setTestStatus("recording");
     setIsRecordingActive(true);
+    setCanStartEarly(false);
   };
 
   const handleRecordingComplete = () => {
     setIsTestActive(false);
     setTestStatus("completed");
     setIsRecordingActive(false);
-    handleFinish();
+    handleFinish(false);
   };
 
-  const handleFinish = () => {
-    setForceCompleted(true);
+  const handleFinish = (isCompleted) => {
+    setForceCompleted(isCompleted);
     setTimeout(() => {
       switch (partId) {
         case "1":
@@ -136,6 +141,11 @@ export default function SpeakingTests() {
 
   const handleCancelModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleEarlyStart = () => {
+    setForceStartRecording(true);
+    handleRecordingStart();
   };
 
   useEffect(() => {
@@ -216,6 +226,12 @@ export default function SpeakingTests() {
               size="medium"
               isTestStart={isTestActive}
               forceCompleted={forceCompleted}
+              onPreparationTimeElapsed={(elapsed) => {
+                if (preparationTime > 10 && elapsed >= 10) {
+                  setCanStartEarly(true);
+                }
+              }}
+              forceStartRecording={forceStartRecording}
             />
             <AudioVisualizer isRecording={isRecordingActive} />
           </div>
@@ -223,15 +239,29 @@ export default function SpeakingTests() {
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12 flex flex-col md:flex-row justify-between gap-4 md:gap-0">
           <p className="font-semibold text-xs md:text-sm">
-            Click the 'Finish Recording' button to stop recording.
+            {testStatus === "recording"
+              ? "Click the 'Finish Recording' button to stop recording."
+              : canStartEarly
+                ? "You can start recording now or wait for the preparation time to finish."
+                : "Prepare your answer based on the question above."}
           </p>
           {(testStatus === "recording" || testStatus === "completed") && (
             <Button
               type="primary"
               className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
-              onClick={handleFinish}
+              onClick={() => handleFinish(true)}
             >
               Finish Recording{" "}
+              <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
+            </Button>
+          )}
+          {testStatus === "preparing" && canStartEarly && (
+            <Button
+              type="primary"
+              className="bg-green-600 hover:bg-green-500 rounded-2xl w-full md:w-auto"
+              onClick={handleEarlyStart}
+            >
+              Start Recording{" "}
               <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
             </Button>
           )}

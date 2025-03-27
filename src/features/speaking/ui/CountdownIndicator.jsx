@@ -12,6 +12,8 @@ export const CountdownIndicator = ({
   size = "medium",
   isTestStart = false,
   forceCompleted = false,
+  onPreparationTimeElapsed = () => {},
+  forceStartRecording = false,
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(duration);
   const [isRunning, setIsRunning] = useState(false);
@@ -20,6 +22,7 @@ export const CountdownIndicator = ({
   const [preparationTimeRemaining, setPreparationTimeRemaining] =
     useState(preparationTime);
   const [isRecording, setIsRecording] = useState(false);
+  const [elapsedPreparationTime, setElapsedPreparationTime] = useState(0);
 
   const percentRemaining = (timeRemaining / duration) * 100;
 
@@ -75,6 +78,7 @@ export const CountdownIndicator = ({
     setIsPreparationPhase(false);
     setPreparationTimeRemaining(preparationTime);
     setIsRecording(false);
+    setElapsedPreparationTime(0);
   }, [duration, preparationTime]);
 
   const startTimer = useCallback(() => {
@@ -114,6 +118,12 @@ export const CountdownIndicator = ({
   }, [forceCompleted, isRunning, completeTimer]);
 
   useEffect(() => {
+    if (forceStartRecording && isPreparationPhase) {
+      startMainTimer();
+    }
+  }, [forceStartRecording, isPreparationPhase, startMainTimer]);
+
+  useEffect(() => {
     let interval;
 
     if (isPreparationPhase && preparationTimeRemaining > 0) {
@@ -126,13 +136,24 @@ export const CountdownIndicator = ({
           }
           return prev - 1;
         });
+
+        setElapsedPreparationTime((prev) => {
+          const newElapsed = prev + 1;
+          onPreparationTimeElapsed(newElapsed);
+          return newElapsed;
+        });
       }, 1000);
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPreparationPhase, preparationTimeRemaining, startMainTimer]);
+  }, [
+    isPreparationPhase,
+    preparationTimeRemaining,
+    startMainTimer,
+    onPreparationTimeElapsed,
+  ]);
 
   useEffect(() => {
     let interval;
