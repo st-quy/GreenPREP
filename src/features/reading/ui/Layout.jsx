@@ -4,7 +4,7 @@ import Header from "./Header/Header";
 
 const ReadingLayout = () => {
   return (
-    <div className="w-full min-h-screen bg-[#F9F9F9] px-4 md:px-4 lg:px-16">
+    <div className="w-full bg-[#F9F9F9] px-4 md:px-4 lg:px-16">
       <ReadingProvider>
         <Header />
         <Outlet />

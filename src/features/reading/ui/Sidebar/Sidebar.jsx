@@ -7,7 +7,7 @@ const Sidebar = () => {
   const navigator = useNavigate();
 
   const handleSubmitTest = () => {
-    navigator("/session/reading");
+    navigator("/session/writing");
     localStorage.removeItem("countdownTime");
   };
 

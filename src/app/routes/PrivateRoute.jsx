@@ -7,7 +7,7 @@ import IntroductionPage from "@pages/Welcome/IntroductionPage.jsx";
 const IntroReading = lazy(
   () => import("@pages/Reading/IntroductionScreen.jsx")
 );
-const GrammarPage = lazy(() => import("@pages/GrammarPage"));
+const GrammarPage = lazy(() => import("@pages/GrammarVocab/GrammarPage.jsx"));
 const GrammarVocabTest = lazy(
   () => import("@pages/GrammarVocab/GrammarVocabTest.jsx")
 );
@@ -36,7 +36,12 @@ const Introduction = lazy(() => import("@pages/speaking/IntroductionPage"));
 const SpeakingTransitionPage = lazy(
   () => import("@pages/speaking/SpeakingTransitionPage")
 );
-const WritingPage = lazy(() => import("@pages/WritingPage.jsx"));
+const WritingLayout = lazy(() => import("@pages/Writing/WritingLayout.jsx"));
+const WritingTest = lazy(() => import("@pages/Writing/WritingTest.jsx"));
+const WritingSubmissionSuccess = lazy(
+  () => import("@pages/Writing/WritingSubmissionSuccess.jsx")
+);
+
 const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
@@ -106,7 +111,6 @@ const PrivateRoute = [
             path: "rejected",
             element: <RejectedRequestPage />,
           },
-
           {
             path: "speaking",
             element: <SpeakingLayout />,
@@ -149,11 +153,19 @@ const PrivateRoute = [
           },
           {
             path: "writing",
-            element: <WritingPage />,
+            element: <WritingLayout />,
             children: [
               {
                 index: true,
                 element: <IntroWriting />,
+              },
+              {
+                path: "test",
+                element: <WritingTest />,
+              },
+              {
+                path: "submission",
+                element: <WritingSubmissionSuccess />,
               },
             ],
           },

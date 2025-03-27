@@ -9,9 +9,7 @@ const Header = () => {
         alt="listening icon"
         className="w-10 h-auto sm:w-12 md:w-16 lg:w-20 object-contain "
       />
-      <div className="text-xl sm:text-2xl md:text-[40px] font-bold text-black m-0">
-        Listening Test
-      </div>
+      <div className="text-4xl font-bold">Listening Test</div>
     </div>
   );
 };

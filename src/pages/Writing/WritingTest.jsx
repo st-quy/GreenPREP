@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import CountdownTimer from "@shared/ui/CountdownTimer";
 import { useNavigate } from "react-router-dom";
-import { Button, Card } from "antd";
+import { Button, Card, Space, Input } from "antd";
 import { FlagOutlined } from "@ant-design/icons";
 import QuestionMuitipleChoice from "@features/grammarvocab/components/QuestionMuitipleChoice";
 import QuestionDropdownList from "@features/grammarvocab/components/QuestionDropdownList";
-import { useGrammarVocabTest } from "@features/grammarvocab/hooks";
+import { useWritingTest } from "@features/writing/hooks";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 
-const GrammarVocabTest = () => {
+const WritingTest = () => {
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [listQuestion, setListQuestion] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
     JSON.parse(localStorage.getItem("selectedAnswersGVocab")) || {}
   );
@@ -22,10 +21,10 @@ const GrammarVocabTest = () => {
 
   const [totalQuestions, setTotalQuestion] = useState(0);
 
-  const { data: questions } = useGrammarVocabTest();
+  const { data: questions } = useWritingTest();
 
   const handleOnSubmit = () => {
-    navigate("/session/grammar/submission");
+    navigate("/session/writing/submission");
   };
 
   const handleCancelModal = () => {
@@ -34,17 +33,7 @@ const GrammarVocabTest = () => {
 
   useEffect(() => {
     if (questions) {
-      const totalQ = questions.Parts.reduce((total, part, index) => {
-        if (part.Questions && Array.isArray(part.Questions)) {
-          return total + part.Questions.length;
-        }
-        return total;
-      }, 0);
-      setTotalQuestion(totalQ);
-      const allQuestions = questions?.Parts.flatMap(
-        (part) => part.Questions || []
-      );
-      setListQuestion(allQuestions);
+      setTotalQuestion(questions.Parts.length);
     }
   }, [questions]);
 
@@ -63,7 +52,7 @@ const GrammarVocabTest = () => {
   }, [markedQuestions]);
 
   const handleSubmitTest = () => {
-    navigate("/session/reading");
+    navigate("/");
     localStorage.removeItem("countdownTime");
     localStorage.removeItem("selectedAnswersGVocab");
   };
@@ -84,7 +73,7 @@ const GrammarVocabTest = () => {
       setIsModalOpen(true);
     } else {
       setCurrentQuestionIndex((prevIndex) =>
-        Math.min(prevIndex + 1, listQuestion.length - 1)
+        Math.min(prevIndex + 1, questions.Parts.length - 1)
       );
     }
   };
@@ -99,28 +88,29 @@ const GrammarVocabTest = () => {
       [questionId]: !prev[questionId],
     }));
   };
+  console.log(questions);
 
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <Card className="rounded-xl p-6 shadow-sm">
-            {listQuestion.length > 0 && (
+            {questions?.Parts?.length > 0 && (
               <div className="flex flex-col gap-2 mb-4">
                 <div className="flex justify-between">
                   <span className="text-blue-600 font-bold">
-                    {listQuestion?.[currentQuestionIndex]?.Part?.Content}
+                    {questions.Parts?.[currentQuestionIndex]?.Content}
                   </span>
                   <Button
                     type="primary"
                     onClick={() =>
                       handleMarkQuestion(
-                        listQuestion?.[currentQuestionIndex].ID
+                        questions.Parts?.[currentQuestionIndex].ID
                       )
                     }
                     icon={
                       markedQuestions[
-                        listQuestion?.[currentQuestionIndex].ID
+                        questions.Parts?.[currentQuestionIndex].ID
                       ] ? (
                         <FlagOutlined color="red" />
                       ) : (
@@ -128,33 +118,72 @@ const GrammarVocabTest = () => {
                       )
                     }
                     className={`ml-4 px-3 py-1 text-sm font-medium rounded-xl transition-all duration-200 border-0
-                      ${markedQuestions[listQuestion?.[currentQuestionIndex].ID] ? "bg-yellow-500 !text-white hover:!bg-yellow-600" : "bg-gray-200 !text-black hover:!bg-gray-300"}`}
+                      ${markedQuestions[questions.Parts?.[currentQuestionIndex].ID] ? "bg-yellow-500 !text-white hover:!bg-yellow-600" : "bg-gray-200 !text-black hover:!bg-gray-300"}`}
                   >
-                    {markedQuestions[listQuestion?.[currentQuestionIndex].ID]
-                      ? "Unmark"
+                    {markedQuestions[questions.Parts?.[currentQuestionIndex].ID]
+                      ? "Marked"
                       : "Mark"}
                   </Button>
                 </div>
+                <span className="text-gray-500 font-bold">
+                  {questions?.Parts?.[currentQuestionIndex]?.SubContent}
+                </span>
 
-                {listQuestion.length &&
-                listQuestion?.[currentQuestionIndex].Type ===
-                  "multiple-choice" ? (
-                  <QuestionMuitipleChoice
-                    key={currentQuestionIndex}
-                    question={listQuestion?.[currentQuestionIndex]}
-                    questionIndex={currentQuestionIndex}
-                    selectedAnswers={selectedAnswers}
-                    handleAnswerSelect={handleAnswerSelect}
-                  />
-                ) : (
-                  <QuestionDropdownList
-                    key={currentQuestionIndex}
-                    question={listQuestion?.[currentQuestionIndex]}
-                    questionIndex={currentQuestionIndex}
-                    selectedAnswers={selectedAnswers}
-                    handleAnswerSelect={handleAnswerSelect}
-                  />
-                )}
+                <Space direction="vertical" className="w-full">
+                  {questions.Parts?.[currentQuestionIndex]?.Questions.map(
+                    (item, i) => {
+                      const countLimit =
+                        questions.Parts?.[
+                          currentQuestionIndex
+                        ]?.SubContent.match(/\d+/) ||
+                        questions.Parts?.[currentQuestionIndex]?.Questions?.[
+                          i
+                        ].SubContent.match(/\d+/);
+                      return (
+                        <div key={i}>
+                          <div className="my-2 font-semibold">
+                            {item.Content}
+                          </div>
+                          <div className="relative">
+                            <Input.TextArea
+                              key={`Part${currentQuestionIndex}-${i}`}
+                              onChange={(e) => {
+                                const text = e.target.value;
+                                const words = text
+                                  .split(/\s+/)
+                                  .filter((word) => word.length > 0);
+
+                                if (words.length > countLimit) {
+                                  const limitedText = words
+                                    .slice(0, countLimit)
+                                    .join(" ");
+                                  e.target.value = limitedText;
+                                  handleAnswerSelect(item.ID, limitedText);
+                                  return;
+                                }
+
+                                handleAnswerSelect(item.ID, text);
+                                e.target.dataset.count = `${words.length}/${countLimit}`;
+                              }}
+                              value={selectedAnswers[item.ID] || ""}
+                              placeholder={`Type your answer here (maximum ${countLimit} words)`}
+                              data-count={`0/${countLimit}`}
+                              autoSize
+                            />
+                            <div className="text-sm text-gray-500 mt-1 text-right">
+                              {
+                                (selectedAnswers[item.ID] || "")
+                                  .split(/\s+/)
+                                  .filter((word) => word.length > 0).length
+                              }
+                              /{countLimit} words
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                  )}
+                </Space>
               </div>
             )}
           </Card>
@@ -191,9 +220,14 @@ const GrammarVocabTest = () => {
               {totalQuestions &&
                 Array?.from({ length: totalQuestions }, (_, i) => i + 1).map(
                   (question, index) => {
-                    const questionID = listQuestion?.[index]?.ID;
-                    const isAnswered =
-                      selectedAnswers.hasOwnProperty(questionID);
+                    const questionID = questions.Parts?.[index]?.ID;
+                    const isAnswered = questions.Parts?.[
+                      index
+                    ]?.Questions.every(
+                      (question) =>
+                        selectedAnswers.hasOwnProperty(question.ID) &&
+                        selectedAnswers[question.ID].trim() !== ""
+                    );
                     const isMarked = markedQuestions[questionID];
 
                     return (
@@ -220,4 +254,4 @@ const GrammarVocabTest = () => {
   );
 };
 
-export default GrammarVocabTest;
+export default WritingTest;
