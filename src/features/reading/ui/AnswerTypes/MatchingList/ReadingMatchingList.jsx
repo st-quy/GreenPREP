@@ -19,18 +19,15 @@ const ReadingMatchingList = ({ dataSource }) => {
         acc[key] = value;
         return acc;
       }, {});
-      console.log("Initial Answers:", initialAnswers);
       setSelectedHeadings(initialAnswers);
     }
   }, []);
   const handleSelectChange = (index, value) => {
     const key = leftItems?.[index];
     if (!key) {
-      console.warn("Invalid key from leftItems at index:", index);
       return;
     }
 
-    console.log("Selected:", key, value);
     setSelectedHeadings((prev) => ({ ...prev, [key]: value }));
     updateAnswer(key, value);
   };

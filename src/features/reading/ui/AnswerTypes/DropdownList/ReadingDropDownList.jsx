@@ -14,7 +14,6 @@ const ReadingDropdownList = ({ dataSource }) => {
         acc[key] = value; // Sử dụng key là tên đoạn văn
         return acc;
       }, {});
-      console.log("Initial Answers:", initialAnswers);
       setUserAnswers(initialAnswers);
     }
   }, []);

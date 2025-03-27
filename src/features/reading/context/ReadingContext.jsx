@@ -107,7 +107,6 @@ export const ReadingProvider = ({ children }) => {
         answer: answerData,
       });
     }
-    console.log(JSON.stringify(userAnswers.current));
   };
   const updateAnswer = (key, value) => {
     const currentIndex = userAnswers.current.findIndex(
@@ -129,8 +128,6 @@ export const ReadingProvider = ({ children }) => {
         answer: [{ key, value }],
       });
     }
-
-    console.log(JSON.stringify(userAnswers.current));
   };
 
   return (

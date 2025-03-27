@@ -4,8 +4,11 @@ import OrderingList from "@shared/ui/OrderingList";
 import { useReadingContext } from "@features/reading/context/ReadingContext";
 
 const ReadingOrderingList = ({ dataSource }) => {
-  const { updateAllCurrentQuestionAnswer, getAnswerData, currentQuestionIndex } =
-    useReadingContext();
+  const {
+    updateAllCurrentQuestionAnswer,
+    getAnswerData,
+    currentQuestionIndex,
+  } = useReadingContext();
 
   const formatAnswersData = (data) => {
     return data?.map((item, index) => ({ key: item, value: index + 1 })) || [];
@@ -19,7 +22,6 @@ const ReadingOrderingList = ({ dataSource }) => {
 
   useEffect(() => {
     const answerData = getAnswerData();
-    console.log("Answer Data:", answerData);
 
     if (answerData?.length) {
       const orderedOptions = reverseFormatAnswersData(answerData).map((key) =>
@@ -27,7 +29,7 @@ const ReadingOrderingList = ({ dataSource }) => {
       );
       setOption([...orderedOptions]);
     } else {
-      setOption([...dataSource.AnswerContent.options]); 
+      setOption([...dataSource.AnswerContent.options]);
     }
   }, [getAnswerData, currentQuestionIndex]);
 
@@ -38,7 +40,11 @@ const ReadingOrderingList = ({ dataSource }) => {
   return (
     <Card className="w-full mx-auto border-none">
       {/* Thêm key để ép re-render */}
-      <OrderingList key={option.join("-")} options={option} onChange={handleOrderingChange} />
+      <OrderingList
+        key={option.join("-")}
+        options={option}
+        onChange={handleOrderingChange}
+      />
     </Card>
   );
 };
