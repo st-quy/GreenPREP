@@ -17,13 +17,13 @@ const ReadingDropdownList = ({ dataSource }) => {
   }
 
   return (
-    <div className="text-sm md:text-base">
+    <div className="text-sm md:text-[18px]">
       {dataSource.AnswerContent.content && (
         <div className="mb-6">
           {dataSource.AnswerContent.content.split("\n").map((line, index) => {
             if (!line.includes(":")) {
               return (
-                <p key={index} className="text-black">
+                <p key={index} className="text-[#111928]">
                   {line}
                 </p>
               );
@@ -31,11 +31,14 @@ const ReadingDropdownList = ({ dataSource }) => {
 
             const parts = line.split(":");
             return (
-              <p key={index} className="text-black my-2">
-                <span className="font-bold text-black underline">
+              <p key={index} className="text-[#111928] my-2">
+                <span className="font-bold text-[#111928] underline">
                   {parts[0]}
                 </span>
-                :<span className="text-black">{parts.slice(1).join(":")}</span>
+                :
+                <span className="text-[#111928]">
+                  {parts.slice(1).join(":")}
+                </span>
               </p>
             );
           })}
@@ -44,7 +47,7 @@ const ReadingDropdownList = ({ dataSource }) => {
 
       {dataSource.AnswerContent.leftItems.map((question, idx) => (
         <div key={idx} className="flex items-center my-4 justify-between">
-          <label className="text-black">{question}</label>
+          <label className="text-[#111928]">{question}</label>
 
           <DropdownList
             options={dataSource.AnswerContent.rightItems || []}

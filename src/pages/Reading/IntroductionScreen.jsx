@@ -95,7 +95,7 @@ const IntroReading = () => {
           type="primary"
           onClick={handleBeginTest}
           size="large"
-          style={{ borderRadius: "9999px" }}
+          shape="round"
           className="
               px-4 py-1 sm:px-6 sm:py-3 
               h-auto flex items-center font-medium 

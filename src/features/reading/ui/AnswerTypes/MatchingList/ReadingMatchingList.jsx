@@ -31,23 +31,26 @@ const ReadingMatchingList = ({ dataSource }) => {
 
   return (
     <div className=" bg-white rounded-lg">
-      <h3 className="text-lg font-medium mb-4">{title}</h3>
+      <h3 className="text-[18px] text-[#111928] font-bold py-6 ">{title}</h3>
 
       {leftItems.map((item, index) => (
         <div key={index} className="mb-6">
           <div className="flex items-center mb-2">
-            <p className="font-medium text-gray-700 underline">{item}</p>
-            <div className="ml-4 w-64">
+            <p className="text-[18px] font-medium text-[#111928] underline">
+              {item}
+            </p>
+            <div className="text-[18px] text-[#111928] ml-4 w-64">
               <DropdownList
                 options={rightItems}
                 selectedValue={selectedHeadings[index]}
                 onChange={(value) => handleSelectChange(index, value)}
                 selectClassName="min-w-[250px]"
-                placeholder="Select answer"
               />
             </div>
           </div>
-          <p className="text-gray-800 text-justify">{paragraphs[index]}</p>
+          <p className="text-[#111928] text-justify text-[18px]">
+            {paragraphs[index]}
+          </p>
         </div>
       ))}
     </div>

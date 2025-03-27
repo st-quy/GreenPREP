@@ -50,7 +50,7 @@ const ReadingParts = () => {
         <div>
           <div className="w-[100%] rounded-[20px] bg-white p-6 pb-0 mb-4 border shadow-xl border-gray-200 lg:p-8 lg:pb-0 lg:h-fit">
             <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
-              <h6 className="mb-2 font-[600] lg:text-[24px]">
+              <h6 className="mb-2 text-[#111928] font-[600] text-[18px] lg:text-[24px]">
                 {formatStringWithNewlines(currentPart.Content)}
               </h6>
               <ReadingMarkButton questionId={currentQuestion.ID} />
@@ -65,7 +65,7 @@ const ReadingParts = () => {
       ) : (
         <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
           <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
-            <h6 className="mb-2 font-[600] lg:text-[24px]">
+            <h6 className="mb-2 text-[#111928] font-[600] text-[18px] lg:text-[24px]">
               {formatStringWithNewlines(currentPart.Content)}
             </h6>
             <ReadingMarkButton questionId={currentQuestion.ID} />
