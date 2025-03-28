@@ -85,10 +85,10 @@ const RegisterForm = () => {
                   "0px 12px 34px 0px #0D0A2C14, 0px 34px 26px 0px #0D0A2C0D",
               }}
             >
-              <h2 className="w-[507px] h-[57px] font-bold text-[48px] leading-[58px] tracking-normal text-gray-900 mb-1 sm:mb-2">
+              <h2 className="w-[507px] h-[57px] font-bold text-[48px] leading-[58px] tracking-normal text-[#111928] mb-1 sm:mb-2">
                 Create an account
               </h2>
-              <p className="w-[234px] h-[24px] font-normal text-[16px] leading-[24px] tracking-normal text-gray-600 mb-4 sm:mb-6">
+              <p className="w-[234px] h-[24px] font-normal text-[16px] leading-[24px] tracking-normal text-[#637381] mb-4 sm:mb-6">
                 Create an account to continue.
               </p>
 
@@ -349,7 +349,7 @@ const RegisterForm = () => {
               </Form>
 
               <div className="mt-4 flex items-center justify-start">
-                <span className="font-medium text-[14px] leading-[22px] tracking-normal text-gray-500">
+                <span className="font-medium text-[14px] leading-[22px] tracking-normal text-[#89868D]">
                   Already have an account?
                 </span>{" "}
                 <Link
