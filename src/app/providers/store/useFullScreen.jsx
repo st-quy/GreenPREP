@@ -289,6 +289,8 @@ export function useFullScreen() {
         return false;
       }
 
+      //Macos
+
       const blockedKeys = {
         F11: {
           title: "Fullscreen Toggle Not Allowed",
@@ -450,7 +452,22 @@ export function useFullScreen() {
         });
       }
     };
-
+    window.addEventListener("copy", (event) => {
+      showModal({
+        title: "Copy Not Allowed",
+        content: "Copy Function during the test is not allowed.",
+        okText: "Continue Test",
+        maskClosable: false,
+      });
+    });
+    window.addEventListener("paste", (event) => {
+      showModal({
+        title: "Paste Not Allowed",
+        content: "Paste Function during the test is not allowed.",
+        okText: "Continue Test",
+        maskClosable: false,
+      });
+    });
     window.addEventListener("keydown", handleKeyDown, true);
     document.addEventListener("contextmenu", handleContextMenu, true);
     window.addEventListener("beforeunload", handleBeforeUnload);

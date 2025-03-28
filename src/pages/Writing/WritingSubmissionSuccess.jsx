@@ -10,7 +10,13 @@ const WritingSubmissionSuccess = () => {
     endTest();
     navigate("/");
   };
-  return <SubmissionSuccess testType="Writing" onNextTest={handleNextTest} />;
+  return (
+    <SubmissionSuccess
+      testType="Writing"
+      onNextTest={handleNextTest}
+      isLastTest={true}
+    />
+  );
 };
 
 export default WritingSubmissionSuccess;
