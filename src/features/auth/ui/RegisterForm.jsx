@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-// Remove the Logo import since you'll use your own image
-// import { Logo } from "@assets/images";
+import * as Yup from "yup";
 
 const RegisterForm = () => {
   const [form] = Form.useForm();
@@ -17,6 +16,59 @@ const RegisterForm = () => {
     studentId: false,
     password: false,
     confirmPassword: false,
+  });
+
+  // Define validation schema with Yup
+  const validationSchema = Yup.object({
+    firstName: Yup.string()
+      .required("Please input your first name!")
+      .matches(
+        /^[A-Za-z]+$/,
+        "First name can only contain alphabetic characters"
+      )
+      .min(2, "First name must be at least 2 characters")
+      .max(50, "First name cannot exceed 50 characters"),
+    lastName: Yup.string()
+      .required("Please input your last name!")
+      .matches(
+        /^[A-Za-z]+$/,
+        "Last name can only contain alphabetic characters"
+      )
+      .min(2, "Last name must be at least 2 characters")
+      .max(50, "Last name cannot exceed 50 characters"),
+    email: Yup.string()
+      .required("Please input your email!")
+      .email("Please enter a valid email!"),
+    className: Yup.string()
+      .required("Please input your class name!")
+      .matches(
+        /^[A-Za-z0-9\s]+$/,
+        "Class name can only contain alphanumeric characters and spaces"
+      )
+      .min(2, "Class name must be at least 2 characters")
+      .max(100, "Class name cannot exceed 100 characters"),
+    studentId: Yup.string()
+      .required("Please input your student ID!")
+      .matches(
+        /^[A-Za-z0-9]+$/,
+        "Student ID can only contain alphanumeric characters"
+      )
+      .min(5, "Student ID must be at least 5 characters")
+      .max(15, "Student ID cannot exceed 15 characters"),
+    phoneNumber: Yup.string()
+      .matches(/^\d+$/, "Phone number can only contain numeric characters")
+      .length(10, "Phone number must be exactly 10 digits")
+      .nullable(),
+    password: Yup.string()
+      .required("Please input your password!")
+      .min(8, "Password must be at least 8 characters")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+        "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character"
+      ),
+    confirmPassword: Yup.string()
+      .required("Please confirm your password!")
+      .oneOf([Yup.ref("password"), null], "The two passwords do not match!"),
   });
 
   // Check if all required fields are valid
@@ -47,16 +99,47 @@ const RegisterForm = () => {
     navigate("/Welcome"); // Navigate to login page after successful registration
   };
 
-  // Validate individual field
+  // Validate individual field using Yup
   const validateField = (field, value) => {
-    form
-      .validateFields([field])
-      .then(() => {
-        setFieldsValidated((prev) => ({ ...prev, [field]: true }));
-      })
-      .catch(() => {
-        setFieldsValidated((prev) => ({ ...prev, [field]: false }));
-      });
+    try {
+      // Get the specific field schema from the validation schema
+      const fieldSchema = Yup.reach(validationSchema, field);
+
+      // Validate the field value
+      // @ts-ignore
+      fieldSchema.validateSync(value);
+
+      // If validation passes, update the fieldsValidated state
+      setFieldsValidated((prev) => ({ ...prev, [field]: true }));
+    } catch (error) {
+      // If validation fails, update the fieldsValidated state
+      setFieldsValidated((prev) => ({ ...prev, [field]: false }));
+
+      // You can also set form errors if needed
+      form.setFields([
+        {
+          name: field,
+          errors: [error.message],
+        },
+      ]);
+    }
+  };
+
+  // Convert Yup validation schema to Ant Design form rules
+  const getYupRules = (fieldName) => {
+    return [
+      {
+        validator: async (_, value) => {
+          try {
+            // @ts-ignore
+            await Yup.reach(validationSchema, fieldName).validate(value);
+            return Promise.resolve();
+          } catch (error) {
+            return Promise.reject(error.message);
+          }
+        },
+      },
+    ];
   };
 
   return (
@@ -99,28 +182,7 @@ const RegisterForm = () => {
                 onFinish={onFinish}
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Form.Item
-                    name="firstName"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your first name!",
-                      },
-                      {
-                        pattern: /^[A-Za-z]+$/,
-                        message:
-                          "First name can only contain alphabetic characters",
-                      },
-                      {
-                        min: 2,
-                        message: "First name must be at least 2 characters",
-                      },
-                      {
-                        max: 50,
-                        message: "First name cannot exceed 50 characters",
-                      },
-                    ]}
-                  >
+                  <Form.Item name="firstName" rules={getYupRules("firstName")}>
                     <Input
                       size="large"
                       placeholder="First name *"
@@ -131,28 +193,7 @@ const RegisterForm = () => {
                     />
                   </Form.Item>
 
-                  <Form.Item
-                    name="lastName"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your last name!",
-                      },
-                      {
-                        pattern: /^[A-Za-z]+$/,
-                        message:
-                          "Last name can only contain alphabetic characters",
-                      },
-                      {
-                        min: 2,
-                        message: "Last name must be at least 2 characters",
-                      },
-                      {
-                        max: 50,
-                        message: "Last name cannot exceed 50 characters",
-                      },
-                    ]}
-                  >
+                  <Form.Item name="lastName" rules={getYupRules("lastName")}>
                     <Input
                       size="large"
                       placeholder="Last name *"
@@ -165,13 +206,7 @@ const RegisterForm = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      { required: true, message: "Please input your email!" },
-                      { type: "email", message: "Please enter a valid email!" },
-                    ]}
-                  >
+                  <Form.Item name="email" rules={getYupRules("email")}>
                     <Input
                       size="large"
                       placeholder="Email *"
@@ -180,28 +215,7 @@ const RegisterForm = () => {
                     />
                   </Form.Item>
 
-                  <Form.Item
-                    name="className"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your class name!",
-                      },
-                      {
-                        pattern: /^[A-Za-z0-9\s]+$/,
-                        message:
-                          "Class name can only contain alphanumeric characters and spaces",
-                      },
-                      {
-                        min: 2,
-                        message: "Class name must be at least 2 characters",
-                      },
-                      {
-                        max: 100,
-                        message: "Class name cannot exceed 100 characters",
-                      },
-                    ]}
-                  >
+                  <Form.Item name="className" rules={getYupRules("className")}>
                     <Input
                       size="large"
                       placeholder="Class name *"
@@ -214,28 +228,7 @@ const RegisterForm = () => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Form.Item
-                    name="studentId"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your student ID!",
-                      },
-                      {
-                        pattern: /^[A-Za-z0-9]+$/,
-                        message:
-                          "Student ID can only contain alphanumeric characters",
-                      },
-                      {
-                        min: 5,
-                        message: "Student ID must be at least 5 characters",
-                      },
-                      {
-                        max: 15,
-                        message: "Student ID cannot exceed 15 characters",
-                      },
-                    ]}
-                  >
+                  <Form.Item name="studentId" rules={getYupRules("studentId")}>
                     <Input
                       size="large"
                       placeholder="Student ID *"
@@ -248,46 +241,21 @@ const RegisterForm = () => {
 
                   <Form.Item
                     name="phoneNumber"
-                    rules={[
-                      {
-                        pattern: /^\d+$/,
-                        message:
-                          "Phone number can only contain numeric characters",
-                      },
-                      {
-                        len: 10,
-                        message: "Phone number must be exactly 10 digits",
-                      },
-                    ]}
+                    rules={getYupRules("phoneNumber")}
                   >
                     <Input
                       size="large"
                       placeholder="Phone number"
                       className="font-normal text-[16px] leading-[24px] tracking-normal"
+                      onChange={(e) =>
+                        validateField("phoneNumber", e.target.value)
+                      }
                     />
                   </Form.Item>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Form.Item
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your password!",
-                      },
-                      {
-                        min: 8,
-                        message: "Password must be at least 8 characters",
-                      },
-                      {
-                        pattern:
-                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                        message:
-                          "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character",
-                      },
-                    ]}
-                  >
+                  <Form.Item name="password" rules={getYupRules("password")}>
                     <Input.Password
                       size="large"
                       placeholder="Password"
@@ -304,22 +272,7 @@ const RegisterForm = () => {
                   <Form.Item
                     name="confirmPassword"
                     dependencies={["password"]}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please confirm your password!",
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          if (!value || getFieldValue("password") === value) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error("The two passwords do not match!")
-                          );
-                        },
-                      }),
-                    ]}
+                    rules={getYupRules("confirmPassword")}
                   >
                     <Input.Password
                       size="large"

@@ -54,20 +54,15 @@ import Layout from "@pages/Layout.jsx";
 import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
 import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
 import ReadingSuccess from "@pages/Reading/ReadingSuccess/ReadingSuccess.jsx";
-const RegisterForm = lazy(
-  () => import("@features/auth/ui/RegisterForm.jsx")
-); 
+import ChangePasswordForm from "@features/auth/ui/ChangePasswordForm.jsx";
+const RegisterForm = lazy(() => import("@features/auth/ui/RegisterForm.jsx"));
 const PrivateRoute = [
   {
     path: "/",
     element: <ProtectedRoute />,
     children: [
       {
-        index: true,
-        element: <RegisterForm />
-      },
-      {
-        path: "welcome",
+        path: "",
         element: <WelcomeLayout />,
         children: [
           { index: true, element: <WelcomeScreen /> },
@@ -78,6 +73,11 @@ const PrivateRoute = [
           {
             path: "introduction",
             element: <IntroductionPage />,
+          },
+
+          {
+            path: "change-password",
+            element: <ChangePasswordForm />,
           },
         ],
       },
