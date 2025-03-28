@@ -19,7 +19,38 @@ const ProfileForm = () => {
     mode: "onChange"
   });
 
+  const onError = () => {
+    const inputs = document.querySelectorAll("input[required]");
+    let hasError = false;
+    let missingFields = [];
+
+    inputs.forEach((input) => {
+      if (input instanceof HTMLInputElement) {
+        const inputValue = input.value || "";
+        if (!inputValue.trim()) {
+          hasError = true;
+          const fieldName = input.getAttribute("placeholder") || input.getAttribute("name") || "required";
+          missingFields.push(fieldName);
+        }
+      }
+    });
+
+    if (hasError) {
+      toast.error(`Please fill in the following fields: ${missingFields.join(", ")}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+  }
+
   const onSubmit = (data) => {
+
     toast.success("Profile updated successfully!", {
       position: "top-right",
       autoClose: 3000,
@@ -69,11 +100,12 @@ const ProfileForm = () => {
               <InputProfile
                 label="First name"
                 required
+                placeholder="Enter your first name"
                 register={register("firstName", {
                   required: "First name is required",
                   pattern: {
                     value: /^[a-zA-ZÀ-ỹ\s]*$/,
-                    message: "First name must contain only letters"
+                    message: "First name must contain only letters."
                   }
                 })}
                 error={errors.firstName?.message}
@@ -81,11 +113,12 @@ const ProfileForm = () => {
               <InputProfile
                 label="Last name"
                 required
+                placeholder="Enter your last name"
                 register={register("lastName", {
                   required: "Last name is required",
                   pattern: {
                     value: /^[a-zA-ZÀ-ỹ\s]*$/,
-                    message: "Last name must contain only letters"
+                    message: "Last name must contain only letters."
                   }
                 })}
                 error={errors.lastName?.message}
@@ -96,11 +129,12 @@ const ProfileForm = () => {
                 label="Email"
                 type="email"
                 required
+                placeholder="Enter your email address"
                 register={register("email", {
-                  required: "Email is required",
+                  required: "Email is required.",
                   pattern: {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address"
+                    message: "Invalid email address."
                   }
                 })}
                 error={errors.email?.message}
@@ -108,11 +142,12 @@ const ProfileForm = () => {
               <InputProfile
                 label="Class name"
                 required
+                placeholder="Enter your class name"
                 register={register("className", {
-                  required: "Class name is required",
+                  required: "Class name is required.",
                   pattern: {
                     value: /^[A-Z0-9]+$/,
-                    message: "Class name must contain only uppercase letters and numbers"
+                    message: "Class name must contain only uppercase letters and numbers."
                   }
                 })}
                 error={errors.className?.message}
@@ -122,11 +157,12 @@ const ProfileForm = () => {
               <InputProfile
                 label="Student ID"
                 required
+                placeholder="Enter your student ID"
                 register={register("studentId", {
-                  required: "Student ID is required",
+                  required: "Student ID is required.",
                   pattern: {
                     value: /^SV\d{4}$/,
-                    message: "Student ID must be in format SV0000"
+                    message: "Student ID must be in the format SV0000."
                   }
                 })}
                 error={errors.studentId?.message}
@@ -138,7 +174,7 @@ const ProfileForm = () => {
                 register={register("phoneNumber", {
                   pattern: {
                     value: /^[0-9]{9,10}$/,
-                    message: "Phone number must be 9-10 digits"
+                    message: "Phone number must be 9-10 digits."
                   }
                 })}
                 required={false}
@@ -155,6 +191,7 @@ const ProfileForm = () => {
                   <button
                     type="submit"
                     className="h-[50px] w-[113px] bg-[#3758F9] text-white text-base font-medium rounded-[50px] border-none hover:bg-[#2944c1] transition-colors"
+                    onClick={onError}
                   >
                     Update
                   </button>

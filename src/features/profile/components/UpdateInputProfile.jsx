@@ -14,6 +14,9 @@ const InputProfile = ({ label, required, type = "text", placeholder = "", regist
         }`}
         {...register}
         required={required}
+        onInvalid={(e) => {
+          e.preventDefault();
+        }}
       />
       {error && (
         <p className="mt-1 text-sm text-[#FF0000]">{error}</p>
