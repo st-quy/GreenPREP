@@ -55,6 +55,10 @@ import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
 import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
 import ReadingSuccess from "@pages/Reading/ReadingSuccess/ReadingSuccess.jsx";
 
+
+const ResetPasswordSuccessfullyLayout = lazy(() => import("@pages/ResetPasswordSuccessfully/ResetPasswordSuccessfullyLayout"));
+const ResetPasswordSuccessfullyPage = lazy(() => import("@pages/ResetPasswordSuccessfully/ResetPasswordSuccessfullyPage"));
+
 const PrivateRoute = [
   {
     path: "/",
@@ -72,6 +76,17 @@ const PrivateRoute = [
           {
             path: "introduction",
             element: <IntroductionPage />,
+          },
+        ],
+      },
+      
+      {
+        path: "reset-password-successfully",
+        element: <ResetPasswordSuccessfullyLayout />,
+        children: [
+          {
+            index: true,
+            element: <ResetPasswordSuccessfullyPage />,
           },
         ],
       },
