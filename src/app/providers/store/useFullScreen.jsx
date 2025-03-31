@@ -222,12 +222,12 @@ export function useFullScreen() {
         return false;
       }
 
-      if ((e.ctrlKey || e.metaKey) && e.key === "Tab") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "r") {
         e.preventDefault();
         e.stopPropagation();
         showModal({
-          title: "Tab Switching Not Allowed",
-          content: "Switching tabs during the test is not allowed.",
+          title: "Reloading Not Allowed",
+          content: "Reloading pages during the test is not allowed.",
           okText: "Continue Test",
           maskClosable: false,
         });
@@ -258,7 +258,12 @@ export function useFullScreen() {
       }
 
       const blockedKeys = {
+        Tab: {
+          title: "Tab Switching Not Allowed",
+          content: "Switching tabs during the test is not allowed.",
+        },
         F11: {
+          condition: e.ctrlKey || e.metaKey,
           title: "Fullscreen Toggle Not Allowed",
           content: "Toggling fullscreen during the test is not allowed.",
         },
