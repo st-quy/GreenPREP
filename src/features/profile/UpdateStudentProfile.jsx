@@ -184,13 +184,13 @@ const UpdateStudentProfile = () => {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="h-[50px] w-[113px] text-[#3758F9] text-base font-medium rounded-[50px] border border-[#3758F9] hover:bg-[#3758F9] hover:text-white transition-colors"
+                className="h-[50px] w-[113px] text-[#3758F9] text-base font-medium rounded-[50px] border border-[#003087] hover:bg-[#003087] hover:text-white transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="h-[50px] w-[113px] bg-[#3758F9] text-white text-base font-medium rounded-[50px] border-none hover:bg-[#2944c1] transition-colors"
+                className="h-[50px] w-[113px] bg-[#003087] text-white text-base font-medium rounded-[50px] border-none hover:bg-[#002266] transition-colors"
               >
                 Update
               </button>

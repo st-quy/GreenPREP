@@ -52,7 +52,6 @@ const SpeakingSubmissionSucces = lazy(
   () => import("@pages/speaking/SpeakingSubmissionSuccess.jsx")
 );
 
-const UpdateStudentProfile = lazy(() => import("@features/profile/UpdateStudentProfile"));
 import Layout from "@pages/Layout.jsx";
 import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
 import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
