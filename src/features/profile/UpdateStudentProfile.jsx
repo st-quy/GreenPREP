@@ -121,7 +121,6 @@ const UpdateStudentProfile = () => {
                     label="First name"
                     name="firstName"
                     rules={[yupSync(profileSchema)]}
-                    required={false}
                   >
                     <Input className="h-[46px] border-[#111928] rounded" />
                   </Form.Item>
@@ -131,7 +130,6 @@ const UpdateStudentProfile = () => {
                     label="Last name"
                     name="lastName"
                     rules={[yupSync(profileSchema)]}
-                    required={false}
                   >
                     <Input className="h-[46px] border-[#111928] rounded" />
                   </Form.Item>
