@@ -1,165 +1,127 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Form, Input } from "antd";
-import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import * as Yup from "yup";
+import {
+  validateFormField,
+  getInitialFormValues,
+  getInitialFormErrors,
+  getInitialFieldsValidated,
+  checkFormValidity,
+} from "../registerSchema";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const RegisterForm = () => {
-  const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [formValues, setFormValues] = useState(getInitialFormValues());
+  const [formErrors, setFormErrors] = useState(getInitialFormErrors());
+  const [fieldsValidated, setFieldsValidated] = useState(
+    getInitialFieldsValidated()
+  );
+
   const [formValid, setFormValid] = useState(false);
-  const [fieldsValidated, setFieldsValidated] = useState({
-    firstName: false,
-    lastName: false,
-    email: false,
-    className: false,
-    studentId: false,
-    password: false,
-    confirmPassword: false,
-  });
-
-  // Define validation schema with Yup
-  const validationSchema = Yup.object({
-    firstName: Yup.string()
-      .required("Please input your first name!")
-      .matches(
-        /^[A-Za-z]+$/,
-        "First name can only contain alphabetic characters"
-      )
-      .min(2, "First name must be at least 2 characters")
-      .max(50, "First name cannot exceed 50 characters"),
-    lastName: Yup.string()
-      .required("Please input your last name!")
-      .matches(
-        /^[A-Za-z]+$/,
-        "Last name can only contain alphabetic characters"
-      )
-      .min(2, "Last name must be at least 2 characters")
-      .max(50, "Last name cannot exceed 50 characters"),
-    email: Yup.string()
-      .required("Please input your email!")
-      .email("Please enter a valid email!"),
-    className: Yup.string()
-      .required("Please input your class name!")
-      .matches(
-        /^[A-Za-z0-9\s]+$/,
-        "Class name can only contain alphanumeric characters and spaces"
-      )
-      .min(2, "Class name must be at least 2 characters")
-      .max(100, "Class name cannot exceed 100 characters"),
-    studentId: Yup.string()
-      .required("Please input your student ID!")
-      .matches(
-        /^[A-Za-z0-9]+$/,
-        "Student ID can only contain alphanumeric characters"
-      )
-      .min(5, "Student ID must be at least 5 characters")
-      .max(15, "Student ID cannot exceed 15 characters"),
-    phoneNumber: Yup.string()
-      .matches(/^\d+$/, "Phone number can only contain numeric characters")
-      .length(10, "Phone number must be exactly 10 digits")
-      .nullable(),
-    password: Yup.string()
-      .required("Please input your password!")
-      .min(8, "Password must be at least 8 characters")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-        "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character"
-      ),
-    confirmPassword: Yup.string()
-      .required("Please confirm your password!")
-      .oneOf([Yup.ref("password"), null], "The two passwords do not match!"),
-  });
-
-  // Check if all required fields are valid
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   useEffect(() => {
-    const {
-      firstName,
-      lastName,
-      email,
-      className,
-      studentId,
-      password,
-      confirmPassword,
-    } = fieldsValidated;
-    setFormValid(
-      firstName &&
-        lastName &&
-        email &&
-        className &&
-        studentId &&
-        password &&
-        confirmPassword
-    );
+    setFormValid(checkFormValidity(fieldsValidated));
   }, [fieldsValidated]);
 
-  const onFinish = (values) => {
-    console.log("Registration values:", values);
-    // Add your registration logic here
-    navigate("/Welcome"); // Navigate to login page after successful registration
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    validateFormField(
+      name,
+      value,
+      formValues,
+      setFieldsValidated,
+      setFormErrors
+    );
   };
 
-  // Validate individual field using Yup
-  const validateField = (field, value) => {
-    try {
-      // Get the specific field schema from the validation schema
-      const fieldSchema = Yup.reach(validationSchema, field);
-
-      // Validate the field value
-      // @ts-ignore
-      fieldSchema.validateSync(value);
-
-      // If validation passes, update the fieldsValidated state
-      setFieldsValidated((prev) => ({ ...prev, [field]: true }));
-    } catch (error) {
-      // If validation fails, update the fieldsValidated state
-      setFieldsValidated((prev) => ({ ...prev, [field]: false }));
-
-      // You can also set form errors if needed
-      form.setFields([
-        {
-          name: field,
-          errors: [error.message],
-        },
-      ]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formValid) {
+      console.log("Registration values:", formValues);
+      navigate("/login");
     }
   };
 
-  // Convert Yup validation schema to Ant Design form rules
-  const getYupRules = (fieldName) => {
-    return [
-      {
-        validator: async (_, value) => {
-          try {
-            // @ts-ignore
-            await Yup.reach(validationSchema, fieldName).validate(value);
-            return Promise.resolve();
-          } catch (error) {
-            return Promise.reject(error.message);
-          }
-        },
-      },
-    ];
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword((prev) => !prev);
+
+  const renderInputField = (
+    name,
+    type,
+    placeholder,
+    isPassword = false,
+    showPasswordState = false,
+    toggleVisibility = null
+  ) => {
+    const inputClasses = `
+      w-full h-[48px] 
+      rounded-[6px] 
+      px-[20px] py-[12px] 
+      ${isPassword ? "pr-[40px]" : "pr-[16px]"} 
+      font-normal text-[16px] leading-[24px] tracking-[0px] 
+      border ${formErrors[name] ? "border-red-500" : "border-[#DFE4EA]"} 
+      focus:outline-none focus:ring-1 focus:ring-blue-500
+    `;
+
+    return (
+      <div className="mb-4 relative w-full">
+        <div className="relative">
+          <input
+            type={isPassword ? (showPasswordState ? "text" : "password") : type}
+            name={name}
+            value={formValues[name]}
+            onChange={handleInputChange}
+            placeholder={placeholder}
+            className={inputClasses}
+          />
+
+          {isPassword && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              {showPasswordState ? (
+                <FaEye
+                  className="text-gray-500 h-5 w-5 cursor-pointer"
+                  onClick={toggleVisibility}
+                />
+              ) : (
+                <FaEyeSlash
+                  className="text-gray-500 h-5 w-5 cursor-pointer"
+                  onClick={toggleVisibility}
+                />
+              )}
+            </div>
+          )}
+        </div>
+
+        {formErrors[name] && (
+          <p className="mt-1 text-sm text-red-500">{formErrors[name]}</p>
+        )}
+      </div>
+    );
   };
 
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
-      {/* Header - Updated with fixed dimensions */}
-      <div className="w-full relative h-44 bg-[#F9F9F9]">
-        <img
-          src="/src/assets/images/graduation.png"
-          className="absolute w-[50px] h-[50px] top-[63px] left-[125px]"
-          alt="Logo"
-        />
-        <div className="absolute w-[166px] h-[38px] top-[69px] left-[179px] font-bold text-[30px] leading-[38px] tracking-normal text-center text-[#111928]">
-          GreenPREP
+      <div className="w-full relative h-32 bg-[#F9F9F9] flex items-center justify-center sm:justify-start sm:pl-[125px]">
+        <div className="flex items-center">
+          <img
+            src="/src/assets/images/graduation.png"
+            className="w-[50px] h-[50px]"
+            alt="Logo"
+          />
+          <div className="ml-4 font-bold text-[30px] leading-[38px] tracking-normal text-[#111928]">
+            GreenPREP
+          </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 lg:py-12">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-10 lg:gap-12">
-          {/* Left Form Section */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-4 lg:py-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8 lg:gap-10">
           <div className="w-full lg:w-1/2 xl:w-5/12 mt-4 sm:mt-6 md:mt-8 lg:mt-0">
             <div
               className="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg w-full max-w-[663px] mx-auto"
@@ -168,140 +130,66 @@ const RegisterForm = () => {
                   "0px 12px 34px 0px #0D0A2C14, 0px 34px 26px 0px #0D0A2C0D",
               }}
             >
-              <h2 className="w-[507px] h-[57px] font-bold text-[48px] leading-[58px] tracking-normal text-[#111928] mb-1 sm:mb-2">
+              <h2 className="font-bold text-[32px] sm:text-[40px] md:text-[48px] leading-[1.2] tracking-normal text-[#111928] mb-1 sm:mb-2">
                 Create an account
               </h2>
-              <p className="w-[234px] h-[24px] font-normal text-[16px] leading-[24px] tracking-normal text-[#637381] mb-4 sm:mb-6">
+              <p className="font-normal text-[16px] leading-[24px] tracking-normal text-[#637381] mb-4 sm:mb-6">
                 Create an account to continue.
               </p>
 
-              <Form
-                form={form}
-                layout="vertical"
-                name="register_form"
-                onFinish={onFinish}
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Form.Item name="firstName" rules={getYupRules("firstName")}>
-                    <Input
-                      size="large"
-                      placeholder="First name *"
-                      className="font-normal text-[16px] leading-[24px] tracking-normal"
-                      onChange={(e) =>
-                        validateField("firstName", e.target.value)
-                      }
-                    />
-                  </Form.Item>
-
-                  <Form.Item name="lastName" rules={getYupRules("lastName")}>
-                    <Input
-                      size="large"
-                      placeholder="Last name *"
-                      className="font-normal text-[16px] leading-[24px] tracking-normal"
-                      onChange={(e) =>
-                        validateField("lastName", e.target.value)
-                      }
-                    />
-                  </Form.Item>
+              <form onSubmit={handleSubmit} className="w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                  {renderInputField("firstName", "text", "First name *")}
+                  {renderInputField("lastName", "text", "Last name *")}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Form.Item name="email" rules={getYupRules("email")}>
-                    <Input
-                      size="large"
-                      placeholder="Email *"
-                      className="font-normal text-[16px] leading-[24px] tracking-normal"
-                      onChange={(e) => validateField("email", e.target.value)}
-                    />
-                  </Form.Item>
-
-                  <Form.Item name="className" rules={getYupRules("className")}>
-                    <Input
-                      size="large"
-                      placeholder="Class name *"
-                      className="font-normal text-[16px] leading-[24px] tracking-normal"
-                      onChange={(e) =>
-                        validateField("className", e.target.value)
-                      }
-                    />
-                  </Form.Item>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-2">
+                  {renderInputField("email", "email", "Email *")}
+                  {renderInputField("className", "text", "Class name *")}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Form.Item name="studentId" rules={getYupRules("studentId")}>
-                    <Input
-                      size="large"
-                      placeholder="Student ID *"
-                      className="font-normal text-[16px] leading-[24px] tracking-normal"
-                      onChange={(e) =>
-                        validateField("studentId", e.target.value)
-                      }
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="phoneNumber"
-                    rules={getYupRules("phoneNumber")}
-                  >
-                    <Input
-                      size="large"
-                      placeholder="Phone number"
-                      className="font-normal text-[16px] leading-[24px] tracking-normal"
-                      onChange={(e) =>
-                        validateField("phoneNumber", e.target.value)
-                      }
-                    />
-                  </Form.Item>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-2">
+                  {renderInputField("studentId", "text", "Student ID *")}
+                  {renderInputField("phoneNumber", "text", "Phone number")}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Form.Item name="password" rules={getYupRules("password")}>
-                    <Input.Password
-                      size="large"
-                      placeholder="Password"
-                      className="font-normal text-[16px] leading-[24px] tracking-normal"
-                      iconRender={(visible) =>
-                        visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
-                      }
-                      onChange={(e) =>
-                        validateField("password", e.target.value)
-                      }
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="confirmPassword"
-                    dependencies={["password"]}
-                    rules={getYupRules("confirmPassword")}
-                  >
-                    <Input.Password
-                      size="large"
-                      placeholder="Confirm password"
-                      className="font-normal text-[16px] leading-[24px] tracking-normal"
-                      iconRender={(visible) =>
-                        visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
-                      }
-                      onChange={(e) =>
-                        validateField("confirmPassword", e.target.value)
-                      }
-                    />
-                  </Form.Item>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-2">
+                  {renderInputField(
+                    "password",
+                    "password",
+                    "Password *",
+                    true,
+                    showPassword,
+                    togglePasswordVisibility
+                  )}
+                  {renderInputField(
+                    "confirmPassword",
+                    "password",
+                    "Confirm password *",
+                    true,
+                    showConfirmPassword,
+                    toggleConfirmPasswordVisibility
+                  )}
                 </div>
 
-                <Form.Item className="mt-6 flex justify-center">
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    size="large"
+                <div className="mt-6 flex justify-center">
+                  <button
+                    type="submit"
                     disabled={!formValid}
-                    className="w-[250px] h-[50px] rounded-[50px] px-7 py-[13px] bg-[#3758F9] flex items-center justify-center gap-[10px]"
+                    className={`
+                      w-full sm:w-[250px] h-[50px] rounded-[50px] 
+                      px-7 py-[13px] 
+                      flex items-center justify-center gap-[10px] 
+                      font-medium text-white 
+                      ${formValid ? "bg-[#3758F9] hover:bg-[#2244dd]" : "bg-gray-400 cursor-not-allowed"}
+                    `}
                   >
                     Sign up
-                  </Button>
-                </Form.Item>
-              </Form>
+                  </button>
+                </div>
+              </form>
 
-              <div className="mt-4 flex items-center justify-start">
+              <div className="mt-4 flex items-center justify-center sm:justify-start">
                 <span className="font-medium text-[14px] leading-[22px] tracking-normal text-[#89868D]">
                   Already have an account?
                 </span>{" "}
@@ -315,8 +203,7 @@ const RegisterForm = () => {
             </div>
           </div>
 
-          {/* Right Image Section */}
-          <div className="w-full lg:w-1/2 xl:w-7/12 mt-8 lg:mt-0 hidden md:block">
+          <div className="w-full lg:w-1/2 xl:w-7/12 mt-8 lg:mt-0 hidden sm:block">
             <div className="relative w-full h-full flex items-center justify-center">
               <img
                 src="/src/assets/images/login-image.png"
