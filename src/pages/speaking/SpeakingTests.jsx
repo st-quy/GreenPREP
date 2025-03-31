@@ -25,7 +25,6 @@ export default function SpeakingTests() {
   const [questionsData, setQuestionsData] = useState({});
   const [partFourQuest, setPartFourQuestion] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [canStartEarly, setCanStartEarly] = useState(false);
   const [forceStartRecording, setForceStartRecording] = useState(false);
   const testStartedRef = useRef(false);
 
@@ -41,7 +40,6 @@ export default function SpeakingTests() {
     setIsRecordingActive(false);
     setQuestionsData({});
     setPartFourQuestion([]);
-    setCanStartEarly(false);
     setForceStartRecording(false);
     testStartedRef.current = false;
 
@@ -91,15 +89,12 @@ export default function SpeakingTests() {
   };
 
   const handlePreparationStart = () => {
-    // Update test status when preparation phase starts
     setTestStatus("preparing");
-    setCanStartEarly(false); // Reset early start flag
   };
 
   const handleRecordingStart = () => {
     setTestStatus("recording");
     setIsRecordingActive(true);
-    setCanStartEarly(false);
   };
 
   const handleRecordingComplete = () => {
@@ -242,11 +237,6 @@ export default function SpeakingTests() {
               size="medium"
               isTestStart={isTestActive}
               forceCompleted={forceCompleted}
-              onPreparationTimeElapsed={(elapsed) => {
-                if (preparationTime > 10 && elapsed >= 10) {
-                  setCanStartEarly(true);
-                }
-              }}
               forceStartRecording={forceStartRecording}
             />
             <AudioVisualizer isRecording={isRecordingActive} />
@@ -259,9 +249,7 @@ export default function SpeakingTests() {
               ? "Read the questions carefully."
               : testStatus === "recording"
                 ? "Click the 'Finish Recording' button to stop recording."
-                : canStartEarly
-                  ? "You can start recording now or wait for the preparation time to finish."
-                  : "Prepare your answer based on the question above."}
+                : "Prepare your answer based on the question above."}
           </p>
           {(testStatus === "recording" || testStatus === "completed") && (
             <Button
@@ -270,16 +258,6 @@ export default function SpeakingTests() {
               onClick={() => handleFinish(true)}
             >
               Finish Recording{" "}
-              <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
-            </Button>
-          )}
-          {testStatus === "preparing" && canStartEarly && (
-            <Button
-              type="primary"
-              className="bg-green-600 hover:bg-green-500 rounded-2xl w-full md:w-auto"
-              onClick={handleEarlyStart}
-            >
-              Start Recording{" "}
               <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
             </Button>
           )}

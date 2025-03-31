@@ -14,7 +14,6 @@ export const CountdownIndicator = ({
   size = "medium",
   isTestStart = false,
   forceCompleted = false,
-  onPreparationTimeElapsed = () => {},
   forceStartRecording = false,
 }) => {
   const [timeRemaining, setTimeRemaining] = useState(duration);
@@ -26,7 +25,6 @@ export const CountdownIndicator = ({
     useState(preparationTime);
   const [readingTimeRemaining, setReadingTimeRemaining] = useState(readingTime);
   const [isRecording, setIsRecording] = useState(false);
-  const [elapsedPreparationTime, setElapsedPreparationTime] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
 
   const percentRemaining = (timeRemaining / duration) * 100;
@@ -85,35 +83,33 @@ export const CountdownIndicator = ({
     setPreparationTimeRemaining(preparationTime);
     setReadingTimeRemaining(readingTime);
     setIsRecording(false);
-    setElapsedPreparationTime(0);
     setHasStarted(false);
   }, [duration, preparationTime, readingTime]);
 
   const startTimer = useCallback(() => {
-    if (hasStarted) return; // Prevent multiple starts
+    if (hasStarted) return;
 
     resetTimer();
     setHasStarted(true);
 
-    // If reading time is set, start with reading phase, otherwise go to preparation
     if (readingTime > 0) {
       setIsReadingPhase(true);
     } else {
       setIsPreparationPhase(true);
-      onPreparationStart(); // Notify parent that preparation phase has started
+      onPreparationStart();
     }
   }, [resetTimer, readingTime, onPreparationStart, hasStarted]);
 
   const startPreparationTimer = useCallback(() => {
-    if (isPreparationPhase) return; // Prevent multiple transitions
+    if (isPreparationPhase) return;
 
     setIsReadingPhase(false);
     setIsPreparationPhase(true);
-    onPreparationStart(); // Notify parent that preparation phase has started
+    onPreparationStart();
   }, [onPreparationStart, isPreparationPhase]);
 
   const startMainTimer = useCallback(() => {
-    if (isRunning) return; // Prevent multiple transitions
+    if (isRunning) return;
 
     setIsPreparationPhase(false);
     setIsRunning(true);
@@ -198,24 +194,13 @@ export const CountdownIndicator = ({
           }
           return prev - 1;
         });
-
-        setElapsedPreparationTime((prev) => {
-          const newElapsed = prev + 1;
-          onPreparationTimeElapsed(newElapsed);
-          return newElapsed;
-        });
       }, 1000);
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [
-    isPreparationPhase,
-    preparationTimeRemaining,
-    startMainTimer,
-    onPreparationTimeElapsed,
-  ]);
+  }, [isPreparationPhase, preparationTimeRemaining, startMainTimer]);
 
   // Main recording timer
   useEffect(() => {
@@ -224,14 +209,14 @@ export const CountdownIndicator = ({
     if (isRunning && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining((prev) => {
-          if (prev <= 0.1) {
+          if (prev <= 1) {
             clearInterval(interval);
             completeTimer();
             return 0;
           }
-          return Math.max(prev - 0.1, 0);
+          return prev - 1;
         });
-      }, 100);
+      }, 1000);
     }
 
     return () => {

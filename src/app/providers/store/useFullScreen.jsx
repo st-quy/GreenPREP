@@ -187,12 +187,6 @@ export function useFullScreen() {
       if ((e.ctrlKey || e.metaKey) && e.key === "c") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Copy Not Allowed",
-          content: "Copying content during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
@@ -200,12 +194,6 @@ export function useFullScreen() {
       if ((e.ctrlKey || e.metaKey) && e.key === "v") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Paste Not Allowed",
-          content: "Pasting content during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
@@ -213,47 +201,23 @@ export function useFullScreen() {
       if ((e.ctrlKey || e.metaKey) && e.key === "w") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Closing Tab Not Allowed",
-          content: "Closing the tab during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
       if ((e.ctrlKey || e.metaKey) && e.key === "r") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Reloading Not Allowed",
-          content: "Reloading pages during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
       if ((e.ctrlKey || e.metaKey) && e.key === "n") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "New Window Not Allowed",
-          content: "Opening new windows during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
       if ((e.ctrlKey || e.metaKey) && e.key === "t") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "New Tab Not Allowed",
-          content: "Opening new tabs during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
