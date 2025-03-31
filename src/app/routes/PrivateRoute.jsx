@@ -51,7 +51,7 @@ const SpeakingTests = lazy(() => import("@pages/speaking/SpeakingTests.jsx"));
 const SpeakingSubmissionSucces = lazy(
   () => import("@pages/speaking/SpeakingSubmissionSuccess.jsx")
 );
-const StudentProfilePage = lazy(() => import("@pages/StudentProfile"));
+
 const UpdateStudentProfile = lazy(() => import("@features/profile/UpdateStudentProfile"));
 import Layout from "@pages/Layout.jsx";
 import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
@@ -76,16 +76,6 @@ const PrivateRoute = [
             path: "introduction",
             element: <IntroductionPage />,
           },
-          {
-            path:"profile",
-            element:<StudentProfilePage/>,
-            children: [
-              {
-                path: "update",
-                element: <UpdateStudentProfile />,
-              }
-            ],
-          }
         ],
       },
       {
