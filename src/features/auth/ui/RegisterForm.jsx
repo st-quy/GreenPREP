@@ -110,7 +110,7 @@ const RegisterForm = () => {
       <div className="w-full relative h-32 bg-[#F9F9F9] flex items-center justify-center sm:justify-start sm:pl-[125px]">
         <div className="flex items-center">
           <img
-            src="/src/assets/images/graduation.png"
+            src="/src/assets/images/logo-graduation.png"
             className="w-[50px] h-[50px]"
             alt="Logo"
           />
@@ -206,7 +206,7 @@ const RegisterForm = () => {
           <div className="w-full lg:w-1/2 xl:w-7/12 mt-8 lg:mt-0 hidden sm:block">
             <div className="relative w-full h-full flex items-center justify-center">
               <img
-                src="/src/assets/images/login-image.png"
+                src="/src/assets/images/loginimage.png"
                 alt="Registration Illustration"
                 className="w-full max-w-[614px] h-auto object-contain mx-auto"
               />
