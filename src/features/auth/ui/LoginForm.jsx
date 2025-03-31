@@ -1,31 +1,19 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import loginHappyStudent from "../../../assets/images/login-happy-student.png";
+import { Link } from "react-router-dom";
+import loginHappyStudent from "@assets/images/login-happy-student.png";
 import mail from "@assets/icons/mail.svg";
-import logo from "@assets/images/Logo.png";
+import Logo from "@assets/images/Logo.png";
 import { Form, Input, Button } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import * as Yup from "yup";
-
-const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Please enter a valid email")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-});
+import { loginSchema } from "../schemas/loginSchema";
+import { yupSync } from "@shared/lib/utils/yupSync";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [form] = Form.useForm();
 
   const onSubmit = async (values) => {
     try {
-      await loginSchema.validate(values);
-      console.log(values);
       // Handle login logic here
     } catch (error) {
       setErrorMessage(error.message);
@@ -34,7 +22,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex item-center min-h-screen bg-gray-100 px-4 md:px-10 lg:px-20">
-      <img src={logo} alt="" className="absolute w-[147px] h-[34px] mt-[42px] ml-[82px]"/>
+      <img src={Logo} alt="" className="absolute w-[147px] h-[34px] mt-[42px] ml-[82px]"/>
       <div className="flex flex-col md:flex-row items-center max-w-[1440px] w-full justify-evenly">
         {/* Form Section - Left Side */}
         <div className="w-full md:w-[440px] h-auto p-6 md:p-12 bg-white rounded-lg shadow-xl">
@@ -50,11 +38,7 @@ export default function LoginPage() {
             <Form.Item
               name="email"
               label={<span>Email <span className="text-red-500">*</span></span>}
-              required={false}
-              rules={[
-                { required: true, message: "Email is required" },
-                { type: "email", message: "Please enter a valid email" }
-              ]}
+              rules={[yupSync(loginSchema)]}
             >
               <Input
                 suffix={<img src={mail} alt="Mail icon" className="w-4 h-4" />}
@@ -66,11 +50,7 @@ export default function LoginPage() {
             <Form.Item
               name="password"
               label={<span>Password <span className="text-red-500">*</span></span>}
-              required={false}
-              rules={[
-                { required: true, message: "Password is required" },
-                { min: 6, message: "Password must be at least 6 characters" }
-              ]}
+              rules={[yupSync(loginSchema)]}
             >
               <Input.Password
                 placeholder="* * * * * * * *"
