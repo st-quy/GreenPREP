@@ -35,10 +35,6 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
     window.addEventListener('offline', handleOffline);
 
     if (audioRef.current) {
-      // Prevent seeking
-      audioRef.current.addEventListener('seeking', preventSeeking);
-      audioRef.current.addEventListener('seeked', preventSeeking);
-      
       // Handle audio events
       audioRef.current.addEventListener('error', handleError);
       audioRef.current.addEventListener('ended', handleEnded);
@@ -49,11 +45,6 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
       
       // Preload audio
       audioRef.current.preload = 'auto';
-      
-      // Set initial position if there was a stored position
-      if (position > 0) {
-        audioRef.current.currentTime = position;
-      }
     }
 
     return () => {
@@ -61,8 +52,6 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
       window.removeEventListener('offline', handleOffline);
       
       if (audioRef.current) {
-        audioRef.current.removeEventListener('seeking', preventSeeking);
-        audioRef.current.removeEventListener('seeked', preventSeeking);
         audioRef.current.removeEventListener('error', handleError);
         audioRef.current.removeEventListener('ended', handleEnded);
         audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
@@ -71,13 +60,7 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
         audioRef.current.removeEventListener('canplaythrough', () => setIsLoading(false));
       }
     };
-  }, [position, questionId]);
-
-  const preventSeeking = (e) => {
-    if (audioRef.current && position !== audioRef.current.currentTime) {
-      audioRef.current.currentTime = position;
-    }
-  };
+  }, [questionId]);
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
@@ -133,6 +116,11 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
       // Start new playback
       const startingNewPlay = currentButton !== buttonNumber;
       
+      // Reset position to 0 if switching buttons
+      if (startingNewPlay) {
+        audioRef.current.currentTime = 0;
+      }
+      
       audioRef.current?.play().then(() => {
         setIsPlaying(true);
         updateStoredData({
@@ -171,10 +159,14 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
           >
             {isLoading ? (
               <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+            ) : isPlaying && currentButton === 1 ? (
+              <FaPause className="text-sm" />
             ) : (
               <FaPlay className="text-sm" />
             )}
-            <span className="text-sm font-medium">Play first time</span>
+            <span className="text-sm font-medium">
+              {isPlaying && currentButton === 1 ? "Pause" : "Play first time"}
+            </span>
           </button>
 
           <button
@@ -188,10 +180,14 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
           >
             {isLoading ? (
               <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+            ) : isPlaying && currentButton === 2 ? (
+              <FaPause className="text-sm" />
             ) : (
               <FaPlay className="text-sm" />
             )}
-            <span className="text-sm font-medium">Play second time</span>
+            <span className="text-sm font-medium">
+              {isPlaying && currentButton === 2 ? "Pause" : "Play second time"}
+            </span>
           </button>
         </div>
       )}

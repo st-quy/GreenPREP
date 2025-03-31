@@ -124,6 +124,17 @@ const ListeningTest = () => {
       );
       audioRef.current.pause();
     } else {
+      // Reset audio position when starting a new playback
+      const isFirstTime = valueTime.includes('-first');
+      const isSecondTime = valueTime.includes('-second');
+      const currentIsFirstTime = currentAudio.includes('-first');
+      const currentIsSecondTime = currentAudio.includes('-second');
+      
+      // Reset position if switching between first and second time
+      if ((isFirstTime && currentIsSecondTime) || (isSecondTime && currentIsFirstTime)) {
+        audioRef.current.currentTime = 0;
+      }
+
       localStorage.setItem(
         "history_listen",
         JSON.stringify([
