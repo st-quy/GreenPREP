@@ -9,6 +9,7 @@ import {
 } from "../schema/registerSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthApi } from "../api";
+import { toast } from "react-hot-toast"; // Import toast
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -50,24 +51,29 @@ const RegisterForm = () => {
           firstName: formValues.firstName,
           email: formValues.email,
           password: formValues.password,
-          studentCode: formValues.studentId, // Map studentId từ formValues
-          teacherCode: "TC123456", // Giá trị cố định hoặc lấy từ input
-          roleIDs: ["student"], // Giá trị cố định
-          class: formValues.className, // Map className từ formValues
+          studentCode: formValues.studentId,
+          teacherCode: "",
+          roleIDs: ["student"],
+          class: formValues.className,
         };
 
         // Gọi API register
         const response = await AuthApi.register(payload);
         console.log("Registration successful:", response.data);
 
+        // Hiển thị thông báo thành công
+        toast.success("Registration successful!");
+
         // Điều hướng đến trang đăng nhập
         navigate("/login");
       } catch (error) {
-        console.error("Registration failed:", error.response?.data || error.message);
+        const errorMessage = error.response?.data?.message || "Registration failed";
+        console.error("Registration failed:", errorMessage);
         setFormErrors((prev) => ({
           ...prev,
-          apiError: error.response?.data?.message || "Registration failed",
+          apiError: errorMessage,
         }));
+        toast.error(errorMessage); // Hiển thị thông báo lỗi
       }
     }
   };

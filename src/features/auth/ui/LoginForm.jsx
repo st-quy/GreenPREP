@@ -7,6 +7,7 @@ import { Form, Input, Button } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { loginSchema } from "../schema/loginSchema";
 import { AuthApi } from "../api";
+import { toast } from "react-hot-toast"; // Import toast
 
 const validateWithYup = (schema, field) => async (_, value) => {
   try {
@@ -30,14 +31,16 @@ export default function LoginPage() {
       // Lưu token vào localStorage (nếu cần)
       localStorage.setItem("token", response.data.token);
 
+      // Hiển thị thông báo thành công
+      toast.success("Login successful!");
+
       // Điều hướng đến trang dashboard hoặc trang khác
       navigate("/");
-
-      // Hiển thị thông báo thành công
-      alert("Login successful!");
     } catch (error) {
       // Hiển thị thông báo lỗi từ API
-      setErrorMessage(error.response?.data?.message || "Login failed");
+      const errorMessage = error.response?.data?.message || "Login failed";
+      setErrorMessage(errorMessage);
+      toast.error(errorMessage); // Hiển thị thông báo lỗi
     }
   };
 
