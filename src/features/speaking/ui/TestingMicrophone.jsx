@@ -205,7 +205,7 @@ const TestingMicrophone = () => {
               }}
             >
               <Text className="text-[20px] font-bold">
-                {`Click the "Next" button when you're ready to proceed.`}
+                {`Click the "Start Test" button when you're ready to proceed.`}
               </Text>
               <Button
                 type="primary"
