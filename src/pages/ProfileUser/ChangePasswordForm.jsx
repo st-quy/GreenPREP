@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, message } from "antd";
-import { passwordSchema } from "@features/auth/schema/changepasswordSchema";
+import { passwordSchema } from "@pages/ProfileUser/changepasswordSchema";
 import { useNavigate, Link } from "react-router-dom";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
@@ -91,8 +91,8 @@ const ChangePasswordPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9] px-4 sm:px-6 md:px-8">
-      <div className="w-full max-w-[1440px] mx-auto relative pt-16 md:pt-20">
+    <div className="min-h-screen bg-[#F9F9F9]">
+      <div className="w-full max-w-[1440px] mx-auto relative">
         <div className="mb-8 pt-8 relative">
           <div className="absolute left-0 top-0 md:left-8 lg:left-12">
             <Link

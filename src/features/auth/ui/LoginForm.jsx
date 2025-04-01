@@ -1,28 +1,49 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate để điều hướng
 import loginHappyStudent from "@assets/images/login-happy-student.png";
 import mail from "@assets/icons/mail.svg";
 import Logo from "@assets/images/Logo.png";
 import { Form, Input, Button } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { loginSchema } from "../schemas/loginSchema";
-import { yupSync } from "@shared/lib/utils/yupSync";
+import { loginSchema } from "../schema/loginSchema";
+import { AuthApi } from "../api";
+
+const validateWithYup = (schema, field) => async (_, value) => {
+  try {
+    await schema.validateSyncAt(field, { [field]: value });
+    return Promise.resolve();
+  } catch (error) {
+    return Promise.reject(error.message);
+  }
+};
 
 export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [form] = Form.useForm();
+  const navigate = useNavigate(); // Sử dụng để điều hướng sau khi đăng nhập thành công
 
   const onSubmit = async (values) => {
     try {
-      // Handle login logic here
+      const response = await AuthApi.login(values); // Gọi API login
+      console.log("Login successful:", response.data);
+
+      // Lưu token vào localStorage (nếu cần)
+      localStorage.setItem("token", response.data.token);
+
+      // Điều hướng đến trang dashboard hoặc trang khác
+      navigate("/");
+
+      // Hiển thị thông báo thành công
+      alert("Login successful!");
     } catch (error) {
-      setErrorMessage(error.message);
+      // Hiển thị thông báo lỗi từ API
+      setErrorMessage(error.response?.data?.message || "Login failed");
     }
   };
 
   return (
     <div className="flex item-center min-h-screen bg-gray-100 px-4 md:px-10 lg:px-20">
-      <img src={Logo} alt="" className="absolute w-[147px] h-[34px] mt-[42px] ml-[82px]"/>
+      <img src={Logo} alt="" className="absolute w-[147px] h-[34px] mt-[42px] ml-[82px]" />
       <div className="flex flex-col md:flex-row items-center max-w-[1440px] w-full justify-evenly">
         {/* Form Section - Left Side */}
         <div className="w-full md:w-[440px] h-auto p-6 md:p-12 bg-white rounded-lg shadow-xl">
@@ -38,7 +59,11 @@ export default function LoginPage() {
             <Form.Item
               name="email"
               label={<span>Email <span className="text-red-500">*</span></span>}
-              rules={[yupSync(loginSchema)]}
+              rules={[
+                {
+                  validator: validateWithYup(loginSchema, "email"), // Sử dụng Yup để xác thực email
+                },
+              ]}
             >
               <Input
                 suffix={<img src={mail} alt="Mail icon" className="w-4 h-4" />}
@@ -50,7 +75,11 @@ export default function LoginPage() {
             <Form.Item
               name="password"
               label={<span>Password <span className="text-red-500">*</span></span>}
-              rules={[yupSync(loginSchema)]}
+              rules={[
+                {
+                  validator: validateWithYup(loginSchema, "password"), // Sử dụng Yup để xác thực password
+                },
+              ]}
             >
               <Input.Password
                 placeholder="* * * * * * * *"

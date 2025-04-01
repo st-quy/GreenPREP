@@ -4,8 +4,9 @@ import ReadingTestTaking from "@pages/Reading/ReadingTestTaking/ReadingTestTakin
 import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
 import IntroductionPage from "@pages/Welcome/IntroductionPage.jsx";
 import ProfileLayout from "@pages/ProfileUser/ProfileLayout";
-import ProfileUser from "@pages/ProfileUser/ProfileUser";
-
+const ProfileUser = lazy(
+  () => import("@pages/ProfileUser/ProfileUser.jsx")
+);
 
 
 const IntroReading = lazy(
@@ -72,7 +73,7 @@ const PrivateRoute = [
   {
     path: "/",
     element: <ProtectedRoute />,
-    children: [
+    children: [ 
       {
         path: "",
         element: <WelcomeLayout />,       

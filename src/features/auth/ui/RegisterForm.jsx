@@ -6,7 +6,7 @@ import {
   getInitialFormErrors,
   getInitialFieldsValidated,
   checkFormValidity,
-} from "../registerSchema";
+} from "../schema/registerSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const RegisterForm = () => {

@@ -4,9 +4,13 @@ import Details from "@features/profileuser/ui/Details";
 import StudentSessionTable from "@features/profileuser/ui/StudentSessionTable.jsx";
 import ProfileNav from "@features/profileuser/ui/component/ProfileNav";
 import ButtonProfile from "@features/profileuser/ui/component/ButtonProfile";
+import ProfileUpdate from "@features/profileuser/ui/component/ProfileUpdate";
+import ChangePassword from  "@features/profileuser/ui/component/ChangePassword";
 
-const ProfileUser = () => {
+const ProfileUser = (userData) => {
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   
   const onSearchChange = (event) => {
     setSearchKeyword(event.target.value);
@@ -24,7 +28,20 @@ const ProfileUser = () => {
             <h1 className="text-2xl font-bold text-gray-900 lg:text-3xl">My profile</h1>
             <p className="text-sm text-gray-500 mt-1 lg:text-base">Summary of personal information.</p>
           </div>
-          <ButtonProfile />
+          <ButtonProfile 
+            onUpdateProfile={() => setIsModalOpen(true)}
+            onChangePassword={() => setIsPasswordModalOpen(true)}
+          />
+          <ProfileUpdate 
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            userData={userData}
+          />
+
+          <ChangePassword 
+            isOpen={isPasswordModalOpen}
+            onClose={() => setIsPasswordModalOpen(false)}
+          />
         </div>
 
         {/* Profile Details Section */}

@@ -41,3 +41,9 @@ export const ReadingApi = {
     );
   },
 };
+
+export const AuthApi = {
+  login: (credentials) => {
+    return axiosInstance.post(`/users/login`, credentials);
+  },
+};
