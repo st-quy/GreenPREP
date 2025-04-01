@@ -8,6 +8,7 @@ import {
   checkFormValidity,
 } from "../schema/registerSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { AuthApi } from "../api";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -39,11 +40,35 @@ const RegisterForm = () => {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formValid) {
-      console.log("Registration values:", formValues);
-      navigate("/login");
+      try {
+        // Chuẩn bị payload
+        const payload = {
+          lastName: formValues.lastName,
+          firstName: formValues.firstName,
+          email: formValues.email,
+          password: formValues.password,
+          studentCode: formValues.studentId, // Map studentId từ formValues
+          teacherCode: "TC123456", // Giá trị cố định hoặc lấy từ input
+          roleIDs: ["student"], // Giá trị cố định
+          class: formValues.className, // Map className từ formValues
+        };
+
+        // Gọi API register
+        const response = await AuthApi.register(payload);
+        console.log("Registration successful:", response.data);
+
+        // Điều hướng đến trang đăng nhập
+        navigate("/login");
+      } catch (error) {
+        console.error("Registration failed:", error.response?.data || error.message);
+        setFormErrors((prev) => ({
+          ...prev,
+          apiError: error.response?.data?.message || "Registration failed",
+        }));
+      }
     }
   };
 
