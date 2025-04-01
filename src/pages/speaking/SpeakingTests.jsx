@@ -26,7 +26,10 @@ export default function SpeakingTests() {
   const [partFourQuest, setPartFourQuestion] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [forceStartRecording, setForceStartRecording] = useState(false);
+  const [showFinishButton, setShowFinishButton] = useState(false);
   const testStartedRef = useRef(false);
+  const finishButtonTimeoutRef = useRef(null); // Ref to track the timeout for the finish button
+  const finishButtonShownRef = useRef(false); // Ref to track if the button has been shown
 
   const result = useQuery({
     queryKey: ["speakingData"],
@@ -95,14 +98,40 @@ export default function SpeakingTests() {
   const handleRecordingStart = () => {
     setTestStatus("recording");
     setIsRecordingActive(true);
+
+    if (finishButtonTimeoutRef.current) {
+      clearTimeout(finishButtonTimeoutRef.current);
+    }
+
+    // Show the "Finish Recording" button after 10 seconds
+    finishButtonTimeoutRef.current = setTimeout(() => {
+      if (!finishButtonShownRef.current) {
+        finishButtonShownRef.current = true;
+        setShowFinishButton(true);
+      }
+    }, 10900);
   };
 
   const handleRecordingComplete = () => {
     setIsTestActive(false);
     setTestStatus("completed");
     setIsRecordingActive(false);
+
+    if (finishButtonShownRef.current) {
+      setShowFinishButton(false);
+      finishButtonShownRef.current = false;
+    }
+
     handleFinish(false);
   };
+
+  useEffect(() => {
+    return () => {
+      if (finishButtonTimeoutRef.current) {
+        clearTimeout(finishButtonTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const handleFinish = (isCompleted) => {
     setForceCompleted(isCompleted);
@@ -251,16 +280,17 @@ export default function SpeakingTests() {
                 ? "Click the 'Finish Recording' button to stop recording."
                 : "Prepare your answer based on the question above."}
           </p>
-          {(testStatus === "recording" || testStatus === "completed") && (
-            <Button
-              type="primary"
-              className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
-              onClick={() => handleFinish(true)}
-            >
-              Finish Recording{" "}
-              <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
-            </Button>
-          )}
+          {(testStatus === "recording" || testStatus === "completed") &&
+            showFinishButton && (
+              <Button
+                type="primary"
+                className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
+                onClick={() => handleFinish(true)}
+              >
+                Finish Recording{" "}
+                <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
+              </Button>
+            )}
         </div>
       </div>
       <ConfirmTestSubmissionModal

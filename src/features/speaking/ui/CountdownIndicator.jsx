@@ -167,7 +167,9 @@ export const CountdownIndicator = ({
         setReadingTimeRemaining((prev) => {
           if (prev <= 1) {
             clearInterval(interval);
-            startPreparationTimer();
+            setTimeout(() => {
+              startPreparationTimer();
+            }, 0);
             return 0;
           }
           return prev - 1;
@@ -209,14 +211,14 @@ export const CountdownIndicator = ({
     if (isRunning && timeRemaining > 0) {
       interval = setInterval(() => {
         setTimeRemaining((prev) => {
-          if (prev <= 1) {
+          if (prev <= 0.1) {
             clearInterval(interval);
             completeTimer();
             return 0;
           }
-          return prev - 1;
+          return Math.max(prev - 0.1, 0);
         });
-      }, 1000);
+      }, 100);
     }
 
     return () => {
