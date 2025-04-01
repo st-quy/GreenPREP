@@ -22,6 +22,7 @@ export default function SpeakingTests() {
   const [forceCompleted, setForceCompleted] = useState(false);
   const [isRecordingActive, setIsRecordingActive] = useState(false);
   const [questionsData, setQuestionsData] = useState({});
+  const [partFourQuest, setPartFourQuestion] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const result = useQuery({
@@ -35,6 +36,7 @@ export default function SpeakingTests() {
     setForceCompleted(false);
     setIsRecordingActive(false);
     setQuestionsData({});
+    setPartFourQuestion([]);
 
     setTestDuration(partId == "1" ? 30 : partId == "4" ? 120 : 45);
     setPreparationTime(partId == "4" ? 60 : 5);
@@ -45,15 +47,24 @@ export default function SpeakingTests() {
       try {
         const parts = result.data.data.Parts;
         if (parts && parts.length > 0) {
-          const part = parts[Number(partId) - 1];
+          let currentPart = `PART ${partId}`;
+          const currentPartIndex = parts.findIndex(
+            (p) => p.Content == currentPart
+          );
+          const part = parts[currentPartIndex];
+          if (currentPartIndex !== -1) {
+            const part = parts[currentPartIndex];
+          } else {
+            const part = parts[Number(partId) - 1];
+          }
           if (part && part.Questions && part.Questions.length > 0) {
-            const question = part.Questions[Number(questionsId) - 1];
-            console.log(question);
-            if (question) {
-              setQuestionsData(question);
-              handleStartTest();
-              setTestStatus("preparing");
+            if (partId == "4") {
+              setPartFourQuestion(part.Questions);
+            } else {
+              setQuestionsData(part.Questions[Number(questionsId) - 1]);
             }
+            handleStartTest();
+            setTestStatus("preparing");
           }
         }
       } catch (error) {
@@ -110,13 +121,7 @@ export default function SpeakingTests() {
           );
           break;
         case "4":
-          if (questionsId == "3") {
-            setIsModalOpen(true);
-            break;
-          }
-          navigate(
-            `/session/speaking/test/4/question/${Number(questionsId) + 1}`
-          );
+          setIsModalOpen(true);
           break;
         default:
           break;
@@ -133,7 +138,11 @@ export default function SpeakingTests() {
   };
 
   useEffect(() => {
-    if (Number(partId) > 4 || Number(questionsId) > 3) {
+    if (
+      Number(partId) > 4 ||
+      Number(questionsId) > 3 ||
+      (Number(partId) == 4 && Number(questionsId) > 1)
+    ) {
       navigate("/session/speaking");
     }
   }, [partId, questionsId, navigate]);
@@ -142,25 +151,53 @@ export default function SpeakingTests() {
   return (
     <>
       <div className="w-full space-y-4" key={componentKey}>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-8 px-12">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12">
           <div className="text-blue-600 font-medium mb-2 flex">
             Part {partId}{" "}
-            <div className="text-black">&nbsp;- Question {questionsId}</div>
+            {partId != "4" && (
+              <div className="text-black">&nbsp;- Question {questionsId}</div>
+            )}
           </div>
           {questionsData && (
             <div>
-              <div className="text-gray-800">
+              <div className="text-gray-800 text-sm md:text-base">
                 {questionsData?.Content || ""}
               </div>
-              {questionsData?.ImageKeys && (
-                <img
-                  src={questionsData?.ImageKeys || ""}
-                  alt="speaking pic"
-                  className="w-1/3 pt-8"
-                />
+              {questionsData?.ImageKeys?.length > 0 ? (
+                <div className="flex items-center pt-3 flex-col md:flex-row gap-4 md:gap-6">
+                  {questionsData?.ImageKeys?.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image || ""}
+                      alt="speaking pic"
+                      className="w-full md:w-1/4"
+                    />
+                  ))}
+                </div>
+              ) : null}
+              {partFourQuest && (
+                <>
+                  <div className="flex items-center pt-3 flex-col md:flex-row gap-4 md:gap-6 mb-3 md:mb-5">
+                    {partFourQuest[0]?.ImageKeys.map((image, index) => (
+                      <img
+                        key={index}
+                        src={image || ""}
+                        alt="speaking pic"
+                        className="w-full md:w-1/3"
+                      />
+                    ))}
+                  </div>
+                  <div className="flex flex-col">
+                    {partFourQuest.map((quest) => (
+                      <p key={quest.ID} className="py-1 text-sm md:text-base">
+                        {quest?.Content || ""}
+                      </p>
+                    ))}
+                  </div>
+                </>
               )}
               {questionsData?.SubContent && (
-                <div className="text-gray-800 pt-8">
+                <div className="text-gray-800 pt-4 md:pt-8 text-sm md:text-base">
                   {questionsData?.SubContent || ""}
                 </div>
               )}
@@ -169,7 +206,7 @@ export default function SpeakingTests() {
         </div>
 
         {!result.isPending && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-8 px-12 flex flex-col gap-6 md:flex-row justify-between items-center">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12 flex flex-col gap-4 md:flex-row justify-between items-center">
             <CountdownIndicator
               duration={testDuration}
               preparationTime={preparationTime}
@@ -183,24 +220,21 @@ export default function SpeakingTests() {
           </div>
         )}
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-8 px-12">
-          <p className="font-semibold text-sm">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12 flex flex-col md:flex-row justify-between gap-4 md:gap-0">
+          <p className="font-semibold text-xs md:text-sm">
             Click the 'Finish Recording' button to stop recording.
           </p>
-        </div>
-
-        {(testStatus === "recording" || testStatus === "completed") && (
-          <div className="flex justify-end">
+          {(testStatus === "recording" || testStatus === "completed") && (
             <Button
               type="primary"
-              className="bg-blue-700 hover:bg-blue-600 rounded-2xl py-4"
+              className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
               onClick={handleFinish}
             >
               Finish Recording{" "}
               <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
             </Button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <ConfirmTestSubmissionModal
         visible={isModalOpen}
