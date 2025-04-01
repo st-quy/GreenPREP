@@ -1,3 +1,4 @@
+import ForgotPasswordForm from "@features/auth/ui/ForgotPasswordForm";
 import LoginPage from "../../features/auth/ui/LoginForm";
 import {PublicLayout} from "../layout/PublicLayout";
 
@@ -15,7 +16,11 @@ const PublicRoute = [
       {
         path: "register",
         element: <RegisterForm />,
-      },     
+      }, 
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordForm />,
+      },    
     ],
   },
 ]

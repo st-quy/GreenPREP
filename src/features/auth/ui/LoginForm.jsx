@@ -7,7 +7,7 @@ import { Form, Input, Button } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { loginSchema } from "../schema/loginSchema";
 import { AuthApi } from "../api";
-import { toast } from "react-hot-toast"; // Import toast
+import { toast, Toaster } from "react-hot-toast"; // Import toast
 
 const validateWithYup = (schema, field) => async (_, value) => {
   try {
@@ -44,8 +44,13 @@ export default function LoginPage() {
     }
   };
 
+  const onForgotPassword = () => {
+    navigate("/forgot-password");
+  }
+
   return (
     <div className="flex item-center min-h-screen bg-gray-100 px-4 md:px-10 lg:px-20">
+      <Toaster position="top-right" reverseOrder={false} />
       <img src={Logo} alt="" className="absolute w-[147px] h-[34px] mt-[42px] ml-[82px]" />
       <div className="flex flex-col md:flex-row items-center max-w-[1440px] w-full justify-evenly">
         {/* Form Section - Left Side */}
@@ -94,7 +99,13 @@ export default function LoginPage() {
             </Form.Item>
 
             <div className="mt-1 text-right">
-              <Link to="" className="text-[#003087] text-xs no-underline">Forgot password?</Link>
+              <Button
+                type="link"
+                className="text-[#003087] text-xs no-underline"
+                onClick={onForgotPassword} // Gắn hàm onForgotPassword vào sự kiện onClick
+              >
+                Forgot password?
+              </Button>
             </div>
 
             <div className="flex justify-center">

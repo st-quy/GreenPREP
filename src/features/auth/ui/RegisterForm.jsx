@@ -9,7 +9,7 @@ import {
 } from "../schema/registerSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthApi } from "../api";
-import { toast } from "react-hot-toast"; // Import toast
+import { toast, Toaster } from "react-hot-toast"; // Import toast
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -102,6 +102,7 @@ const RegisterForm = () => {
 
     return (
       <div className="mb-4 relative w-full">
+        <Toaster position="top-right" reverseOrder={false} />
         <div className="relative">
           <input
             type={isPassword ? (showPasswordState ? "text" : "password") : type}
