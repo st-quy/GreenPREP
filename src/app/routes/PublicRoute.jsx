@@ -1,10 +1,22 @@
-// Define public routes accessible to all users
+import LoginPage from "../../features/auth/ui/LoginForm";
+import {PublicLayout} from "../layout/PublicLayout";
+
+import RegisterForm from "@features/auth/ui/RegisterForm";
 
 const PublicRoute = [
   {
-    path: "login",
-    element: "login",
+    path:"/",
+    element:<PublicLayout />,
+    children: [
+      {
+        path: "login",
+         element: <LoginPage />,
+      },
+      {
+        path: "register",
+        element: <RegisterForm />,
+      },     
+    ],
   },
-];
-
+]
 export default PublicRoute;

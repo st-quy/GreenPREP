@@ -41,3 +41,12 @@ export const ReadingApi = {
     );
   },
 };
+
+export const AuthApi = {
+  login: (credentials) => {
+    return axios.post(`https://dev-api-greenprep.onrender.com/api/users/login`, credentials);
+  },
+  register: (userData) => {
+    return axios.post(`https://dev-api-greenprep.onrender.com/api/users/register`, userData);
+  },
+};

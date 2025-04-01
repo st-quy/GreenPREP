@@ -36,6 +36,10 @@ const ListeningTest = () => {
   const { data: questions } = useListeningTest();
 
   const handleOnSubmit = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
     navigate("/session/listening/submission");
   };
 

@@ -4,7 +4,9 @@ import ReadingTestTaking from "@pages/Reading/ReadingTestTaking/ReadingTestTakin
 import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
 import IntroductionPage from "@pages/Welcome/IntroductionPage.jsx";
 import ProfileLayout from "@pages/ProfileUser/ProfileLayout";
-import ProfileUser from "@pages/ProfileUser/ProfileUser";
+const ProfileUser = lazy(
+  () => import("@pages/ProfileUser/ProfileUser.jsx")
+);
 
 
 const IntroReading = lazy(
@@ -57,6 +59,7 @@ const SpeakingTests = lazy(() => import("@pages/speaking/SpeakingTests.jsx"));
 const SpeakingSubmissionSucces = lazy(
   () => import("@pages/speaking/SpeakingSubmissionSuccess.jsx")
 );
+
 import Layout from "@pages/Layout.jsx";
 import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
 import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
@@ -70,7 +73,7 @@ const PrivateRoute = [
   {
     path: "/",
     element: <ProtectedRoute />,
-    children: [
+    children: [ 
       {
         path: "",
         element: <WelcomeLayout />,       
