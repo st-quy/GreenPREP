@@ -198,20 +198,25 @@ const TestingMicrophone = () => {
         </Card>
         {isMicrophone && (
           <>
-            <Card className=" w-full !border-black/15 p-8">
+            <Card
+              className=" w-full !border-black/15 p-8"
+              classNames={{
+                body: "flex justify-between items-center flex-col gap-4 md:flex-row",
+              }}
+            >
               <Text className="text-[20px] font-bold">
                 {`Click the "Next" button when you're ready to proceed.`}
               </Text>
+              <Button
+                type="primary"
+                size="middle"
+                className="rounded-full bg-[#3658F9] py-3 w-[114px] ml-auto mt-1 !p-6"
+                htmlType="submit"
+                onClick={() => navigate("/session/speaking")}
+              >
+                Start Test -&gt;
+              </Button>
             </Card>
-            <Button
-              type="primary"
-              size="middle"
-              className="rounded-full bg-[#3658F9] py-3 w-[114px] ml-auto mt-1 !p-6"
-              htmlType="submit"
-              onClick={() => navigate("/session/speaking")}
-            >
-              Start Test -&gt;
-            </Button>
           </>
         )}
       </Flex>
