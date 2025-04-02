@@ -46,6 +46,33 @@ export const AuthApi = {
   register: (userData) => {
     return axios.post(`https://dev-api-greenprep.onrender.com/api/users/register`, userData);
   },
+  forgotPassword: async (email) => {
+    try {
+      const response = await axiosInstance.post(
+        "https://dev-api-greenprep.onrender.com/api/users/forgot-password",
+        { email }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Forgot password error:", error);
+      throw error;
+    }
+  },
+  resetPassword: async (token, newPassword) => {
+    try {
+      const response = await axiosInstance.post(
+        "https://dev-api-greenprep.onrender.com/api/users/reset-password",
+        { 
+          token,
+          newPassword
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Reset password error:", error);
+      throw error;
+    }
+  },
   logout: async () => {
     try {
       const token = localStorage.getItem('access_token');
