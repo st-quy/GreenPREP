@@ -1,59 +1,59 @@
-import React, {useState, useEffect} from "react";
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import SearchInput from "@features/profileuser/ui/component/SearchInput";
 import Details from "@features/profileuser/ui/Details";
 import StudentSessionTable from "@features/profileuser/ui/StudentSessionTable.jsx";
 import ProfileNav from "@features/profileuser/ui/component/ProfileNav";
 import ButtonProfile from "@features/profileuser/ui/component/ButtonProfile";
 import ProfileUpdate from "@features/profileuser/ui/component/ProfileUpdate";
-import ChangePassword from  "@features/profileuser/ui/component/ChangePassword";
-import { getUserFromToken, getDataFromApi } from "../../utils/auth";
+import ChangePassword from "@features/profileuser/ui/component/ChangePassword";
+import { getUserFromToken, getDataFromApi } from "../../shared/lib/utils/auth";
 
 const ProfileUser = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Lấy userId từ token
-        const decodedUser = getUserFromToken();
-        if (!decodedUser?.userId) {
-          throw new Error('No user ID found in token');
-        }
 
-        // Gọi API để lấy thông tin chi tiết
-        const response = await getDataFromApi(decodedUser.userId);
-        console.log('API Response:', response);
-
-        // Format dữ liệu từ API response
-        const formattedUserData = {
-          fullName: `${response.data.firstName || ''} ${response.data.lastName || ''}`.trim(),
-          email: response.data.email || '',
-          studentId: response.data.studentId || '',
-          phoneNumber: response.data.phoneNumber || 'Not provided',
-          className: response.data.className || ''
-        };
-
-        setUserData(formattedUserData);
-      } catch (err) {
-        console.error('Error fetching user data:', err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  // Sử dụng React Query để fetch user data
+  const { data: userData, isLoading, error, refetch } = useQuery({
+    queryKey: ['userData'],
+    queryFn: async () => {
+      const decodedUser = getUserFromToken();
+      if (!decodedUser?.userId) {
+        throw new Error('No user ID found in token');
       }
-    };
 
-    fetchUserData();
-  }, []);
+      const response = await getDataFromApi(decodedUser.userId);
+      if (!response) {
+        throw new Error('No response from API');
+      }
+
+      return {
+        fullName: `${response.firstName || ''} ${response.lastName || ''}`.trim(),
+        email: response.email || '',
+        studentCode: response.studentCode || '',
+        phoneNumber: response.phoneNumber || '',
+        class: response.class || '',
+        password: response.password || ''
+      };
+    },
+    enabled: true,
+    staleTime: 5 * 60 * 1000,
+  });
 
   const onSearchChange = (event) => {
     setSearchKeyword(event.target.value);
   };
 
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    refetch(); // Refetch data khi modal đóng
+  };
+
+  const handlePasswordModalClose = () => {
+    setIsPasswordModalOpen(false);
+    refetch(); // Refetch data khi password modal đóng
+  };
 
   return (
     <div className="h-full">
@@ -73,15 +73,16 @@ const ProfileUser = () => {
           />
           <ProfileUpdate 
             isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
+            onClose={handleModalClose}
             userData={userData}
-            loading={loading}
-            error={error}
+            loading={isLoading}
+            error={error?.message}
           />
 
           <ChangePassword 
             isOpen={isPasswordModalOpen}
-            onClose={() => setIsPasswordModalOpen(false)}
+            onClose={handlePasswordModalClose}
+            userData={userData}
           />
         </div>
 
@@ -89,8 +90,8 @@ const ProfileUser = () => {
         <div className="bg-white rounded-lg shadow-sm p-4 min-h-[200px] lg:min-h-[250px] 2xl:min-h-[300px] lg:p-6 2xl:p-8">
           <Details 
             userData={userData}
-            loading={loading}
-            error={error}
+            loading={isLoading}
+            error={error?.message}
           />
         </div>
         

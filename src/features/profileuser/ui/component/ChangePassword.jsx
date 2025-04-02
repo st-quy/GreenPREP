@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Modal, message } from 'antd';
 import PropTypes from 'prop-types';
 import { passwordSchema } from '../../schema/profileButtonsSchema';
-import { getUserFromToken, changePasswordFromApi } from '../../../../utils/auth';
+import { getUserFromToken, changePasswordFromApi } from '../../../../shared/lib/utils/auth';
 
 const ChangePassword = ({ isOpen, onClose, userData }) => {
   const [form] = Form.useForm();
@@ -43,17 +43,7 @@ const ChangePassword = ({ isOpen, onClose, userData }) => {
 
   const handleSubmit = async (values) => {
     try {
-      // Verify current password matches userData.password
-      if (values.currentPassword !== userData.password) {
-        form.setFields([
-          {
-            name: "currentPassword",
-            errors: ["Incorrect current password"],
-          },
-        ]);
-        return;
-      }
-
+      
       // Verify confirm password matches new password
       if (values.newPassword !== values.confirmPassword) {
         form.setFields([
@@ -69,6 +59,8 @@ const ChangePassword = ({ isOpen, onClose, userData }) => {
       if (!decodedUser?.userId) {
         throw new Error('No user ID found in token');
       }
+      console.log(values.currentPassword);
+      console.log(values.newPassword);
 
       // Call change password API
       await changePasswordFromApi(decodedUser.userId, {

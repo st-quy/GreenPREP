@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate để điều hướng
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import loginHappyStudent from "@assets/images/login-happy-student.png";
 import mail from "@assets/icons/mail.svg";
 import Logo from "@assets/images/Logo.png";
@@ -7,8 +8,8 @@ import { Form, Input, Button } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { loginSchema } from "../schema/loginSchema";
 import { AuthApi } from "../api";
-import { toast, Toaster } from "react-hot-toast"; // Import toast
-import { getUserFromToken } from "../../../utils/auth";
+import { toast, Toaster } from "react-hot-toast";
+import { getUserFromToken } from "../../../shared/lib/utils/auth";
 
 const validateWithYup = (schema, field) => async (_, value) => {
   try {
@@ -22,39 +23,41 @@ const validateWithYup = (schema, field) => async (_, value) => {
 export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [form] = Form.useForm();
-  const navigate = useNavigate(); // Sử dụng để điều hướng sau khi đăng nhập thành công
+  const navigate = useNavigate();
 
-  const onSubmit = async (values) => {
-    try {
-      const response = await AuthApi.login(values); // Gọi API login
-      console.log("Login successful:", response.data);
-
+  // Sử dụng React Query mutation cho login
+  const loginMutation = useMutation({
+    mutationFn: async (values) => {
+      const response = await AuthApi.login(values);
+      return response.data;
+    },
+    onSuccess: (data) => {
       // Lưu token vào localStorage
-      localStorage.setItem("access_token", response.data.data.access_token);
-      localStorage.setItem("refresh_token", response.data.data.refresh_token);
-      localStorage.setItem("userId", response.data.data.userId);
+      localStorage.setItem("access_token", data.data.access_token);
+      localStorage.setItem("refresh_token", data.data.refresh_token);
 
       // Decode token để lấy thông tin user
       const userData = getUserFromToken();
       console.log("Decoded user data:", userData);
 
       if (userData.role[0] === "student") {
-      // Hiển thị thông báo thành công
-      toast.success("Login successful!");
-
-      // Thêm delay 1.5 giây trước khi chuyển trang
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
+        toast.success("Login successful!");
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       } else {
         toast.error("Login failed!");
       }
-    } catch (error) {
-      // Hiển thị thông báo lỗi từ API
+    },
+    onError: (error) => {
       const errorMessage = error.response?.data?.message || "Login failed";
       setErrorMessage(errorMessage);
-      toast.error(errorMessage); // Hiển thị thông báo lỗi
+      toast.error(errorMessage);
     }
+  });
+
+  const onSubmit = async (values) => {
+    loginMutation.mutate(values);
   };
 
   const onForgotPassword = () => {
@@ -82,7 +85,7 @@ export default function LoginPage() {
               label={<span>Email <span className="text-red-500">*</span></span>}
               rules={[
                 {
-                  validator: validateWithYup(loginSchema, "email"), // Sử dụng Yup để xác thực email
+                  validator: validateWithYup(loginSchema, "email"),
                 },
               ]}
             >
@@ -98,7 +101,7 @@ export default function LoginPage() {
               label={<span>Password <span className="text-red-500">*</span></span>}
               rules={[
                 {
-                  validator: validateWithYup(loginSchema, "password"), // Sử dụng Yup để xác thực password
+                  validator: validateWithYup(loginSchema, "password"),
                 },
               ]}
             >
@@ -115,7 +118,7 @@ export default function LoginPage() {
               <Button
                 type="link"
                 className="text-[#003087] text-xs no-underline"
-                onClick={onForgotPassword} // Gắn hàm onForgotPassword vào sự kiện onClick
+                onClick={onForgotPassword}
               >
                 Forgot password?
               </Button>
@@ -125,9 +128,10 @@ export default function LoginPage() {
               <Button
                 type="primary"
                 htmlType="submit"
+                loading={loginMutation.isPending}
                 className="mt-4 bg-[#003087] text-white w-[167px] h-[34px] border-hidden rounded-full hover:bg-blue-600"
               >
-                Login
+                {loginMutation.isPending ? "Logging in..." : "Login"}
               </Button>
             </div>
           </Form>

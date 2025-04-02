@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Modal, message } from 'antd';
 import PropTypes from 'prop-types';
 import { profileSchema } from '../../schema/profileButtonsSchema';
-import { getUserFromToken, updateDataFromApi } from '../../../../utils/auth';
+import { getUserFromToken, updateDataFromApi } from '../../../../shared/lib/utils/auth';
 
 const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
   const [form] = Form.useForm();
@@ -12,9 +12,9 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
       form.setFieldsValue({
         fullname: userData.fullName,
         email: userData.email,
-        code: userData.studentId,
+        code: userData.studentCode,
         phoneNumber: userData.phoneNumber,
-        className: userData.className
+        className: userData.class
       });
     }
   }, [userData, form]);
@@ -41,9 +41,9 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
         firstName: values.fullname.split(' ')[0],
         lastName: values.fullname.split(' ').slice(1).join(' '),
         email: values.email,
-        studentId: values.code,
+        studentCode: values.code,
         phoneNumber: values.phoneNumber,
-        className: values.className
+        class: values.className
       });
 
       message.success("Profile updated successfully");
@@ -131,7 +131,7 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
         >
           <Input 
             className="h-[46px] rounded-lg"
-            onChange={(e) => validateField("code", e.target.value)}
+            onChange={(e) => validateField("studentCode", e.target.value)}
           />
         </Form.Item>
 
@@ -147,7 +147,7 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
         >
           <Input 
             className="h-[46px] rounded-lg"
-            onChange={(e) => validateField("className", e.target.value)}
+            onChange={(e) => validateField("class", e.target.value)}
           />
         </Form.Item>
 
@@ -209,9 +209,9 @@ ProfileUpdate.propTypes = {
   userData: PropTypes.shape({
     fullName: PropTypes.string,
     email: PropTypes.string,
-    studentId: PropTypes.string,
+    studentCode: PropTypes.string,
     phoneNumber: PropTypes.string,
-    className: PropTypes.string
+    class: PropTypes.string
   }),
   loading: PropTypes.bool,
   error: PropTypes.string

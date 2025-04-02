@@ -31,6 +31,10 @@ export const profileSchema = yup.object().shape({
         /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/.test(value)
     ),
   address: yup.string().nullable().notRequired(),
+  className: yup
+    .string()
+    .required("Class name is required")
+    .matches(/^[A-Za-z0-9\s-]+$/, "Class name can only contain letters, numbers, spaces and hyphens")
 });
 
 export const passwordSchema = yup.object().shape({

@@ -65,7 +65,7 @@ export const updateDataFromApi = async (userId, userData) => {
 export const changePasswordFromApi = async (userId, { oldPassword, newPassword }) => {
   try {
     const config = getAuthConfig();
-    const response = await axios.put(
+    const response = await axios.post(
       `${API_URL}/users/${userId}/change-password`,
       {
         oldPassword,

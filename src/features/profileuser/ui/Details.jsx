@@ -28,13 +28,13 @@ const Details = ({ userData, loading, error }) => {
           <div className="mb-6">
             <div className="text-gray-500 text-sm mb-1">Student ID</div>
             <div className="text-gray-900 font-medium">
-              {userData.studentId || 'Not provided'}
+              {userData.studentCode || 'Not provided'}
             </div>
           </div>
           <div>
             <div className="text-gray-500 text-sm mb-1">Class name</div>
             <div className="text-gray-900 font-medium">
-              {userData.className || 'Not provided'}
+              {userData.class || 'Not provided'}
             </div>
           </div>
         </div>
@@ -63,9 +63,9 @@ Details.propTypes = {
   userData: PropTypes.shape({
     fullName: PropTypes.string,
     email: PropTypes.string,
-    studentId: PropTypes.string,
+    studentCode: PropTypes.string,
     phoneNumber: PropTypes.string,
-    className: PropTypes.string
+    class: PropTypes.string
   }),
   loading: PropTypes.bool,
   error: PropTypes.string
