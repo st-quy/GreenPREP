@@ -3,6 +3,9 @@ import { ProtectedRoute } from "./ProtectedRoute/ProtectedRoute.jsx";
 import ReadingTestTaking from "@pages/Reading/ReadingTestTaking/ReadingTestTaking.jsx";
 import RejectedRequestPage from "@pages/Welcome/RejectedRequestPage.jsx";
 import IntroductionPage from "@pages/Welcome/IntroductionPage.jsx";
+import ProfileLayout from "@pages/ProfileUser/ProfileLayout";
+import ProfileUser from "@pages/ProfileUser/ProfileUser";
+
 
 
 const IntroReading = lazy(
@@ -43,6 +46,10 @@ const WritingSubmissionSuccess = lazy(
   () => import("@pages/Writing/WritingSubmissionSuccess.jsx")
 );
 
+const SessionInformation = lazy(
+  () => import("@pages/ProfileUser/ProfileUser.jsx")
+);
+
 const IntroWriting = lazy(
   () => import("@features/writing/ui/IntroWriting.jsx")
 );
@@ -57,6 +64,10 @@ import TestingMicrophone from "@features/speaking/ui/TestingMicrophone.jsx";
 import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
 import ReadingSuccess from "@pages/Reading/ReadingSuccess/ReadingSuccess.jsx";
 
+
+const ResetPasswordSuccessfullyLayout = lazy(() => import("@pages/ResetPasswordSuccessfully/ResetPasswordSuccessfullyLayout"));
+const ResetPasswordSuccessfullyPage = lazy(() => import("@pages/ResetPasswordSuccessfully/ResetPasswordSuccessfullyPage"));
+
 const PrivateRoute = [
   {
     path: "/",
@@ -64,7 +75,7 @@ const PrivateRoute = [
     children: [
       {
         path: "",
-        element: <WelcomeLayout />,
+        element: <WelcomeLayout />,       
         children: [
           { index: true, element: <WelcomeScreen /> },
           {
@@ -74,6 +85,27 @@ const PrivateRoute = [
           {
             path: "introduction",
             element: <IntroductionPage />,
+          },
+          {
+            path: "profile",
+            element: <ProfileLayout />,
+            children: [
+              {
+                path: "",
+                element: <ProfileUser />,
+              },
+            ],
+          },
+        ],
+      },
+      
+      {
+        path: "reset-password-successfully",
+        element: <ResetPasswordSuccessfullyLayout />,
+        children: [
+          {
+            index: true,
+            element: <ResetPasswordSuccessfullyPage />,
           },
         ],
       },
