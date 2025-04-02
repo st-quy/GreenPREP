@@ -3,6 +3,7 @@ import LoginPage from "../../features/auth/ui/LoginForm";
 import {PublicLayout} from "../layout/PublicLayout";
 
 import RegisterForm from "@features/auth/ui/RegisterForm";
+import ResetPasswordSuccessfullyPage from "@features/auth/ui/ResetPasswordSuccessfullyPage";
 
 const PublicRoute = [
   {
@@ -20,7 +21,11 @@ const PublicRoute = [
       {
         path: "forgot-password",
         element: <ForgotPasswordForm />,
-      },    
+      },
+      {
+        path: "reset-password-success",
+        element: <ResetPasswordSuccessfullyPage />,
+      },
     ],
   },
 ]

@@ -1,35 +1,50 @@
 import React from 'react';
 import { Form, Input, Button, Modal, message } from 'antd';
+import PropTypes from 'prop-types';
 import { passwordSchema } from '../../schema/profileButtonsSchema';
+import { getUserFromToken, changePasswordFromApi } from '../../../../utils/auth';
 
-const ChangePassword = ({ isOpen, onClose }) => {
+const ChangePassword = ({ isOpen, onClose, userData }) => {
   const [form] = Form.useForm();
 
   const validateField = async (fieldName, value) => {
     try {
-      await passwordSchema.validateAt(fieldName, form.getFieldsValue());
+      const values = form.getFieldsValue();
+      
+      // Validate specific field rules
+      switch (fieldName) {
+        case 'currentPassword':
+          if (!value) {
+            throw new Error('Current password is required');
+          }
+          break;
+        case 'newPassword':
+          if (!value) {
+            throw new Error('New password is required');
+          }
+          break;
+        case 'confirmPassword':
+          if (!value) {
+            throw new Error('Please confirm your password');
+          }
+          if (value !== values.newPassword) {
+            throw new Error('The two passwords do not match');
+          }
+          break;
+        default:
+          break;
+      }
+
       form.setFields([{ name: fieldName, errors: [] }]);
     } catch (err) {
       form.setFields([{ name: fieldName, errors: [err.message] }]);
     }
   };
 
-  const verifyCurrentPassword = async (password) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 500);
-    });
-  };
-
   const handleSubmit = async (values) => {
     try {
-      await passwordSchema.validate(values, { abortEarly: false });
-
-      const isCurrentPasswordValid = await verifyCurrentPassword(
-        values.currentPassword
-      );
-      if (!isCurrentPasswordValid) {
+      // Verify current password matches userData.password
+      if (values.currentPassword !== userData.password) {
         form.setFields([
           {
             name: "currentPassword",
@@ -39,44 +54,34 @@ const ChangePassword = ({ isOpen, onClose }) => {
         return;
       }
 
-      const changePasswordPromise = new Promise((resolve, reject) => {
-        setTimeout(async () => {
-          try {
-            console.log("Password change submitted:", values);
-            resolve();
-          } catch (error) {
-            reject(new Error("Failed to change password"));
-          }
-        }, 1000);
-      });
+      // Verify confirm password matches new password
+      if (values.newPassword !== values.confirmPassword) {
+        form.setFields([
+          {
+            name: "confirmPassword",
+            errors: ["The two passwords do not match"],
+          },
+        ]);
+        return;
+      }
 
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => {
-          reject(new Error("Request timeout"));
-        }, 3000);
-      });
+      const decodedUser = getUserFromToken();
+      if (!decodedUser?.userId) {
+        throw new Error('No user ID found in token');
+      }
 
-      await Promise.race([changePasswordPromise, timeoutPromise]);
+      // Call change password API
+      await changePasswordFromApi(decodedUser.userId, {
+        oldPassword: values.currentPassword,
+        newPassword: values.newPassword
+      });
 
       message.success("Password changed successfully");
       onClose();
       form.resetFields();
     } catch (err) {
-      if (err.inner) {
-        const errors = {};
-        err.inner.forEach((error) => {
-          errors[error.path] = error.message;
-        });
-        Object.keys(errors).forEach((field) => {
-          form.setFields([
-            {
-              name: field,
-              errors: [errors[field]],
-            },
-          ]);
-        });
-      } else if (err.message === "Request timeout") {
-        message.error("Request timed out. Please try again.");
+      if (err.response?.data?.message) {
+        message.error(err.response.data.message);
       } else {
         message.error("Failed to change password. Please try again.");
       }
@@ -114,6 +119,9 @@ const ChangePassword = ({ isOpen, onClose }) => {
           name="currentPassword"
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
+          rules={[
+            { required: true, message: 'Current password is required' }
+          ]}
         >
           <Input.Password
             className="h-[46px] rounded-lg"
@@ -131,6 +139,9 @@ const ChangePassword = ({ isOpen, onClose }) => {
           name="newPassword"
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
+          rules={[
+            { required: true, message: 'New password is required' }
+          ]}
         >
           <Input.Password
             className="h-[46px] rounded-lg"
@@ -148,6 +159,17 @@ const ChangePassword = ({ isOpen, onClose }) => {
           name="confirmPassword"
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
+          rules={[
+            { required: true, message: 'Please confirm your password' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('newPassword') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('The two passwords do not match'));
+              },
+            }),
+          ]}
         >
           <Input.Password
             className="h-[46px] rounded-lg"
@@ -174,6 +196,14 @@ const ChangePassword = ({ isOpen, onClose }) => {
       </Form>
     </Modal>
   );
+};
+
+ChangePassword.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  userData: PropTypes.shape({
+    password: PropTypes.string
+  })
 };
 
 export default ChangePassword; 

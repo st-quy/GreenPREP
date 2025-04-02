@@ -1,51 +1,74 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-const Details = () => {
-  // Mock data - replace with API data later
-  const studentInfo = {
-    studentName: "Xavier Maverick",
-    studentId: "GBD210410",
-    className: "CLASS01",
-    email: "xavier.mar@gmail.com",
-    phone: "0935 030 337"
-  };
+const Details = ({ userData, loading, error }) => {
+  if (loading) {
+    return <div className="flex items-center justify-center h-full">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500">Error: {error}</div>;
+  }
+
+  if (!userData) {
+    return <div>No user data found</div>;
+  }
 
   return (
-    <div className="bg-white rounded-lg p-8 shadow-sm">
-      <div className="flex">
+    <div className="bg-white rounded-lg p-8">
+      <div className="grid grid-cols-2 gap-8">
         {/* Left column */}
-        <div className="flex-1">
-          <div className="mb-8">
+        <div>
+          <div className="mb-6">
             <div className="text-gray-500 text-sm mb-1">Student name</div>
-            <div className="text-gray-900 font-medium">{studentInfo.studentName}</div>
+            <div className="text-gray-900 font-medium">
+              {userData.fullName || 'Not provided'}
+            </div>
           </div>
-          <div className="mb-8">
+          <div className="mb-6">
             <div className="text-gray-500 text-sm mb-1">Student ID</div>
-            <div className="text-gray-900 font-medium">{studentInfo.studentId}</div>
+            <div className="text-gray-900 font-medium">
+              {userData.studentId || 'Not provided'}
+            </div>
           </div>
           <div>
             <div className="text-gray-500 text-sm mb-1">Class name</div>
-            <div className="text-gray-900 font-medium">{studentInfo.className}</div>
+            <div className="text-gray-900 font-medium">
+              {userData.className || 'Not provided'}
+            </div>
           </div>
         </div>
 
-        {/* Vertical line */}
-        <div className="w-px bg-gray-200 mx-16"></div>
-
         {/* Right column */}
-        <div className="flex-1">
-          <div className="mb-8">
+        <div>
+          <div className="mb-6">
             <div className="text-gray-500 text-sm mb-1">Email</div>
-            <div className="text-gray-900 font-medium">{studentInfo.email}</div>
+            <div className="text-gray-900 font-medium">
+              {userData.email || 'Not provided'}
+            </div>
           </div>
           <div>
             <div className="text-gray-500 text-sm mb-1">Phone</div>
-            <div className="text-gray-900 font-medium">{studentInfo.phone}</div>
+            <div className="text-gray-900 font-medium">
+              {userData.phoneNumber || 'Not provided'}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
+};
+
+Details.propTypes = {
+  userData: PropTypes.shape({
+    fullName: PropTypes.string,
+    email: PropTypes.string,
+    studentId: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    className: PropTypes.string
+  }),
+  loading: PropTypes.bool,
+  error: PropTypes.string
 };
 
 export default Details;

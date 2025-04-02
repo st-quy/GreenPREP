@@ -1,9 +1,23 @@
 import React from 'react';
 import { Form, Input, Button, Modal, message } from 'antd';
+import PropTypes from 'prop-types';
 import { profileSchema } from '../../schema/profileButtonsSchema';
+import { getUserFromToken, updateDataFromApi } from '../../../../utils/auth';
 
-const ProfileUpdate = ({ isOpen, onClose, userData }) => {
+const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
   const [form] = Form.useForm();
+
+  React.useEffect(() => {
+    if (userData) {
+      form.setFieldsValue({
+        fullname: userData.fullName,
+        email: userData.email,
+        code: userData.studentId,
+        phoneNumber: userData.phoneNumber,
+        className: userData.className
+      });
+    }
+  }, [userData, form]);
 
   const validateField = async (fieldName, value) => {
     try {
@@ -17,61 +31,66 @@ const ProfileUpdate = ({ isOpen, onClose, userData }) => {
   const handleSubmit = async (values) => {
     try {
       await profileSchema.validate(values, { abortEarly: false });
-      console.log("Form submitted successfully:", values);
+      
+      const decodedUser = getUserFromToken();
+      if (!decodedUser?.userId) {
+        throw new Error('No user ID found in token');
+      }
+
+      await updateDataFromApi(decodedUser.userId, {
+        firstName: values.fullname.split(' ')[0],
+        lastName: values.fullname.split(' ').slice(1).join(' '),
+        email: values.email,
+        studentId: values.code,
+        phoneNumber: values.phoneNumber,
+        className: values.className
+      });
+
       message.success("Profile updated successfully");
       onClose();
     } catch (err) {
-      const errors = {};
-      err.inner.forEach((error) => {
-        errors[error.path] = error.message;
-      });
-      Object.keys(errors).forEach((field) => {
-        form.setFields([
-          {
-            name: field,
-            errors: [errors[field]],
-          },
-        ]);
-      });
-      message.error("Please check your input and try again");
+      if (err.inner) {
+        const errors = {};
+        err.inner.forEach((error) => {
+          errors[error.path] = error.message;
+        });
+        Object.keys(errors).forEach((field) => {
+          form.setFields([
+            {
+              name: field,
+              errors: [errors[field]],
+            },
+          ]);
+        });
+      }
+      message.error(err.message || "Failed to update profile");
     }
   };
 
-  return (
-    <Modal
-      title={
-        <div className="mb-4">
-          <h4 className="text-2xl font-bold mb-2">Update profile</h4>
-          <p className="text-gray-500">
-            Keep your profile up to date by editing your personal information.
-          </p>
-        </div>
-      }
-      open={isOpen}
-      onCancel={onClose}
-      footer={null}
-      width={1000}
-      maskClosable={false}
-    >
+  const modalContent = () => {
+    if (loading) {
+      return <div className="flex items-center justify-center h-40">Loading...</div>;
+    }
+
+    if (error) {
+      return <div className="text-red-500">Error: {error}</div>;
+    }
+
+    if (!userData) {
+      return <div>No user data found</div>;
+    }
+
+    return (
       <Form
         form={form}
         onFinish={handleSubmit}
         layout="vertical"
         className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4"
-        initialValues={{
-          fullname: userData?.fullName || "",
-          email: userData?.email || "",
-          code: userData?.code || "",
-          phoneNumber:
-            userData?.phoneNumber !== "No information" ? userData?.phoneNumber : "",
-          bod: userData?.bod !== "No information" ? userData?.bod : "",
-          address: userData?.address !== "No information" ? userData?.address : "",
-        }}
       >
         <Form.Item
           label={
             <span className="font-medium">
-              Fullname <span className="text-red-500">*</span>
+              Full Name <span className="text-red-500">*</span>
             </span>
           }
           name="fullname"
@@ -103,7 +122,7 @@ const ProfileUpdate = ({ isOpen, onClose, userData }) => {
         <Form.Item
           label={
             <span className="font-medium">
-              Code <span className="text-red-500">*</span>
+              Student ID <span className="text-red-500">*</span>
             </span>
           }
           name="code"
@@ -117,7 +136,23 @@ const ProfileUpdate = ({ isOpen, onClose, userData }) => {
         </Form.Item>
 
         <Form.Item
-          label="Phone number"
+          label={
+            <span className="font-medium">
+              Class Name <span className="text-red-500">*</span>
+            </span>
+          }
+          name="className"
+          validateTrigger={["onChange", "onBlur"]}
+          validateFirst
+        >
+          <Input 
+            className="h-[46px] rounded-lg"
+            onChange={(e) => validateField("className", e.target.value)}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Phone Number"
           name="phoneNumber"
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
@@ -125,31 +160,6 @@ const ProfileUpdate = ({ isOpen, onClose, userData }) => {
           <Input 
             className="h-[46px] rounded-lg"
             onChange={(e) => validateField("phoneNumber", e.target.value)}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Date of Birth"
-          name="bod"
-          validateTrigger={["onChange", "onBlur"]}
-          validateFirst
-        >
-          <Input 
-            placeholder="dd/mm/yyyy" 
-            className="h-[46px] rounded-lg"
-            onChange={(e) => validateField("bod", e.target.value)}
-          />
-        </Form.Item>
-
-        <Form.Item 
-          label="Address" 
-          name="address"
-          validateTrigger={["onChange", "onBlur"]}
-          validateFirst
-        >
-          <Input 
-            className="h-[46px] rounded-lg"
-            onChange={(e) => validateField("address", e.target.value)}
           />
         </Form.Item>
 
@@ -169,8 +179,42 @@ const ProfileUpdate = ({ isOpen, onClose, userData }) => {
           </Button>
         </div>
       </Form>
+    );
+  };
+
+  return (
+    <Modal
+      title={
+        <div className="mb-4">
+          <h4 className="text-2xl font-bold mb-2">Update profile</h4>
+          <p className="text-gray-500">
+            Keep your profile up to date by editing your personal information.
+          </p>
+        </div>
+      }
+      open={isOpen}
+      onCancel={onClose}
+      footer={null}
+      width={1000}
+      maskClosable={false}
+    >
+      {modalContent()}
     </Modal>
   );
+};
+
+ProfileUpdate.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  userData: PropTypes.shape({
+    fullName: PropTypes.string,
+    email: PropTypes.string,
+    studentId: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    className: PropTypes.string
+  }),
+  loading: PropTypes.bool,
+  error: PropTypes.string
 };
 
 export default ProfileUpdate; 

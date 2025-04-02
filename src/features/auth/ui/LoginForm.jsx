@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate để điều hướng
+import { useNavigate } from "react-router-dom"; // Import useNavigate để điều hướng
 import loginHappyStudent from "@assets/images/login-happy-student.png";
 import mail from "@assets/icons/mail.svg";
 import Logo from "@assets/images/Logo.png";
@@ -8,6 +8,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { loginSchema } from "../schema/loginSchema";
 import { AuthApi } from "../api";
 import { toast, Toaster } from "react-hot-toast"; // Import toast
+import { getUserFromToken } from "../../../utils/auth";
 
 const validateWithYup = (schema, field) => async (_, value) => {
   try {
@@ -28,14 +29,26 @@ export default function LoginPage() {
       const response = await AuthApi.login(values); // Gọi API login
       console.log("Login successful:", response.data);
 
-      // Lưu token vào localStorage (nếu cần)
-      localStorage.setItem("token", response.data.token);
+      // Lưu token vào localStorage
+      localStorage.setItem("access_token", response.data.data.access_token);
+      localStorage.setItem("refresh_token", response.data.data.refresh_token);
+      localStorage.setItem("userId", response.data.data.userId);
 
+      // Decode token để lấy thông tin user
+      const userData = getUserFromToken();
+      console.log("Decoded user data:", userData);
+
+      if (userData.role[0] === "student") {
       // Hiển thị thông báo thành công
       toast.success("Login successful!");
 
-      // Điều hướng đến trang dashboard hoặc trang khác
-      navigate("/");
+      // Thêm delay 1.5 giây trước khi chuyển trang
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+      } else {
+        toast.error("Login failed!");
+      }
     } catch (error) {
       // Hiển thị thông báo lỗi từ API
       const errorMessage = error.response?.data?.message || "Login failed";

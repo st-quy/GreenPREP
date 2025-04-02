@@ -126,11 +126,6 @@ const StudentSessionTable = ({
     ];
     if (type === TableType.SESSION) {
       return [
-        { title: "STUDENT NAME", dataIndex: "name", key: "name" },
-        ...commonColumns,
-      ];
-    } else if (type === TableType.STUDENT) {
-      return [
         { title: "SESSION NAME", dataIndex: "name", key: "name" },
         ...commonColumns,
       ];
