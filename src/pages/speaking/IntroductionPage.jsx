@@ -15,7 +15,7 @@ const Introduction = () => {
   return (
     <div>
       <Card className="mb-2 shadow-sm p-8">
-        <h2 className="text-2xl font-medium text-blue-600 mb-1">
+        <h2 className="text-2xl font-bold text-blue-600 mb-1">
           Test Structure
         </h2>
         <p className="text-lg mb-1">
@@ -39,7 +39,7 @@ const Introduction = () => {
       </Card>
 
       <Card className="mb-2 shadow-sm p-8">
-        <h2 className="text-2xl font-medium text-blue-600 mb-1">
+        <h2 className="text-2xl font-bold text-blue-600 mb-1">
           Form Description
         </h2>
 
@@ -54,7 +54,7 @@ const Introduction = () => {
       </Card>
 
       <Card className="mb-2 shadow-sm p-8">
-        <h2 className="text-2xl font-medium text-blue-600 mb-1">
+        <h2 className="text-2xl font-bold text-blue-600 mb-1">
           Important Notes
         </h2>
 
