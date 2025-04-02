@@ -4,7 +4,7 @@ import DropdownList from "@shared/ui/DropdownList";
 const Header = () => {
 
   return (
-    <div className="w-full px-4 sm:py-3 sm:px-6 md:px-[47px] py-2 md:py-4 shadow-md relative box-border !bg-white">
+    <div className="w-full px-4 sm:py-3 sm:px-6 md:px-[47px] py-2 md:py-4 shadow-md fixed box-border !bg-white">
       <div className="flex items-center w-full">
         <div className="flex items-center justify-between w-full">
           <img
