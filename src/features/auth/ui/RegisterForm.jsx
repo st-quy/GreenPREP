@@ -1,28 +1,50 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import {
   validateFormField,
   getInitialFormValues,
   getInitialFormErrors,
   getInitialFieldsValidated,
   checkFormValidity,
-} from "../registerSchema";
+} from "../schema/registerSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { AuthApi } from "../api";
+import { toast, Toaster } from "react-hot-toast";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState(getInitialFormValues());
   const [formErrors, setFormErrors] = useState(getInitialFormErrors());
-  const [fieldsValidated, setFieldsValidated] = useState(
-    getInitialFieldsValidated()
-  );
-
+  const [fieldsValidated, setFieldsValidated] = useState(getInitialFieldsValidated());
   const [formValid, setFormValid] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   useEffect(() => {
     setFormValid(checkFormValidity(fieldsValidated));
   }, [fieldsValidated]);
+
+  // Sử dụng React Query mutation cho register
+  const registerMutation = useMutation({
+    mutationFn: async (payload) => {
+      const response = await AuthApi.register(payload);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("Registration successful!");
+      navigate("/login");
+    },
+    onError: (error) => {
+      const errorMessage = error.response?.data?.message || "Registration failed";
+      console.error("Registration failed:", errorMessage);
+      setFormErrors((prev) => ({
+        ...prev,
+        apiError: errorMessage,
+      }));
+      toast.error(errorMessage);
+    }
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -39,11 +61,21 @@ const RegisterForm = () => {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formValid) {
-      console.log("Registration values:", formValues);
-      navigate("/login");
+      const payload = {
+        lastName: formValues.lastName,
+        firstName: formValues.firstName,
+        email: formValues.email,
+        password: formValues.password,
+        studentCode: formValues.studentId,
+        teacherCode: "",
+        roleIDs: ["student"],
+        class: formValues.className,
+      };
+
+      registerMutation.mutate(payload);
     }
   };
 
@@ -107,6 +139,7 @@ const RegisterForm = () => {
 
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="w-full relative h-32 bg-[#F9F9F9] flex items-center justify-center sm:justify-start sm:pl-[125px]">
         <div className="flex items-center">
           <img
@@ -175,16 +208,16 @@ const RegisterForm = () => {
                 <div className="mt-6 flex justify-center">
                   <button
                     type="submit"
-                    disabled={!formValid}
+                    disabled={!formValid || registerMutation.isPending}
                     className={`
                       w-full sm:w-[250px] h-[50px] rounded-[50px] 
                       px-7 py-[13px] 
                       flex items-center justify-center gap-[10px] 
                       font-medium text-white 
-                      ${formValid ? "bg-[#3758F9] hover:bg-[#2244dd]" : "bg-gray-400 cursor-not-allowed"}
+                      ${formValid && !registerMutation.isPending ? "bg-[#3758F9] hover:bg-[#2244dd]" : "bg-gray-400 cursor-not-allowed"}
                     `}
                   >
-                    Sign up
+                    {registerMutation.isPending ? "Signing up..." : "Sign up"}
                   </button>
                 </div>
               </form>

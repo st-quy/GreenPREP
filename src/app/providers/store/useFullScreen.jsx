@@ -14,28 +14,6 @@ export function useFullScreen() {
   const fullscreenRestorationAttempted = useRef(false); // Prevents multiple restoration attempts
   const supportsFullscreenRef = useRef(null); // Cached fullscreen support check
 
-  // Helper function to check if fullscreen is supported (with caching)
-  const checkFullscreenSupport = useCallback(() => {
-    if (supportsFullscreenRef.current !== null)
-      return supportsFullscreenRef.current;
-
-    try {
-      const docEl = document.documentElement;
-      const supportsFullScreen =
-        docEl.requestFullscreen !== undefined ||
-        "webkitRequestFullscreen" in docEl ||
-        "mozRequestFullScreen" in docEl ||
-        "msRequestFullscreen" in docEl;
-
-      supportsFullscreenRef.current = supportsFullScreen;
-      return supportsFullScreen;
-    } catch (err) {
-      console.error("Error checking fullscreen support:", err);
-      supportsFullscreenRef.current = false;
-      return false;
-    }
-  }, []);
-
   // Shows a modal dialog with anti-spam protection
   const showModal = useCallback((modalConfig) => {
     if (modalShownRef.current) return;
@@ -206,98 +184,57 @@ export function useFullScreen() {
       if (!testActive) return;
 
       // Handle Ctrl+C (copy)
-      if (e.ctrlKey && e.key === "c") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "c") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Copy Not Allowed",
-          content: "Copying content during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
       // Handle Ctrl+V (paste)
-      if (e.ctrlKey && e.key === "v") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "v") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Paste Not Allowed",
-          content: "Pasting content during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
       // Handle Ctrl+W (close tab)
-      if (e.ctrlKey && e.key === "w") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "w") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Closing Tab Not Allowed",
-          content: "Closing the tab during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
-      if (e.ctrlKey && e.key === "Tab") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "r") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Tab Switching Not Allowed",
-          content: "Switching tabs during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
-      if (e.ctrlKey && e.key === "Tab") {
+
+      if ((e.ctrlKey || e.metaKey) && e.key === "n") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "Tab Switching Not Allowed",
-          content: "Switching tabs during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
-      if (e.ctrlKey && e.key === "n") {
+      if ((e.ctrlKey || e.metaKey) && e.key === "t") {
         e.preventDefault();
         e.stopPropagation();
-        showModal({
-          title: "New Window Not Allowed",
-          content: "Opening new windows during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
-        return false;
-      }
-      if (e.ctrlKey && e.key === "t") {
-        e.preventDefault();
-        e.stopPropagation();
-        showModal({
-          title: "New Tab Not Allowed",
-          content: "Opening new tabs during the test is not allowed.",
-          okText: "Continue Test",
-          maskClosable: false,
-        });
         return false;
       }
 
       //Macos
 
       const blockedKeys = {
+        Tab: {
+          title: "Tab Switching Not Allowed",
+          content: "Switching tabs during the test is not allowed.",
+        },
         F11: {
+          condition: e.ctrlKey || e.metaKey,
           title: "Fullscreen Toggle Not Allowed",
           content: "Toggling fullscreen during the test is not allowed.",
         },
         F4: {
-          condition: e.altKey,
+          condition: e.altKey || e.metaKey,
           title: "Closing Window Not Allowed",
           content: "Closing the window during the test is not allowed.",
         },
@@ -309,7 +246,7 @@ export function useFullScreen() {
 
       // Handle Ctrl+1 through Ctrl+9 (tab switching)
       if (
-        e.ctrlKey &&
+        (e.ctrlKey || e.metaKey) &&
         !e.altKey &&
         !e.shiftKey &&
         !isNaN(Number.parseInt(e.key)) &&
@@ -327,7 +264,10 @@ export function useFullScreen() {
       }
 
       // Handle Alt+Left/Right (browser navigation)
-      if (e.altKey && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+      if (
+        (e.altKey || e.metaKey) &&
+        (e.key === "ArrowLeft" || e.key === "ArrowRight")
+      ) {
         e.preventDefault();
         e.stopPropagation();
         showModal({

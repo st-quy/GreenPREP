@@ -1,22 +1,32 @@
+import ForgotPasswordForm from "@features/auth/ui/ForgotPasswordForm";
 import LoginPage from "../../features/auth/ui/LoginForm";
+import {PublicLayout} from "../layout/PublicLayout";
 
-// Define public routes accessible to all users
-import ChangePasswordPage from "@features/auth/ui/ChangePasswordForm";
 import RegisterForm from "@features/auth/ui/RegisterForm";
+import ResetPasswordSuccessfullyPage from "@features/auth/ui/ResetPasswordSuccessfullyPage";
 
 const PublicRoute = [
   {
-    path: "login",
-    element: <LoginPage />,
+    path:"/",
+    element:<PublicLayout />,
+    children: [
+      {
+        path: "login",
+         element: <LoginPage />,
+      },
+      {
+        path: "register",
+        element: <RegisterForm />,
+      }, 
+      {
+        path: "forgot-password",
+        element: <ForgotPasswordForm />,
+      },
+      {
+        path: "reset-password-success",
+        element: <ResetPasswordSuccessfullyPage />,
+      },
+    ],
   },
-  {
-    path: "register",
-    element: <RegisterForm />,
-  },
-  {
-    path: "changepassword",
-    element: <ChangePasswordPage />,
-  },
-];
-
+]
 export default PublicRoute;
