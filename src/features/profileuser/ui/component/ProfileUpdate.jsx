@@ -8,20 +8,36 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
   const [form] = Form.useForm();
 
   React.useEffect(() => {
-    if (userData) {
+    if (isOpen && userData) {
       form.setFieldsValue({
         fullname: userData.fullName,
         email: userData.email,
-        code: userData.studentCode,
+        studentCode: userData.studentCode,
         phoneNumber: userData.phoneNumber,
         className: userData.class
       });
     }
-  }, [userData, form]);
+  }, [userData, form, isOpen]);
+
+  // Reset form when modal is closed
+  React.useEffect(() => {
+    if (!isOpen) {
+      form.resetFields();
+    }
+  }, [isOpen, form]);
 
   const validateField = async (fieldName, value) => {
     try {
-      await profileSchema.validateAt(fieldName, form.getFieldsValue());
+      const values = form.getFieldsValue();
+      // Map field names to match schema
+      const formattedValues = {
+        fullname: values.fullname,
+        email: values.email,
+        studentCode: values.studentCode,
+        className: values.className,
+        phoneNumber: values.phoneNumber
+      };
+      await profileSchema.validateAt(fieldName, formattedValues);
       form.setFields([{ name: fieldName, errors: [] }]);
     } catch (err) {
       form.setFields([{ name: fieldName, errors: [err.message] }]);
@@ -30,7 +46,16 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
 
   const handleSubmit = async (values) => {
     try {
-      await profileSchema.validate(values, { abortEarly: false });
+      // Map form values to match schema
+      const formattedValues = {
+        fullname: values.fullname,
+        email: values.email,
+        studentCode: values.studentCode,
+        className: values.className,
+        phoneNumber: values.phoneNumber
+      };
+
+      await profileSchema.validate(formattedValues, { abortEarly: false });
       
       const decodedUser = getUserFromToken();
       if (!decodedUser?.userId) {
@@ -41,7 +66,7 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
         firstName: values.fullname.split(' ')[0],
         lastName: values.fullname.split(' ').slice(1).join(' '),
         email: values.email,
-        studentCode: values.code,
+        studentCode: values.studentCode,
         phoneNumber: values.phoneNumber,
         class: values.className
       });
@@ -62,8 +87,12 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
             },
           ]);
         });
+        console.log(errors);
+      } else if (err.response?.data?.message) {
+        message.error(err.response.data.message);
+      } else {
+        message.error("Failed to update profile");
       }
-      message.error(err.message || "Failed to update profile");
     }
   };
 
@@ -89,13 +118,18 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
       >
         <Form.Item
           label={
-            <span className="font-medium">
-              Full Name <span className="text-red-500">*</span>
-            </span>
+            <div className="flex">
+              <span>Full Name</span>
+              <span className="text-red-500 ml-1">*</span>
+            </div>
           }
           name="fullname"
+          required={false}
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
+          rules={[
+            { required: true, message: "Fullname is required" }
+          ]}
         >
           <Input 
             className="h-[46px] rounded-lg" 
@@ -105,13 +139,18 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
 
         <Form.Item
           label={
-            <span className="font-medium">
-              Email <span className="text-red-500">*</span>
-            </span>
+            <div className="flex">
+              <span>Email</span>
+              <span className="text-red-500 ml-1">*</span>
+            </div>
           }
           name="email"
+          required={false}
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
+          rules={[
+            { required: true, message: "Email is required" }
+          ]}
         >
           <Input 
             className="h-[46px] rounded-lg"
@@ -121,13 +160,18 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
 
         <Form.Item
           label={
-            <span className="font-medium">
-              Student ID <span className="text-red-500">*</span>
-            </span>
+            <div className="flex">
+              <span>Student ID</span>
+              <span className="text-red-500 ml-1">*</span>
+            </div>
           }
-          name="code"
+          name="studentCode"
+          required={false}
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
+          rules={[
+            { required: true, message: "Student ID is required" }
+          ]}
         >
           <Input 
             className="h-[46px] rounded-lg"
@@ -137,23 +181,29 @@ const ProfileUpdate = ({ isOpen, onClose, userData, loading, error }) => {
 
         <Form.Item
           label={
-            <span className="font-medium">
-              Class Name <span className="text-red-500">*</span>
-            </span>
+            <div className="flex">
+              <span>Class Name</span>
+              <span className="text-red-500 ml-1">*</span>
+            </div>
           }
           name="className"
+          required={false}
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
+          rules={[
+            { required: true, message: "Class name is required" }
+          ]}
         >
           <Input 
             className="h-[46px] rounded-lg"
-            onChange={(e) => validateField("class", e.target.value)}
+            onChange={(e) => validateField("className", e.target.value)}
           />
         </Form.Item>
 
         <Form.Item
           label="Phone Number"
           name="phoneNumber"
+          required={false}
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
         >

@@ -4,41 +4,35 @@ export const profileSchema = yup.object().shape({
   fullname: yup
     .string()
     .required("Fullname is required")
-    .matches(/^[A-Za-z\s]+$/, "Fullname can only contain letters"),
+    .matches(/^[A-Za-zÀ-ỹ\s]+$/, "Fullname can only contain letters"),
   email: yup
     .string()
     .email("Invalid email address")
     .required("Email is required"),
-  code: yup.string().required("Code is required"),
+  studentCode: yup
+    .string()
+    .required("Student code is required")
+    .matches(/^[A-Z0-9]+$/, "Student code can only contain uppercase letters and numbers"),
   phoneNumber: yup
     .string()
     .nullable()
     .notRequired()
     .test(
       "is-valid-phone",
-      "Phone number must be 9-10 digits",
-      (value) => !value || /^[0-9]{9,10}$/.test(value)
+      "Phone number must be 10 digits and start with 0",
+      (value) => !value || /^0[0-9]{9}$/.test(value)
     ),
-  bod: yup
-    .string()
-    .nullable()
-    .notRequired()
-    .test(
-      "is-valid-date",
-      "Date of Birth must be in format dd/mm/yyyy",
-      (value) =>
-        !value ||
-        /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/.test(value)
-    ),
-  address: yup.string().nullable().notRequired(),
   className: yup
     .string()
     .required("Class name is required")
     .matches(/^[A-Za-z0-9\s-]+$/, "Class name can only contain letters, numbers, spaces and hyphens")
+    .max(50, "Class name cannot exceed 50 characters")
 });
 
 export const passwordSchema = yup.object().shape({
-  currentPassword: yup.string().required("Current password is required"),
+  currentPassword: yup
+    .string()
+    .required("Current password is required"),
   newPassword: yup
     .string()
     .required("New password is required")

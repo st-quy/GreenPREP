@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import ForgotPw from "@assets/images/Forgotpw.png";
 import { emailSchema } from "../schema/forgotPasswordSchema";
 import { AuthApi } from "../api";
-
+import Header from "@pages/Header";
 const ForgotPasswordForm = () => {
   const [form] = Form.useForm();
   const [searchParams] = useSearchParams();
@@ -77,6 +77,7 @@ const ForgotPasswordForm = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 md:px-10 lg:px-20">
+
       <div className="flex flex-col md:flex-row items-center max-w-[1440px] w-full justify-center gap-8 -mt-40">
         <div className="w-full sm:w-[400px] sm:h-[450px] md:w-[450px] md:h-[450px] lg:w-[650px] lg:h-[600px] xl:w-[658px] xl:h-[697px] bg-white p-[40px] pt-[60px] rounded-lg shadow-lg">
           {!isReset && (

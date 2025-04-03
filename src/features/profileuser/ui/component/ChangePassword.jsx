@@ -22,13 +22,14 @@ const ChangePassword = ({ isOpen, onClose, userData }) => {
           if (!value) {
             throw new Error('New password is required');
           }
+          await passwordSchema.fields.newPassword.validate(value);
           break;
         case 'confirmPassword':
           if (!value) {
             throw new Error('Please confirm your password');
           }
           if (value !== values.newPassword) {
-            throw new Error('The two passwords do not match');
+            throw new Error('Passwords must match');
           }
           break;
         default:
@@ -43,13 +44,12 @@ const ChangePassword = ({ isOpen, onClose, userData }) => {
 
   const handleSubmit = async (values) => {
     try {
-      
-      // Verify confirm password matches new password
+      // Validate confirm password matches new password
       if (values.newPassword !== values.confirmPassword) {
         form.setFields([
           {
             name: "confirmPassword",
-            errors: ["The two passwords do not match"],
+            errors: ["Passwords must match"],
           },
         ]);
         return;
@@ -59,8 +59,6 @@ const ChangePassword = ({ isOpen, onClose, userData }) => {
       if (!decodedUser?.userId) {
         throw new Error('No user ID found in token');
       }
-      console.log(values.currentPassword);
-      console.log(values.newPassword);
 
       // Call change password API
       await changePasswordFromApi(decodedUser.userId, {
@@ -132,7 +130,18 @@ const ChangePassword = ({ isOpen, onClose, userData }) => {
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
           rules={[
-            { required: true, message: 'New password is required' }
+            { required: true, message: 'New password is required' },
+            {
+              validator: async (_, value) => {
+                if (!value) return Promise.resolve();
+                try {
+                  await passwordSchema.fields.newPassword.validate(value);
+                  return Promise.resolve();
+                } catch (err) {
+                  return Promise.reject(err.message);
+                }
+              }
+            }
           ]}
         >
           <Input.Password
@@ -151,6 +160,7 @@ const ChangePassword = ({ isOpen, onClose, userData }) => {
           name="confirmPassword"
           validateTrigger={["onChange", "onBlur"]}
           validateFirst
+          dependencies={['newPassword']}
           rules={[
             { required: true, message: 'Please confirm your password' },
             ({ getFieldValue }) => ({
@@ -158,7 +168,7 @@ const ChangePassword = ({ isOpen, onClose, userData }) => {
                 if (!value || getFieldValue('newPassword') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('The two passwords do not match'));
+                return Promise.reject(new Error('Passwords must match'));
               },
             }),
           ]}
