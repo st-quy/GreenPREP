@@ -38,7 +38,8 @@ const ListeningTest = () => {
   const handleOnSubmit = () => {
     if (audioRef.current) {
       audioRef.current.pause();
-      setIsPlaying(false);
+      audioRef.current.currentTime = 0;
+      audioRef.current.setIsPlaying(false);
     }
     navigate("/session/listening/submission");
   };
@@ -131,6 +132,7 @@ const ListeningTest = () => {
         )
       );
       audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     } else {
       localStorage.setItem(
         "history_listen",
@@ -150,6 +152,7 @@ const ListeningTest = () => {
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.pause();
+      audioRef.current.currentTime = 0;
       setIsPlaying(false);
       localStorage.setItem(
         "history_listen",
@@ -176,7 +179,7 @@ const ListeningTest = () => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
         <Card className="rounded-xl p-6 shadow-sm">
-          {listQuestion.length && (
+          {listQuestion.length > 0 && (
             <div className="flex flex-col gap-2 mb-4">
               <div className="flex justify-between">
                 <span className="text-blue-600 font-bold">
