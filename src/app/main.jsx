@@ -13,9 +13,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
       <Suspense>
-        <FullScreenProvider>
-          <RouteProvider />
-        </FullScreenProvider>
+        {/* <FullScreenProvider> */}
+        <RouteProvider />
+        {/* </FullScreenProvider> */}
       </Suspense>
     </QueryClientProvider>
   </Provider>

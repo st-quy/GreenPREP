@@ -1,10 +1,8 @@
-export const fromStoredData = (storageData) => JSON.parse(storageData);
-
 export const toStoredData = (data) => JSON.stringify(data);
 
 export const getStorageData = (key) => {
   const storedData = localStorage.getItem(key);
-  return storedData ? fromStoredData(storedData) : null;
+  return storedData ? storedData : null;
 };
 
 export const setStorageData = (key, data) =>
