@@ -11,8 +11,10 @@ import WriteImg from "./write.png";
 import WaitingApprovalImg from "./waiting.png";
 import RejectedImg from "./RejectedImg.png";
 import RecordIcon from "./Record.png";
+import RegisterImg from "./registerImg.png";
 
 export {
+  RegisterImg,
   GreenPREP,
   GreenPREPLogo,
   WelcomeImage,
