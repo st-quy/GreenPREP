@@ -6,7 +6,7 @@ const SpeakingHeader = () => {
       <div className="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
         <CommentOutlined className="text-3xl text-white" />
       </div>
-      <h1 className="text-4xl font-semibold">Speaking Test</h1>
+      <h1 className="text-4xl font-bold">Speaking Test</h1>
     </div>
   );
 };

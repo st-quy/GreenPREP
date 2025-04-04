@@ -9,7 +9,7 @@ const WaitingApproval = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/introduction"); // Replace with your target page path
-    }, 3000);
+    }, 6000);
 
     return () => clearTimeout(timer); // Cleanup the timer on component unmount
   }, [navigate]);

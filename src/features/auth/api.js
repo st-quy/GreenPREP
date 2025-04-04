@@ -1,5 +1,14 @@
 import axiosInstance from "@shared/config/axios";
-import axios from "axios";
+
+export const AuthApi = {
+  login: (credentials) => {
+    return axiosInstance.post("/users/login", credentials);
+  },
+  register: (params) => {
+    return axiosInstance.post("/users/register", params);
+  },
+};
+
 ///Example
 export const RequestApi = {
   getAll: () => {

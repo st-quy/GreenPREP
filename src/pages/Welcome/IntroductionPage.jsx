@@ -16,15 +16,15 @@ const IntroductionPage = () => {
         >
           <Flex gap={10} vertical>
             <Text className="text-lg/[26px] font-bold text-[#3758F9FF]">
-              Test Structure & FLow
+              Test Structure & Flow
             </Text>
             <Text className="text-2xl md:text-3xl lg:text-[40px]/[48px] font-bold">
-              Welcome to Englist Mock Test Journey
+              Welcome to English Mock Test Journey
             </Text>
           </Flex>
           <Text className="text-sm lg:text-lg/[26px] font-semibold">
             The test is structured to assess different aspects of your language
-            profi..
+            profile
           </Text>
 
           <Flex vertical gap={20}>
@@ -35,7 +35,7 @@ const IntroductionPage = () => {
                   align="center"
                   className="w-full max-w-10 h-10 md:max-w-10 md:h-10 lg:max-w-14 lg:h-14 rounded-full text-lg md:text-xl lg:text-[28px]/[16px] font-medium border border-solid border-[#3758F9FF] text-[#3758F9FF]  hover:bg-[#3758F9FF] hover:text-white "
                 >
-                  0{index + 1}
+                  {index + 1}
                 </Flex>
                 <Flex vertical justify="space-between">
                   <Text className="text-lg md:text-xl lg:text-2xl font-bold">
@@ -51,7 +51,7 @@ const IntroductionPage = () => {
           <Button
             type="primary"
             size="middle"
-            className="text-1/4 md:text-1/5 lg:w-1/6 rounded-full !text-md mx-auto my-10"
+            className="text-1/4 md:text-1/5 lg:w-1/6 rounded-full !text-md mx-auto my-10 h-max-fit h-[48px]"
             htmlType="button"
             onClick={() => navigate("/pre-condition")}
           >

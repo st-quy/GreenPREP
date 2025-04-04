@@ -1,15 +1,18 @@
 import { ArrowRightIcon } from "@assets/icons";
+import { Card } from "antd";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const IntroWriting = () => {
+  const navigate = useNavigate();
   const containerStyle = {
-    border: "0.5px solid rgba(0, 0, 0, 0.3)"
+    border: "0.5px solid rgba(0, 0, 0, 0.3)",
   };
 
   return (
     <>
       {/* Test Structure Section */}
-      <div style={containerStyle} className="bg-white rounded-2xl p-8 mb-4 w-full">
+      <Card className=" rounded-2xl p-8 mb-4 w-full">
         <h2 className="text-[#3758F9] text-2xl font-semibold mb-4">
           Test Structure
         </h2>
@@ -58,10 +61,10 @@ const IntroWriting = () => {
             </ul>
           </div>
         </div>
-      </div>
+      </Card>
 
       {/* Form Description Section */}
-      <div style={containerStyle} className="bg-white rounded-2xl p-8 mb-4 w-full">
+      <Card className="bg-white rounded-2xl p-8 mb-4 w-full">
         <h2 className="text-[#3758F9] text-2xl font-semibold mb-4">
           Form Description
         </h2>
@@ -79,13 +82,21 @@ const IntroWriting = () => {
             50 minutes
           </li>
         </ul>
-      </div>
+      </Card>
 
       {/* Begin Test Button */}
       <div className="flex justify-end mt-4">
-        <button className="bg-[#3758F9] text-white text-[16px] px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none">
+        <button
+          onClick={() => navigate("test")}
+          className="bg-[#3758F9] text-white text-[16px] px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none"
+        >
           Begin the Test
-          <img src={ArrowRightIcon} alt="arrow" className="h-5 w-5" style={{ filter: "brightness(0) invert(1)" }} />
+          <img
+            src={ArrowRightIcon}
+            alt="arrow"
+            className="h-5 w-5"
+            style={{ filter: "brightness(0) invert(1)" }}
+          />
         </button>
       </div>
     </>

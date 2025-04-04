@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropdownList from "@shared/ui/DropdownList";
+import { useReadingContext } from "@features/reading/context/ReadingContext";
 
 const DropInline = ({ data }) => {
-  const [userAnswers, setUserAnswers] = useState({});
+  const { updateAnswer, getAnswerData } = useReadingContext();
 
+  useEffect(() => {
+    const answerData = getAnswerData();
+    if (answerData) {
+      const initialAnswers = answerData.reduce((acc, { key, value }) => {
+        acc[key] = value; // Sử dụng key là tên đoạn văn
+        return acc;
+      }, {});
+      setUserAnswers(initialAnswers);
+    }
+  }, []);
+  const [userAnswer, setUserAnswers] = useState({});
   const handleAnswerChange = (idx, value) => {
     setUserAnswers((prev) => ({
       ...prev,
       [idx]: value,
     }));
+    const key = idx;
+    updateAnswer(key, value);
   };
 
   const processText = (text) => {
@@ -27,7 +41,7 @@ const DropInline = ({ data }) => {
                 {segment.replace(match[0], "")}
                 <DropdownList
                   options={options}
-                  selectedValue={userAnswers[currentIndex] || ""}
+                  selectedValue={userAnswer[currentIndex] || ""}
                   onChange={(value) => handleAnswerChange(currentIndex, value)}
                   selectClassName="m-[4px] min-w-[169px]"
                 />
@@ -42,7 +56,9 @@ const DropInline = ({ data }) => {
   };
 
   return (
-    <div className="text-[18px] lg-w[840px] mt-4">{processText(data.Content)}</div>
+    <div className="text-[18px] lg-w[840px] mt-4">
+      {processText(data.Content)}
+    </div>
   );
 };
 

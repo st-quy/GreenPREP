@@ -1,20 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DropdownList from "@shared/ui/DropdownList";
+import { useReadingContext } from "@features/reading/context/ReadingContext";
 
 const ReadingMatchingList = ({ dataSource }) => {
   const [selectedHeadings, setSelectedHeadings] = useState({});
   const [isMarked, setIsMarked] = useState(false);
-
+  const { updateAnswer, getAnswerData } = useReadingContext();
   // Check if data is valid
   if (!dataSource || !dataSource.AnswerContent) {
     return <div>No data available</div>;
   }
 
   const { leftItems, rightItems } = dataSource.AnswerContent;
-
+  useEffect(() => {
+    const answerData = getAnswerData();
+    if (answerData) {
+      const initialAnswers = answerData.reduce((acc, { key, value }) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+      setSelectedHeadings(initialAnswers);
+    }
+  }, []);
   const handleSelectChange = (index, value) => {
-    console.log("Selected:", index, value);
-    setSelectedHeadings((prev) => ({ ...prev, [index]: value }));
+    const key = leftItems?.[index];
+    if (!key) {
+      return;
+    }
+
+    setSelectedHeadings((prev) => ({ ...prev, [key]: value }));
+    updateAnswer(key, value);
   };
 
   // Extract paragraphs from content
@@ -40,7 +55,7 @@ const ReadingMatchingList = ({ dataSource }) => {
             <div className="ml-4 w-64">
               <DropdownList
                 options={rightItems}
-                selectedValue={selectedHeadings[index]}
+                selectedValue={selectedHeadings[item] || ""}
                 onChange={(value) => handleSelectChange(index, value)}
                 selectClassName="min-w-[250px]"
                 placeholder="Select answer"

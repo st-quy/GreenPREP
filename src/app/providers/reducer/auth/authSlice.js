@@ -2,11 +2,13 @@ import { ACCESS_TOKEN } from "@shared/lib/constants/auth";
 import { createSlice } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
 import { getStorageData } from "@shared/lib/storage";
-const checkAuth = () => Boolean(getStorageData(ACCESS_TOKEN));
+
+const checkAuth = () => !!getStorageData(ACCESS_TOKEN);
 
 const getUserRole = () => {
   try {
     const token = getStorageData(ACCESS_TOKEN);
+
     if (!token) return null;
     const decodedToken = jwtDecode(token);
 

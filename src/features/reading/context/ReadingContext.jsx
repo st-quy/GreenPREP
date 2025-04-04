@@ -1,20 +1,19 @@
 // Import necessary dependencies
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useRef } from "react";
 import { useQuestionsQuery } from "../hooks";
 
 // Create a context for managing reading questions
 const ReadingContext = createContext(null);
 
 export const ReadingProvider = ({ children }) => {
-  // Fetch exam data using custom hook
   const { data: exams, isLoading, error } = useQuestionsQuery();
 
-  // State management for current part, question, and marked questions
   const [currentPartIndex, setCurrentPartIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [markedQuestions, setMarkedQuestions] = useState([]);
+  const [doneQuestionsID, setDoneQuestionID] = useState([]);
+  const userAnswers = useRef([]);
 
-  // Early return if data is unavailable
   if (isLoading || error || !exams?.Parts?.length) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -23,11 +22,9 @@ export const ReadingProvider = ({ children }) => {
     );
   }
 
-  // Extract the current part and question
   const currentPart = exams.Parts[currentPartIndex] || { Questions: [] };
   const currentQuestion = currentPart.Questions[currentQuestionIndex] || {};
 
-  // Derived values
   const isPart2 = currentPart.Content?.includes("Part 2") || false;
   const totalQuestions =
     exams?.Parts?.reduce(
@@ -38,7 +35,6 @@ export const ReadingProvider = ({ children }) => {
     currentPartIndex === exams.Parts.length - 1 &&
     currentQuestionIndex === currentPart.Questions.length - 1;
 
-  // Function to toggle mark on a question
   const toggleMark = (questionId) => {
     setMarkedQuestions((prev) => {
       if (prev.includes(questionId)) {
@@ -49,7 +45,6 @@ export const ReadingProvider = ({ children }) => {
     });
   };
 
-  // Function to navigate to a specific question by index
   const handleNavigate = (index) => {
     let questionCount = 0;
     for (let i = 0; i < exams.Parts.length; i++) {
@@ -62,7 +57,6 @@ export const ReadingProvider = ({ children }) => {
     }
   };
 
-  // Function to navigate to the next question
   const handleNext = () => {
     if (!isLastQuestion) {
       if (currentQuestionIndex < currentPart.Questions.length - 1) {
@@ -73,8 +67,6 @@ export const ReadingProvider = ({ children }) => {
       }
     }
   };
-
-  // Function to navigate to the previous question
   const handlePrev = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1);
@@ -82,6 +74,62 @@ export const ReadingProvider = ({ children }) => {
       setCurrentPartIndex((prev) => prev - 1);
       setCurrentQuestionIndex(
         exams.Parts[currentPartIndex - 1].Questions.length - 1
+      );
+    }
+  };
+  const getAnswerData = () => {
+    const currentIndex = userAnswers.current.findIndex(
+      (ans) => ans.id === currentQuestion.ID
+    );
+    if (currentIndex !== -1) {
+      return userAnswers.current[currentIndex].answer;
+    }
+    return null;
+  };
+  const updateAllCurrentQuestionAnswer = (answerData) => {
+    const currentIndex = userAnswers.current.findIndex(
+      (ans) => ans.id === currentQuestion.ID
+    );
+
+    if (currentIndex !== -1) {
+      userAnswers.current[currentIndex].answer = answerData;
+    } else {
+      userAnswers.current.push({
+        id: currentQuestion.ID,
+        answer: answerData,
+      });
+    }
+    setDoneQuestionID((prev) =>
+      prev.includes(currentQuestion.ID) ? prev : [...prev, currentQuestion.ID]
+    );
+  };
+  const updateAnswer = (key, value) => {
+    const currentIndex = userAnswers.current.findIndex(
+      (ans) => ans.id === currentQuestion.ID
+    );
+
+    if (currentIndex !== -1) {
+      let answers = userAnswers.current[currentIndex].answer;
+      const existingAnswerIndex = answers.findIndex((ans) => ans.key === key);
+
+      if (existingAnswerIndex !== -1) {
+        answers[existingAnswerIndex].value = value;
+      } else {
+        answers.push({ key, value });
+      }
+    } else {
+      userAnswers.current.push({
+        id: currentQuestion.ID,
+        answer: [{ key, value }],
+      });
+    }
+    if (
+      userAnswers.current[currentIndex] &&
+      currentQuestion.AnswerContent.correctAnswer.length ===
+        userAnswers.current[currentIndex].answer.length
+    ) {
+      setDoneQuestionID((prev) =>
+        prev.includes(currentQuestion.ID) ? prev : [...prev, currentQuestion.ID]
       );
     }
   };
@@ -98,6 +146,10 @@ export const ReadingProvider = ({ children }) => {
         isLastQuestion,
         totalQuestions,
         markedQuestions,
+        doneQuestionsID,
+        updateAnswer,
+        updateAllCurrentQuestionAnswer,
+        getAnswerData,
         toggleMark,
         handleNavigate,
         handleNext,
