@@ -48,7 +48,7 @@ export const AuthApi = {
   },
   forgotPassword: async (email) => {
     try {
-      const response = await axiosInstance.post(
+      const response = await axios.post(
         "https://dev-api-greenprep.onrender.com/api/users/forgot-password",
         { email }
       );
@@ -60,7 +60,7 @@ export const AuthApi = {
   },
   resetPassword: async (token, newPassword) => {
     try {
-      const response = await axiosInstance.post(
+      const response = await axios.post(
         "https://dev-api-greenprep.onrender.com/api/users/reset-password",
         { 
           token,
