@@ -7,12 +7,11 @@ import { useNavigate } from "react-router-dom";
 const ProfileMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.auth);
 
   const onClick = ({ key }) => {
     switch (key) {
-      case "Logout":
+      case "logout":
         localStorage.clear();
         navigate("/login");
         dispatch(logout());
@@ -25,19 +24,19 @@ const ProfileMenu = () => {
   const items = [
     {
       label: <div className="font-semibold py-2">Profile</div>,
-      key: "Profile",
+      key: "profile",
       icon: <UserOutlined />,
     },
     {
       label: <div className="font-semibold py-2">Logout</div>,
-      key: "Logout",
+      key: "logout",
       icon: <LogoutOutlined />,
     },
   ];
   return (
     <>
       {user && (
-        <Dropdown menu={{ items, onClick }}>
+        <Dropdown menu={{ items, onClick }} className="cursor-pointer">
           <a onClick={(e) => e.preventDefault()}>
             <Space className="font-semibold">
               {user.firstName + " " + user.lastName}

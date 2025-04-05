@@ -1,8 +1,6 @@
-// @ts-nocheck
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  // @ts-ignore
   baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     "Content-Type": "application/json",
