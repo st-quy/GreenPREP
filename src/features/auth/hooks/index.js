@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { AuthApi, RequestApi } from "../api"; // You'll need to create this
+import { AuthApi } from "../api"; // You'll need to create this
 import { message } from "antd";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "@shared/lib/constants/auth";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +35,36 @@ export const useRegister = () => {
     },
     onError({ response }) {
       message.error(response.data.message);
+    },
+  });
+};
+
+
+export const useForgotPassword = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (params) => {
+      const { data } = await AuthApi.forgotPassword(params);
+      return data.data;
+    },
+    onError({ response }) {
+      message.error(response.data.message);
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (params) => {
+      const { data } = await AuthApi.resetPassword(params);
+      message.success(data.message);
+      navigate("/reset-success");
+      return data.data;
+    },
+    onError({ response }) {
+      message.error(response.data.message);
+      navigate("/reset-password");
     },
   });
 };

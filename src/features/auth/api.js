@@ -7,20 +7,15 @@ export const AuthApi = {
   register: (params) => {
     return axiosInstance.post("/users/register", params);
   },
+  forgotPassword: (params) => {
+    return axiosInstance.post("/users/forgot-password", params);
+  },
+  resetPassword: (params) => {
+    return axiosInstance.post("/users/reset-password", params);
+  },
 };
 
-///Example
-export const RequestApi = {
-  getAll: () => {
-    return axiosInstance.get("/requests");
-  },
-  update: (record) => {
-    return axiosInstance.put(`/requests/${record.id}`, record);
-  },
-  add: (record) => {
-    return axiosInstance.post("/requests", record);
-  },
-};
+
 
 export const ListeningApi = {
   getQuestions: () => {

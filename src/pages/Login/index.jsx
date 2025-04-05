@@ -114,9 +114,12 @@ const LoginPage = () => {
 
             <Text className="text-gray-600 mt-4 block text-center">
               Don't have an account?{" "}
-              <a href="/register" className="text-blue-700 hover:underline">
+              <span
+                className="text-blue-700 hover:underline"
+                onClick={() => navigate("/register")}
+              >
                 Sign up
-              </a>
+              </span>
             </Text>
           </Form>
         </Card>
