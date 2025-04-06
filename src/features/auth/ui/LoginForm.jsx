@@ -65,81 +65,82 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex item-center min-h-screen bg-gray-100 px-4 md:px-10 lg:px-20">
+    <div className="flex item-center min-h-screen bg-[#F9F9F9]">
       <Toaster position="top-right" reverseOrder={false} />
-      <img src={Logo} alt="" className="absolute w-[147px] h-[34px] mt-[42px] ml-[82px]" />
-      <div className="flex flex-col md:flex-row items-center max-w-[1440px] w-full justify-evenly">
-        {/* Form Section - Left Side */}
-        <div className="w-full md:w-[440px] h-auto p-6 md:p-12 bg-white rounded-lg shadow-xl">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#111928]">Welcome back!</h2>
-          <p className="text-[#637381] text-xs md:text-sm mt-2 mb-4">Welcome back! Please enter your details.</p>
-          {errorMessage && <p className="text-red-500 text-sm text-center">{errorMessage}</p>}
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={onSubmit}
-            className="mt-4"
-          >
-            <Form.Item
-              name="email"
-              label={<span>Email <span className="text-red-500">*</span></span>}
-              rules={[
-                {
-                  validator: validateWithYup(loginSchema, "email"),
-                },
-              ]}
+      <div className="container mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-5">
+          {/* Form Section - Left Side */}
+          <div className="w-full md:w-[440px] h-auto p-6 md:p-12 bg-white rounded-lg shadow-xl">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#111928]">Welcome back!</h2>
+            <p className="text-[#637381] text-xs md:text-sm mt-2 mb-4">Welcome back! Please enter your details.</p>
+            {errorMessage && <p className="text-red-500 text-sm text-center">{errorMessage}</p>}
+            <Form
+              form={form}
+              layout="vertical"
+              onFinish={onSubmit}
+              className="mt-4"
             >
-              <Input
-                suffix={<img src={mail} alt="Mail icon" className="w-4 h-4" />}
-                placeholder="Enter your email here"
-                className="rounded placeholder:text-[#9CA3AF] text-sm"
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="password"
-              label={<span>Password <span className="text-red-500">*</span></span>}
-              rules={[
-                {
-                  validator: validateWithYup(loginSchema, "password"),
-                },
-              ]}
-            >
-              <Input.Password
-                placeholder="* * * * * * * *"
-                iconRender={(visible) => (
-                  visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
-                )}
-                className="rounded placeholder:text-[#9CA3AF] text-sm"
-              />
-            </Form.Item>
-
-            <div className="mt-1 text-right">
-              <Button
-                type="link"
-                className="text-[#003087] text-xs no-underline"
-                onClick={onForgotPassword}
+              <Form.Item
+                name="email"
+                label={<span>Email <span className="text-red-500">*</span></span>}
+                rules={[
+                  {
+                    validator: validateWithYup(loginSchema, "email"),
+                  },
+                ]}
               >
-                Forgot password?
-              </Button>
-            </div>
+                <Input
+                  suffix={<img src={mail} alt="Mail icon" className="w-4 h-4" />}
+                  placeholder="Enter your email here"
+                  className="rounded placeholder:text-[#9CA3AF] text-sm"
+                />
+              </Form.Item>
 
-            <div className="flex justify-center">
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loginMutation.isPending}
-                className="mt-4 bg-[#003087] text-white w-[167px] h-[34px] border-hidden rounded-full hover:bg-blue-600"
+              <Form.Item
+                name="password"
+                label={<span>Password <span className="text-red-500">*</span></span>}
+                rules={[
+                  {
+                    validator: validateWithYup(loginSchema, "password"),
+                  },
+                ]}
               >
-                {loginMutation.isPending ? "Logging in..." : "Login"}
-              </Button>
-            </div>
-          </Form>
-        </div>
+                <Input.Password
+                  placeholder="* * * * * * * *"
+                  iconRender={(visible) => (
+                    visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
+                  )}
+                  className="rounded placeholder:text-[#9CA3AF] text-sm"
+                />
+              </Form.Item>
 
-        {/* Image Section - Right Side */}
-        <div className="hidden md:flex w-[40%] items-center justify-center p-8">
-          <img src={loginHappyStudent} alt="Happy students celebrating" className="max-w-full h-auto object-contain" />
+              <div className="mt-1 text-right">
+                <Button
+                  type="link"
+                  className="text-[#003087] text-xs no-underline"
+                  onClick={onForgotPassword}
+                >
+                  Forgot password?
+                </Button>
+              </div>
+
+              <div className="flex justify-center">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={loginMutation.isPending}
+                  className="mt-4 bg-[#003087] text-white w-[167px] h-[34px] border-hidden rounded-full hover:bg-blue-600"
+                >
+                  {loginMutation.isPending ? "Logging in..." : "Login"}
+                </Button>
+              </div>
+            </Form>
+          </div>
+
+          {/* Image Section - Right Side */}
+          <div className="hidden md:flex w-[40%] items-center justify-center p-8">
+            <img src={loginHappyStudent} alt="Happy students celebrating" className="max-w-full h-auto object-contain" />
+          </div>
         </div>
       </div>
     </div>

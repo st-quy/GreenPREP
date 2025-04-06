@@ -140,19 +140,6 @@ const RegisterForm = () => {
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
       <Toaster position="top-right" reverseOrder={false} />
-      <div className="w-full relative h-32 bg-[#F9F9F9] flex items-center justify-center sm:justify-start sm:pl-[125px]">
-        <div className="flex items-center">
-          <img
-            src="/src/assets/images/logo-graduation.png"
-            className="w-[50px] h-[50px]"
-            alt="Logo"
-          />
-          <div className="ml-4 font-bold text-[30px] leading-[38px] tracking-normal text-[#111928]">
-            GreenPREP
-          </div>
-        </div>
-      </div>
-
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-4 lg:py-6">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8 lg:gap-10">
           <div className="w-full lg:w-1/2 xl:w-5/12 mt-4 sm:mt-6 md:mt-8 lg:mt-0">

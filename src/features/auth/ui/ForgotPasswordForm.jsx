@@ -78,17 +78,8 @@ const ForgotPasswordForm = () => {
 
   return (
     <div className="min-h-screen bg-[#F9F9F9]">
-      {/* Header */}
-      <header className="w-full h-[90px] bg-[#F9F9F9]">
-        <div className="container mx-auto h-full">
-          <div className="flex items-center h-full pl-[125px]">
-            <img src={Logo} alt="GreenPREP Logo" className="w-[180px] h-[40px]" />
-          </div>
-        </div>
-      </header>
-
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-90px)] px-4 md:px-10 lg:px-20">
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 md:px-10 lg:px-20">
         <div className="flex flex-col md:flex-row items-center max-w-[1440px] w-full justify-center gap-8">
           <div className="w-full sm:w-[400px] sm:h-[450px] md:w-[450px] md:h-[450px] lg:w-[650px] lg:h-[600px] xl:w-[658px] xl:h-[697px] bg-white p-[40px] pt-[60px] rounded-lg shadow-lg">
             {!isReset && (
