@@ -92,13 +92,15 @@ const RegisterForm = () => {
     toggleVisibility = null
   ) => {
     const inputClasses = `
-      w-full h-[48px] 
-      rounded-[6px] 
-      px-[20px] py-[12px] 
+      w-full h-12 
+      rounded-lg 
+      px-4 py-2 
       ${isPassword ? "pr-[40px]" : "pr-[16px]"} 
-      font-normal text-[16px] leading-[24px] tracking-[0px] 
-      border ${formErrors[name] ? "border-red-500" : "border-[#DFE4EA]"} 
-      focus:outline-none focus:ring-1 focus:ring-blue-500
+      font-normal text-base 
+      border border-solid ${formErrors[name] ? "border-red-500 hover:border-red-500 focus:border-red-500 focus:shadow-[0_0_0_2px_rgba(255,77,79,0.2)]" : "border-[#d9d9d9] hover:border-[#4096ff] focus:border-[#4096ff] focus:shadow-[0_0_0_2px_rgba(5,145,255,0.1)]"}
+      focus:outline-none
+      placeholder:text-[#9CA3AF]
+      transition-all
     `;
 
     return (
@@ -138,99 +140,85 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9]">
+    <div className="flex item-center min-h-screen bg-[#F9F9F9]">
       <Toaster position="top-right" reverseOrder={false} />
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-4 lg:py-6">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 md:gap-8 lg:gap-10">
-          <div className="w-full lg:w-1/2 xl:w-5/12 mt-4 sm:mt-6 md:mt-8 lg:mt-0">
-            <div
-              className="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-lg w-full max-w-[663px] mx-auto"
-              style={{
-                boxShadow:
-                  "0px 12px 34px 0px #0D0A2C14, 0px 34px 26px 0px #0D0A2C0D",
-              }}
-            >
-              <h2 className="font-bold text-[32px] sm:text-[40px] md:text-[48px] leading-[1.2] tracking-normal text-[#111928] mb-1 sm:mb-2">
-                Create an account
-              </h2>
-              <p className="font-normal text-[16px] leading-[24px] tracking-normal text-[#637381] mb-4 sm:mb-6">
-                Create an account to continue.
-              </p>
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 mt-5">
+          <div className="w-full lg:w-[658px] h-auto lg:h-[699px] p-6 lg:p-12 bg-white rounded-lg shadow-xl">
+            <h2 className="text-3xl lg:text-5xl font-bold text-[#111928] mb-4 mt-[30px]">Create an account</h2>
+            <p className="text-[#637381] text-base lg:text-lg mt-4 mb-8">Create an account to continue.</p>
 
-              <form onSubmit={handleSubmit} className="w-full">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                  {renderInputField("firstName", "text", "First name *")}
-                  {renderInputField("lastName", "text", "Last name *")}
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-2">
-                  {renderInputField("email", "email", "Email *")}
-                  {renderInputField("className", "text", "Class name *")}
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-2">
-                  {renderInputField("studentId", "text", "Student ID *")}
-                  {renderInputField("phoneNumber", "text", "Phone number")}
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-2">
-                  {renderInputField(
-                    "password",
-                    "password",
-                    "Password *",
-                    true,
-                    showPassword,
-                    togglePasswordVisibility
-                  )}
-                  {renderInputField(
-                    "confirmPassword",
-                    "password",
-                    "Confirm password *",
-                    true,
-                    showConfirmPassword,
-                    toggleConfirmPasswordVisibility
-                  )}
-                </div>
-
-                <div className="mt-6 flex justify-center">
-                  <button
-                    type="submit"
-                    disabled={!formValid || registerMutation.isPending}
-                    className={`
-                      w-full sm:w-[250px] h-[50px] rounded-[50px] 
-                      px-7 py-[13px] 
-                      flex items-center justify-center gap-[10px] 
-                      font-medium text-white 
-                      ${formValid && !registerMutation.isPending ? "bg-[#3758F9] hover:bg-[#2244dd]" : "bg-gray-400 cursor-not-allowed"}
-                    `}
-                  >
-                    {registerMutation.isPending ? "Signing up..." : "Sign up"}
-                  </button>
-                </div>
-              </form>
-
-              <div className="mt-4 flex items-center justify-center sm:justify-start">
-                <span className="font-medium text-[14px] leading-[22px] tracking-normal text-[#89868D]">
-                  Already have an account?
-                </span>{" "}
-                <Link
-                  to="/login"
-                  className="ml-1 font-medium text-[14px] leading-[22px] tracking-normal text-[#003087] hover:underline"
-                >
-                  Sign in
-                </Link>
+            <form onSubmit={handleSubmit} className="w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {renderInputField("firstName", "text", "First name *")}
+                {renderInputField("lastName", "text", "Last name *")}
               </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-2">
+                {renderInputField("email", "email", "Email *")}
+                {renderInputField("className", "text", "Class name *")}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-2">
+                {renderInputField("studentId", "text", "Student ID *")}
+                {renderInputField("phoneNumber", "text", "Phone number")}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-2">
+                {renderInputField(
+                  "password",
+                  "password",
+                  "Password *",
+                  true,
+                  showPassword,
+                  togglePasswordVisibility
+                )}
+                {renderInputField(
+                  "confirmPassword",
+                  "password",
+                  "Confirm password *",
+                  true,
+                  showConfirmPassword,
+                  toggleConfirmPasswordVisibility
+                )}
+              </div>
+
+              <div className="mt-6 flex justify-center">
+                <button
+                  type="submit"
+                  disabled={!formValid || registerMutation.isPending}
+                  className={`
+                    w-full md:w-[250px] h-[50px] rounded-[50px] 
+                    px-7 py-[13px] 
+                    flex items-center justify-center gap-[10px] 
+                    font-medium text-white 
+                    ${formValid && !registerMutation.isPending ? "bg-[#003087] hover:bg-[#002A6B]" : "bg-gray-400 cursor-not-allowed"}
+                  `}
+                >
+                  {registerMutation.isPending ? "Signing up..." : "Sign up"}
+                </button>
+              </div>
+            </form>
+
+            <div className="mt-4 flex items-center justify-center md:justify-start">
+              <span className="font-medium text-[14px] leading-[22px] tracking-normal text-[#89868D]">
+                Already have an account?
+              </span>{" "}
+              <Link
+                to="/login"
+                className="ml-1 font-medium text-[14px] leading-[22px] tracking-normal text-[#003087] hover:underline"
+              >
+                Sign in
+              </Link>
             </div>
           </div>
 
-          <div className="w-full lg:w-1/2 xl:w-7/12 mt-8 lg:mt-0 hidden sm:block">
-            <div className="relative w-full h-full flex items-center justify-center">
-              <img
-                src="/src/assets/images/loginimage.png"
-                alt="Registration Illustration"
-                className="w-full max-w-[614px] h-auto object-contain mx-auto"
-              />
-            </div>
+          <div className="hidden lg:flex w-full lg:w-[726px] h-auto lg:h-[839px] items-center justify-center p-8">
+            <img
+              src="/src/assets/images/loginimage.png"
+              alt="Registration Illustration"
+              className="w-full lg:w-[726px] h-auto lg:h-[839px] object-contain"
+            />
           </div>
         </div>
       </div>
