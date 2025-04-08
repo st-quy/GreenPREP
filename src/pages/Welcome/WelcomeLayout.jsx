@@ -7,7 +7,6 @@ export default function WelcomeLayout() {
 
   return (
     <>
-      
       <Header />
       <div className={isWelcomeScreen ? "" : "p-10"}>
         <Outlet />

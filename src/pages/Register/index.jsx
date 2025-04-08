@@ -4,11 +4,13 @@ import { yupSync } from "@shared/lib/utils";
 import { registerSchema } from "./schema";
 import { RegisterImg } from "@assets/images";
 import { useRegister } from "@features/auth/hooks";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
 const Register = () => {
-  const { mutate: registerFunc } = useRegister();
+  const navigate = useNavigate();
+  const { mutate: registerFunc, isPending } = useRegister();
   const onFinish = (values) => {
     registerFunc(values);
   };
@@ -118,6 +120,7 @@ const Register = () => {
                 htmlType="submit"
                 size="large"
                 className="w-full bg-blue-700 hover:bg-blue-800 rounded-full"
+                loading={isPending}
               >
                 Sign up
               </Button>
@@ -126,9 +129,12 @@ const Register = () => {
 
           <Text className="text-gray-600 mt-4 block text-center">
             Already have an account?{" "}
-            <a href="/login" className="text-blue-700 hover:underline">
+            <span
+              onClick={() => navigate("/login")}
+              className="text-blue-700 hover:underline"
+            >
               Sign in
-            </a>
+            </span>
           </Text>
         </Card>
       </Col>

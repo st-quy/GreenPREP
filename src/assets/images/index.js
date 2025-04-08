@@ -12,8 +12,12 @@ import WaitingApprovalImg from "./waiting.png";
 import RejectedImg from "./RejectedImg.png";
 import RecordIcon from "./Record.png";
 import RegisterImg from "./registerImg.png";
+import ForgotPasswordImg from "./fpassword.png";
+import ResetSuccessImg from "./resetSuccess.png";
 
 export {
+  ResetSuccessImg,
+  ForgotPasswordImg,
   RegisterImg,
   GreenPREP,
   GreenPREPLogo,

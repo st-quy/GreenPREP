@@ -1,5 +1,6 @@
 import { DownOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { logout } from "@app/providers/reducer/auth/authSlice";
+import { useGetProfile } from "@features/auth/hooks";
 import { Dropdown, Space, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,12 +8,11 @@ import { useNavigate } from "react-router-dom";
 const ProfileMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { user } = useSelector((state) => state.auth);
+  const { data } = useGetProfile();
 
   const onClick = ({ key }) => {
     switch (key) {
-      case "Logout":
+      case "logout":
         localStorage.clear();
         navigate("/login");
         dispatch(logout());
@@ -25,22 +25,22 @@ const ProfileMenu = () => {
   const items = [
     {
       label: <div className="font-semibold py-2">Profile</div>,
-      key: "Profile",
+      key: "profile",
       icon: <UserOutlined />,
     },
     {
       label: <div className="font-semibold py-2">Logout</div>,
-      key: "Logout",
+      key: "logout",
       icon: <LogoutOutlined />,
     },
   ];
   return (
     <>
-      {user && (
-        <Dropdown menu={{ items, onClick }}>
+      {data && (
+        <Dropdown menu={{ items, onClick }} className="cursor-pointer">
           <a onClick={(e) => e.preventDefault()}>
             <Space className="font-semibold">
-              {user.firstName + " " + user.lastName}
+              {data.firstName + " " + data.lastName}
               <DownOutlined className="text-[14px]" />
             </Space>
           </a>

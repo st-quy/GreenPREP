@@ -1,26 +1,30 @@
 import axiosInstance from "@shared/config/axios";
+import axios from "axios";
 
 export const AuthApi = {
+
   login: (credentials) => {
     return axiosInstance.post("/users/login", credentials);
   },
   register: (params) => {
     return axiosInstance.post("/users/register", params);
   },
+  forgotPassword: (params) => {
+    return axiosInstance.post("/users/forgot-password", params);
+  },
+  resetPassword: (params) => {
+    return axiosInstance.post("/users/reset-password", params);
+  },
+  getProfile: (userId) => {
+    return axiosInstance.get(`/users/${userId}`);
+  },
+  updateProfile: (userId, params) => {
+    return axiosInstance.put(`/users/${userId}`, params);
+  },
 };
 
-///Example
-export const RequestApi = {
-  getAll: () => {
-    return axiosInstance.get("/requests");
-  },
-  update: (record) => {
-    return axiosInstance.put(`/requests/${record.id}`, record);
-  },
-  add: (record) => {
-    return axiosInstance.post("/requests", record);
-  },
-};
+
+
 
 export const ListeningApi = {
   getQuestions: () => {
