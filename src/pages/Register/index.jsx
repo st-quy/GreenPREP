@@ -35,11 +35,12 @@ const Register = () => {
             </Text>
           </div>
 
-          <Form layout="vertical" onFinish={onFinish} requiredMark={false}>
+          <Form layout="vertical" onFinish={onFinish}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Form.Item
                 name="firstName"
                 label="First Name"
+                required
                 rules={[yupSync(registerSchema)]}
               >
                 <Input placeholder="First name" size="large" />
@@ -47,6 +48,7 @@ const Register = () => {
               <Form.Item
                 name="lastName"
                 label="Last Name"
+                required
                 rules={[yupSync(registerSchema)]}
               >
                 <Input placeholder="Last name" size="large" />
@@ -56,6 +58,7 @@ const Register = () => {
               <Form.Item
                 name="email"
                 label="Email"
+                required
                 rules={[yupSync(registerSchema)]}
               >
                 <Input placeholder="Email" size="large" />
@@ -72,6 +75,7 @@ const Register = () => {
               <Form.Item
                 name="class"
                 label="Class Name"
+                required
                 rules={[yupSync(registerSchema)]}
               >
                 <Input placeholder="Class name" size="large" />
@@ -79,6 +83,7 @@ const Register = () => {
               <Form.Item
                 name="studentCode"
                 label="Student ID"
+                required
                 rules={[yupSync(registerSchema)]}
               >
                 <Input placeholder="Student ID" size="large" />
@@ -88,6 +93,7 @@ const Register = () => {
               <Form.Item
                 name="password"
                 label="Password"
+                required
                 rules={[yupSync(registerSchema)]}
               >
                 <Input.Password placeholder="Password" size="large" />

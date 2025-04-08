@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Card,
   Avatar,
@@ -9,12 +10,15 @@ import {
   Divider,
   Spin,
 } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { LeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import TableSearch from "@shared/ui/TableSearch";
 import { useGetProfile } from "@features/auth/hooks";
+import ChangePassword from "@features/profile/ui/Modal/ChangePassword";
+import ProfileUpdate from "@features/profile/ui/Modal/ProfileUpdate";
 
 const Profile = () => {
+  const [openKey, setOpenKey] = useState(null);
   const navigate = useNavigate();
 
   const { data, isLoading } = useGetProfile();
@@ -268,6 +272,15 @@ const Profile = () => {
 
   return (
     <div>
+      <div
+        className="flex items-center gap-2 mb-6 cursor-pointer w-fit  hover:font-bold"
+        onClick={() => navigate("/")}
+      >
+        <LeftOutlined />
+        <Typography.Text className="text-sm inline-block">
+          Back to home
+        </Typography.Text>
+      </div>
       <Card className="bg-[#F9FAFB] rounded-lg text-[#0F3E8F] flex items-center">
         <UserOutlined />
         <span className="ml-2">Profile</span>
@@ -284,13 +297,13 @@ const Profile = () => {
         <Col md={12} className="flex justify-end gap-2">
           <Button
             className="border border-[#0F3E8F] text-[#0F3E8F] rounded-full px-4 py-2 hover:bg-[#0F3E8F] hover:text-white"
-            onClick={() => navigate("/profile/change-password")}
+            onClick={() => setOpenKey("change-password")}
           >
             Change password
           </Button>
           <Button
             className="bg-[#0F3E8F] !text-white rounded-full px-4 py-2 hover:!bg-[#092C6C] !border-0"
-            onClick={() => navigate("/profile/update")}
+            onClick={() => setOpenKey("update-profile")}
           >
             Update profile
           </Button>
@@ -334,6 +347,12 @@ const Profile = () => {
         columns={columns}
         placeholder={"Search by name"}
       />
+      {openKey === "change-password" && (
+        <ChangePassword openKey={openKey} setOpenKey={setOpenKey} />
+      )}
+      {openKey === "update-profile" && (
+        <ProfileUpdate openKey={openKey} setOpenKey={setOpenKey} />
+      )}
     </div>
   );
 };

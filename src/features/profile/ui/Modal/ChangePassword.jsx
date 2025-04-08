@@ -1,21 +1,28 @@
 import React, { useEffect } from "react";
-import { Form, Input, Button, Card, Typography, Spin } from "antd";
+import { Form, Input, Button, Card, Typography, Spin, Modal } from "antd";
 import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useChangePassword } from "@features/auth/hooks";
-import { ChangePasswordSchema } from "./schema";
+import { ChangePasswordSchema } from "../../schema";
 import { yupSync } from "@shared/lib/utils";
 
-const ChangePassword = () => {
+const ChangePassword = ({ openKey, setOpenKey }) => {
   const navigate = useNavigate();
   const { mutate: changePassword, isPending, isSuccess } = useChangePassword();
   const [form] = Form.useForm();
 
   const handleFinish = (values) => {
-    changePassword({
-      oldPassword: values.currentPassword,
-      newPassword: values.newPassword,
-    });
+    changePassword(
+      {
+        oldPassword: values.currentPassword,
+        newPassword: values.newPassword,
+      },
+      {
+        onSuccess: () => {
+          setOpenKey(null);
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -25,23 +32,19 @@ const ChangePassword = () => {
   }, [isSuccess]);
 
   return (
-    <div className="flex flex-col px-10">
-      <div
-        className="flex items-center gap-2 mb-6 cursor-pointer"
-        onClick={() => navigate("/profile")}
-      >
-        <LeftOutlined />
-        <Typography.Text className="text-sm inline-block">
-          Back to profile
-        </Typography.Text>
-      </div>
-      <Typography.Title className="font-bold mb-2">
-        Change password
-      </Typography.Title>
-      <p className="text-gray-600 mb-6">
-        Secure your account with a new password.
-      </p>
-      <Card className="w-full">
+    <Modal
+      open={openKey === "change-password" ? true : false}
+      footer={null}
+      centered
+      onCancel={() => setOpenKey(null)}
+    >
+      <div className="p-6">
+        <Typography.Title level={3} className="font-bold mb-2">
+          Change Password
+        </Typography.Title>
+        <p className="text-gray-600 mb-6">
+          Secure your account with a new password.
+        </p>
         <Form
           form={form}
           layout="vertical"
@@ -90,7 +93,10 @@ const ChangePassword = () => {
             <Button
               type="default"
               htmlType="button"
-              onClick={() => navigate("/profile")}
+              onClick={() => {
+                setOpenKey(null);
+                form.resetFields();
+              }}
             >
               Cancel
             </Button>
@@ -99,8 +105,8 @@ const ChangePassword = () => {
             </Button>
           </div>
         </Form>
-      </Card>
-    </div>
+      </div>
+    </Modal>
   );
 };
 
