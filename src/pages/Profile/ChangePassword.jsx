@@ -27,7 +27,7 @@ const ChangePassword = () => {
   return (
     <div className="flex flex-col px-10">
       <div
-        className="flex items-center gap-2 mb-6 cursor-pointer"
+        className="flex items-center gap-2 mb-6 cursor-pointer w-fit  hover:font-bold"
         onClick={() => navigate("/profile")}
       >
         <LeftOutlined />
