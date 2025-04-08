@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { login, updateUser } from "@app/providers/reducer/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setStorageData } from "@shared/lib/storage";
-import { jwtDecode } from "jwt-decode";
 
 export const useLogin = () => {
   const navigate = useNavigate();
@@ -73,7 +72,7 @@ export const useResetPassword = () => {
 };
 
 export const useGetProfile = () => {
-  const {userId} = useSelector((state) => state.auth);
+  const { userId } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   return useQuery({
@@ -126,6 +125,21 @@ export const useUpdateProfile = () => {
         teacherCode: data.data.teacherCode,
       }));
       queryClient.invalidateQueries({ queryKey: ['profile'] }) 
+      return data.data;
+    },
+    onError({ response }) {
+      message.error(response.data.message);
+    },
+  });
+};
+
+export const useChangePassword = () => {
+  const { userId } = useSelector((state) => state.auth);
+
+  return useMutation({
+    mutationFn: async (params) => {
+      const { data } = await AuthApi.changePassword(userId, params);
+      message.success(data.message);
       return data.data;
     },
     onError({ response }) {

@@ -56,6 +56,7 @@ import PreConditionLayout from "@pages/PreCondition/PreConditionLayout.jsx";
 import ReadingSuccess from "@pages/Reading/ReadingSuccess/ReadingSuccess.jsx";
 import Profile from "@pages/Profile/index.jsx";
 import ProfileUpdate from "@pages/Profile/ProfileUpdate.jsx";
+import ChangePassword from "@pages/Profile/ChangePassword.jsx";
 
 const PrivateRoute = [
   {
@@ -85,6 +86,10 @@ const PrivateRoute = [
               {
                 path: "update",
                 element: <ProfileUpdate />,
+              },
+              {
+                path: "change-password",
+                element: <ChangePassword />,
               },
             ],
           },

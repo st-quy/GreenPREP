@@ -9,7 +9,7 @@ import {
   Divider,
   Spin,
 } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { LeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import TableSearch from "@shared/ui/TableSearch";
 import { useGetProfile } from "@features/auth/hooks";
@@ -268,6 +268,15 @@ const Profile = () => {
 
   return (
     <div>
+      <div
+        className="flex items-center gap-2 mb-6 cursor-pointer w-fit  hover:font-bold"
+        onClick={() => navigate("/")}
+      >
+        <LeftOutlined />
+        <Typography.Text className="text-sm inline-block">
+          Back to home
+        </Typography.Text>
+      </div>
       <Card className="bg-[#F9FAFB] rounded-lg text-[#0F3E8F] flex items-center">
         <UserOutlined />
         <span className="ml-2">Profile</span>

@@ -57,15 +57,11 @@ const LoginPage = () => {
             />
           )}
 
-          <Form
-            form={form}
-            layout="vertical"
-            onFinish={onSubmit}
-            requiredMark={false}
-          >
+          <Form form={form} layout="vertical" onFinish={onSubmit}>
             <Form.Item
               name="email"
               label="Email"
+              required
               rules={[yupSync(loginSchema)]}
             >
               <Input
@@ -79,6 +75,7 @@ const LoginPage = () => {
             <Form.Item
               name="password"
               label="Password"
+              required
               rules={[yupSync(loginSchema)]}
             >
               <Input.Password

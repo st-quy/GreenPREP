@@ -4,6 +4,8 @@ import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useUpdateProfile } from "@features/auth/hooks";
 import { useSelector } from "react-redux";
+import { UpdateProfileSchema } from "./schema";
+import { yupSync } from "@shared/lib/utils";
 
 const ProfileUpdate = () => {
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ const ProfileUpdate = () => {
   return (
     <div className="flex flex-col px-10">
       <div
-        className="flex items-center gap-2 mb-6 cursor-pointer"
+        className="flex items-center gap-2 mb-6 cursor-pointer w-fit  hover:font-bold"
         onClick={() => navigate("/profile")}
       >
         <LeftOutlined />
@@ -62,50 +64,47 @@ const ProfileUpdate = () => {
           <Form.Item
             label="First Name"
             name="firstName"
-            rules={[{ required: true, message: "First name is required" }]}
+            required
+            rules={[yupSync(UpdateProfileSchema)]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Last Name"
             name="lastName"
-            rules={[{ required: true, message: "Last name is required" }]}
+            required
+            rules={[yupSync(UpdateProfileSchema)]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Email"
             name="email"
-            rules={[
-              { required: true, message: "Email is required" },
-              { type: "email", message: "Please enter a valid email" },
-            ]}
+            required
+            rules={[yupSync(UpdateProfileSchema)]}
           >
             <Input disabled />
           </Form.Item>
           <Form.Item
             label="Class Name"
             name="class"
-            rules={[{ required: true, message: "Class name is required" }]}
+            rules={[yupSync(UpdateProfileSchema)]}
+            required
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Student ID"
             name="studentCode"
-            rules={[{ required: true, message: "Student ID is required" }]}
+            required
+            rules={[yupSync(UpdateProfileSchema)]}
           >
             <Input disabled />
           </Form.Item>
           <Form.Item
             label="Phone Number"
             name="phone"
-            rules={[
-              {
-                pattern: /^[0-9]+$/,
-                message: "Phone number must be numeric",
-              },
-            ]}
+            rules={[yupSync(UpdateProfileSchema)]}
           >
             <Input />
           </Form.Item>
