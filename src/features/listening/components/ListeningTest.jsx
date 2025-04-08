@@ -80,9 +80,15 @@ const ListeningTest = () => {
   }, [markedQuestions]);
 
   const handleSubmitTest = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
     navigate("/session/grammar");
     localStorage.removeItem("countdownTime");
     localStorage.removeItem("selectedAnswers");
+    localStorage.removeItem("history_listen");
   };
 
   const handleAnswerSelect = (questionId, answer) => {
