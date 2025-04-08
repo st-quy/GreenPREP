@@ -10,7 +10,6 @@ import QuestionDropdownList from "./QuestionDropdownList";
 import { useListeningTest } from "../hooks/useListeningTest";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 import AudioPlayer from './AudioPlayer';
-import MarkerButton from "@shared/ui/MarkerButton";
 
 const ListeningTest = () => {
   const navigate = useNavigate();
