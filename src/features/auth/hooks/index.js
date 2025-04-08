@@ -133,3 +133,18 @@ export const useUpdateProfile = () => {
     },
   });
 };
+
+export const useChangePassword = () => {
+  const { userId } = useSelector((state) => state.auth);
+
+  return useMutation({
+    mutationFn: async (params) => {
+      const { data } = await AuthApi.changePassword(userId, params);
+      message.success(data.message);
+      return data.data;
+    },
+    onError({ response }) {
+      message.error(response.data.message);
+    },
+  });
+};

@@ -21,6 +21,9 @@ export const AuthApi = {
   updateProfile: (userId, params) => {
     return axiosInstance.put(`/users/${userId}`, params);
   },
+  changePassword: (userId, params) => {
+    return axiosInstance.post(`/users/${userId}/change-password`, params);
+  },
 };
 
 
