@@ -19,6 +19,7 @@ const getUserRole = () => {
   }
 };
 
+
 const getUserId = () => {
   try {
     const token = getStorageData(ACCESS_TOKEN);
@@ -33,19 +34,20 @@ const getUserId = () => {
   }
 };
 
+
 const initialState = {
   isAuth: checkAuth(),
   role: getUserRole(),
   user: null,
   userId: getUserId(),
 };
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     login(state) {
       state.isAuth = true;
-      state.userId = getUserId();
     },
     logout(state) {
       state.isAuth = false;

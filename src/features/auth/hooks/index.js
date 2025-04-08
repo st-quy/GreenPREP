@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { login, updateUser } from "@app/providers/reducer/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setStorageData } from "@shared/lib/storage";
+import { jwtDecode } from "jwt-decode";
 
 export const useLogin = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ export const useResetPassword = () => {
 };
 
 export const useGetProfile = () => {
-  const { userId } = useSelector((state) => state.auth);
+  const {userId} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   return useQuery({

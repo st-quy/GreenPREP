@@ -17,7 +17,7 @@ import { useGetProfile } from "@features/auth/hooks";
 const Profile = () => {
   const navigate = useNavigate();
 
-  const { data, isPending } = useGetProfile();
+  const { data, isLoading } = useGetProfile();
 
   const data1 = [
     {
@@ -258,10 +258,10 @@ const Profile = () => {
     },
   ];
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <div className="flex justify-center h-screen">
-        <Spin className="" size="large" />
+        <Spin size="large" />
       </div>
     );
   }

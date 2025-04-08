@@ -1,6 +1,5 @@
 import { DownOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { logout } from "@app/providers/reducer/auth/authSlice";
-import { useGetProfile } from "@features/auth/hooks";
 import { Dropdown, Space, message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const ProfileMenu = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data } = useGetProfile();
+  const { user } = useSelector((state) => state.auth);
 
   const onClick = ({ key }) => {
     switch (key) {
@@ -36,11 +35,11 @@ const ProfileMenu = () => {
   ];
   return (
     <>
-      {data && (
+      {user && (
         <Dropdown menu={{ items, onClick }} className="cursor-pointer">
           <a onClick={(e) => e.preventDefault()}>
             <Space className="font-semibold">
-              {data.firstName + " " + data.lastName}
+              {user.firstName + " " + user.lastName}
               <DownOutlined className="text-[14px]" />
             </Space>
           </a>
