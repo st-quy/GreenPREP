@@ -46,7 +46,7 @@ const WelcomeScreen = () => {
                 <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">
                   Assess, Improve, and
                   <br />
-                  Achieve <span className="text-blue-600">Your Goals!</span>
+                  Achieve <span className="text-[#003087]">Your Goals!</span>
                 </h1>
                 <p className="text-lg text-gray-600">
                   This mock test helps you assess your English proficiency,
@@ -56,67 +56,59 @@ const WelcomeScreen = () => {
                 <Button
                   onClick={() => setIsModalOpen(true)}
                   type="primary"
-                  size="large"
-                  className="flex items-center gap-2"
-                  style={{
-                    height: "48px",
-                    padding: "0 32px",
-                    fontSize: "18px",
-                    backgroundColor: "#3758F9",
-                  }}
+                  className="w-[180px] h-[50px] rounded-[50px] px-7 py-[13px] flex items-center justify-center gap-[10px] font-medium text-white bg-[#003087] hover:bg-[#002A6B] border-hidden"
                 >
                   Get Started <ArrowRightOutlined />
                 </Button>
               </div>
             ) : (
-              <div className="bg-white p-10 rounded-2xl shadow-lg">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                  Ready to Go?
-                </h2>
-                <p className="text-gray-600 mb-6">
-                  Enter your session key to begin your English assessment
-                  journey.
-                </p>
-                <Form onFinish={handleSubmit} layout="vertical">
-                  <Form.Item
-                    name="sessionKey"
-                    validateStatus={errorMessage ? "error" : ""}
-                    help={errorMessage}
-                    rules={[
-                      { required: true, message: "Session key is required" },
-                      {
-                        validator: async (_, value) => {
-                          try {
-                            await welcomeSchema.validate({ sessionKey: value });
-                          } catch (error) {
-                            return Promise.reject(error.message);
-                          }
+              <div className="bg-white p-10 rounded-2xl shadow-lg h-[650px]">
+                <div className="mt-[30px]">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                    Ready to Go?
+                  </h2>
+                  <p className="text-gray-600 mb-6">
+                    Enter your session key to begin your English assessment
+                    journey.
+                  </p>
+                  <Form onFinish={handleSubmit} layout="vertical">
+                    <Form.Item
+                      name="sessionKey"
+                      validateStatus={errorMessage ? "error" : ""}
+                      help={errorMessage}
+                      rules={[
+                        { required: true, message: "Session key is required" },
+                        {
+                          validator: async (_, value) => {
+                            try {
+                              await welcomeSchema.validate({ sessionKey: value });
+                            } catch (error) {
+                              return Promise.reject(error.message);
+                            }
+                          },
                         },
-                      },
-                    ]}
-                  >
-                    <Input
-                      size="large"
-                      placeholder="Enter your session key"
-                      value={sessionKey}
-                      onChange={handleInputChange}
-                      maxLength={100}
-                    />
-                  </Form.Item>
-                  <div className="flex justify-between items-center mt-6">
-                    <Button onClick={() => setIsModalOpen(false)} size="large">
-                      Back
-                    </Button>
-                    <Button
-                      type="primary"
-                      size="large"
-                      onClick={handleSubmit}
-                      style={{ backgroundColor: "#3758F9" }}
+                      ]}
                     >
-                      Submit Key
-                    </Button>
-                  </div>
-                </Form>
+                      <Input
+                        size="large"
+                        placeholder="Enter your session key"
+                        value={sessionKey}
+                        onChange={handleInputChange}
+                        maxLength={100}
+                      />
+                    </Form.Item>
+                    <div className="flex justify-center mt-6">
+                      <Button
+                        type="primary"
+                        size="large"
+                        onClick={handleSubmit}
+                        className="w-[180px] h-[50px] rounded-[50px] px-7 py-[13px] flex items-center justify-center gap-[10px] font-medium text-white bg-[#003087] hover:bg-[#002A6B] border-hidden"
+                      >
+                        Submit Key
+                      </Button>
+                    </div>
+                  </Form>
+                </div>
               </div>
             )}
           </div>
