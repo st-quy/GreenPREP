@@ -1,15 +1,9 @@
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const MarkerButton = ({ onClick = () => {}, marked = false }) => {
   const [isMarked, setIsMarked] = useState(marked);
-  
-  // Update local state when marked prop changes
-  useEffect(() => {
-    setIsMarked(marked);
-  }, [marked]);
-
   const handleMark = async () => {
     try {
       await onClick();

@@ -109,14 +109,10 @@ const ListeningTest = () => {
   };
 
   const handleMarkQuestion = (questionId) => {
-    setMarkedQuestions((prev) => {
-      const newMarkedQuestions = {
-        ...prev,
-        [questionId]: !prev[questionId]
-      };
-      localStorage.setItem("markedQuestions", JSON.stringify(newMarkedQuestions));
-      return newMarkedQuestions;
-    });
+    setMarkedQuestions((prev) => ({
+      ...prev,
+      [questionId]: !prev[questionId],
+    }));
   };
 
   const toggleAudio = (valueTime) => {
@@ -200,10 +196,25 @@ const ListeningTest = () => {
                 <span className="text-blue-600 font-bold">
                   {listQuestion?.[currentQuestionIndex]?.Part?.Content}
                 </span>
-                <MarkerButton 
-                  marked={Boolean(markedQuestions[listQuestion?.[currentQuestionIndex]?.ID])}
-                  onClick={() => handleMarkQuestion(listQuestion?.[currentQuestionIndex]?.ID)}
-                />
+                <Button
+                   type="primary"
+                   onClick={() =>
+                     handleMarkQuestion(listQuestion?.[currentQuestionIndex].ID)
+                   }
+                   icon={
+                     markedQuestions[listQuestion?.[currentQuestionIndex].ID] ? (
+                       <FlagOutlined color="red" />
+                     ) : (
+                       <FlagOutlined color="" />
+                     )
+                   }
+                   className={`ml-4 px-3 py-1 text-sm font-medium rounded-xl transition-all duration-200 border-0
+                       ${markedQuestions[listQuestion?.[currentQuestionIndex].ID] ? "bg-yellow-500 !text-white hover:!bg-yellow-600" : "bg-gray-200 !text-black hover:!bg-gray-300"}`}
+                 >
+                   {markedQuestions[listQuestion?.[currentQuestionIndex].ID]
+                     ? "Unmark"
+                     : "Mark"}
+                 </Button>
               </div>
 
               {listQuestion.length > 0 &&
