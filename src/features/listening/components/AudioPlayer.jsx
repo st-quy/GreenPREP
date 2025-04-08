@@ -1,198 +1,76 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { FaPlay, FaPause } from 'react-icons/fa';
+import React from 'react';
+import { Button } from 'antd';
+import { PlayCircleOutlined, PauseCircleOutlined } from '@ant-design/icons';
 
-const STORAGE_KEY_PREFIX = 'listening_test_audio_';
-
-const AudioPlayer = ({ audioUrl, questionId }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [error, setError] = useState(null);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [isLoading, setIsLoading] = useState(true);
-  const audioRef = useRef(null);
-
-  // Get stored values from localStorage using questionId as unique identifier
-  const getStoredData = () => {
-    const key = `${STORAGE_KEY_PREFIX}${questionId}`;
-    const storedData = localStorage.getItem(key);
-    return storedData ? JSON.parse(storedData) : { playCount: 0, position: 0, lastButton: null };
-  };
-
-  const [playData, setPlayData] = useState(getStoredData());
-  const { playCount, position, lastButton: currentButton } = playData;
-
-  // Update localStorage whenever playData changes
-  const updateStoredData = (newData) => {
-    const key = `${STORAGE_KEY_PREFIX}${questionId}`;
-    setPlayData(newData);
-    localStorage.setItem(key, JSON.stringify(newData));
-  };
-
-  useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    if (audioRef.current) {
-      // Handle audio events
-      audioRef.current.addEventListener('error', handleError);
-      audioRef.current.addEventListener('ended', handleEnded);
-      audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
-      audioRef.current.addEventListener('loadeddata', () => setIsLoading(false));
-      audioRef.current.addEventListener('waiting', () => setIsLoading(true));
-      audioRef.current.addEventListener('canplaythrough', () => setIsLoading(false));
-      
-      // Preload audio
-      audioRef.current.preload = 'auto';
-    }
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-      
-      if (audioRef.current) {
-        audioRef.current.removeEventListener('error', handleError);
-        audioRef.current.removeEventListener('ended', handleEnded);
-        audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
-        audioRef.current.removeEventListener('loadeddata', () => setIsLoading(false));
-        audioRef.current.removeEventListener('waiting', () => setIsLoading(true));
-        audioRef.current.removeEventListener('canplaythrough', () => setIsLoading(false));
-      }
-    };
-  }, [questionId]);
-
-  const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      updateStoredData({
-        ...playData,
-        position: audioRef.current.currentTime
-      });
-    }
-  };
-
-  const handleError = () => {
-    setError(isOnline 
-      ? 'Audio failed to load. Please try again or contact support.'
-      : 'No internet connection. Please check your connection and try again.');
-    setIsPlaying(false);
-    setIsLoading(false);
-    updateStoredData({ ...playData, lastButton: null });
-  };
-
-  const handleEnded = () => {
-    setIsPlaying(false);
-    updateStoredData({
-      ...playData,
-      position: 0,
-      lastButton: null
-    });
-  };
-
-  const handlePlayPause = (buttonNumber) => {
-    if (playCount >= 2 && !isPlaying) {
-      setError('You have reached the maximum number of plays (2)');
-      return;
-    }
-
-    if (!isOnline) {
-      setError('No internet connection. Please check your connection and try again.');
-      return;
-    }
-
-    if (isLoading) {
-      return; // Prevent interaction while loading
-    }
-
-    if (isPlaying && currentButton === buttonNumber) {
-      // Pause current playback
-      audioRef.current?.pause();
-      setIsPlaying(false);
-      updateStoredData({
-        ...playData,
-        lastButton: null
-      });
-    } else if (!isPlaying) {
-      // Start new playback
-      const startingNewPlay = currentButton !== buttonNumber;
-      
-      // Reset position to 0 if switching buttons
-      if (startingNewPlay) {
-        audioRef.current.currentTime = 0;
-      }
-      
-      audioRef.current?.play().then(() => {
-        setIsPlaying(true);
-        updateStoredData({
-          ...playData,
-          playCount: startingNewPlay ? playCount + 1 : playCount,
-          lastButton: buttonNumber,
-          position: startingNewPlay ? 0 : position
-        });
-      }).catch(error => {
-        console.error('Playback failed:', error);
-        setError('Failed to play audio. Please try again.');
-      });
-    }
-  };
-
+const AudioPlayer = ({ 
+  currentQuestionIndex, 
+  isPlaying,
+  currentAudio,
+  historyListen,
+  toggleAudio 
+}) => {
   return (
-    <div className="space-y-4 w-full max-w-md mx-auto">
-      <audio 
-        ref={audioRef} 
-        src={audioUrl}
-        controlsList="nodownload noplaybackrate" 
-      />
-      
-      {error ? (
-        <div className="text-red-600 text-center py-4 text-sm">{error}</div>
-      ) : (
-        <div className="flex gap-3">
-          <button
-            onClick={() => handlePlayPause(1)}
-            disabled={(playCount >= 1 && !isPlaying && currentButton !== 1) || !isOnline || isLoading}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full border
-              ${(playCount >= 1 && !isPlaying && currentButton !== 1) || !isOnline || isLoading
-                ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50' 
-                : 'border-[#4255D4] text-[#4255D4] hover:bg-[#F8F9FF] bg-white'
-              }`}
-          >
-            {isLoading ? (
-              <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-            ) : isPlaying && currentButton === 1 ? (
-              <FaPause className="text-sm" />
-            ) : (
-              <FaPlay className="text-sm" />
-            )}
-            <span className="text-sm font-medium">
-              {isPlaying && currentButton === 1 ? "Pause" : "Play first time"}
-            </span>
-          </button>
-
-          <button
-            onClick={() => handlePlayPause(2)}
-            disabled={(playCount >= 2 && !isPlaying && currentButton !== 2) || playCount === 0 || !isOnline || isLoading}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full border
-              ${((playCount >= 2 && !isPlaying && currentButton !== 2) || playCount === 0 || !isOnline || isLoading)
-                ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50' 
-                : 'border-[#4255D4] text-[#4255D4] hover:bg-[#F8F9FF] bg-white'
-              }`}
-          >
-            {isLoading ? (
-              <div className="w-4 h-4 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
-            ) : isPlaying && currentButton === 2 ? (
-              <FaPause className="text-sm" />
-            ) : (
-              <FaPlay className="text-sm" />
-            )}
-            <span className="text-sm font-medium">
-              {isPlaying && currentButton === 2 ? "Pause" : "Play second time"}
-            </span>
-          </button>
-        </div>
-      )}
+    <div className="flex gap-6">
+      <Button
+        className="!rounded-full"
+        type="primary"
+        ghost
+        icon={
+          isPlaying && currentAudio === `audio-${currentQuestionIndex}-first` ? (
+            <PauseCircleOutlined />
+          ) : (
+            <PlayCircleOutlined />
+          )
+        }
+        onClick={() => toggleAudio(`audio-${currentQuestionIndex}-first`)}
+        key={`audio-${currentQuestionIndex}-first`}
+        disabled={
+          historyListen.length > 0 &&
+          historyListen
+            .find(
+              (item) => item.key === `audio-${currentQuestionIndex}-first`
+            )
+            ?.value.includes(`audio-${currentQuestionIndex}-first`)
+        }
+      >
+        {isPlaying && currentAudio === `audio-${currentQuestionIndex}-first` 
+          ? "Stop" 
+          : "Play first time"}
+      </Button>
+      <Button
+        className="!rounded-full"
+        type="primary"
+        ghost
+        icon={
+          isPlaying && currentAudio === `audio-${currentQuestionIndex}-second` ? (
+            <PauseCircleOutlined />
+          ) : (
+            <PlayCircleOutlined />
+          )
+        }
+        onClick={() => toggleAudio(`audio-${currentQuestionIndex}-second`)}
+        key={`audio-${currentQuestionIndex}-second`}
+        disabled={
+          (historyListen.length > 0 &&
+            historyListen
+              .find(
+                (item) =>
+                  item.key === `audio-${currentQuestionIndex}-second`
+              )
+              ?.value.includes(`audio-${currentQuestionIndex}-second`)) ||
+          !historyListen
+            .find(
+              (item) => item.key === `audio-${currentQuestionIndex}-first`
+            )
+            ?.value.includes(`audio-${currentQuestionIndex}-first`)
+        }
+      >
+        {isPlaying && currentAudio === `audio-${currentQuestionIndex}-second`
+          ? "Stop"
+          : "Play second time"}
+      </Button>
     </div>
   );
 };
 
-export default AudioPlayer; 
+export default AudioPlayer;

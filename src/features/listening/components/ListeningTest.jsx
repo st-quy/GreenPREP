@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { Button, Card } from "antd";
 import {
   FlagOutlined,
-  PauseCircleOutlined,
-  PlayCircleOutlined,
 } from "@ant-design/icons";
 import QuestionMuitipleChoice from "./QuestionMuitipleChoice";
 import QuestionDropdownList from "./QuestionDropdownList";
 import { useListeningTest } from "../hooks/useListeningTest";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
+import AudioPlayer from './AudioPlayer';
+import MarkerButton from "@shared/ui/MarkerButton";
 
 const ListeningTest = () => {
   const navigate = useNavigate();
@@ -109,10 +109,14 @@ const ListeningTest = () => {
   };
 
   const handleMarkQuestion = (questionId) => {
-    setMarkedQuestions((prev) => ({
-      ...prev,
-      [questionId]: !prev[questionId],
-    }));
+    setMarkedQuestions((prev) => {
+      const newMarkedQuestions = {
+        ...prev,
+        [questionId]: !prev[questionId]
+      };
+      localStorage.setItem("markedQuestions", JSON.stringify(newMarkedQuestions));
+      return newMarkedQuestions;
+    });
   };
 
   const toggleAudio = (valueTime) => {
@@ -196,25 +200,10 @@ const ListeningTest = () => {
                 <span className="text-blue-600 font-bold">
                   {listQuestion?.[currentQuestionIndex]?.Part?.Content}
                 </span>
-                <Button
-                  type="primary"
-                  onClick={() =>
-                    handleMarkQuestion(listQuestion?.[currentQuestionIndex].ID)
-                  }
-                  icon={
-                    markedQuestions[listQuestion?.[currentQuestionIndex].ID] ? (
-                      <FlagOutlined color="red" />
-                    ) : (
-                      <FlagOutlined color="" />
-                    )
-                  }
-                  className={`ml-4 px-3 py-1 text-sm font-medium rounded-xl transition-all duration-200 border-0
-                      ${markedQuestions[listQuestion?.[currentQuestionIndex].ID] ? "bg-yellow-500 !text-white hover:!bg-yellow-600" : "bg-gray-200 !text-black hover:!bg-gray-300"}`}
-                >
-                  {markedQuestions[listQuestion?.[currentQuestionIndex].ID]
-                    ? "Unmark"
-                    : "Mark"}
-                </Button>
+                <MarkerButton 
+                  marked={Boolean(markedQuestions[listQuestion?.[currentQuestionIndex]?.ID])}
+                  onClick={() => handleMarkQuestion(listQuestion?.[currentQuestionIndex]?.ID)}
+                />
               </div>
 
               {listQuestion.length > 0 &&
@@ -241,94 +230,13 @@ const ListeningTest = () => {
         </Card>
         <Card className="p-8">
           <h2 className="mb-2">Listen audio file here:</h2>
-          <div className="flex gap-6">
-            <Button
-              className="!rounded-full"
-              type="primary"
-              ghost
-              icon={
-                historyListen.length &&
-                historyListen.find(
-                  (item) => item.key === `audio-${currentQuestionIndex}-first`
-                ) ? (
-                  <PauseCircleOutlined />
-                ) : (
-                  <PlayCircleOutlined />
-                )
-              }
-              onClick={() => toggleAudio(`audio-${currentQuestionIndex}-first`)}
-              key={`audio-${currentQuestionIndex}-first`}
-              disabled={
-                historyListen.length > 0 &&
-                historyListen
-                  .find(
-                    (item) => item.key === `audio-${currentQuestionIndex}-first`
-                  )
-                  ?.value.includes(`audio-${currentQuestionIndex}-first`)
-              }
-            >
-              {historyListen.length &&
-              historyListen.find(
-                (item) => item.key === `audio-${currentQuestionIndex}-first`
-              )
-                ? historyListen
-                    .find(
-                      (item) =>
-                        item.key === `audio-${currentQuestionIndex}-first`
-                    )
-                    ?.value.includes(`audio-${currentQuestionIndex}-first`)
-                  ? ""
-                  : "Stop"
-                : "Play first time"}
-            </Button>
-            <Button
-              className="!rounded-full"
-              type="primary"
-              ghost
-              icon={
-                historyListen.length &&
-                historyListen.find(
-                  (item) => item.key === `audio-${currentQuestionIndex}-second`
-                ) ? (
-                  <PauseCircleOutlined />
-                ) : (
-                  <PlayCircleOutlined />
-                )
-              }
-              onClick={() =>
-                toggleAudio(`audio-${currentQuestionIndex}-second`)
-              }
-              key={`audio-${currentQuestionIndex}-second`}
-              disabled={
-                (historyListen.length > 0 &&
-                  historyListen
-                    .find(
-                      (item) =>
-                        item.key === `audio-${currentQuestionIndex}-second`
-                    )
-                    ?.value.includes(`audio-${currentQuestionIndex}-second`)) ||
-                !historyListen
-                  .find(
-                    (item) => item.key === `audio-${currentQuestionIndex}-first`
-                  )
-                  ?.value.includes(`audio-${currentQuestionIndex}-first`)
-              }
-            >
-              {historyListen.length &&
-              historyListen.find(
-                (item) => item.key === `audio-${currentQuestionIndex}-second`
-              )
-                ? historyListen
-                    .find(
-                      (item) =>
-                        item.key === `audio-${currentQuestionIndex}-second`
-                    )
-                    ?.value.includes(`audio-${currentQuestionIndex}-second`)
-                  ? ""
-                  : "Stop"
-                : "Play second time"}
-            </Button>
-          </div>
+          <AudioPlayer 
+            currentQuestionIndex={currentQuestionIndex}
+            isPlaying={isPlaying}
+            currentAudio={currentAudio}
+            historyListen={historyListen}
+            toggleAudio={toggleAudio}
+          />
         </Card>
         <div className="flex justify-end gap-6">
           <Button
