@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setTime, decrementTime } from "../../app/providers/reducer/timeSlice";
-import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal"; // Import modal
+import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 
 /**
  * @typedef {Object} RootState
@@ -9,48 +9,38 @@ import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionMo
  * @property {number} countdown.timeLeft
  */
 
-/*
-  ------Import CountdownTimer--------
-
-    const navigator = useNavigate();
-  
-    const handleSubmitTest = () => {
-      navigator("/session/reading");  //----Setup route submit button for next skill----
-      localStorage.removeItem("countdownTime"); 
-    };
-
-
-    <div>
-      <CountdownTimer initialTime={900} onSubmit={handleSubmitTest} />  //--------Setup time(900= 900s:60=15m | 1800s = 30m.)
-    </div>
-*/
-
 const CountdownTimer = ({ initialTime = 600, onSubmit }) => {
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  /** @type {number} */
-  const timeLeft = useSelector(
-    (/** @type {RootState} */ state) => state.countdown.timeLeft
-  );
+  /** @type {number | null} */
+  const timeLeft = useSelector((/** @type {RootState} */ state) => state.countdown.timeLeft);
 
   useEffect(() => {
-    if (!localStorage.getItem("countdownTime")) {
+    const storedTime = localStorage.getItem("countdownTime");
+
+    if (!storedTime || isNaN(parseInt(storedTime, 10))) {
       dispatch(setTime(initialTime));
+      setIsInitialized(true);
+    } else {
+      setIsInitialized(true);
     }
   }, [dispatch, initialTime]);
 
   useEffect(() => {
-    if (timeLeft > 0) {
+    if (isInitialized && timeLeft > 0) {
       const timer = setInterval(() => {
         dispatch(decrementTime());
       }, 1000);
 
       return () => clearInterval(timer);
-    } else {
-      setIsModalVisible(true);
+    } else if (isInitialized && timeLeft === 0) {
+      setTimeout(() => {
+        setIsModalVisible(true);
+      }, 1000);
     }
-  }, [timeLeft, dispatch]);
+  }, [timeLeft, dispatch, isInitialized]);
 
   const handleSubmit = () => {
     setIsModalVisible(false);
@@ -69,7 +59,7 @@ const CountdownTimer = ({ initialTime = 600, onSubmit }) => {
         className="flex justify-center items-center bg-white w-20 h-10 shadow-md font-medium text-md md:text-lg"
         style={{ color: "#3758F9" }}
       >
-        {formattedTime}
+        {isInitialized ? formattedTime : "Loading..."}
       </div>
 
       <ConfirmTestSubmissionModal

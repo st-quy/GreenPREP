@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "antd";
 import { RecordIcon } from "@assets/images";
 import { CountdownIndicator } from "@features/speaking/ui/CountdownIndicator";
@@ -17,13 +17,19 @@ export default function SpeakingTests() {
   const [preparationTime, setPreparationTime] = useState(
     partId == "4" ? 60 : 5
   );
+  const [readingTime, setReadingTime] = useState(0);
   const [isTestActive, setIsTestActive] = useState(false);
-  const [testStatus, setTestStatus] = useState("idle"); // idle, preparing, recording, completed
+  const [testStatus, setTestStatus] = useState("idle"); // idle, reading, preparing, recording, completed
   const [forceCompleted, setForceCompleted] = useState(false);
   const [isRecordingActive, setIsRecordingActive] = useState(false);
   const [questionsData, setQuestionsData] = useState({});
   const [partFourQuest, setPartFourQuestion] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [forceStartRecording, setForceStartRecording] = useState(false);
+  const [showFinishButton, setShowFinishButton] = useState(false);
+  const testStartedRef = useRef(false);
+  const finishButtonTimeoutRef = useRef(null); // Ref to track the timeout for the finish button
+  const finishButtonShownRef = useRef(false); // Ref to track if the button has been shown
 
   const result = useQuery({
     queryKey: ["speakingData"],
@@ -37,17 +43,20 @@ export default function SpeakingTests() {
     setIsRecordingActive(false);
     setQuestionsData({});
     setPartFourQuestion([]);
+    setForceStartRecording(false);
+    testStartedRef.current = false;
 
     setTestDuration(partId == "1" ? 30 : partId == "4" ? 120 : 45);
     setPreparationTime(partId == "4" ? 60 : 5);
+    setReadingTime(partId == "4" ? 10 : 0);
   }, [partId, questionsId]);
 
   useEffect(() => {
-    if (!result.isPending && result.data) {
+    if (!result.isPending && result.data && !testStartedRef.current) {
       try {
         const parts = result.data.data.Parts;
         if (parts && parts.length > 0) {
-          let currentPart = `PART ${partId}`;
+          const currentPart = `PART ${partId}`;
           const currentPartIndex = parts.findIndex(
             (p) => p.Content == currentPart
           );
@@ -64,33 +73,68 @@ export default function SpeakingTests() {
               setQuestionsData(part.Questions[Number(questionsId) - 1]);
             }
             handleStartTest();
-            setTestStatus("preparing");
+            // Set initial status based on whether we have a reading phase
+            setTestStatus(partId == "4" ? "reading" : "preparing");
+            testStartedRef.current = true; // Mark test as started
           }
         }
       } catch (error) {
         console.error("Error parsing speaking data:", error);
       }
     }
-  }, [result.isPending, partId, questionsId]);
+  }, [result.isPending, result.data, partId, questionsId]);
 
   const handleStartTest = () => {
-    setIsTestActive(true);
-    setForceCompleted(false);
+    if (!isTestActive) {
+      setIsTestActive(true);
+      setForceCompleted(false);
+    }
+  };
+
+  const handlePreparationStart = () => {
+    setTestStatus("preparing");
   };
 
   const handleRecordingStart = () => {
     setTestStatus("recording");
     setIsRecordingActive(true);
+
+    if (finishButtonTimeoutRef.current) {
+      clearTimeout(finishButtonTimeoutRef.current);
+    }
+
+    // Show the "Finish Recording" button after 10 seconds
+    finishButtonTimeoutRef.current = setTimeout(() => {
+      if (!finishButtonShownRef.current) {
+        finishButtonShownRef.current = true;
+        setShowFinishButton(true);
+      }
+    }, 10900);
   };
 
   const handleRecordingComplete = () => {
     setIsTestActive(false);
     setTestStatus("completed");
     setIsRecordingActive(false);
+
+    if (finishButtonShownRef.current) {
+      setShowFinishButton(false);
+      finishButtonShownRef.current = false;
+    }
+
+    handleFinish(false);
   };
 
-  const handleFinish = () => {
-    setForceCompleted(true);
+  useEffect(() => {
+    return () => {
+      if (finishButtonTimeoutRef.current) {
+        clearTimeout(finishButtonTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleFinish = (isCompleted) => {
+    setForceCompleted(isCompleted);
     setTimeout(() => {
       switch (partId) {
         case "1":
@@ -137,6 +181,11 @@ export default function SpeakingTests() {
     setIsModalOpen(false);
   };
 
+  const handleEarlyStart = () => {
+    setForceStartRecording(true);
+    handleRecordingStart();
+  };
+
   useEffect(() => {
     if (
       Number(partId) > 4 ||
@@ -178,7 +227,7 @@ export default function SpeakingTests() {
               {partFourQuest && (
                 <>
                   <div className="flex items-center pt-3 flex-col md:flex-row gap-4 md:gap-6 mb-3 md:mb-5">
-                    {partFourQuest[0]?.ImageKeys.map((image, index) => (
+                    {partFourQuest[0]?.ImageKeys?.map((image, index) => (
                       <img
                         key={index}
                         src={image || ""}
@@ -210,11 +259,14 @@ export default function SpeakingTests() {
             <CountdownIndicator
               duration={testDuration}
               preparationTime={preparationTime}
+              readingTime={readingTime}
               onRecordingStart={handleRecordingStart}
               onComplete={handleRecordingComplete}
+              onPreparationStart={handlePreparationStart}
               size="medium"
               isTestStart={isTestActive}
               forceCompleted={forceCompleted}
+              forceStartRecording={forceStartRecording}
             />
             <AudioVisualizer isRecording={isRecordingActive} />
           </div>
@@ -222,24 +274,30 @@ export default function SpeakingTests() {
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12 flex flex-col md:flex-row justify-between gap-4 md:gap-0">
           <p className="font-semibold text-xs md:text-sm">
-            Click the 'Finish Recording' button to stop recording.
+            {testStatus === "reading"
+              ? "Read the questions carefully."
+              : testStatus === "recording"
+                ? "Click the 'Finish Recording' button to stop recording."
+                : "Prepare your answer based on the question above."}
           </p>
-          {(testStatus === "recording" || testStatus === "completed") && (
-            <Button
-              type="primary"
-              className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
-              onClick={handleFinish}
-            >
-              Finish Recording{" "}
-              <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
-            </Button>
-          )}
+          {(testStatus === "recording" || testStatus === "completed") &&
+            showFinishButton && (
+              <Button
+                type="primary"
+                className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
+                onClick={() => handleFinish(true)}
+              >
+                Finish Recording{" "}
+                <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
+              </Button>
+            )}
         </div>
       </div>
       <ConfirmTestSubmissionModal
         visible={isModalOpen}
         onSubmit={handleOnSubmit}
         onCancel={handleCancelModal}
+        showCancel={false}
       />
     </>
   );

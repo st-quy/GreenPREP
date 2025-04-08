@@ -44,8 +44,8 @@ const QuestionDropdownList = ({
         <Space direction="vertical" className="w-full" size={16}>
           {question.AnswerContent?.[0].leftItems.map((option, i) => (
             <Row key={i}>
-              <Col md={6}>{option}</Col>
-              <Col md={18}>
+              <Col md={option.length < 20 ? 4 : 16}>{option}</Col>
+              <Col md={option.length < 20 ? 20 : 8}>
                 <Select
                   options={question.AnswerContent?.[0].rightItems.map(
                     (item) => {

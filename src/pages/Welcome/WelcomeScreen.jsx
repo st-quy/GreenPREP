@@ -4,6 +4,7 @@ import { welcomeSchema } from "./welcomeSchema";
 import { Button, Form, Input } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { WelcomeImage } from "@assets/images";
+import axios from "axios";
 
 const WelcomeScreen = () => {
   const [sessionKey, setSessionKey] = useState("");
@@ -11,7 +12,7 @@ const WelcomeScreen = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleInputChange = (event) => {
+  const handleInputChange = async (event) => {
     setSessionKey(event.target.value);
     setErrorMessage(""); // Clear error when input changes
   };
@@ -19,6 +20,14 @@ const WelcomeScreen = () => {
   const handleSubmit = async () => {
     try {
       await welcomeSchema.validate({ sessionKey });
+      await axios.post(
+        "https://dev-api-greenprep.onrender.com/api/session-requests",
+        {
+          sessionKey: sessionKey,
+          sessionId: "6706a6d9-c6e7-4c67-be66-aae2932dfcf7",
+          UserID: "d9a93655-574e-44b6-b27d-ff387722635a",
+        }
+      );
       navigate("/waiting-for-approval");
       setIsModalOpen(false);
     } catch (error) {
