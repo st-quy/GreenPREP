@@ -3,10 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "antd";
 import { RecordIcon } from "@assets/images";
 import { CountdownIndicator } from "@features/speaking/ui/CountdownIndicator";
-import { useQuery } from "@tanstack/react-query";
-import { SpeakingApi } from "@features/speaking/api";
 import AudioVisualizer from "@features/speaking/ui/AudioVisualizer";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
+import { useCloudinaryUpload } from "@features/speaking/hooks/useCloudinaryUpload";
+import { useCreateAnswer, useGetSpeaking } from "@features/speaking/hooks";
 
 export default function SpeakingTests() {
   const { partId, questionsId } = useParams();
@@ -19,7 +19,7 @@ export default function SpeakingTests() {
   );
   const [readingTime, setReadingTime] = useState(0);
   const [isTestActive, setIsTestActive] = useState(false);
-  const [testStatus, setTestStatus] = useState("idle"); // idle, reading, preparing, recording, completed
+  const [testStatus, setTestStatus] = useState("idle"); // idle, reading, preparing, recording, completed, uploading
   const [forceCompleted, setForceCompleted] = useState(false);
   const [isRecordingActive, setIsRecordingActive] = useState(false);
   const [questionsData, setQuestionsData] = useState({});
@@ -27,14 +27,27 @@ export default function SpeakingTests() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [forceStartRecording, setForceStartRecording] = useState(false);
   const [showFinishButton, setShowFinishButton] = useState(false);
-  const testStartedRef = useRef(false);
-  const finishButtonTimeoutRef = useRef(null); // Ref to track the timeout for the finish button
-  const finishButtonShownRef = useRef(false); // Ref to track if the button has been shown
+  const [isProcessingFinish, setIsProcessingFinish] = useState(false);
 
-  const result = useQuery({
-    queryKey: ["speakingData"],
-    queryFn: () => SpeakingApi.getSpeaking(),
-  });
+  const testStartedRef = useRef(false);
+  const finishButtonTimeoutRef = useRef(null);
+  const finishButtonShownRef = useRef(false);
+  const recordingStoppedRef = useRef(false);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const [audioBlob, setAudioBlob] = useState(null);
+  const [audioFormat, setAudioFormat] = useState("mp3");
+
+  const {
+    uploadToCloudinary,
+    isUploading,
+    uploadedUrl,
+    error: cloudinaryError,
+  } = useCloudinaryUpload("dd48zrjqs", "ml_default");
+
+  const { mutateAsync: postAnswers } = useCreateAnswer();
+
+  const result = useGetSpeaking();
 
   useEffect(() => {
     setIsTestActive(false);
@@ -45,6 +58,10 @@ export default function SpeakingTests() {
     setPartFourQuestion([]);
     setForceStartRecording(false);
     testStartedRef.current = false;
+    setAudioBlob(null);
+    setIsProcessingFinish(false);
+    recordingStoppedRef.current = false;
+    audioChunksRef.current = [];
 
     setTestDuration(partId == "1" ? 30 : partId == "4" ? 120 : 45);
     setPreparationTime(partId == "4" ? 60 : 5);
@@ -84,6 +101,15 @@ export default function SpeakingTests() {
     }
   }, [result.isPending, result.data, partId, questionsId]);
 
+  useEffect(() => {
+    if (cloudinaryError) {
+      console.error(
+        "Cloudinary upload error:",
+        cloudinaryError || "Upload failed"
+      );
+    }
+  }, [cloudinaryError]);
+
   const handleStartTest = () => {
     if (!isTestActive) {
       setIsTestActive(true);
@@ -95,15 +121,90 @@ export default function SpeakingTests() {
     setTestStatus("preparing");
   };
 
-  const handleRecordingStart = () => {
+  const getSupportedMimeType = () => {
+    const types = ["audio/mpeg", "audio/mp4", "audio/webm;codecs=opus"];
+
+    for (const type of types) {
+      if (MediaRecorder.isTypeSupported(type)) {
+        console.log(`Browser supports recording in ${type}`);
+        if (type.includes("mpeg")) {
+          setAudioFormat("mp3");
+          return type;
+        } else if (type.includes("mp4")) {
+          setAudioFormat("mp4");
+          return type;
+        }
+      }
+    }
+
+    setAudioFormat("webm");
+    return "audio/webm;codecs=opus";
+  };
+
+  const handleRecordingStart = async () => {
+    if (isRecordingActive || testStatus === "recording") {
+      return;
+    }
+
+    // Stopping existing MediaRecorder before starting a new one.
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current.stream
+        .getTracks()
+        .forEach((track) => track.stop());
+      mediaRecorderRef.current.ondataavailable = null;
+      mediaRecorderRef.current.onstop = null;
+    }
+
     setTestStatus("recording");
     setIsRecordingActive(true);
+    recordingStoppedRef.current = false;
+    audioChunksRef.current = [];
 
     if (finishButtonTimeoutRef.current) {
       clearTimeout(finishButtonTimeoutRef.current);
     }
 
-    // Show the "Finish Recording" button after 10 seconds
+    // Start audio recording
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      const mimeType = getSupportedMimeType();
+
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: mimeType,
+      });
+      mediaRecorderRef.current = mediaRecorder;
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data && event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        if (audioChunksRef.current.length > 0) {
+          const blob = new Blob(audioChunksRef.current, { type: mimeType });
+          setAudioBlob(blob);
+          recordingStoppedRef.current = true;
+        } else {
+          console.error("No audio chunks collected during recording");
+        }
+
+        mediaRecorder.stream.getTracks().forEach((track) => track.stop());
+
+        mediaRecorder.ondataavailable = null;
+        mediaRecorder.onstop = null;
+      };
+
+      mediaRecorder.start(1000);
+    } catch (error) {
+      console.error("Error starting recording:", error);
+    }
+
     finishButtonTimeoutRef.current = setTimeout(() => {
       if (!finishButtonShownRef.current) {
         finishButtonShownRef.current = true;
@@ -112,17 +213,42 @@ export default function SpeakingTests() {
     }, 10900);
   };
 
-  const handleRecordingComplete = () => {
-    setIsTestActive(false);
-    setTestStatus("completed");
-    setIsRecordingActive(false);
-
-    if (finishButtonShownRef.current) {
-      setShowFinishButton(false);
-      finishButtonShownRef.current = false;
+  const handleRecordingComplete = async () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
+      mediaRecorderRef.current.stop();
     }
 
-    handleFinish(false);
+    await waitForAudioBlob();
+
+    if (!audioBlob && audioChunksRef.current.length > 0) {
+      const mimeType =
+        audioFormat === "mp3"
+          ? "audio/mpeg"
+          : audioFormat === "mp4"
+            ? "audio/mp4"
+            : "audio/webm";
+      const blob = new Blob(audioChunksRef.current, { type: mimeType });
+      setAudioBlob(blob);
+    }
+
+    await handleFinish(false);
+  };
+
+  const waitForAudioBlob = async () => {
+    const maxWaitTime = 2000;
+    const startTime = Date.now();
+
+    while (
+      !recordingStoppedRef.current &&
+      Date.now() - startTime < maxWaitTime
+    ) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
   };
 
   useEffect(() => {
@@ -130,47 +256,161 @@ export default function SpeakingTests() {
       if (finishButtonTimeoutRef.current) {
         clearTimeout(finishButtonTimeoutRef.current);
       }
+
+      // Cleaning up MediaRecorder on component unmount.
+      if (
+        mediaRecorderRef.current &&
+        mediaRecorderRef.current.state !== "inactive"
+      ) {
+        mediaRecorderRef.current.stop();
+        mediaRecorderRef.current.stream
+          .getTracks()
+          .forEach((track) => track.stop());
+
+        mediaRecorderRef.current.ondataavailable = null;
+        mediaRecorderRef.current.onstop = null;
+      }
     };
   }, []);
 
-  const handleFinish = (isCompleted) => {
+  const handleFinish = async (isCompleted) => {
+    if (isProcessingFinish) {
+      return;
+    }
+
+    setIsRecordingActive(false);
+    setIsProcessingFinish(true);
     setForceCompleted(isCompleted);
-    setTimeout(() => {
-      switch (partId) {
-        case "1":
-          if (questionsId == "3") {
-            navigate("/session/speaking/part/2/introduction");
-            break;
-          }
-          navigate(
-            `/session/speaking/test/1/question/${Number(questionsId) + 1}`
-          );
-          break;
-        case "2":
-          if (questionsId == "3") {
-            navigate("/session/speaking/part/3/introduction");
-            break;
-          }
-          navigate(
-            `/session/speaking/test/2/question/${Number(questionsId) + 1}`
-          );
-          break;
-        case "3":
-          if (questionsId == "3") {
-            navigate("/session/speaking/part/4/introduction");
-            break;
-          }
-          navigate(
-            `/session/speaking/test/3/question/${Number(questionsId) + 1}`
-          );
-          break;
-        case "4":
-          setIsModalOpen(true);
-          break;
-        default:
-          break;
+    setTestStatus("uploading");
+
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current.stream
+        .getTracks()
+        .forEach((track) => track.stop());
+
+      await waitForAudioBlob();
+    }
+
+    const mimeType =
+      audioFormat === "mp3"
+        ? "audio/mpeg"
+        : audioFormat === "mp4"
+          ? "audio/mp4"
+          : "audio/webm";
+
+    if (!audioBlob && audioChunksRef.current.length > 0) {
+      const blob = new Blob(audioChunksRef.current, { type: mimeType });
+      setAudioBlob(blob);
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+
+    const currentAudioBlob =
+      audioBlob ||
+      (audioChunksRef.current.length > 0
+        ? new Blob(audioChunksRef.current, { type: mimeType })
+        : null);
+
+    try {
+      if (currentAudioBlob && currentAudioBlob.size > 0) {
+        const options = {
+          folder: "speaking_tests",
+          tags: [`part_${partId}`, `question_${questionsId}`],
+        };
+
+        const cloudinaryUrl = await uploadToCloudinary(
+          currentAudioBlob,
+          options,
+          "mp3"
+        );
+
+        if (partId == "4") {
+          await postAnswers({
+            studentId: "7a5cb071-5ba0-4ecf-a4cf-b1b62e5f9798",
+            topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+            skillName: "GRAMMAR AND VOCABULARY",
+            sessionParticipantId: "a8e2b9e8-bb60-44f0-bd61-6bd524cdc87d",
+            questions: [
+              {
+                questionId: partFourQuest[0].ID,
+                answerText: null,
+                answerAudio: cloudinaryUrl || null,
+              },
+              {
+                questionId: partFourQuest[1].ID,
+                answerText: null,
+                answerAudio: cloudinaryUrl || null,
+              },
+              {
+                questionId: partFourQuest[2].ID,
+                answerText: null,
+                answerAudio: cloudinaryUrl || null,
+              },
+            ],
+          });
+        } else {
+          await postAnswers({
+            studentId: "7a5cb071-5ba0-4ecf-a4cf-b1b62e5f9798",
+            topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+            skillName: "GRAMMAR AND VOCABULARY",
+            sessionParticipantId: "a8e2b9e8-bb60-44f0-bd61-6bd524cdc87d",
+            questions: [
+              {
+                questionId: questionsData.ID,
+                answerText: null,
+                answerAudio: cloudinaryUrl || null,
+              },
+            ],
+          });
+        }
+
+        navigateToNextQuestion();
+      } else {
+        console.warn("No audio blob available for upload");
       }
-    }, 100);
+    } catch (error) {
+      console.error("Failed to upload recording:", error);
+    }
+  };
+
+  const navigateToNextQuestion = () => {
+    switch (partId) {
+      case "1":
+        if (questionsId == "3") {
+          navigate("/session/speaking/part/2/introduction");
+          break;
+        }
+        navigate(
+          `/session/speaking/test/1/question/${Number(questionsId) + 1}`
+        );
+        break;
+      case "2":
+        if (questionsId == "3") {
+          navigate("/session/speaking/part/3/introduction");
+          break;
+        }
+        navigate(
+          `/session/speaking/test/2/question/${Number(questionsId) + 1}`
+        );
+        break;
+      case "3":
+        if (questionsId == "3") {
+          navigate("/session/speaking/part/4/introduction");
+          break;
+        }
+        navigate(
+          `/session/speaking/test/3/question/${Number(questionsId) + 1}`
+        );
+        break;
+      case "4":
+        setIsModalOpen(true);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleOnSubmit = () => {
@@ -179,11 +419,6 @@ export default function SpeakingTests() {
 
   const handleCancelModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handleEarlyStart = () => {
-    setForceStartRecording(true);
-    handleRecordingStart();
   };
 
   useEffect(() => {
@@ -278,19 +513,35 @@ export default function SpeakingTests() {
               ? "Read the questions carefully."
               : testStatus === "recording"
                 ? "Click the 'Finish Recording' button to stop recording."
-                : "Prepare your answer based on the question above."}
+                : testStatus === "uploading"
+                  ? "Please wait while your recording is being uploaded..."
+                  : testStatus === "completed"
+                    ? "Your recording is complete."
+                    : "Prepare your answer based on the question above."}
           </p>
-          {(testStatus === "recording" || testStatus === "completed") &&
-            showFinishButton && (
+          {testStatus === "recording" &&
+            showFinishButton &&
+            !isProcessingFinish && (
               <Button
                 type="primary"
                 className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
                 onClick={() => handleFinish(true)}
+                disabled={isProcessingFinish}
               >
                 Finish Recording{" "}
                 <img src={RecordIcon || "/placeholder.svg"} className="w-4" />
               </Button>
             )}
+          {isProcessingFinish ||
+            (isUploading && (
+              <Button
+                type="primary"
+                className="bg-gray-400 rounded-2xl w-full md:w-auto"
+                disabled={true}
+              >
+                Processing...
+              </Button>
+            ))}
         </div>
       </div>
       <ConfirmTestSubmissionModal

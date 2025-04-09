@@ -6,4 +6,8 @@ export const SpeakingApi = {
       "/topics/ef6b69aa-2ec2-4c65-bf48-294fd12e13fc?skillName=SPEAKING"
     );
   },
+  postAnswers: (params) => {
+    return axiosInstance.post("/student-answers", params)
+  },
+
 };
