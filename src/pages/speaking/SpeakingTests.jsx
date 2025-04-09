@@ -37,6 +37,7 @@ export default function SpeakingTests() {
   const audioChunksRef = useRef([]);
   const [audioBlob, setAudioBlob] = useState(null);
   const [audioFormat, setAudioFormat] = useState("mp3");
+  const isRecordingActiveRef = useRef(false);
 
   const {
     uploadToCloudinary,
@@ -141,11 +142,12 @@ export default function SpeakingTests() {
   };
 
   const handleRecordingStart = async () => {
-    if (isRecordingActive || testStatus === "recording") {
+    if (isRecordingActiveRef.current) {
       return;
     }
+    isRecordingActiveRef.current = true;
+    setIsRecordingActive(true);
 
-    // Stopping existing MediaRecorder before starting a new one.
     if (
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state !== "inactive"
@@ -213,6 +215,9 @@ export default function SpeakingTests() {
   };
 
   const handleRecordingComplete = async () => {
+    isRecordingActiveRef.current = false;
+    setIsRecordingActive(false);
+
     if (
       mediaRecorderRef.current &&
       mediaRecorderRef.current.state !== "inactive"
