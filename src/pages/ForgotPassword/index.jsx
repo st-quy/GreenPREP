@@ -17,7 +17,7 @@ const ForgotPassword = () => {
   return (
     <Row className=" bg-[#f3f4f6] !gap-0">
       <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:items-start lg:justify-end justify-center px-4 py-8 lg:py-16 lg:pt-24 lg:pr-12">
-        <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[40px] pb-[150px] px-6 lg:pt-[100px] lg:pb-[210px] lg:px-10">
+        <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[20px] pb-[150px] px-6 lg:pt-[20px] lg:pb-[210px] lg:px-10">
           <div
             className="mb-4 flex items-center cursor-pointer gap-2 text-[#003087] hover:text-[#003087]/90"
             onClick={() => navigate("/login")}
@@ -26,7 +26,7 @@ const ForgotPassword = () => {
             <span>Back to login</span>
           </div>
           <div className="mb-6">
-            <Title level={1} className="!text-[32px] !text-gray-900 !mb-3">
+            <Title level={1} className="!text-[48px] !text-gray-900 !mb-3 !font-['Inter']">
               Forgot password?
             </Title>
             <Text className="text-gray-500 text-lg">
@@ -63,7 +63,7 @@ const ForgotPassword = () => {
         </Card>
       </Col>
 
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:justify-start justify-center px-4 lg:pl-12 mt-8 lg:mt-0">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:justify-start justify-center px-4 lg:pt-8 lg:pl-12 mt-8 lg:-mt-6">
         <img
           src={ForgotPasswordImg}
           alt="ForgotPassword"

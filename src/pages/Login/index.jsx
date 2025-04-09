@@ -36,9 +36,9 @@ const LoginPage = () => {
   return (
     <Row className="bg-[#f3f4f6] !gap-0">
       <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-end justify-center px-4 py-16 lg:pt-16 lg:pr-12">
-        <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg py-12 px-6 lg:py-20 lg:px-10">
+        <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[20px] pb-12 px-6 lg:pb-20 lg:px-10">
           <div className="mb-8">
-            <Title level={1} className="!text-[32px] !text-gray-900 !mb-6">
+            <Title level={1} className="!text-[48px] !text-gray-900 !mb-6 !font-['Inter']">
               Welcome back!
             </Title>
             <Text className="text-gray-500 text-lg">
