@@ -34,11 +34,11 @@ const LoginPage = () => {
   }, [isAuth, navigate]);
 
   return (
-    <Row className="min-h-screen bg-[#f3f4f6]">
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center justify-center px-4 py-8 lg:px-8">
-        <Card className="w-full max-w-[550px] shadow-lg py-8 px-6 lg:py-12 lg:px-8">
-          <div className="mb-8">
-            <Title level={1} className="!text-[32px] !text-gray-900 !mb-3">
+    <Row className="min-h-screen bg-[#f3f4f6] !gap-0">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start justify-end px-4 py-16 lg:pt-16 lg:pr-12">
+        <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg py-12 px-6 lg:py-20 lg:px-10">
+          <div className="mb-16">
+            <Title level={1} className="!text-[32px] !text-gray-900 !mb-6">
               Welcome back!
             </Title>
             <Text className="text-gray-500 text-lg">
@@ -98,7 +98,7 @@ const LoginPage = () => {
               </Link>
             </div>
 
-            <Form.Item className="mb-6 flex justify-center">
+            <Form.Item className="mb-10 flex justify-center">
               <Button
                 type="primary"
                 htmlType="submit"
@@ -125,11 +125,11 @@ const LoginPage = () => {
         </Card>
       </Col>
 
-      <Col xs={0} sm={0} md={0} lg={12} xxl={12} className="flex items-center justify-center px-4 lg:px-8">
+      <Col xs={0} sm={0} md={0} lg={12} xxl={12} className="flex items-start justify-start px-4 lg:pt-24 lg:pl-12">
         <img
           src={loginHappyStudent}
           alt="Happy students celebrating"
-          className="w-full max-w-[600px] h-auto object-contain"
+          className="w-full max-w-[600px] lg:max-w-[700px] h-auto object-contain"
         />
       </Col>
     </Row>

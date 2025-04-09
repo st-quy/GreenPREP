@@ -15,17 +15,17 @@ const ForgotPassword = () => {
     forgotPasswordFunc({ ...values, host: window.location.origin });
   };
   return (
-    <Row className="min-h-screen bg-[#f3f4f6]">
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center justify-center px-4 py-6 lg:px-8">
-        <Card className="w-full max-w-[550px] shadow-lg pt-[83px] pb-[133px] px-6 lg:px-8">
+    <Row className="min-h-screen bg-[#f3f4f6] !gap-0">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center justify-center px-4 py-8 lg:items-start lg:justify-end lg:py-16 lg:pt-24 lg:pr-12">
+        <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[40px] pb-[150px] px-6 lg:pt-[100px] lg:pb-[210px] lg:px-10">
           <div
-            className="mb-8 flex items-center cursor-pointer gap-2 text-[#003087] hover:text-[#003087]/90"
+            className="mb-4 flex items-center cursor-pointer gap-2 text-[#003087] hover:text-[#003087]/90"
             onClick={() => navigate("/login")}
           >
             <LeftOutlined />
             <span>Back to login</span>
           </div>
-          <div className="mb-8">
+          <div className="mb-6">
             <Title level={1} className="!text-[32px] !text-gray-900 !mb-3">
               Forgot password?
             </Title>
@@ -34,7 +34,7 @@ const ForgotPassword = () => {
             </Text>
           </div>
 
-          <Form layout="vertical" onFinish={onFinish} className="space-y-6">
+          <Form layout="vertical" onFinish={onFinish} className="space-y-8">
             <div className="mb-8"></div>
             <Form.Item
               name="email"
@@ -47,7 +47,7 @@ const ForgotPassword = () => {
               />
             </Form.Item>
 
-            <Form.Item className="mb-6 flex justify-center">
+            <Form.Item className="mb-8 flex justify-center">
               <Button
                 type="primary"
                 htmlType="submit"
@@ -58,16 +58,16 @@ const ForgotPassword = () => {
                 Reset password
               </Button>
             </Form.Item>
-            <div className="mb-24"></div>
+            <div className="mb-32"></div>
           </Form>
         </Card>
       </Col>
 
-      <Col xs={0} sm={0} md={0} lg={12} xxl={12} className="flex items-center justify-center px-4 lg:px-8">
+      <Col xs={0} sm={0} md={0} lg={12} xxl={12} className="flex items-center justify-center px-4 lg:items-center lg:justify-start lg:pl-12">
         <img
           src={ForgotPasswordImg}
           alt="ForgotPassword"
-          className="w-full max-w-[600px] h-auto object-contain"
+          className="w-full max-w-[500px] lg:max-w-[600px] h-auto object-contain"
         />
       </Col>
     </Row>
