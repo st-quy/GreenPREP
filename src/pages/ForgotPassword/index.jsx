@@ -16,7 +16,7 @@ const ForgotPassword = () => {
   };
   return (
     <Row className="min-h-screen bg-[#f3f4f6] !gap-0">
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center justify-center px-4 py-8 lg:items-start lg:justify-end lg:py-16 lg:pt-24 lg:pr-12">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:items-start lg:justify-end justify-center px-4 py-8 lg:py-16 lg:pt-24 lg:pr-12">
         <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[40px] pb-[150px] px-6 lg:pt-[100px] lg:pb-[210px] lg:px-10">
           <div
             className="mb-4 flex items-center cursor-pointer gap-2 text-[#003087] hover:text-[#003087]/90"
@@ -63,7 +63,7 @@ const ForgotPassword = () => {
         </Card>
       </Col>
 
-      <Col xs={0} sm={0} md={0} lg={12} xxl={12} className="flex items-center justify-center px-4 lg:items-center lg:justify-start lg:pl-12">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:justify-start justify-center px-4 lg:pl-12 mt-8 lg:mt-0">
         <img
           src={ForgotPasswordImg}
           alt="ForgotPassword"
