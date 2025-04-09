@@ -16,9 +16,9 @@ const Register = () => {
   };
 
   return (
-    <Row className=" bg-[#f3f4f6] !gap-0">
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-end justify-center px-4 py-16 lg:pt-16 lg:pr-12">
-        <Card className="w-full max-w-[600px] shadow-lg pt-[20px] pb-8 px-6 lg:pb-20 lg:px-10">
+    <Row className=" bg-[#f3f4f6] !gap-0 min-h-screen">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8">
+        <Card className="w-full max-w-[600px] shadow-lg pt-[16px] pb-6 px-6 lg:pb-12 lg:px-8">
           <div className="mb-6">
             <Title level={1} className="!text-[48px] !text-gray-900 !mb-3 !font-['Inter']">
               Create an account
@@ -126,7 +126,7 @@ const Register = () => {
         </Card>
       </Col>
 
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-start justify-center px-4 lg:pt-8 lg:pl-12 mt-8 lg:-mt-6">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-start justify-center px-4 lg:pt-2 lg:pl-8 mt-8 lg:mt-0">
         <img
           src={RegisterImg}
           alt="registerimage"
