@@ -43,7 +43,7 @@ export default function SpeakingTests() {
     isUploading,
     uploadedUrl,
     error: cloudinaryError,
-  } = useCloudinaryUpload("dd48zrjqs", "ml_default");
+  } = useCloudinaryUpload();
 
   const { mutateAsync: postAnswers } = useCreateAnswer();
 
@@ -74,8 +74,8 @@ export default function SpeakingTests() {
         const parts = result.data.data.Parts;
         if (parts && parts.length > 0) {
           const currentPart = `PART ${partId}`;
-          const currentPartIndex = parts.findIndex(
-            (p) => p.Content == currentPart
+          const currentPartIndex = parts.findIndex((p) =>
+            p.Content.toLowerCase().includes(currentPart.toLowerCase())
           );
           const part = parts[currentPartIndex];
           if (currentPartIndex !== -1) {
@@ -126,7 +126,6 @@ export default function SpeakingTests() {
 
     for (const type of types) {
       if (MediaRecorder.isTypeSupported(type)) {
-        console.log(`Browser supports recording in ${type}`);
         if (type.includes("mpeg")) {
           setAudioFormat("mp3");
           return type;

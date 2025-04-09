@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
 
-export const useCloudinaryUpload = (
-  cloudName,
-  uploadPreset = "speaking_tests"
-) => {
+const cloudName = import.meta.env.VITE_CLOUDINARY_NAME;
+const uploadPreset = import.meta.env.VITE_CLOUDINARY_PRESET;
+
+export const useCloudinaryUpload = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedUrl, setUploadedUrl] = useState(null);
   const [error, setError] = useState(null);
@@ -55,7 +55,6 @@ export const useCloudinaryUpload = (
               const response = JSON.parse(xhr.responseText);
               resolve(response);
             } else {
-              // Try to parse the error response for more details
               let errorMessage = `Upload failed with status ${xhr.status}`;
               try {
                 const errorResponse = JSON.parse(xhr.responseText);
