@@ -34,7 +34,7 @@ const LoginPage = () => {
   }, [isAuth, navigate]);
 
   return (
-    <Row className="bg-[#f3f4f6] !gap-0 min-h-screen">
+    <Row className="bg-[#f3f4f6] !gap-0 ">
       <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8">
         <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[16px] pb-8 px-6 lg:pb-12 lg:px-8">
           <div className="mb-8">
