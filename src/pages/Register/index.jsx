@@ -16,7 +16,7 @@ const Register = () => {
   };
 
   return (
-    <Row className="min-h-screen bg-[#f3f4f6] !gap-0">
+    <Row className=" bg-[#f3f4f6] !gap-0">
       <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-end justify-center px-4 py-16 lg:pt-16 lg:pr-12">
         <Card className="w-full max-w-[600px] shadow-lg pt-4 pb-8 px-6 lg:py-20 lg:px-10">
           <div className="mb-6">
