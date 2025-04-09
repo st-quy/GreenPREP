@@ -17,9 +17,7 @@ const { Title, Text } = Typography;
 const LoginPage = () => {
   const navigate = useNavigate();
   const { mutate: loginFunc, isPending } = useLogin();
-
   const { isAuth } = useSelector((state) => state.auth);
-
   const [errorMessage, setErrorMessage] = useState("");
   const [form] = Form.useForm();
 
@@ -36,14 +34,14 @@ const LoginPage = () => {
   }, [isAuth, navigate]);
 
   return (
-    <Row className="bg-[#f3f4f6]">
-      <Col xs={24} md={12} className="flex items-center justify-center">
-        <Card className="w-full max-w-lg shadow-lg p-10">
-          <div className="mb-6">
-            <Title level={2} className="!text-gray-900 !mb-2">
+    <Row className="min-h-screen bg-[#f3f4f6]">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center justify-center px-4 py-8 lg:px-8">
+        <Card className="w-full max-w-[550px] shadow-lg py-8 px-6 lg:py-12 lg:px-8">
+          <div className="mb-8">
+            <Title level={1} className="!text-[32px] !text-gray-900 !mb-3">
               Welcome back!
             </Title>
-            <Text className="text-gray-500">
+            <Text className="text-gray-500 text-lg">
               Welcome back! Please enter your details.
             </Text>
           </div>
@@ -52,84 +50,90 @@ const LoginPage = () => {
             <Alert
               message={errorMessage}
               type="error"
-              className="mb-4"
+              className="mb-6"
               showIcon
             />
           )}
 
-          <Form form={form} layout="vertical" onFinish={onSubmit}>
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={onSubmit}
+            className="space-y-6"
+          >
             <Form.Item
               name="email"
-              label="Email"
-              required
+              label={<span className="text-base">Email <span className="text-red-500">*</span></span>}
               rules={[yupSync(loginSchema)]}
             >
               <Input
                 prefix={<MailOutlined className="text-gray-400" />}
                 placeholder="Enter your email here"
                 size="large"
-                className="rounded-lg"
+                className="h-11 text-base rounded-lg"
               />
             </Form.Item>
 
             <Form.Item
               name="password"
-              label="Password"
-              required
+              label={<span className="text-base">Password <span className="text-red-500">*</span></span>}
               rules={[yupSync(loginSchema)]}
             >
               <Input.Password
-                placeholder="Enter your password"
+                placeholder="********"
                 size="large"
-                className="rounded-lg"
+                className="h-11 text-base rounded-lg"
                 iconRender={(visible) =>
                   visible ? <EyeOutlined /> : <EyeInvisibleOutlined />
                 }
               />
             </Form.Item>
 
-            <div className="text-right mb-4">
+            <div className="text-right">
               <Link
                 to="/forgot-password"
-                className="text-blue-700 hover:text-blue-800"
+                className="text-[#003087] hover:text-[#003087]/90 text-base"
               >
                 Forgot password?
               </Link>
             </div>
 
-            <Form.Item>
+            <Form.Item className="mb-6 flex justify-center">
               <Button
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="w-full bg-blue-700 hover:bg-blue-800 rounded-full"
+                className="!w-[250px] !h-[50px] text-base font-medium !bg-[#003087] hover:!bg-[#003087]/90 rounded-full"
                 loading={isPending}
               >
                 Login
               </Button>
             </Form.Item>
 
-            <Text className="text-gray-600 mt-4 block text-center">
-              Don't have an account?{" "}
-              <span
-                className="text-blue-700 hover:underline"
-                onClick={() => navigate("/register")}
-              >
-                Sign up
-              </span>
-            </Text>
+            <div className="text-center">
+              <Text className="text-gray-600 text-base">
+                Don't have an account?{" "}
+                <span
+                  className="text-[#003087] hover:text-[#003087]/90 cursor-pointer font-medium"
+                  onClick={() => navigate("/register")}
+                >
+                  Sign up
+                </span>
+              </Text>
+            </div>
           </Form>
         </Card>
       </Col>
 
-      <Col xs={0} md={12} className="flex items-center justify-center">
+      <Col xs={0} sm={0} md={0} lg={12} xxl={12} className="flex items-center justify-center px-4 lg:px-8">
         <img
           src={loginHappyStudent}
           alt="Happy students celebrating"
-          className="max-w-[80%] h-auto"
+          className="w-full max-w-[600px] h-auto object-contain"
         />
       </Col>
     </Row>
   );
 };
+
 export default LoginPage;

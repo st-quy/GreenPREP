@@ -16,21 +16,14 @@ const Register = () => {
   };
 
   return (
-    <Row className=" bg-[#f3f4f6]">
-      <Col
-        xs={{ span: 24 }}
-        md={{ span: 12 }}
-        className="flex items-center justify-center p-4"
-      >
-        <Card className="w-full max-w-xl shadow-lg p-4 sm:p-8">
+    <Row className="min-h-screen bg-[#f3f4f6]">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center justify-center px-4 py-6 lg:px-8">
+        <Card className="w-full max-w-[600px] shadow-lg pt-4 pb-8 px-6 lg:py-8 lg:px-8">
           <div className="mb-6">
-            <Title
-              level={2}
-              className="!text-gray-900 !mb-2 text-center sm:text-left"
-            >
+            <Title level={1} className="!text-[32px] !text-gray-900 !mb-3">
               Create an account
             </Title>
-            <Text className="text-gray-500 block text-center sm:text-left">
+            <Text className="text-gray-500 text-lg">
               Create an account to continue.
             </Text>
           </div>
@@ -39,68 +32,54 @@ const Register = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Form.Item
                 name="firstName"
-                label="First Name"
-                required
                 rules={[yupSync(registerSchema)]}
               >
-                <Input placeholder="First name" size="large" />
+                <Input placeholder="First name *" size="large" className="h-11 text-base rounded-lg" />
               </Form.Item>
               <Form.Item
                 name="lastName"
-                label="Last Name"
-                required
                 rules={[yupSync(registerSchema)]}
               >
-                <Input placeholder="Last name" size="large" />
+                <Input placeholder="Last name *" size="large" className="h-11 text-base rounded-lg" />
               </Form.Item>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Form.Item
                 name="email"
-                label="Email"
-                required
                 rules={[yupSync(registerSchema)]}
               >
-                <Input placeholder="Email" size="large" />
+                <Input placeholder="Email *" size="large" className="h-11 text-base rounded-lg" />
               </Form.Item>
               <Form.Item
                 name="phone"
-                label="Phone Number"
                 rules={[yupSync(registerSchema)]}
               >
-                <Input placeholder="Phone number" size="large" />
+                <Input placeholder="Phone number" size="large" className="h-11 text-base rounded-lg" />
               </Form.Item>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Form.Item
                 name="class"
-                label="Class Name"
-                required
                 rules={[yupSync(registerSchema)]}
               >
-                <Input placeholder="Class name" size="large" />
+                <Input placeholder="Class name *" size="large" className="h-11 text-base rounded-lg" />
               </Form.Item>
               <Form.Item
                 name="studentCode"
-                label="Student ID"
-                required
                 rules={[yupSync(registerSchema)]}
               >
-                <Input placeholder="Student ID" size="large" />
+                <Input placeholder="Student ID *" size="large" className="h-11 text-base rounded-lg" />
               </Form.Item>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Form.Item
                 name="password"
-                label="Password"
-                required
                 rules={[yupSync(registerSchema)]}
               >
-                <Input.Password placeholder="Password" size="large" />
+                <Input.Password placeholder="Password" size="large" className="h-11 text-base rounded-lg" />
               </Form.Item>
               <Form.Item
                 name="passwordConfirmation"
-                label="Confirm Password"
                 dependencies={["password"]}
                 rules={[
                   {
@@ -117,15 +96,15 @@ const Register = () => {
                   }),
                 ]}
               >
-                <Input.Password placeholder="Confirm password" size="large" />
+                <Input.Password placeholder="Confirm password" size="large" className="h-11 text-base rounded-lg" />
               </Form.Item>
             </div>
-            <Form.Item className="mt-4">
+            <Form.Item className="mt-4 flex justify-center">
               <Button
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="w-full bg-blue-700 hover:bg-blue-800 rounded-full"
+                className="!w-[250px] !h-[50px] text-base font-medium !bg-[#003087] hover:!bg-[#003087]/90 rounded-full"
                 loading={isPending}
               >
                 Sign up
@@ -133,30 +112,26 @@ const Register = () => {
             </Form.Item>
           </Form>
 
-          <Text className="text-gray-600 mt-4 block text-center">
-            Already have an account?{" "}
-            <span
-              onClick={() => navigate("/login")}
-              className="text-blue-700 hover:underline"
-            >
-              Sign in
-            </span>
-          </Text>
+          <div className="text-center">
+            <Text className="text-gray-600 text-base">
+              Already have an account?{" "}
+              <span
+                onClick={() => navigate("/login")}
+                className="text-[#003087] hover:text-[#003087]/90 cursor-pointer font-medium"
+              >
+                Sign in
+              </span>
+            </Text>
+          </div>
         </Card>
       </Col>
 
-      <Col
-        xs={{ span: 0 }}
-        md={{ span: 12 }}
-        className="flex items-center justify-center"
-      >
-        <div className="text-center p-4">
-          <img
-            src={RegisterImg}
-            alt="registerimage"
-            className="max-w-full h-auto"
-          />
-        </div>
+      <Col xs={0} sm={0} md={0} lg={12} xxl={12} className="flex items-center justify-center px-4 lg:px-8">
+        <img
+          src={RegisterImg}
+          alt="registerimage"
+          className="w-full max-w-[600px] h-auto object-contain"
+        />
       </Col>
     </Row>
   );
