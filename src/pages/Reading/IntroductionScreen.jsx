@@ -19,9 +19,9 @@ const IntroReading = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9] py-6 sm:py-8 md:py-12 ">
+    <div className="min-h-screen bg-[#F9F9F9] py-6 sm:py-8 md:py-10 ">
       {/* Test Structure Card */}
-      <Card className="mb-4 shadow-sm border border-gray-200 sm:mb-6 rounded-[20px]  border-1 sm:p-2 md:p-10">
+      <Card className="mb-4 border sm:mb-6 rounded-2xl  border-1 sm:p-2 md:p-10">
         <div>
           {/* Responsive padding */}
           <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-[#3758F9] mb-3 sm:mb-4">
@@ -60,7 +60,7 @@ const IntroReading = () => {
       </Card>
 
       {/* Form Description Card */}
-      <Card className="mb-8 shadow-sm border border-gray-200 sm:mb-12 boder-1 rounded-[20px] sm:p-2 md:p-10">
+      <Card className="mb-4 shadow-sm border sm:mb-12 boder-1 rounded-2xl sm:p-2 md:p-10">
         <div>
           {/* Responsive padding */}
           <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-[#3758F9] mb-2 sm:mb-4">
