@@ -12,10 +12,18 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const { mutate: forgotPasswordFunc, isPending } = useForgotPassword();
   const onFinish = (values) => {
-    forgotPasswordFunc({ ...values, host: window.location.origin });
+    forgotPasswordFunc(
+      { ...values, host: window.location.origin },
+      {
+        onSuccess: () => {
+          form.resetFields();
+        },
+      }
+    );
   };
+  const [form] = Form.useForm();
   return (
-    <Row className=" bg-[#f3f4f6]">
+    <Row className="bg-[#f3f4f6]">
       <Col
         xs={{ span: 24 }}
         md={{ span: 12 }}
@@ -41,7 +49,7 @@ const ForgotPassword = () => {
             </Text>
           </div>
 
-          <Form layout="vertical" onFinish={onFinish}>
+          <Form layout="vertical" onFinish={onFinish} form={form}>
             <div className="grid grid-cols-1 gap-4">
               <Form.Item
                 name="email"

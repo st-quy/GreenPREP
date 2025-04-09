@@ -49,6 +49,9 @@ export const useForgotPassword = () => {
       const { data } = await AuthApi.forgotPassword(params);
       return data.data;
     },
+    onSuccess() {
+      message.success("Please check your email to reset your password");
+    },
     onError({ response }) {
       message.error(response.data.message);
     },
