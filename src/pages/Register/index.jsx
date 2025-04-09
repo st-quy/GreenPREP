@@ -112,7 +112,7 @@ const Register = () => {
             </Form.Item>
           </Form>
 
-          <div className="text-center">
+          <div className="text-left">
             <Text className="text-gray-600 text-base">
               Already have an account?{" "}
               <span

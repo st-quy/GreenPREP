@@ -110,7 +110,7 @@ const LoginPage = () => {
               </Button>
             </Form.Item>
 
-            <div className="text-center">
+            <div className="text-left">
               <Text className="text-gray-600 text-base">
                 Don't have an account?{" "}
                 <span
@@ -125,7 +125,7 @@ const LoginPage = () => {
         </Card>
       </Col>
 
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-start justify-center px-4 lg:pt-24 lg:pl-12 mt-8 lg:mt-0">
+      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-start justify-center px-4 lg:pt-8 lg:pl-12 mt-8 lg:-mt-6">
         <img
           src={loginHappyStudent}
           alt="Happy students celebrating"
