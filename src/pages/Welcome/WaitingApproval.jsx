@@ -1,18 +1,20 @@
-// @ts-nocheck
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { WaitingApprovalImg } from "@assets/images";
 import { useNavigate } from "react-router-dom";
+import { usePollRequest } from "@features/sessions/hooks";
+import { useSelector } from "react-redux";
 
 const WaitingApproval = () => {
   const navigate = useNavigate();
+  const { sessionId, requestId } = useSelector((state) => state.session);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate("/introduction"); // Replace with your target page path
-    }, 3000);
+    if (!sessionId) {
+      return navigate("/");
+    }
+  }, [navigate, sessionId]);
 
-    return () => clearTimeout(timer); // Cleanup the timer on component unmount
-  }, [navigate]);
+  const { data } = usePollRequest(sessionId, requestId);
 
   return (
     <div className=" bg-gray-100 flex justify-center">

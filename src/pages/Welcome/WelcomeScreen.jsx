@@ -1,33 +1,29 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { welcomeSchema } from "./welcomeSchema";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Select } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { WelcomeImage } from "@assets/images";
+import { useGetAllSession, useSessionRequest } from "@features/sessions/hooks";
+import { useSelector } from "react-redux";
 
 const WelcomeScreen = () => {
-  const [sessionKey, setSessionKey] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const { userId } = useSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
+  const { data } = useGetAllSession();
 
-  const handleInputChange = (event) => {
-    setSessionKey(event.target.value);
-    setErrorMessage(""); // Clear error when input changes
+  const { mutate: createRequest, isPending } = useSessionRequest();
+
+  const handleSubmit = async (values) => {
+    createRequest({
+      sessionKey: values.sessionKey,
+      sessionId: values.sessionName,
+      UserID: userId,
+    });
   };
 
-  const handleSubmit = async () => {
-    try {
-      await welcomeSchema.validate({ sessionKey });
-      navigate("/waiting-for-approval");
-      setIsModalOpen(false);
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
-  };
+  const [form] = Form.useForm();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
           {/* Left Content Section */}
@@ -68,30 +64,54 @@ const WelcomeScreen = () => {
                   Enter your session key to begin your English assessment
                   journey.
                 </p>
-                <Form onFinish={handleSubmit} layout="vertical">
+                <Form onFinish={handleSubmit} layout="vertical" form={form}>
+                  <Form.Item
+                    label="Session Name"
+                    name="sessionName"
+                    rules={[
+                      { required: true, message: "Session name is required" },
+                    ]}
+                  >
+                    <Select
+                      size="large"
+                      placeholder={
+                        data.length > 0
+                          ? "Select session name"
+                          : "No session available"
+                      }
+                      options={data?.map((session) => ({
+                        label: session.sessionName,
+                        value: session.ID,
+                      }))}
+                      showSearch
+                      className="w-full"
+                      disabled={isPending}
+                      filterOption={(input, option) => {
+                        var _a;
+                        return (
+                          (_a =
+                            option === null || option === void 0
+                              ? void 0
+                              : option.label) !== null && _a !== void 0
+                            ? _a
+                            : ""
+                        )
+                          .toLowerCase()
+                          .includes(input.toLowerCase());
+                      }}
+                    />
+                  </Form.Item>
                   <Form.Item
                     name="sessionKey"
-                    validateStatus={errorMessage ? "error" : ""}
-                    help={errorMessage}
                     rules={[
                       { required: true, message: "Session key is required" },
-                      {
-                        validator: async (_, value) => {
-                          try {
-                            await welcomeSchema.validate({ sessionKey: value });
-                          } catch (error) {
-                            return Promise.reject(error.message);
-                          }
-                        },
-                      },
                     ]}
                   >
                     <Input
                       size="large"
                       placeholder="Enter your session key"
-                      value={sessionKey}
-                      onChange={handleInputChange}
                       maxLength={100}
+                      disabled={isPending}
                     />
                   </Form.Item>
                   <div className="flex justify-between items-center mt-6">
@@ -101,8 +121,10 @@ const WelcomeScreen = () => {
                     <Button
                       type="primary"
                       size="large"
-                      onClick={handleSubmit}
-                      style={{ backgroundColor: "#3758F9" }}
+                      htmlType="submit"
+                      // onClick={handleSubmit}
+                      className="!bg-blue-600 text-white"
+                      loading={isPending}
                     >
                       Submit Key
                     </Button>

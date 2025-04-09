@@ -28,9 +28,7 @@ const QuestionDropdownList = ({
   };
 
   useEffect(() => {
-    if (listAnswer.length === question.AnswerContent.leftItems.length) {
-      handleAnswerSelect(question.ID, listAnswer);
-    }
+    handleAnswerSelect(question.ID, listAnswer);
   }, [listAnswer]);
 
   return (
@@ -44,8 +42,8 @@ const QuestionDropdownList = ({
         <Space direction="vertical" className="w-full" size={16}>
           {question.AnswerContent.leftItems.map((option, i) => (
             <Row key={i}>
-              <Col md={6}>{option}</Col>
-              <Col md={18}>
+              <Col md={option.length < 12 ? 6 : 16}>{option}</Col>
+              <Col md={option.length < 12 ? 18 : 8}>
                 <Select
                   options={question.AnswerContent.rightItems.map((item) => {
                     return {

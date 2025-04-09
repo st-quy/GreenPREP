@@ -16,7 +16,7 @@ const IntroductionPage = () => {
         >
           <Flex gap={10} vertical>
             <Text className="text-lg/[26px] font-bold text-[#3758F9FF]">
-              Test Structure & FLow
+              Test Structure & Flow
             </Text>
             <Text className="text-2xl md:text-3xl lg:text-[40px]/[48px] font-bold">
               Welcome to English Mock Test Journey
@@ -24,7 +24,7 @@ const IntroductionPage = () => {
           </Flex>
           <Text className="text-sm lg:text-lg/[26px] font-semibold">
             The test is structured to assess different aspects of your language
-            profi..
+            profile
           </Text>
 
           <Flex vertical gap={20}>
@@ -51,7 +51,7 @@ const IntroductionPage = () => {
           <Button
             type="primary"
             size="middle"
-            className="text-1/4 md:text-1/5 lg:w-1/6 rounded-full !text-md mx-auto my-10"
+            className="text-1/4 md:text-1/5 lg:w-1/6 rounded-full !text-md mx-auto my-10 h-max-fit h-[48px]"
             htmlType="button"
             onClick={() => navigate("/pre-condition")}
           >
