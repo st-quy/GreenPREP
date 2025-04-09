@@ -38,10 +38,12 @@ const ForgotPassword = () => {
             <div className="mb-8"></div>
             <Form.Item
               name="email"
+              label={<span className="text-base">Email <span className="text-red-500">*</span></span>}
               rules={[yupSync(forgotPasswordSchema)]}
             >
+              
               <Input 
-                placeholder="Email *" 
+                placeholder="Enter your email here" 
                 size="large" 
                 className="h-11 text-base rounded-lg"
               />
