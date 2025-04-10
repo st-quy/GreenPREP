@@ -3,27 +3,36 @@ import CountdownTimer from "@shared/ui/CountdownTimer";
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Space, Input } from "antd";
 import { FlagOutlined } from "@ant-design/icons";
-import QuestionMuitipleChoice from "@features/grammarvocab/components/QuestionMuitipleChoice";
-import QuestionDropdownList from "@features/grammarvocab/components/QuestionDropdownList";
 import { useWritingTest } from "@features/writing/hooks";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
+import { useCreateStudentAnswer } from "@features/sessions/hooks";
+import { transformData } from "@shared/lib/utils";
 
 const WritingTest = () => {
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState(
-    JSON.parse(localStorage.getItem("selectedAnswersGVocab")) || {}
+    JSON.parse(localStorage.getItem("selectedAnswers")) || {}
   );
   const [markedQuestions, setMarkedQuestions] = useState(() => {
-    return JSON.parse(localStorage.getItem("markedQuestionsGVocab")) || {};
+    return JSON.parse(localStorage.getItem("markedQuestions")) || {};
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [totalQuestions, setTotalQuestion] = useState(0);
 
   const { data: questions } = useWritingTest();
+  const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
 
   const handleOnSubmit = () => {
+    submitStudentAnswer({
+      studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
+      topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+      skillName: "GRAMMAR AND VOCABULARY",
+      sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+      questions: transformData(selectedAnswers),
+    });
+    localStorage.removeItem("selectedAnswers");
     navigate("/session/writing/submission");
   };
 
@@ -38,32 +47,23 @@ const WritingTest = () => {
   }, [questions]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "selectedAnswersGVocab",
-      JSON.stringify(selectedAnswers)
-    );
+    localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
   }, [selectedAnswers]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "markedQuestionsGVocab",
-      JSON.stringify(markedQuestions)
-    );
+    localStorage.setItem("markedQuestions", JSON.stringify(markedQuestions));
   }, [markedQuestions]);
 
   const handleSubmitTest = () => {
     navigate("/");
     localStorage.removeItem("countdownTime");
-    localStorage.removeItem("selectedAnswersGVocab");
+    localStorage.removeItem("selectedAnswers");
   };
 
   const handleAnswerSelect = (questionId, answer) => {
     setSelectedAnswers((prev) => {
       const updatedAnswers = { ...prev, [questionId]: answer };
-      localStorage.setItem(
-        "selectedAnswersGVocab",
-        JSON.stringify(updatedAnswers)
-      );
+      localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
       return updatedAnswers;
     });
   };

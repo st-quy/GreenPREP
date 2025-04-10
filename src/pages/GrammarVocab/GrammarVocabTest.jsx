@@ -7,6 +7,8 @@ import QuestionMuitipleChoice from "@features/grammarvocab/components/QuestionMu
 import QuestionDropdownList from "@features/grammarvocab/components/QuestionDropdownList";
 import { useGrammarVocabTest } from "@features/grammarvocab/hooks";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
+import { transformData } from "@shared/lib/utils";
+import { useCreateStudentAnswer } from "@features/sessions/hooks";
 
 const GrammarVocabTest = () => {
   const navigate = useNavigate();
@@ -24,8 +26,17 @@ const GrammarVocabTest = () => {
   const [totalQuestions, setTotalQuestion] = useState(0);
 
   const { data: questions } = useGrammarVocabTest();
+  const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
 
   const handleOnSubmit = () => {
+    submitStudentAnswer({
+      studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
+      topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+      skillName: "WRITING",
+      sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+      questions: transformData(selectedAnswers),
+    });
+    localStorage.removeItem("selectedAnswers");
     navigate("/session/grammar/submission");
   };
 
@@ -198,8 +209,7 @@ const GrammarVocabTest = () => {
                         ? !!selected
                         : Array.isArray(selected) &&
                           selected.length ===
-                            (question?.Type === "listening-questions-group" ||
-                            question?.Type === "matching"
+                            (question?.Type === "listening-questions-group"
                               ? question?.GroupContent?.listContent?.length
                               : question?.AnswerContent?.leftItems?.length);
 

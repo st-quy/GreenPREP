@@ -13,7 +13,7 @@ export const transformData = (data) => {
   const result = [];
 
   Object.entries(data).forEach(([questionId, answer]) => {
-    // Trường hợp dropdown-list
+    // Trường hợp dropdown-list || matching
     if (Array.isArray(answer) && answer[0]?.left && answer[0]?.right) {
       const answerText = answer.map(({ left, right }) => ({
         key: left,
@@ -39,7 +39,7 @@ export const transformData = (data) => {
         answerAudio: null
       });
     }
-    // Trường hợp multiple-choice dạng đơn
+    // Trường hợp multiple-choice dạng đơn hoặc writing
     else if (typeof answer === 'string') {
       result.push({
         questionId,
