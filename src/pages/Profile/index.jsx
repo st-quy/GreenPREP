@@ -342,11 +342,7 @@ const Profile = () => {
           </Typography.Text>
         </Col>
       </Row>
-      <TableSearch
-        data={data1}
-        columns={columns}
-        placeholder={"Search by name"}
-      />
+      <TableSearch data={data1} columns={columns} />
       {openKey === "change-password" && (
         <ChangePassword openKey={openKey} setOpenKey={setOpenKey} />
       )}

@@ -11,8 +11,15 @@ import QuestionMuitipleChoice from "./QuestionMuitipleChoice";
 import QuestionDropdownList from "./QuestionDropdownList";
 import { useListeningTest } from "../hooks/useListeningTest";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
+import { useCreateStudentAnswer } from "@features/sessions/hooks";
+import { useSelector } from "react-redux";
+import { useGetTopicDetail } from "@features/topic/hooks";
+import { transformData } from "@shared/lib/utils";
 
 const ListeningTest = () => {
+  const { userId } = useSelector((state) => state.auth);
+  const { participantID } = useSelector((state) => state.session);
+
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentPartsID, setCurrentPartsID] = useState(0);
@@ -34,13 +41,21 @@ const ListeningTest = () => {
   const [audio, setAudio] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const { data: questions } = useListeningTest();
+  const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
+  const { data: topicData } = useGetTopicDetail();
 
   const handleOnSubmit = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
-      audioRef.current.setIsPlaying(false);
     }
+    submitStudentAnswer({
+      studentId: "621445e1-30e2-46ea-b0f3-bae8714925fa",
+      topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+      skillName: "LISTENING",
+      sessionParticipantId: "948292c7-bc12-4fc9-b4bc-ed34a0b94657",
+      questions: transformData(selectedAnswers),
+    });
     navigate("/session/listening/submission");
   };
 
@@ -86,7 +101,7 @@ const ListeningTest = () => {
     localStorage.removeItem("selectedAnswers");
   };
 
-  const handleAnswerSelect = (questionId, answer) => {
+  const handleAnswerSelect = (questionId, answer, questionTye) => {
     setSelectedAnswers((prev) => {
       const updatedAnswers = { ...prev, [questionId]: answer };
       localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
@@ -206,9 +221,11 @@ const ListeningTest = () => {
                 </Button>
               </div>
 
-              {listQuestion.length > 0 &&
+              {(listQuestion.length > 0 &&
+                listQuestion?.[currentQuestionIndex].Type ===
+                  "multiple-choice") ||
               listQuestion?.[currentQuestionIndex].Type ===
-                "multiple-choice" ? (
+                "listening-questions-group" ? (
                 <QuestionMuitipleChoice
                   key={currentQuestionIndex}
                   question={listQuestion?.[currentQuestionIndex]}
@@ -349,10 +366,26 @@ const ListeningTest = () => {
           <div className="grid grid-cols-6 gap-2.5">
             {totalQuestions &&
               Array?.from({ length: totalQuestions }, (_, i) => i + 1).map(
-                (question, index) => {
-                  const questionID = listQuestion?.[index]?.ID;
-                  const isAnswered = selectedAnswers.hasOwnProperty(questionID);
+                (data, index) => {
+                  const question = listQuestion?.[index];
+
+                  const questionID = question?.ID;
                   const isMarked = markedQuestions[questionID];
+
+                  const selected = selectedAnswers?.[questionID];
+
+                  const isEnoughAnswered =
+                    question?.Type === "multiple-choice"
+                      ? !!selected
+                      : Array.isArray(selected) &&
+                        selected.length ===
+                          (question?.Type === "listening-questions-group"
+                            ? question?.GroupContent?.listContent?.length
+                            : question?.AnswerContent?.leftItems?.length);
+
+                  const isAnswered =
+                    selectedAnswers.hasOwnProperty(questionID) &&
+                    isEnoughAnswered;
 
                   return (
                     <Button

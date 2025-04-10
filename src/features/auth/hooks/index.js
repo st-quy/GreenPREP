@@ -43,7 +43,6 @@ export const useRegister = () => {
 
 
 export const useForgotPassword = () => {
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: async (params) => {
       const { data } = await AuthApi.forgotPassword(params);

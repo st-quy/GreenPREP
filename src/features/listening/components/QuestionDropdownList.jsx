@@ -1,4 +1,5 @@
 import { Space, Select, Row, Col } from "antd";
+import { list } from "postcss";
 import React, { useEffect, useState } from "react";
 
 const QuestionDropdownList = ({
@@ -28,7 +29,9 @@ const QuestionDropdownList = ({
   };
 
   useEffect(() => {
-    handleAnswerSelect(question.ID, listAnswer);
+    if (listAnswer.length > 0) {
+      handleAnswerSelect(question.ID, listAnswer);
+    }
   }, [listAnswer]);
 
   return (
@@ -40,25 +43,30 @@ const QuestionDropdownList = ({
       </div>
       <div className="mt-2 flex w-full">
         <Space direction="vertical" className="w-full" size={16}>
-          {question.AnswerContent.leftItems.map((option, i) => (
-            <Row key={i}>
-              <Col md={option.length < 12 ? 6 : 16}>{option}</Col>
-              <Col md={option.length < 12 ? 18 : 8}>
-                <Select
-                  options={question.AnswerContent.rightItems.map((item) => {
-                    return {
+          {question.AnswerContent.leftItems.map((option, i) => {
+            const selectedValue = selectedAnswers?.[question.ID]?.find(
+              (answer) => answer.left === option
+            )?.right;
+
+            return (
+              <Row key={i}>
+                <Col md={option.length < 12 ? 6 : 16}>{option}</Col>
+                <Col md={option.length < 12 ? 18 : 8}>
+                  <Select
+                    value={selectedValue}
+                    options={question.AnswerContent.rightItems.map((item) => ({
                       value: item,
                       label: item,
-                    };
-                  })}
-                  size="middle"
-                  className="w-40"
-                  placeholder="Select Answer"
-                  onChange={(value) => handleSelectSingle(value, option)}
-                />
-              </Col>
-            </Row>
-          ))}
+                    }))}
+                    size="middle"
+                    className="w-40"
+                    placeholder="Select Answer"
+                    onChange={(value) => handleSelectSingle(value, option)}
+                  />
+                </Col>
+              </Row>
+            );
+          })}
         </Space>
       </div>
     </div>
