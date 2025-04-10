@@ -17,7 +17,7 @@ const QuestionMuitipleChoice = ({
       </div>
       <div className="my-4">Choose only 1 answer:</div>
       <div className="mt-2">
-        {question.AnswerContent?.[0].options.map((option, i) => (
+        {question.AnswerContent?.options.map((option, i) => (
           <label
             key={i}
             className={`flex items-center p-6 border rounded-2xl cursor-pointer mb-2 transition-all duration-200 
