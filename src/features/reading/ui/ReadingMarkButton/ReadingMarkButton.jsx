@@ -1,4 +1,4 @@
-import { StarFilled, StarOutlined } from "@ant-design/icons";
+import { FlagOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useReadingContext } from "@features/reading/context/ReadingContext";
 
@@ -12,24 +12,14 @@ const ReadingMarkButton = ({ questionId }) => {
 
   return (
     <Button
-      type="default"
-      shape="round"
-      icon={
-        isMarked ? (
-          <StarFilled style={{ color: "white" }} />
-        ) : (
-          <StarOutlined style={{ color: "#f26f21" }} />
-        )
-      }
-      onClick={handleMark} // Sử dụng handleMark thay vì lỗi undefined
-      style={{
-        borderColor: "#f26f21",
-        color: isMarked ? "white" : "#f26f21",
-        backgroundColor: isMarked ? "#f26f21" : "transparent",
-        minWidth: "110px",
-        textAlign: "center",
-      }}
-      className="font-[500] lg:text-[16px]"
+      type="primary"
+      onClick={handleMark}
+      icon={<FlagOutlined />}
+      className={`ml-4 px-3 py-1 text-sm font-medium rounded-xl transition-all duration-200 border-0 ${
+        isMarked
+          ? "bg-yellow-500 !text-white hover:!bg-yellow-600"
+          : "bg-gray-200 !text-black hover:!bg-gray-300"
+      }`}
     >
       {isMarked ? "Marked" : "Mark"}
     </Button>
