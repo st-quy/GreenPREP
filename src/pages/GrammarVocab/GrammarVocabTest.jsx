@@ -13,8 +13,9 @@ const GrammarVocabTest = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [listQuestion, setListQuestion] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
-    JSON.parse(localStorage.getItem("selectedAnswersGVocab")) || {}
+    JSON.parse(localStorage.getItem("selectedAnswers")) || {}
   );
+
   const [markedQuestions, setMarkedQuestions] = useState(() => {
     return JSON.parse(localStorage.getItem("markedQuestionsGVocab")) || {};
   });
@@ -49,10 +50,7 @@ const GrammarVocabTest = () => {
   }, [questions]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "selectedAnswersGVocab",
-      JSON.stringify(selectedAnswers)
-    );
+    localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
   }, [selectedAnswers]);
 
   useEffect(() => {
@@ -65,16 +63,13 @@ const GrammarVocabTest = () => {
   const handleSubmitTest = () => {
     navigate("/session/reading");
     localStorage.removeItem("countdownTime");
-    localStorage.removeItem("selectedAnswersGVocab");
+    localStorage.removeItem("selectedAnswers");
   };
 
   const handleAnswerSelect = (questionId, answer) => {
     setSelectedAnswers((prev) => {
       const updatedAnswers = { ...prev, [questionId]: answer };
-      localStorage.setItem(
-        "selectedAnswersGVocab",
-        JSON.stringify(updatedAnswers)
-      );
+      localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
       return updatedAnswers;
     });
   };
@@ -190,11 +185,27 @@ const GrammarVocabTest = () => {
             <div className="grid grid-cols-6 gap-2.5">
               {totalQuestions &&
                 Array?.from({ length: totalQuestions }, (_, i) => i + 1).map(
-                  (question, index) => {
-                    const questionID = listQuestion?.[index]?.ID;
-                    const isAnswered =
-                      selectedAnswers.hasOwnProperty(questionID);
+                  (data, index) => {
+                    const question = listQuestion?.[index];
+
+                    const questionID = question?.ID;
+
                     const isMarked = markedQuestions[questionID];
+                    const selected = selectedAnswers?.[questionID];
+
+                    const isEnoughAnswered =
+                      question?.Type === "multiple-choice"
+                        ? !!selected
+                        : Array.isArray(selected) &&
+                          selected.length ===
+                            (question?.Type === "listening-questions-group" ||
+                            question?.Type === "matching"
+                              ? question?.GroupContent?.listContent?.length
+                              : question?.AnswerContent?.leftItems?.length);
+
+                    const isAnswered =
+                      selectedAnswers.hasOwnProperty(questionID) &&
+                      isEnoughAnswered;
 
                     return (
                       <Button

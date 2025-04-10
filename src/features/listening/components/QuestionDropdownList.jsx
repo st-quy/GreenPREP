@@ -1,5 +1,4 @@
 import { Space, Select, Row, Col } from "antd";
-import { list } from "postcss";
 import React, { useEffect, useState } from "react";
 
 const QuestionDropdownList = ({
@@ -33,6 +32,10 @@ const QuestionDropdownList = ({
       handleAnswerSelect(question.ID, listAnswer);
     }
   }, [listAnswer]);
+
+  useEffect(() => {
+    setListAnswer(selectedAnswers?.[question.ID] || []);
+  }, [selectedAnswers, question.ID]);
 
   return (
     <div key={question?.ID} className="mb-4">

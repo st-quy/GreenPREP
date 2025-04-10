@@ -333,10 +333,10 @@ export default function SpeakingTests() {
 
         if (partId == "4") {
           await postAnswers({
-            studentId: "7a5cb071-5ba0-4ecf-a4cf-b1b62e5f9798",
+            studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
             topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
-            skillName: "GRAMMAR AND VOCABULARY",
-            sessionParticipantId: "a8e2b9e8-bb60-44f0-bd61-6bd524cdc87d",
+            skillName: "SPEAKING",
+            sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
             questions: [
               {
                 questionId: partFourQuest[0].ID,
@@ -357,10 +357,10 @@ export default function SpeakingTests() {
           });
         } else {
           await postAnswers({
-            studentId: "7a5cb071-5ba0-4ecf-a4cf-b1b62e5f9798",
+            studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
             topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
-            skillName: "GRAMMAR AND VOCABULARY",
-            sessionParticipantId: "a8e2b9e8-bb60-44f0-bd61-6bd524cdc87d",
+            skillName: "SPEAKING",
+            sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
             questions: [
               {
                 questionId: questionsData.ID,

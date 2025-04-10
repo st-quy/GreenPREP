@@ -50,10 +50,10 @@ const ListeningTest = () => {
       audioRef.current.currentTime = 0;
     }
     submitStudentAnswer({
-      studentId: "621445e1-30e2-46ea-b0f3-bae8714925fa",
+      studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
       topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
       skillName: "LISTENING",
-      sessionParticipantId: "948292c7-bc12-4fc9-b4bc-ed34a0b94657",
+      sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
       questions: transformData(selectedAnswers),
     });
     navigate("/session/listening/submission");
@@ -101,7 +101,7 @@ const ListeningTest = () => {
     localStorage.removeItem("selectedAnswers");
   };
 
-  const handleAnswerSelect = (questionId, answer, questionTye) => {
+  const handleAnswerSelect = (questionId, answer) => {
     setSelectedAnswers((prev) => {
       const updatedAnswers = { ...prev, [questionId]: answer };
       localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));

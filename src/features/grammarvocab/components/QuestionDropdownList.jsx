@@ -28,10 +28,14 @@ const QuestionDropdownList = ({
   };
 
   useEffect(() => {
-    if (listAnswer.length === question.AnswerContent?.[0].leftItems.length) {
+    if (listAnswer.length > 0) {
       handleAnswerSelect(question.ID, listAnswer);
     }
   }, [listAnswer]);
+
+  useEffect(() => {
+    setListAnswer(selectedAnswers?.[question.ID] || []);
+  }, [selectedAnswers, question.ID]);
 
   return (
     <div key={question?.ID} className="mb-4">
@@ -42,27 +46,31 @@ const QuestionDropdownList = ({
       </div>
       <div className="mt-2 flex w-full">
         <Space direction="vertical" className="w-full" size={16}>
-          {question.AnswerContent?.[0].leftItems.map((option, i) => (
-            <Row key={i}>
-              <Col md={option.length < 20 ? 4 : 16}>{option}</Col>
-              <Col md={option.length < 20 ? 20 : 8}>
-                <Select
-                  options={question.AnswerContent?.[0].rightItems.map(
-                    (item) => {
+          {question.AnswerContent?.leftItems.map((option, i) => {
+            const selectedValue = selectedAnswers?.[question.ID]?.find(
+              (answer) => answer.left === option
+            )?.right;
+            return (
+              <Row key={i}>
+                <Col md={option.length < 20 ? 4 : 16}>{option}</Col>
+                <Col md={option.length < 20 ? 20 : 8}>
+                  <Select
+                    value={selectedValue}
+                    options={question.AnswerContent?.rightItems.map((item) => {
                       return {
                         value: item,
                         label: item,
                       };
-                    }
-                  )}
-                  size="middle"
-                  className="w-40"
-                  placeholder="Select Answer"
-                  onChange={(value) => handleSelectSingle(value, option)}
-                />
-              </Col>
-            </Row>
-          ))}
+                    })}
+                    size="middle"
+                    className="w-40"
+                    placeholder="Select Answer"
+                    onChange={(value) => handleSelectSingle(value, option)}
+                  />
+                </Col>
+              </Row>
+            );
+          })}
         </Space>
       </div>
     </div>
