@@ -3,7 +3,7 @@ import { message } from "antd";
 import { SessionApi } from "../api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateSessionId } from "@app/providers/reducer/sessions/sessionSlice";
+import { updateParticipantId, updateSessionId } from "@app/providers/reducer/sessions/sessionSlice";
 
 
 export const useGetAllSession = () => {
@@ -43,20 +43,24 @@ export const useSessionRequest = () => {
 
 export const usePollRequest = (sessionId, requestId) => {
   const navigate = useNavigate();
-  const {userId} = useSelector((state) => state.auth);
-
+  const { userId } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  
   return useQuery({
     queryKey: ["pollRequest"],
     queryFn: async () => {
       try {
         const {data} = await SessionApi.pollRequest(sessionId, userId, requestId);
-        if (data.data.status === "approved") {
+        if (data.data.sessionParticipant) {
+          dispatch(updateParticipantId(data.data.sessionParticipantID));
           navigate("/introduction");
         } 
         if (data.data.status === "rejected") {
           navigate("/");
           message.error("Your request has been rejected");
         }
+
+
         return data.data;
       } catch (error) {
         message.error(error.response?.data?.message);
@@ -67,3 +71,18 @@ export const usePollRequest = (sessionId, requestId) => {
     refetchInterval: 1000 // poll every 1 second
   });
 };
+
+
+export const useCreateStudentAnswer = () => {
+  return useMutation({
+    mutationFn: async (params) => {
+      const { data } = await SessionApi.postStudentAnswer(params);
+      return data;
+    },
+    onError({response}) {
+      message.error(response.data.error);
+    },
+  });
+};
+
+

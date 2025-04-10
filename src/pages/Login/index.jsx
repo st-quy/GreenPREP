@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import loginHappyStudent from "@assets/images/login-happy-student.png";
 import { Form, Input, Button, Card, Row, Col, Typography, Alert } from "antd";
 import {
   EyeOutlined,
@@ -11,6 +10,7 @@ import { loginSchema } from "../../features/auth/schemas/loginSchema";
 import { yupSync } from "@shared/lib/utils";
 import { useLogin } from "../../features/auth/hooks";
 import { useSelector } from "react-redux";
+import { LoginHappyStudentImg } from "@assets/images";
 
 const { Title, Text } = Typography;
 
@@ -127,7 +127,7 @@ const LoginPage = () => {
 
       <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-start justify-center px-4 lg:pt-2 lg:pl-8 mt-8 lg:mt-0">
         <img
-          src={loginHappyStudent}
+          src={LoginHappyStudentImg}
           alt="Happy students celebrating"
           className="w-full max-w-[500px] lg:max-w-[700px] h-auto object-contain"
         />

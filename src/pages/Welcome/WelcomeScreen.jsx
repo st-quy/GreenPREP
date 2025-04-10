@@ -3,9 +3,12 @@ import { Button, Form, Input, Select } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { WelcomeImage } from "@assets/images";
 import { useGetAllSession, useSessionRequest } from "@features/sessions/hooks";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTopicData } from "@app/providers/reducer/sessions/sessionSlice";
+import { useGetTopicDetail } from "@features/topic/hooks";
 
 const WelcomeScreen = () => {
+  const dispatch = useDispatch();
   const { userId } = useSelector((state) => state.auth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data } = useGetAllSession();
@@ -13,9 +16,11 @@ const WelcomeScreen = () => {
   const { mutate: createRequest, isPending } = useSessionRequest();
 
   const handleSubmit = async (values) => {
+    const session = data.find((session) => session.ID === values.sessionID);
+    dispatch(updateTopicData(session));
     createRequest({
       sessionKey: values.sessionKey,
-      sessionId: values.sessionName,
+      sessionId: values.sessionID,
       UserID: userId,
     });
   };
@@ -67,7 +72,7 @@ const WelcomeScreen = () => {
                 <Form onFinish={handleSubmit} layout="vertical" form={form}>
                   <Form.Item
                     label="Session Name"
-                    name="sessionName"
+                    name="sessionID"
                     rules={[
                       { required: true, message: "Session name is required" },
                     ]}

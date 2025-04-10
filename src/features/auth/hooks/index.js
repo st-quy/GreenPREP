@@ -43,11 +43,13 @@ export const useRegister = () => {
 
 
 export const useForgotPassword = () => {
-  const navigate = useNavigate();
   return useMutation({
     mutationFn: async (params) => {
       const { data } = await AuthApi.forgotPassword(params);
       return data.data;
+    },
+    onSuccess() {
+      message.success("Please check your email to reset your password");
     },
     onError({ response }) {
       message.error(response.data.message);

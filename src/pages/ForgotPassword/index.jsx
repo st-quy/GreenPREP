@@ -12,8 +12,16 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const { mutate: forgotPasswordFunc, isPending } = useForgotPassword();
   const onFinish = (values) => {
-    forgotPasswordFunc({ ...values, host: window.location.origin });
+    forgotPasswordFunc(
+      { ...values, host: window.location.origin },
+      {
+        onSuccess: () => {
+          form.resetFields();
+        },
+      }
+    );
   };
+  const [form] = Form.useForm();
   return (
     <Row className=" bg-[#f3f4f6] !gap-0 ">
       <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8">
@@ -41,10 +49,10 @@ const ForgotPassword = () => {
               label={<span className="text-base">Email <span className="text-red-500">*</span></span>}
               rules={[yupSync(forgotPasswordSchema)]}
             >
-              
-              <Input 
-                placeholder="Enter your email here" 
-                size="large" 
+
+              <Input
+                placeholder="Enter your email here"
+                size="large"
                 className="h-11 text-base rounded-lg"
               />
             </Form.Item>

@@ -9,7 +9,6 @@ const QuestionMuitipleChoice = ({
   if (!question) return null;
 
   const [listAnswer, setListAnswer] = useState([]);
-
   const handleSelectSingle = (key, value) => {
     const existingIndex = listAnswer.findIndex((item) => item.key === key);
     if (existingIndex !== -1) {
