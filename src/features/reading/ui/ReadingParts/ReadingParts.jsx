@@ -40,14 +40,6 @@ const ReadingParts = () => {
   }
 
   const handleSubmit = () => {
-    // @ts-ignore
-    submitStudentAnswer({
-      studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
-      topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
-      skillName: "READING",
-      sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
-      questions: convertAnswersToObject(userAnswers.current),
-    });
     setIsModalVisible(true);
     localStorage.removeItem("countdownTime");
   };
@@ -118,6 +110,14 @@ const ReadingParts = () => {
       <ConfirmTestSubmissionModal
         visible={isModalVisible}
         onSubmit={() => {
+          // @ts-ignore
+          submitStudentAnswer({
+            studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
+            topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+            skillName: "READING",
+            sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+            questions: convertAnswersToObject(userAnswers.current),
+          });
           navigate("/session/reading/reading-success");
           setIsModalVisible(false);
         }}
