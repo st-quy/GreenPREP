@@ -67,6 +67,7 @@ export const ReadingProvider = ({ children }) => {
       }
     }
   };
+
   const handlePrev = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex((prev) => prev - 1);
@@ -77,6 +78,7 @@ export const ReadingProvider = ({ children }) => {
       );
     }
   };
+
   const getAnswerData = () => {
     const currentIndex = userAnswers.current.findIndex(
       (ans) => ans.id === currentQuestion.ID
@@ -86,6 +88,7 @@ export const ReadingProvider = ({ children }) => {
     }
     return null;
   };
+
   const updateAllCurrentQuestionAnswer = (answerData) => {
     const currentIndex = userAnswers.current.findIndex(
       (ans) => ans.id === currentQuestion.ID
@@ -103,6 +106,7 @@ export const ReadingProvider = ({ children }) => {
       prev.includes(currentQuestion.ID) ? prev : [...prev, currentQuestion.ID]
     );
   };
+
   const updateAnswer = (key, value) => {
     const currentIndex = userAnswers.current.findIndex(
       (ans) => ans.id === currentQuestion.ID
@@ -137,6 +141,7 @@ export const ReadingProvider = ({ children }) => {
   return (
     <ReadingContext.Provider
       value={{
+        userAnswers,
         exams,
         isLoading,
         error,
