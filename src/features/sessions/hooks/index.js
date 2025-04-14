@@ -80,7 +80,7 @@ export const useCreateStudentAnswer = () => {
       return data;
     },
     onError({response}) {
-      message.error(response.data.error);
+      message.error("Failed to submit answer");
     },
   });
 };
