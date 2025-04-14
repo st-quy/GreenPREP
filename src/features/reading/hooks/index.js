@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { ReadingApi } from "@features/auth/api";
+import { ReadingApi } from "../api";
 
 export const useQuestionsQuery = () => {
   return useQuery({

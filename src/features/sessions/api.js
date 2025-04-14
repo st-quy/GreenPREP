@@ -14,6 +14,9 @@ export const SessionApi = {
       },
     });
   },
+  postStudentAnswer: (params) => {
+    return axiosInstance.post(`/student-answers`, params );
+  }
 };
 
 

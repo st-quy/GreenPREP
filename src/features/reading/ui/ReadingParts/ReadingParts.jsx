@@ -8,6 +8,8 @@ import { formatStringWithNewlines } from "@shared/lib/utils/formatString";
 import { useReadingContext } from "@features/reading/context/ReadingContext";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 import { useNavigate } from "react-router-dom";
+import { useCreateStudentAnswer } from "@features/sessions/hooks";
+import { useSelector } from "react-redux";
 
 const ReadingParts = () => {
   const {
@@ -22,10 +24,22 @@ const ReadingParts = () => {
     handlePrev,
     currentPartIndex,
     currentQuestionIndex,
+    userAnswers,
   } = useReadingContext();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
+  const { participantID, sessionId } = useSelector((state) => state.session);
+
   const navigate = useNavigate();
+
+  function convertAnswersToObject(userAnswers) {
+    return userAnswers.map((item) => ({
+      questionId: item.id,
+      answerText: item.answer,
+      answerAudio: null,
+    }));
+  }
 
   const handleSubmit = () => {
     setIsModalVisible(true);
@@ -98,6 +112,15 @@ const ReadingParts = () => {
       <ConfirmTestSubmissionModal
         visible={isModalVisible}
         onSubmit={() => {
+          // @ts-ignore
+          submitStudentAnswer({
+            studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
+            topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+            skillName: "READING",
+            sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+            sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
+            questions: convertAnswersToObject(userAnswers.current),
+          });
           navigate("/session/reading/reading-success");
           setIsModalVisible(false);
         }}

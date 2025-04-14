@@ -14,8 +14,12 @@ import RecordIcon from "./Record.png";
 import RegisterImg from "./registerImg.png";
 import ForgotPasswordImg from "./fpassword.png";
 import ResetSuccessImg from "./resetSuccess.png";
+import WelcomeBackImg from "./welcomeback.png";
+import LoginHappyStudentImg from "./login-happy-student.png"
 
 export {
+  LoginHappyStudentImg,
+  WelcomeBackImg,
   ResetSuccessImg,
   ForgotPasswordImg,
   RegisterImg,

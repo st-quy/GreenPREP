@@ -9,7 +9,6 @@ const QuestionMuitipleChoice = ({
   if (!question) return null;
 
   const [listAnswer, setListAnswer] = useState([]);
-
   const handleSelectSingle = (key, value) => {
     const existingIndex = listAnswer.findIndex((item) => item.key === key);
     if (existingIndex !== -1) {
@@ -45,7 +44,9 @@ const QuestionMuitipleChoice = ({
 
             return (
               <div key={questionKey}>
-                <div className="flex justify-between items-center mb-2">
+                <div
+                  className={`flex justify-between items-center mb-2  ${index !== 0 ? "mt-8" : ""} `}
+                >
                   <span className="text-black font-bold">{item.content}</span>
                 </div>
                 <div className="my-4">Choose only 1 answer:</div>
@@ -86,7 +87,9 @@ const QuestionMuitipleChoice = ({
         </div>
       ) : (
         <>
-          <div className="flex justify-between items-center mb-2"></div>
+          <div className="flex justify-between items-center mb-2 font-bold">
+            {question.Content}
+          </div>
           <div className="my-4">Choose only 1 answer:</div>
           <div className="mt-2">
             {question.AnswerContent.options.map((option, i) => (

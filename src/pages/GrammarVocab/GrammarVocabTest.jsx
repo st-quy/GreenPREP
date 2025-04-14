@@ -7,14 +7,18 @@ import QuestionMuitipleChoice from "@features/grammarvocab/components/QuestionMu
 import QuestionDropdownList from "@features/grammarvocab/components/QuestionDropdownList";
 import { useGrammarVocabTest } from "@features/grammarvocab/hooks";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
+import { transformData } from "@shared/lib/utils";
+import { useCreateStudentAnswer } from "@features/sessions/hooks";
+import { useSelector } from "react-redux";
 
 const GrammarVocabTest = () => {
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [listQuestion, setListQuestion] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState(
-    JSON.parse(localStorage.getItem("selectedAnswersGVocab")) || {}
+    JSON.parse(localStorage.getItem("selectedAnswers")) || {}
   );
+
   const [markedQuestions, setMarkedQuestions] = useState(() => {
     return JSON.parse(localStorage.getItem("markedQuestionsGVocab")) || {};
   });
@@ -23,8 +27,19 @@ const GrammarVocabTest = () => {
   const [totalQuestions, setTotalQuestion] = useState(0);
 
   const { data: questions } = useGrammarVocabTest();
+  const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
+  const { participantID, sessionId } = useSelector((state) => state.session);
 
   const handleOnSubmit = () => {
+    submitStudentAnswer({
+      studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
+      topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+      skillName: "GRAMMAR AND VOCABULARY",
+      sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+      sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
+      questions: transformData(selectedAnswers),
+    });
+    localStorage.removeItem("selectedAnswers");
     navigate("/session/grammar/submission");
   };
 
@@ -49,10 +64,7 @@ const GrammarVocabTest = () => {
   }, [questions]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "selectedAnswersGVocab",
-      JSON.stringify(selectedAnswers)
-    );
+    localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
   }, [selectedAnswers]);
 
   useEffect(() => {
@@ -65,16 +77,13 @@ const GrammarVocabTest = () => {
   const handleSubmitTest = () => {
     navigate("/session/reading");
     localStorage.removeItem("countdownTime");
-    localStorage.removeItem("selectedAnswersGVocab");
+    localStorage.removeItem("selectedAnswers");
   };
 
   const handleAnswerSelect = (questionId, answer) => {
     setSelectedAnswers((prev) => {
       const updatedAnswers = { ...prev, [questionId]: answer };
-      localStorage.setItem(
-        "selectedAnswersGVocab",
-        JSON.stringify(updatedAnswers)
-      );
+      localStorage.setItem("selectedAnswers", JSON.stringify(updatedAnswers));
       return updatedAnswers;
     });
   };
@@ -190,11 +199,26 @@ const GrammarVocabTest = () => {
             <div className="grid grid-cols-6 gap-2.5">
               {totalQuestions &&
                 Array?.from({ length: totalQuestions }, (_, i) => i + 1).map(
-                  (question, index) => {
-                    const questionID = listQuestion?.[index]?.ID;
-                    const isAnswered =
-                      selectedAnswers.hasOwnProperty(questionID);
+                  (data, index) => {
+                    const question = listQuestion?.[index];
+
+                    const questionID = question?.ID;
+
                     const isMarked = markedQuestions[questionID];
+                    const selected = selectedAnswers?.[questionID];
+
+                    const isEnoughAnswered =
+                      question?.Type === "multiple-choice"
+                        ? !!selected
+                        : Array.isArray(selected) &&
+                          selected.length ===
+                            (question?.Type === "listening-questions-group"
+                              ? question?.GroupContent?.listContent?.length
+                              : question?.AnswerContent?.leftItems?.length);
+
+                    const isAnswered =
+                      selectedAnswers.hasOwnProperty(questionID) &&
+                      isEnoughAnswered;
 
                     return (
                       <Button

@@ -3,14 +3,17 @@ import { Table, Input, Pagination } from "antd";
 
 const { Search } = Input;
 
-const TableSearch = ({ data, columns, placeholder }) => {
+const TableSearch = ({ data, columns }) => {
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
-  const filteredData = data.filter((item) =>
-    item.sessionName?.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredData = data.filter((item) => {
+    const searchValue = searchText.toLowerCase();
+    return Object.values(item).some((value) =>
+      String(value).toLowerCase().includes(searchValue)
+    );
+  });
 
   const start = (currentPage - 1) * pageSize + 1;
   const end = Math.min(start + pageSize - 1, filteredData.length);
@@ -20,10 +23,10 @@ const TableSearch = ({ data, columns, placeholder }) => {
   return (
     <div className="mt-4">
       <Search
-        placeholder={placeholder}
+        placeholder={"Search anything..."}
         onChange={(e) => {
           setSearchText(e.target.value);
-          setCurrentPage(1); // Reset về trang đầu khi tìm kiếm
+          setCurrentPage(1);
         }}
         className="mb-4 w-full max-w-[300px]"
         allowClear
