@@ -69,7 +69,7 @@ const ReadingParts = () => {
     <div className="question-list ">
       {isPart2 ? (
         <div>
-          <div className="w-[100%] rounded-[20px] bg-white p-6 pb-0 mb-4 border shadow-xl border-gray-200 lg:p-8 lg:pb-0 lg:h-fit">
+          <div className="w-[100%] rounded-[20px] bg-white p-6 mb-4 border shadow-xl border-gray-200 lg:p-8 lg:pb-0 lg:h-fit">
             <div className="mb-4 flex flex-col md:flex-row lg:mb-0 lg:flex-row lg:justify-between">
               <h6 className="mb-2 font-[600] lg:text-[24px]">
                 {formatStringWithNewlines(currentPart.Content)}
@@ -116,6 +116,7 @@ const ReadingParts = () => {
             topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
             skillName: "READING",
             sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+            sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
             questions: convertAnswersToObject(userAnswers.current),
           });
           navigate("/session/reading/reading-success");
