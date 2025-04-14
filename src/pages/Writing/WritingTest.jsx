@@ -7,6 +7,7 @@ import { useWritingTest } from "@features/writing/hooks";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 import { useCreateStudentAnswer } from "@features/sessions/hooks";
 import { transformData } from "@shared/lib/utils";
+import { useSelector } from "react-redux";
 
 const WritingTest = () => {
   const navigate = useNavigate();
@@ -23,14 +24,17 @@ const WritingTest = () => {
 
   const { data: questions } = useWritingTest();
   const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
+  const { participantID, sessionId } = useSelector((state) => state.session);
+  console.log(sessionId, "sessionId");
 
   const handleOnSubmit = () => {
     submitStudentAnswer({
       studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
       topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
-      skillName: "GRAMMAR AND VOCABULARY",
+      skillName: "WRITING",
       sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
       questions: transformData(selectedAnswers),
+      sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
     });
     localStorage.removeItem("selectedAnswers");
     navigate("/session/writing/submission");
