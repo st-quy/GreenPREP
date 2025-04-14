@@ -53,8 +53,10 @@ const QuestionDropdownList = ({
 
             return (
               <Row key={i}>
-                <Col md={option.length < 12 ? 6 : 16}>{option}</Col>
-                <Col md={option.length < 12 ? 18 : 8}>
+                <Col xs={24} sm={24} md={option.length < 12 ? 6 : 14}>
+                  {option}
+                </Col>
+                <Col xs={24} sm={24} md={option.length < 12 ? 18 : 10}>
                   <Select
                     value={selectedValue}
                     options={question.AnswerContent.rightItems.map((item) => ({
@@ -62,7 +64,7 @@ const QuestionDropdownList = ({
                       label: item,
                     }))}
                     size="middle"
-                    className="w-40"
+                    className="w-full"
                     placeholder="Select Answer"
                     onChange={(value) => handleSelectSingle(value, option)}
                   />

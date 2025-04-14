@@ -85,7 +85,9 @@ const QuestionMuitipleChoice = ({
         </div>
       ) : (
         <>
-          <div className="flex justify-between items-center mb-2"></div>
+          <div className="flex justify-between items-center mb-2 font-bold">
+            {question.Content}
+          </div>
           <div className="my-4">Choose only 1 answer:</div>
           <div className="mt-2">
             {question.AnswerContent.options.map((option, i) => (
