@@ -7,6 +7,7 @@ import AudioVisualizer from "@features/speaking/ui/AudioVisualizer";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 import { useCloudinaryUpload } from "@features/speaking/hooks/useCloudinaryUpload";
 import { useCreateAnswer, useGetSpeaking } from "@features/speaking/hooks";
+import { useSelector } from "react-redux";
 
 export default function SpeakingTests() {
   const { partId, questionsId } = useParams();
@@ -49,6 +50,7 @@ export default function SpeakingTests() {
   const { mutateAsync: postAnswers } = useCreateAnswer();
 
   const result = useGetSpeaking();
+  const { participantID, sessionId } = useSelector((state) => state.session);
 
   useEffect(() => {
     setIsTestActive(false);
@@ -337,6 +339,7 @@ export default function SpeakingTests() {
             topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
             skillName: "SPEAKING",
             sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+            sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
             questions: [
               {
                 questionId: partFourQuest[0].ID,
@@ -361,6 +364,7 @@ export default function SpeakingTests() {
             topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
             skillName: "SPEAKING",
             sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+            sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
             questions: [
               {
                 questionId: questionsData.ID,

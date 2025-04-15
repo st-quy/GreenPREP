@@ -36,7 +36,7 @@ export const useRegister = () => {
       return data.data;
     },
     onError({ response }) {
-      message.error(response.data.message);
+      message.error(response.data.errors[0]);
     },
   });
 };

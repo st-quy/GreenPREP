@@ -44,7 +44,9 @@ const QuestionMuitipleChoice = ({
 
             return (
               <div key={questionKey}>
-                <div className="flex justify-between items-center mb-2">
+                <div
+                  className={`flex justify-between items-center mb-2  ${index !== 0 ? "mt-8" : ""} `}
+                >
                   <span className="text-black font-bold">{item.content}</span>
                 </div>
                 <div className="my-4">Choose only 1 answer:</div>

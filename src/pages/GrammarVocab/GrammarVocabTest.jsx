@@ -9,6 +9,7 @@ import { useGrammarVocabTest } from "@features/grammarvocab/hooks";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 import { transformData } from "@shared/lib/utils";
 import { useCreateStudentAnswer } from "@features/sessions/hooks";
+import { useSelector } from "react-redux";
 
 const GrammarVocabTest = () => {
   const navigate = useNavigate();
@@ -27,13 +28,15 @@ const GrammarVocabTest = () => {
 
   const { data: questions } = useGrammarVocabTest();
   const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
+  const { participantID, sessionId } = useSelector((state) => state.session);
 
   const handleOnSubmit = () => {
     submitStudentAnswer({
       studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
       topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
-      skillName: "WRITING",
+      skillName: "GRAMMAR AND VOCABULARY",
       sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+      sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
       questions: transformData(selectedAnswers),
     });
     localStorage.removeItem("selectedAnswers");

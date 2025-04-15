@@ -18,7 +18,7 @@ import { transformData } from "@shared/lib/utils";
 
 const ListeningTest = () => {
   const { userId } = useSelector((state) => state.auth);
-  const { participantID } = useSelector((state) => state.session);
+  const { participantID, sessionId } = useSelector((state) => state.session);
 
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -41,7 +41,11 @@ const ListeningTest = () => {
   const [audio, setAudio] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const { data: questions } = useListeningTest();
-  const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
+  const {
+    mutate: submitStudentAnswer,
+    isPending,
+    isSuccess,
+  } = useCreateStudentAnswer();
   const { data: topicData } = useGetTopicDetail();
 
   const handleOnSubmit = () => {
@@ -54,9 +58,12 @@ const ListeningTest = () => {
       topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
       skillName: "LISTENING",
       sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
+      sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
       questions: transformData(selectedAnswers),
     });
-    navigate("/session/listening/submission");
+    if (isSuccess) {
+      navigate("/session/listening/submission");
+    }
   };
 
   const handleCancelModal = () => {
@@ -405,6 +412,7 @@ const ListeningTest = () => {
         visible={isModalOpen}
         onSubmit={handleOnSubmit}
         onCancel={handleCancelModal}
+        isLoading={isPending}
       />
     </div>
   );
