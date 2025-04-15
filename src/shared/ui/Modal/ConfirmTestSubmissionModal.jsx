@@ -17,6 +17,7 @@ export default function ConfirmTestSubmissionModal({
   visible,
   onSubmit,
   onCancel,
+  isLoading = false,
   showCancel = true,
   actionClassName = "",
   title = "Are you sure you want to submit test?",
@@ -57,6 +58,7 @@ export default function ConfirmTestSubmissionModal({
             shape="round"
             size="large"
             onClick={onSubmit}
+            loading={isLoading}
             className="bg-blue-600 hover:bg-blue-700"
           >
             Submit

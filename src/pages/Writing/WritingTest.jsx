@@ -25,7 +25,6 @@ const WritingTest = () => {
   const { data: questions } = useWritingTest();
   const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
   const { participantID, sessionId } = useSelector((state) => state.session);
-  console.log(sessionId, "sessionId");
 
   const handleOnSubmit = () => {
     submitStudentAnswer({

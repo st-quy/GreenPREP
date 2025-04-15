@@ -41,7 +41,11 @@ const ListeningTest = () => {
   const [audio, setAudio] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const { data: questions } = useListeningTest();
-  const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
+  const {
+    mutate: submitStudentAnswer,
+    isPending,
+    isSuccess,
+  } = useCreateStudentAnswer();
   const { data: topicData } = useGetTopicDetail();
 
   const handleOnSubmit = () => {
@@ -57,7 +61,9 @@ const ListeningTest = () => {
       sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
       questions: transformData(selectedAnswers),
     });
-    navigate("/session/listening/submission");
+    if (isSuccess) {
+      navigate("/session/listening/submission");
+    }
   };
 
   const handleCancelModal = () => {
@@ -406,6 +412,7 @@ const ListeningTest = () => {
         visible={isModalOpen}
         onSubmit={handleOnSubmit}
         onCancel={handleCancelModal}
+        isLoading={isPending}
       />
     </div>
   );
