@@ -2,9 +2,12 @@ import { Button, Card, Flex, Typography } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AudioVisualizer from "@features/speaking/ui/AudioVisualizer";
+import { useFullScreenContext } from "@app/providers/FullScreenProvider";
 const { Title, Text } = Typography;
 
 const TestingMicrophone = () => {
+  const { startTestInFullScreen } = useFullScreenContext();
+
   const navigate = useNavigate();
   const [isMicrophone, setIsMicrophone] = useState(false);
   const [statusRecord, setStatusRecord] = useState(null);
@@ -212,7 +215,10 @@ const TestingMicrophone = () => {
                 size="middle"
                 className="rounded-full bg-[#3658F9] py-3 w-[114px] ml-auto mt-1 !p-6"
                 htmlType="submit"
-                onClick={() => navigate("/session/speaking")}
+                onClick={() => {
+                  startTestInFullScreen();
+                  navigate("/session/speaking");
+                }}
               >
                 Start Test -&gt;
               </Button>

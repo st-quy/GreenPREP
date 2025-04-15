@@ -5,7 +5,6 @@ import { WelcomeImage } from "@assets/images";
 import { useGetAllSession, useSessionRequest } from "@features/sessions/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTopicData } from "@app/providers/reducer/sessions/sessionSlice";
-import { useGetTopicDetail } from "@features/topic/hooks";
 
 const WelcomeScreen = () => {
   const dispatch = useDispatch();
@@ -18,6 +17,7 @@ const WelcomeScreen = () => {
   const handleSubmit = async (values) => {
     const session = data.find((session) => session.ID === values.sessionID);
     dispatch(updateTopicData(session));
+    sessionStorage.setItem("topidId", session?.examSet);
     createRequest({
       sessionKey: values.sessionKey,
       sessionId: values.sessionID,

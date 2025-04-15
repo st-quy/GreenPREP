@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  sessionId: null,
-  requestId: null,
-  participantID: null,
-  topicData: null,
+  sessionId: sessionStorage.getItem("sessionId") || null,
+  requestId: sessionStorage.getItem("requestId") || null,
+  participantID: sessionStorage.getItem("sessionParticipantId") || null,
+  topicId: sessionStorage.getItem("topidId") || null,
 };
 
 const sessionSlice = createSlice({
@@ -19,7 +19,7 @@ const sessionSlice = createSlice({
       state.participantID = payload;
     },
     updateTopicData(state, { payload }) {
-      state.topicData = payload.examSet;
+      state.topicId = payload.examSet;
     },
   },
 });

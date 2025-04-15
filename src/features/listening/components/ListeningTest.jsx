@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import CountdownTimer from "../../../shared/ui/CountdownTimer";
 import { useNavigate } from "react-router-dom";
-import { Button, Card } from "antd";
+import { Badge, Button, Card } from "antd";
 import {
+  FlagFilled,
   FlagOutlined,
   PauseCircleOutlined,
   PlayCircleOutlined,
@@ -13,12 +14,13 @@ import { useListeningTest } from "../hooks/useListeningTest";
 import ConfirmTestSubmissionModal from "@shared/ui/Modal/ConfirmTestSubmissionModal";
 import { useCreateStudentAnswer } from "@features/sessions/hooks";
 import { useSelector } from "react-redux";
-import { useGetTopicDetail } from "@features/topic/hooks";
 import { transformData } from "@shared/lib/utils";
 
 const ListeningTest = () => {
   const { userId } = useSelector((state) => state.auth);
-  const { participantID, sessionId } = useSelector((state) => state.session);
+  const { participantID, sessionId, topicId } = useSelector(
+    (state) => state.session
+  );
 
   const navigate = useNavigate();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -46,7 +48,6 @@ const ListeningTest = () => {
     isPending,
     isSuccess,
   } = useCreateStudentAnswer();
-  const { data: topicData } = useGetTopicDetail();
 
   const handleOnSubmit = () => {
     if (audioRef.current) {
@@ -54,11 +55,11 @@ const ListeningTest = () => {
       audioRef.current.currentTime = 0;
     }
     submitStudentAnswer({
-      studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
-      topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+      studentId: userId,
+      topicId: topicId,
       skillName: "LISTENING",
-      sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
-      sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
+      sessionParticipantId: participantID,
+      sessionId: sessionId,
       questions: transformData(selectedAnswers),
     });
     if (isSuccess) {
@@ -196,6 +197,47 @@ const ListeningTest = () => {
   useEffect(() => {
     setHistoryListen(JSON.parse(localStorage.getItem("history_listen")) || []);
   }, [localStorage.getItem("history_listen")]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      const handleAudioEnd = () => {
+        setIsPlaying(false);
+
+        // Cập nhật trạng thái historyListen để đánh dấu audio đã phát xong
+        setHistoryListen((prevHistory) =>
+          prevHistory.map((item) =>
+            item.key === currentAudio
+              ? {
+                  ...item,
+                  value: [...item.value, currentAudio],
+                }
+              : item
+          )
+        );
+
+        localStorage.setItem(
+          "history_listen",
+          JSON.stringify(
+            historyListen.map((item) =>
+              item.key === currentAudio
+                ? {
+                    ...item,
+                    value: [...item.value, currentAudio],
+                  }
+                : item
+            )
+          )
+        );
+      };
+
+      audioRef.current.addEventListener("ended", handleAudioEnd);
+
+      // Cleanup event listener
+      return () => {
+        audioRef.current.removeEventListener("ended", handleAudioEnd);
+      };
+    }
+  }, [audioRef.current, currentAudio, historyListen]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -364,7 +406,7 @@ const ListeningTest = () => {
           <h2 className="text-base font-medium text-gray-900 mb-4">
             Time Remaining
           </h2>
-          <CountdownTimer onSubmit={handleSubmitTest} />
+          <CountdownTimer onSubmit={handleSubmitTest} initialTime={2400} />
         </div>
         <div>
           <h2 className="text-base font-medium text-gray-900 mb-4">
@@ -395,13 +437,26 @@ const ListeningTest = () => {
                     isEnoughAnswered;
 
                   return (
-                    <Button
+                    <Badge
+                      className="!w-11 !h-11"
+                      count={
+                        isMarked ? (
+                          <FlagFilled className=" p-1 rounded-full text-[#EA7300] font-bold" />
+                        ) : null
+                      }
                       key={index}
-                      onClick={() => setCurrentQuestionIndex(index)}
-                      className={`w-11 h-11 rounded-xl text-sm font-medium flex items-center justify-center border-1 hover:!border-gray-300  ${isMarked ? "bg-yellow-500 !text-white hover:!bg-yellow-600" : isAnswered ? "bg-green-500 !text-white hover:!bg-green-600" : "bg-gray-50 text-gray-900 hover:bg-gray-100"} ${currentQuestionIndex === index && "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]"}`}
                     >
-                      {isMarked ? <FlagOutlined /> : index + 1}
-                    </Button>
+                      <Button
+                        key={index}
+                        onClick={() => setCurrentQuestionIndex(index)}
+                        className={`w-11 h-11 rounded-xl text-sm font-medium items-center justify-center border-1 hover:!border-gray-300  bg-gray-50 text-gray-900 hover:bg-gray-100 ${currentQuestionIndex === index && "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]"}`}
+                      >
+                        {index + 1}
+                        <div
+                          className={`${isAnswered ? "!bg-green-500 " : ""} absolute w-11 h-3  -bottom-1 rounded-b-lg`}
+                        ></div>
+                      </Button>
+                    </Badge>
                   );
                 }
               )}

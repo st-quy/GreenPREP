@@ -32,11 +32,20 @@ export const useSessionRequest = () => {
       return data;
     },
     onSuccess({data}) {
+    sessionStorage.setItem("sessionId", data?.SessionID);
+    sessionStorage.setItem("requestId", data?.ID);
     dispatch(updateSessionId(data));
     navigate("/waiting-for-approval");
     },
     onError({response}) {
-      message.error(response.data.error);
+      if (response.data.data.status === "pending") {
+        sessionStorage.setItem("sessionId", response.data.data?.SessionID);
+        sessionStorage.setItem("requestId", response.data.data?.ID);
+        navigate("/waiting-for-approval");
+        return;
+      } else{
+        message.error(response.data.message);
+      }
     },
   });
 };
@@ -52,7 +61,8 @@ export const usePollRequest = (sessionId, requestId) => {
       try {
         const {data} = await SessionApi.pollRequest(sessionId, userId, requestId);
         if (data.data.sessionParticipant) {
-          dispatch(updateParticipantId(data.data.sessionParticipantID));
+          sessionStorage.setItem("sessionParticipantId", data.data.sessionParticipant.ID);
+          dispatch(updateParticipantId(data.data.sessionParticipant.ID));
           navigate("/introduction");
         } 
         if (data.data.status === "rejected") {

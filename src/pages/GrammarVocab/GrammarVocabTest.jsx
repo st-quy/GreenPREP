@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import CountdownTimer from "@shared/ui/CountdownTimer";
 import { useNavigate } from "react-router-dom";
-import { Button, Card } from "antd";
-import { FlagOutlined } from "@ant-design/icons";
+import { Badge, Button, Card } from "antd";
+import { FlagFilled, FlagOutlined } from "@ant-design/icons";
 import QuestionMuitipleChoice from "@features/grammarvocab/components/QuestionMuitipleChoice";
 import QuestionDropdownList from "@features/grammarvocab/components/QuestionDropdownList";
 import { useGrammarVocabTest } from "@features/grammarvocab/hooks";
@@ -28,15 +28,18 @@ const GrammarVocabTest = () => {
 
   const { data: questions } = useGrammarVocabTest();
   const { mutate: submitStudentAnswer } = useCreateStudentAnswer();
-  const { participantID, sessionId } = useSelector((state) => state.session);
+  const { participantID, sessionId, topicId } = useSelector(
+    (state) => state.session
+  );
+  const { userId } = useSelector((state) => state.auth);
 
   const handleOnSubmit = () => {
     submitStudentAnswer({
-      studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
-      topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+      studentId: userId,
+      topicId: topicId,
       skillName: "GRAMMAR AND VOCABULARY",
-      sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
-      sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
+      sessionParticipantId: participantID,
+      sessionId: sessionId,
       questions: transformData(selectedAnswers),
     });
     localStorage.removeItem("selectedAnswers");
@@ -190,7 +193,7 @@ const GrammarVocabTest = () => {
             <h2 className="text-base font-medium text-gray-900 mb-4">
               Time Remaining
             </h2>
-            <CountdownTimer onSubmit={handleSubmitTest} />
+            <CountdownTimer onSubmit={handleSubmitTest} initialTime={1500} />
           </div>
           <div>
             <h2 className="text-base font-medium text-gray-900 mb-4">
@@ -221,13 +224,26 @@ const GrammarVocabTest = () => {
                       isEnoughAnswered;
 
                     return (
-                      <Button
+                      <Badge
+                        className="!w-11 !h-11"
+                        count={
+                          isMarked ? (
+                            <FlagFilled className=" p-1 rounded-full text-[#EA7300] font-bold" />
+                          ) : null
+                        }
                         key={index}
-                        onClick={() => setCurrentQuestionIndex(index)}
-                        className={`w-11 h-11 rounded-xl text-sm font-medium flex items-center justify-center border-1 hover:!border-gray-300  ${isMarked ? "bg-yellow-500 !text-white hover:!bg-yellow-600" : isAnswered ? "bg-green-500 !text-white hover:!bg-green-600" : currentQuestionIndex === index ? "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]" : "bg-gray-50 text-gray-900 hover:bg-gray-100"}`}
                       >
-                        {isMarked ? <FlagOutlined /> : index + 1}
-                      </Button>
+                        <Button
+                          key={index}
+                          onClick={() => setCurrentQuestionIndex(index)}
+                          className={`w-11 h-11 rounded-xl text-sm font-medium items-center justify-center border-1 hover:!border-gray-300  bg-gray-50 text-gray-900 hover:bg-gray-100 ${currentQuestionIndex === index && "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]"}`}
+                        >
+                          {index + 1}
+                          <div
+                            className={`${isAnswered ? "!bg-green-500 " : ""} absolute w-11 h-3  -bottom-1 rounded-b-lg `}
+                          ></div>
+                        </Button>
+                      </Badge>
                     );
                   }
                 )}

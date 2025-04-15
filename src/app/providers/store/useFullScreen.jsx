@@ -392,22 +392,40 @@ export function useFullScreen() {
         });
       }
     };
-    window.addEventListener("copy", (event) => {
-      showModal({
-        title: "Copy Not Allowed",
-        content: "Copy Function during the test is not allowed.",
-        okText: "Continue Test",
-        maskClosable: false,
+
+    if (testActive) {
+      window.addEventListener("copy", (event) => {
+        showModal({
+          title: "Copy Not Allowed",
+          content: "Copy Function during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
       });
-    });
-    window.addEventListener("paste", (event) => {
-      showModal({
-        title: "Paste Not Allowed",
-        content: "Paste Function during the test is not allowed.",
-        okText: "Continue Test",
-        maskClosable: false,
+      window.addEventListener("paste", (event) => {
+        showModal({
+          title: "Paste Not Allowed",
+          content: "Paste Function during the test is not allowed.",
+          okText: "Continue Test",
+          maskClosable: false,
+        });
       });
-    });
+      const escHandler = (e) => {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      };
+
+      window.addEventListener("keydown", escHandler, true);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && document.fullscreenElement) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
+    }
     window.addEventListener("keydown", handleKeyDown, true);
     document.addEventListener("contextmenu", handleContextMenu, true);
     window.addEventListener("beforeunload", handleBeforeUnload);

@@ -1,6 +1,6 @@
 import { useReadingContext } from "@features/reading/context/ReadingContext";
-import { Button } from "antd";
-import { FlagOutlined } from "@ant-design/icons";
+import { Badge, Button } from "antd";
+import { FlagFilled, FlagOutlined } from "@ant-design/icons";
 
 const ReadingQuestionNavigator = () => {
   const {
@@ -25,21 +25,30 @@ const ReadingQuestionNavigator = () => {
           const isActive = currentQuestion?.ID === question.ID;
 
           return (
-            <Button
-              key={question.ID}
-              onClick={() => handleNavigate(index)}
-              className={`w-11 h-11 rounded-xl text-sm font-medium flex items-center justify-center border-1 hover:!border-gray-300 ${
-                isMarked
-                  ? "bg-yellow-500 !text-white hover:!bg-yellow-600"
-                  : isDone
-                  ? "bg-green-500 !text-white hover:!bg-green-600"
-                  : isActive
-                  ? "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]"
-                  : "bg-gray-50 text-gray-900 hover:bg-gray-100"
-              }`}
+            <Badge
+              className="!w-11 !h-11"
+              count={
+                isMarked ? (
+                  <FlagFilled className=" p-1 rounded-full text-[#EA7300] font-bold" />
+                ) : null
+              }
+              key={index}
             >
-              {isMarked ? <FlagOutlined /> : index + 1}
-            </Button>
+              <Button
+                key={question.ID}
+                onClick={() => handleNavigate(index)}
+                className={`w-11 h-11 rounded-xl text-sm font-medium flex items-center justify-center border-1 hover:!border-gray-300 ${
+                  isActive
+                    ? "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]"
+                    : "bg-gray-50 text-gray-900 hover:bg-gray-100"
+                }`}
+              >
+                {index + 1}
+                <div
+                  className={`${isDone ? "!bg-green-500 " : ""} absolute w-11 h-3  -bottom-1 rounded-b-lg `}
+                ></div>
+              </Button>
+            </Badge>
           );
         })}
       </div>

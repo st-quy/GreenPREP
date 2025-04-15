@@ -15,17 +15,15 @@ const CountdownTimer = ({ initialTime = 600, onSubmit }) => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   /** @type {number | null} */
-  const timeLeft = useSelector((/** @type {RootState} */ state) => state.countdown.timeLeft);
+  const timeLeft = useSelector(
+    (/** @type {RootState} */ state) => state.countdown.timeLeft
+  );
 
   useEffect(() => {
     const storedTime = localStorage.getItem("countdownTime");
 
-    if (!storedTime || isNaN(parseInt(storedTime, 10))) {
-      dispatch(setTime(initialTime));
-      setIsInitialized(true);
-    } else {
-      setIsInitialized(true);
-    }
+    dispatch(setTime(initialTime));
+    setIsInitialized(true);
   }, [dispatch, initialTime]);
 
   useEffect(() => {

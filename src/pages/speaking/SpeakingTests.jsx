@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { Button } from "antd";
+import { Button, Image } from "antd";
 import { RecordIcon } from "@assets/images";
 import { CountdownIndicator } from "@features/speaking/ui/CountdownIndicator";
 import AudioVisualizer from "@features/speaking/ui/AudioVisualizer";
@@ -10,6 +10,11 @@ import { useCreateAnswer, useGetSpeaking } from "@features/speaking/hooks";
 import { useSelector } from "react-redux";
 
 export default function SpeakingTests() {
+  const { userId } = useSelector((state) => state.auth);
+  const { participantID, sessionId, topicId } = useSelector(
+    (state) => state.session
+  );
+
   const { partId, questionsId } = useParams();
   const navigate = useNavigate();
   const [testDuration, setTestDuration] = useState(
@@ -50,7 +55,6 @@ export default function SpeakingTests() {
   const { mutateAsync: postAnswers } = useCreateAnswer();
 
   const result = useGetSpeaking();
-  const { participantID, sessionId } = useSelector((state) => state.session);
 
   useEffect(() => {
     setIsTestActive(false);
@@ -337,11 +341,11 @@ export default function SpeakingTests() {
 
         if (partId == "4") {
           await postAnswers({
-            studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
-            topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+            studentId: userId,
+            topicId: topicId,
             skillName: "SPEAKING",
-            sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
-            sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
+            sessionParticipantId: participantID,
+            sessionId: sessionId,
             questions: [
               {
                 questionId: partFourQuest[0].ID,
@@ -362,11 +366,11 @@ export default function SpeakingTests() {
           });
         } else {
           await postAnswers({
-            studentId: "77b5f9cb-73ba-4edd-9c90-998710832c87",
-            topicId: "ef6b69aa-2ec2-4c65-bf48-294fd12e13fc",
+            studentId: userId,
+            topicId: topicId,
             skillName: "SPEAKING",
-            sessionParticipantId: "cff9e0a0-d78a-43d5-a747-7fe83343fb30",
-            sessionId: "12bd21ef-b6d8-4991-b9ee-69160ce8fd09",
+            sessionParticipantId: participantID,
+            sessionId: sessionId,
             questions: [
               {
                 questionId: questionsData.ID,
@@ -463,11 +467,20 @@ export default function SpeakingTests() {
               {questionsData?.ImageKeys?.length > 0 ? (
                 <div className="flex items-center pt-3 flex-col md:flex-row gap-4 md:gap-6">
                   {questionsData?.ImageKeys?.map((image, index) => (
-                    <img
-                      key={index}
+                    <Image
+                      width={700}
                       src={image || ""}
-                      alt="speaking pic"
-                      className="w-full md:w-1/4"
+                      preview={{
+                        destroyOnClose: true,
+                        imageRender: () => (
+                          <img
+                            src={image || ""}
+                            alt="speaking pic"
+                            className="w-2/3"
+                          />
+                        ),
+                        toolbarRender: () => null,
+                      }}
                     />
                   ))}
                 </div>
@@ -476,11 +489,20 @@ export default function SpeakingTests() {
                 <>
                   <div className="flex items-center pt-3 flex-col md:flex-row gap-4 md:gap-6 mb-3 md:mb-5">
                     {partFourQuest[0]?.ImageKeys?.map((image, index) => (
-                      <img
-                        key={index}
+                      <Image
+                        className="!w-full"
                         src={image || ""}
-                        alt="speaking pic"
-                        className="w-full md:w-1/3"
+                        preview={{
+                          destroyOnClose: true,
+                          imageRender: () => (
+                            <img
+                              src={image || ""}
+                              alt="speaking pic"
+                              className="w-1/2"
+                            />
+                          ),
+                          toolbarRender: () => null,
+                        }}
                       />
                     ))}
                   </div>

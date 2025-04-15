@@ -3,11 +3,11 @@ import SubmissionSuccess from "@shared/SubmissionSuccess/SubmissionSuccess";
 import { useNavigate } from "react-router-dom";
 
 const WritingSubmissionSuccess = () => {
-  // const { endTest } = useFullScreenContext();
+  const { endTest } = useFullScreenContext();
 
   const navigate = useNavigate();
   const handleNextTest = () => {
-    // endTest();
+    endTest();
     navigate("/");
   };
   return (

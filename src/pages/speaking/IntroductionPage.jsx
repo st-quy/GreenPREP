@@ -7,11 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const Introduction = () => {
   const navigate = useNavigate();
-  // const { startTestInFullScreen } = useFullScreenContext();
 
-  // useEffect(() => {
-  //   startTestInFullScreen();
-  // }, []);
   return (
     <div>
       <Card className="mb-2 shadow-sm p-8">
