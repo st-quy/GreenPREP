@@ -65,6 +65,8 @@ export default function SpeakingTests() {
     setIsProcessingFinish(false);
     recordingStoppedRef.current = false;
     audioChunksRef.current = [];
+    setShowFinishButton(false);
+    finishButtonShownRef.current = false;
 
     setTestDuration(partId == "1" ? 30 : partId == "4" ? 120 : 45);
     setPreparationTime(partId == "4" ? 60 : 5);
@@ -385,6 +387,9 @@ export default function SpeakingTests() {
   };
 
   const navigateToNextQuestion = () => {
+    setShowFinishButton(false);
+    finishButtonShownRef.current = false;
+
     switch (partId) {
       case "1":
         if (questionsId == "3") {
