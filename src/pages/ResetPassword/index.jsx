@@ -80,9 +80,10 @@ const ResetPassword = () => {
               name="passwordConfirmation"
               label={<span className="text-gray-900">Confirm new password <span className="text-red-500">*</span></span>}
               dependencies={["password"]}
+              required={false}
               rules={[
                 {
-                  required: false,
+                  required: true,
                   message: "Password confirmation is required",
                 },
                 ({ getFieldValue }) => ({
