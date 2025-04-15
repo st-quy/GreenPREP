@@ -82,7 +82,7 @@ const ResetPassword = () => {
               dependencies={["password"]}
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Password confirmation is required",
                 },
                 ({ getFieldValue }) => ({
