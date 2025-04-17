@@ -1,4 +1,4 @@
-import { Logo } from "@assets/images";
+import { LogoGreen } from "@assets/images";
 import ProfileMenu from "@features/auth/ui/components/ProfileMenu";
 import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
@@ -7,11 +7,13 @@ const { Header, Content } = Layout;
 
 export const PublicLayout = () => {
   return (
-    <Layout className="bg-[#f3f4f6]">
-      <Header className="flex items-center h-[7rem] bg-[#f3f4f6]">
-        <img src={Logo} className="max-w-44" />
+    <Layout className="bg-[#FDFEFD] min-h-screen min-w-screen">
+      <Header className="flex items-center h-[7rem] bg-[#FDFEFD]">
+        <img src={LogoGreen} className="max-w-40" />
       </Header>
-      <Content className="px-6 flex-1">
+      <Content
+        className={`px-6 flex-1 w-full bg-[url(@assets/images/bgGreenwich.png)] bg-repeat-round`}
+      >
         <Outlet />
       </Content>
     </Layout>

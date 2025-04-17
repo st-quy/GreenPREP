@@ -2,7 +2,7 @@ import { Form, Input, Button, Card, Row, Col, Typography } from "antd";
 import { yupSync } from "@shared/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { LeftOutlined } from "@ant-design/icons";
-import { ForgotPasswordImg } from "@assets/images";
+import { ForgotPasswordLion } from "@assets/images";
 import { forgotPasswordSchema } from "./schema";
 import { useForgotPassword } from "@features/auth/hooks";
 
@@ -23,8 +23,15 @@ const ForgotPassword = () => {
   };
   const [form] = Form.useForm();
   return (
-    <Row className=" bg-[#f3f4f6] !gap-0 ">
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8">
+    <Row className="!gap-0 ">
+      <Col
+        xs={24}
+        sm={24}
+        md={24}
+        lg={12}
+        xxl={12}
+        className="flex items-center lg:items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8"
+      >
         <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[16px] pb-[120px] px-6 lg:pt-[16px] lg:pb-[160px] lg:px-8">
           <div
             className="mb-4 flex items-center cursor-pointer gap-2 text-[#003087] hover:text-[#003087]/90"
@@ -34,7 +41,10 @@ const ForgotPassword = () => {
             <span>Back to login</span>
           </div>
           <div className="mb-6">
-            <Title level={1} className="!text-[48px] !text-gray-900 !mb-3 !font-['Inter']">
+            <Title
+              level={1}
+              className="!text-[48px] !text-gray-900 !mb-3 !font-['Inter']"
+            >
               Forgot password?
             </Title>
             <Text className="text-gray-500 text-lg">
@@ -46,10 +56,13 @@ const ForgotPassword = () => {
             <div className="mb-8"></div>
             <Form.Item
               name="email"
-              label={<span className="text-base">Email <span className="text-red-500">*</span></span>}
+              label={
+                <span className="text-base">
+                  Email <span className="text-red-500">*</span>
+                </span>
+              }
               rules={[yupSync(forgotPasswordSchema)]}
             >
-
               <Input
                 placeholder="Enter your email here"
                 size="large"
@@ -73,12 +86,19 @@ const ForgotPassword = () => {
         </Card>
       </Col>
 
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:justify-start justify-center px-4 lg:pt-2 lg:pl-8 mt-8 lg:mt-0">
-        <img
-          src={ForgotPasswordImg}
+      <Col
+        xs={24}
+        sm={24}
+        md={24}
+        lg={12}
+        xxl={12}
+        className="flex items-center lg:justify-start justify-center px-4 lg:pt-2 lg:pl-8 mt-8 lg:mt-0"
+      >
+        {/* <img
+          src={ForgotPasswordLion}
           alt="ForgotPassword"
           className="w-full max-w-[500px] lg:max-w-[600px] h-auto object-contain"
-        />
+        /> */}
       </Col>
     </Row>
   );

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ResetSuccess = () => {
   return (
-    <div className="flex flex-col items-center justify-center ">
+    <div className="flex flex-col items-center justify-center h-screen">
       <div className="text-center">
         <img
           src={ResetSuccessImg}

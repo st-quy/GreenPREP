@@ -1,19 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Input, Pagination } from "antd";
 
 const { Search } = Input;
 
-const TableSearch = ({ data, columns }) => {
+const TableSearch = ({ data = [], columns, isLoading = false }) => {
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredData, setFilteredData] = useState([]);
   const pageSize = 5;
 
-  const filteredData = data.filter((item) => {
-    const searchValue = searchText.toLowerCase();
-    return Object.values(item).some((value) =>
-      String(value).toLowerCase().includes(searchValue)
+  useEffect(() => {
+    setFilteredData(
+      data.filter((item) => {
+        const searchValue = searchText.toLowerCase();
+
+        const searchInObject = (obj) => {
+          return Object.values(obj).some((value) => {
+            if (value === null || value === undefined) return false;
+            if (typeof value === "object") return searchInObject(value);
+            return String(value).toLowerCase().includes(searchValue);
+          });
+        };
+
+        return searchInObject(item);
+      })
     );
-  });
+  }, [searchText]);
 
   const start = (currentPage - 1) * pageSize + 1;
   const end = Math.min(start + pageSize - 1, filteredData.length);
@@ -35,10 +47,11 @@ const TableSearch = ({ data, columns }) => {
         <Table
           columns={columns}
           dataSource={paginatedData}
-          rowKey="sessionName"
+          rowKey={(row) => row.ID}
           pagination={false} // Ẩn pagination mặc định
           scroll={{ x: "max-content" }}
           className="w-full"
+          loading={isLoading}
         />
         {/* Container chứa Total & Pagination */}
         <div className="flex justify-between items-center mt-2 px-4">

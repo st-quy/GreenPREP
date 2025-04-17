@@ -34,11 +34,21 @@ const LoginPage = () => {
   }, [isAuth, navigate]);
 
   return (
-    <Row className="bg-[#f3f4f6] !gap-0 ">
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8">
+    <Row className="!gap-0 ">
+      <Col
+        xs={24}
+        sm={24}
+        md={24}
+        lg={12}
+        xxl={12}
+        className="flex items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8"
+      >
         <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[16px] pb-8 px-6 lg:pb-12 lg:px-8">
           <div className="mb-8">
-            <Title level={1} className="!text-[48px] !text-gray-900 !mb-6 !font-['Inter']">
+            <Title
+              level={1}
+              className="!text-[48px] !text-gray-900 !mb-6 !font-['Inter']"
+            >
               Welcome back!
             </Title>
             <Text className="text-gray-500 text-lg">
@@ -63,7 +73,11 @@ const LoginPage = () => {
           >
             <Form.Item
               name="email"
-              label={<span className="text-base">Email <span className="text-red-500">*</span></span>}
+              label={
+                <span className="text-base">
+                  Email <span className="text-red-500">*</span>
+                </span>
+              }
               rules={[yupSync(loginSchema)]}
             >
               <Input
@@ -76,7 +90,11 @@ const LoginPage = () => {
 
             <Form.Item
               name="password"
-              label={<span className="text-base">Password <span className="text-red-500">*</span></span>}
+              label={
+                <span className="text-base">
+                  Password <span className="text-red-500">*</span>
+                </span>
+              }
               rules={[yupSync(loginSchema)]}
             >
               <Input.Password
@@ -125,12 +143,19 @@ const LoginPage = () => {
         </Card>
       </Col>
 
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-start lg:justify-start justify-center px-4 lg:pt-2 lg:pl-8 mt-8 lg:mt-0">
-        <img
+      <Col
+        xs={24}
+        sm={24}
+        md={24}
+        lg={12}
+        xxl={12}
+        className="flex items-start lg:justify-start justify-center px-4 lg:pt-2 lg:pl-8 mt-8 lg:mt-0"
+      >
+        {/* <img
           src={LoginHappyStudentImg}
           alt="Happy students celebrating"
           className="w-full max-w-[500px] lg:max-w-[700px] h-auto object-contain"
-        />
+        /> */}
       </Col>
     </Row>
   );

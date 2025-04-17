@@ -16,249 +16,69 @@ import TableSearch from "@shared/ui/TableSearch";
 import { useGetProfile } from "@features/auth/hooks";
 import ChangePassword from "@features/profile/ui/Modal/ChangePassword";
 import ProfileUpdate from "@features/profile/ui/Modal/ProfileUpdate";
+import { useGetAssessmentHistory } from "@features/sessionParticipants/hooks";
 
 const Profile = () => {
   const [openKey, setOpenKey] = useState(null);
   const navigate = useNavigate();
 
   const { data, isLoading } = useGetProfile();
-
-  const data1 = [
-    {
-      sessionName: "SPRING_P1_2025",
-      grammar: 43,
-      listening: "50|B",
-      reading: 46,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "C",
-    },
-    {
-      sessionName: "FALL_P3_2024",
-      grammar: 44,
-      listening: "23",
-      reading: 5,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "B2",
-    },
-    {
-      sessionName: "FALL_P2_2024",
-      grammar: 46,
-      listening: "23",
-      reading: 3,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "B2",
-    },
-    {
-      sessionName: "FALL_P1_2024",
-      grammar: 31,
-      listening: "24",
-      reading: 3,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "B1",
-    },
-    {
-      sessionName: "SUMMER_P3_2023",
-      grammar: 35,
-      listening: "28",
-      reading: 8,
-      speaking: 4,
-      writing: 4,
-      total: 4,
-      level: "B1",
-    },
-    {
-      sessionName: "SUMMER_P2_2023",
-      grammar: 50,
-      listening: "40",
-      reading: 10,
-      speaking: 5,
-      writing: 5,
-      total: 5,
-      level: "A2",
-    },
-    {
-      sessionName: "SUMMER_P1_2023",
-      grammar: 48,
-      listening: "39",
-      reading: 9,
-      speaking: 4,
-      writing: 4,
-      total: 4,
-      level: "A2",
-    },
-    {
-      sessionName: "SPRING_P3_2023",
-      grammar: 37,
-      listening: "30",
-      reading: 6,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "B1",
-    },
-    {
-      sessionName: "SPRING_P2_2023",
-      grammar: 41,
-      listening: "35",
-      reading: 7,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "B1",
-    },
-    {
-      sessionName: "SPRING_P1_2023",
-      grammar: 29,
-      listening: "20",
-      reading: 2,
-      speaking: 2,
-      writing: 2,
-      total: 2,
-      level: "B2",
-    },
-    {
-      sessionName: "WINTER_P3_2022",
-      grammar: 36,
-      listening: "26",
-      reading: 7,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "B1",
-    },
-    {
-      sessionName: "WINTER_P2_2022",
-      grammar: 40,
-      listening: "33",
-      reading: 9,
-      speaking: 4,
-      writing: 4,
-      total: 4,
-      level: "A2",
-    },
-    {
-      sessionName: "WINTER_P1_2022",
-      grammar: 50,
-      listening: "45",
-      reading: 12,
-      speaking: 5,
-      writing: 5,
-      total: 5,
-      level: "A1",
-    },
-    {
-      sessionName: "FALL_P3_2022",
-      grammar: 45,
-      listening: "37",
-      reading: 10,
-      speaking: 4,
-      writing: 4,
-      total: 4,
-      level: "A2",
-    },
-    {
-      sessionName: "FALL_P2_2022",
-      grammar: 38,
-      listening: "29",
-      reading: 6,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "B1",
-    },
-    {
-      sessionName: "FALL_P1_2022",
-      grammar: 42,
-      listening: "34",
-      reading: 8,
-      speaking: 4,
-      writing: 4,
-      total: 4,
-      level: "A2",
-    },
-    {
-      sessionName: "SUMMER_P3_2022",
-      grammar: 39,
-      listening: "32",
-      reading: 5,
-      speaking: 3,
-      writing: 3,
-      total: 3,
-      level: "B1",
-    },
-    {
-      sessionName: "SUMMER_P2_2022",
-      grammar: 46,
-      listening: "36",
-      reading: 11,
-      speaking: 4,
-      writing: 4,
-      total: 4,
-      level: "A2",
-    },
-    {
-      sessionName: "SUMMER_P1_2022",
-      grammar: 30,
-      listening: "21",
-      reading: 3,
-      speaking: 2,
-      writing: 2,
-      total: 2,
-      level: "B2",
-    },
-  ];
+  const { data: assessmentData, isLoading: isLoadingHistory } =
+    useGetAssessmentHistory();
 
   const columns = [
     {
       title: "SESSION NAME",
       dataIndex: "sessionName",
       key: "sessionName",
+      render: (text, record) => record.Session.sessionName,
     },
     {
       title: "GRAMMAR & VOCABULARY",
-      dataIndex: "grammar",
-      key: "grammar",
-    },
-    {
-      title: "LISTENING",
-      dataIndex: "listening",
-      key: "listening",
-      render: (text) => (text.includes("|") ? text.replace("|", " | ") : text),
-    },
-    {
-      title: "READING",
-      dataIndex: "reading",
-      key: "reading",
+      dataIndex: "GrammarVocab",
+      key: "GrammarVocab",
+      render: (text, record) =>
+        text ? record.GrammarVocab + "|" + record.GrammarVocabLevel : "No Data",
     },
     {
       title: "SPEAKING",
-      dataIndex: "speaking",
-      key: "speaking",
-      //   render: (text) => <Link>{text}</Link>,
+      dataIndex: "Speaking",
+      key: "Speaking",
+      render: (text, record) =>
+        text ? record.Speaking + "|" + record.SpeakingLevel : "No Data",
+    },
+    {
+      title: "LISTENING",
+      dataIndex: "Listening",
+      key: "Listening",
+      render: (text, record) =>
+        text ? record.Listening + "|" + record.ListeningLevel : "No Data",
+    },
+    {
+      title: "READING",
+      dataIndex: "Reading",
+      key: "Reading",
+      render: (text, record) =>
+        text ? record.Reading + "|" + record.ReadingLevel : "No Data",
     },
     {
       title: "WRITING",
-      dataIndex: "writing",
-      key: "writing",
-      //   render: (text) => <Link>{text}</Link>,
+      dataIndex: "Writing",
+      key: "Writing",
+      render: (text, record) =>
+        text ? record.Writing + "|" + record.WritingLevel : "No Data",
     },
     {
       title: "TOTAL",
-      dataIndex: "total",
-      key: "total",
+      dataIndex: "Total",
+      key: "Total",
+      render: (text, record) => (text ? record.Total : "No Data"),
     },
     {
       title: "LEVEL",
-      dataIndex: "level",
-      key: "level",
+      dataIndex: "Level",
+      key: "Level",
+      render: (text, record) => (text ? record.Level : "No Data"),
     },
   ];
 
@@ -342,7 +162,12 @@ const Profile = () => {
           </Typography.Text>
         </Col>
       </Row>
-      <TableSearch data={data1} columns={columns} />
+
+      <TableSearch
+        data={assessmentData}
+        columns={columns}
+        isLoading={isLoadingHistory}
+      />
       {openKey === "change-password" && (
         <ChangePassword openKey={openKey} setOpenKey={setOpenKey} />
       )}

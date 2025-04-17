@@ -38,13 +38,14 @@ export const useSessionRequest = () => {
     navigate("/waiting-for-approval");
     },
     onError({response}) {
+      if (response.data.error) {
+      message.error(response.data.error);
+      }
+
       if (response.data.data.status === "pending") {
         sessionStorage.setItem("sessionId", response.data.data?.SessionID);
         sessionStorage.setItem("requestId", response.data.data?.ID);
         navigate("/waiting-for-approval");
-        return;
-      } else{
-        message.error(response.data.message);
       }
     },
   });

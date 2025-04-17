@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Input, Select } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import { WelcomeImage } from "@assets/images";
+import welcomeVideo from "@assets/videos/welcomeVideo.mp4";
 import { useGetAllSession, useSessionRequest } from "@features/sessions/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTopicData } from "@app/providers/reducer/sessions/sessionSlice";
@@ -85,7 +85,7 @@ const WelcomeScreen = () => {
                           : "No session available"
                       }
                       options={data?.map((session) => ({
-                        label: session.sessionName,
+                        label: `${session.sessionName + " - " + session.Classes.className}`,
                         value: session.ID,
                       }))}
                       showSearch
@@ -141,9 +141,11 @@ const WelcomeScreen = () => {
 
           {/* Right Image Section */}
           <div className="flex-1 w-full lg:max-w-xl">
-            <img
-              src={WelcomeImage}
-              alt="Welcome Illustration"
+            <video
+              autoPlay
+              loop
+              src={welcomeVideo}
+              // src={WelcomeImage}
               className="w-full h-auto object-contain"
             />
           </div>

@@ -43,8 +43,15 @@ const ResetPassword = () => {
   }, [searchParams.get("token"), navigate]);
 
   return (
-    <Row className="bg-[#f3f4f6] !gap-0 ">
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8">
+    <Row className="!gap-0 ">
+      <Col
+        xs={24}
+        sm={24}
+        md={24}
+        lg={12}
+        xxl={12}
+        className="flex items-center lg:items-start lg:justify-end justify-center px-4 py-6 lg:py-8 lg:pr-8"
+      >
         <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[16px] pb-[120px] px-6 lg:pt-[16px] lg:pb-[160px] lg:px-8">
           <div
             className="mb-4 flex items-center cursor-pointer gap-2 text-[#003087] hover:text-[#003087]/90"
@@ -54,23 +61,30 @@ const ResetPassword = () => {
             <span>Back to login</span>
           </div>
           <div className="mb-6">
-            <Title level={1} className="!text-[48px] !leading-[1.2] lg:!text-[46px] md:!text-[40px] sm:!text-[36px] !text-gray-900 !mb-3 !font-['Inter']">
+            <Title
+              level={1}
+              className="!text-[48px] !leading-[1.2] lg:!text-[46px] md:!text-[40px] sm:!text-[36px] !text-gray-900 !mb-3 !font-['Inter']"
+            >
               Create new password
             </Title>
             <Text className="text-gray-500 text-lg">
-              Your previous password has been reset. Please set a new password for your account.
+              Your previous password has been reset. Please set a new password
+              for your account.
             </Text>
           </div>
 
           <Form layout="vertical" onFinish={onFinish} className="space-y-8">
-            <div className="mb-8"></div>
             <Form.Item
               name="password"
-              label={<span className="text-gray-900">New password <span className="text-red-500">*</span></span>}
+              label={
+                <span className="text-gray-900">
+                  New password <span className="text-red-500">*</span>
+                </span>
+              }
               rules={[yupSync(ResetPasswordSchema)]}
             >
-              <Input.Password 
-                placeholder="********" 
+              <Input.Password
+                placeholder="********"
                 size="large"
                 className="h-11 text-base rounded-lg"
               />
@@ -78,7 +92,11 @@ const ResetPassword = () => {
 
             <Form.Item
               name="passwordConfirmation"
-              label={<span className="text-gray-900">Confirm new password <span className="text-red-500">*</span></span>}
+              label={
+                <span className="text-gray-900">
+                  Confirm new password <span className="text-red-500">*</span>
+                </span>
+              }
               dependencies={["password"]}
               rules={[
                 {
@@ -95,8 +113,8 @@ const ResetPassword = () => {
                 }),
               ]}
             >
-              <Input.Password 
-                placeholder="********" 
+              <Input.Password
+                placeholder="********"
                 size="large"
                 className="h-11 text-base rounded-lg"
               />
@@ -113,17 +131,8 @@ const ResetPassword = () => {
                 Submit
               </Button>
             </Form.Item>
-            <div className="mb-32"></div>
           </Form>
         </Card>
-      </Col>
-
-      <Col xs={24} sm={24} md={24} lg={12} xxl={12} className="flex items-center lg:justify-start justify-center px-4 lg:pt-2 lg:pl-8 mt-8 lg:mt-0">
-        <img
-          src={ForgotPasswordImg}
-          alt="ResetPassword"
-          className="w-full max-w-[500px] lg:max-w-[600px] h-auto object-contain"
-        />
       </Col>
     </Row>
   );

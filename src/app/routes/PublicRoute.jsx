@@ -28,11 +28,11 @@ const PublicRoute = [
         path: "reset-password",
         element: <ResetPassword />,
       },
-      {
-        path: "reset-success",
-        element: <ResetSuccess />,
-      },
     ],
+  },
+  {
+    path: "reset-success",
+    element: <ResetSuccess />,
   },
 ];
 

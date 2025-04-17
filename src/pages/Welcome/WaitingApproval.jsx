@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { WaitingApprovalImg } from "@assets/images";
+import { WaitingApproved } from "@assets/images";
 import { useNavigate } from "react-router-dom";
 import { usePollRequest } from "@features/sessions/hooks";
 import { useSelector } from "react-redux";
@@ -21,7 +21,7 @@ const WaitingApproval = () => {
       <div className="bg-white rounded-lg shadow-2xl text-center flex flex-col justify-center overflow-hidden p-20">
         <div className="relative">
           <img
-            src={WaitingApprovalImg}
+            src={WaitingApproved}
             alt="Waiting Illustration"
             className="w-40 h-40 sm:w-60 sm:h-60 md:w-[300px] md:h-auto lg:w-[337px] lg:h-auto sm:-translate-y-2 md:-translate-y-4 lg:-translate-y-6 xl:-translate-y-8"
           />

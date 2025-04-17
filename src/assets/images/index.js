@@ -16,8 +16,18 @@ import ForgotPasswordImg from "./fpassword.png";
 import ResetSuccessImg from "./resetSuccess.png";
 import WelcomeBackImg from "./welcomeback.png";
 import LoginHappyStudentImg from "./login-happy-student.png"
+import WaitingApproved from "./waiting-approve.png"
+import RegisterAccount from "./registerAccount.png"
+import ForgotPasswordLion from "./forgot-password.png";
+import BgGreenWich from "./bgGreenwich.png"
+import LogoGreen from "./logoGreenprep.png"
 
 export {
+  LogoGreen,
+  BgGreenWich,
+  ForgotPasswordLion,
+  RegisterAccount,
+  WaitingApproved,
   LoginHappyStudentImg,
   WelcomeBackImg,
   ResetSuccessImg,
