@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Input, Select } from "antd";
 import { ArrowRightOutlined } from "@ant-design/icons";
-import welcomeVideo from "@assets/videos/welcomeVideo.mp4";
+import welcomeVideo1 from "@assets/videos/welcomeVideo1.mp4";
 import { useGetAllSession, useSessionRequest } from "@features/sessions/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTopicData } from "@app/providers/reducer/sessions/sessionSlice";
@@ -144,7 +144,7 @@ const WelcomeScreen = () => {
             <video
               autoPlay
               loop
-              src={welcomeVideo}
+              src={welcomeVideo1}
               // src={WelcomeImage}
               className="w-full h-auto object-contain"
             />

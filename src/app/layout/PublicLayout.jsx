@@ -1,5 +1,4 @@
 import { LogoGreen } from "@assets/images";
-import ProfileMenu from "@features/auth/ui/components/ProfileMenu";
 import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 
