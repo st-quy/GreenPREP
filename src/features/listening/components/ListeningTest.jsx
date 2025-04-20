@@ -43,28 +43,36 @@ const ListeningTest = () => {
   const [audio, setAudio] = useState();
   const [isPlaying, setIsPlaying] = useState(false);
   const { data: questions } = useListeningTest();
-  const {
-    mutate: submitStudentAnswer,
-    isPending,
-    isSuccess,
-  } = useCreateStudentAnswer();
+  const { mutate: submitStudentAnswer, isPending } = useCreateStudentAnswer();
 
   const handleOnSubmit = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
-    submitStudentAnswer({
-      studentId: userId,
-      topicId: topicId,
-      skillName: "LISTENING",
-      sessionParticipantId: participantID,
-      sessionId: sessionId,
-      questions: transformData(selectedAnswers),
-    });
-    if (isSuccess) {
-      navigate("/session/listening/submission");
-    }
+    submitStudentAnswer(
+      {
+        studentId: userId,
+        topicId: topicId,
+        skillName: "LISTENING",
+        sessionParticipantId: participantID,
+        sessionId: sessionId,
+        questions: transformData(selectedAnswers),
+      },
+      {
+        onSuccess: () => {
+          setIsModalOpen(false);
+          navigate("/session/listening/submission-success");
+          localStorage.removeItem("countdownTime");
+          localStorage.removeItem("selectedAnswers");
+          localStorage.removeItem("markedQuestions");
+          localStorage.removeItem("history_listen");
+          localStorage.removeItem("currentQuestionIndex");
+          localStorage.removeItem("currentPartsID");
+          localStorage.removeItem("audio");
+        },
+      }
+    );
   };
 
   const handleCancelModal = () => {
