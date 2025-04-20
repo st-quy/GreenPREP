@@ -38,10 +38,10 @@ export const useSessionRequest = () => {
     navigate("/waiting-for-approval");
     },
     onError({response}) {
-      if (response.data.error) {
-      message.error(response.data.error);
+      if (response?.data?.error) {
+        message.error("Failed to send request");
+        return;
       }
-
       if (response.data.data.status === "pending") {
         sessionStorage.setItem("sessionId", response.data.data?.SessionID);
         sessionStorage.setItem("requestId", response.data.data?.ID);

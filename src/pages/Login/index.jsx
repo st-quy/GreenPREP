@@ -34,7 +34,7 @@ const LoginPage = () => {
   }, [isAuth, navigate]);
 
   return (
-    <Row className="!gap-0 ">
+    <Row className="!gap-0">
       <Col
         xs={24}
         sm={24}

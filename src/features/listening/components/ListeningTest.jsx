@@ -62,14 +62,9 @@ const ListeningTest = () => {
       {
         onSuccess: () => {
           setIsModalOpen(false);
-          navigate("/session/listening/submission-success");
-          localStorage.removeItem("countdownTime");
+          navigate("/session/listening/submission");
           localStorage.removeItem("selectedAnswers");
           localStorage.removeItem("markedQuestions");
-          localStorage.removeItem("history_listen");
-          localStorage.removeItem("currentQuestionIndex");
-          localStorage.removeItem("currentPartsID");
-          localStorage.removeItem("audio");
         },
       }
     );

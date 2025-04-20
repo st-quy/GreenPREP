@@ -6,7 +6,7 @@ import { useFullScreenContext } from "@app/providers/FullScreenProvider";
 const { Title, Text } = Typography;
 
 const TestingMicrophone = () => {
-  const { startTestInFullScreen } = useFullScreenContext();
+  // const { startTestInFullScreen } = useFullScreenContext();
 
   const navigate = useNavigate();
   const [isMicrophone, setIsMicrophone] = useState(false);
@@ -216,7 +216,7 @@ const TestingMicrophone = () => {
                 className="rounded-full bg-[#3658F9] py-3 w-[114px] ml-auto mt-1 !p-6"
                 htmlType="submit"
                 onClick={() => {
-                  startTestInFullScreen();
+                  // startTestInFullScreen();
                   navigate("/session/speaking");
                 }}
               >
