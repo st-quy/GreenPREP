@@ -101,7 +101,7 @@ const Profile = () => {
           Back to home
         </Typography.Text>
       </div>
-      <Card className="bg-[#F9FAFB] rounded-lg text-[#0F3E8F] flex items-center">
+      <Card className="bg-[#F9FAFB] rounded-lg text-primaryColor flex items-center">
         <UserOutlined />
         <span className="ml-2">Profile</span>
       </Card>
@@ -116,13 +116,13 @@ const Profile = () => {
         </Col>
         <Col md={12} className="flex justify-end gap-2">
           <Button
-            className="border border-[#0F3E8F] text-[#0F3E8F] rounded-full px-4 py-2 hover:bg-[#0F3E8F] hover:text-white"
+            className="border border-primaryColor text-primaryColor rounded-full px-4 py-2 hover:bg-primaryColor hover:text-white"
             onClick={() => setOpenKey("change-password")}
           >
             Change password
           </Button>
           <Button
-            className="bg-[#0F3E8F] !text-white rounded-full px-4 py-2 hover:!bg-[#092C6C] !border-0"
+            className="bg-primaryColor !text-white rounded-full px-4 py-2 hover:!bg-[#092C6C] !border-0"
             onClick={() => setOpenKey("update-profile")}
           >
             Update profile

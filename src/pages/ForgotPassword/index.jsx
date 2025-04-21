@@ -34,7 +34,7 @@ const ForgotPassword = () => {
       >
         <Card className="w-full max-w-[550px] lg:max-w-[600px] shadow-lg pt-[16px] pb-[120px] px-6 lg:pt-[16px] lg:pb-[160px] lg:px-8">
           <div
-            className="mb-4 flex items-center cursor-pointer gap-2 text-[#003087] hover:text-[#003087]/90"
+            className="mb-4 flex items-center cursor-pointer gap-2 text-primaryColor hover:text-primaryColor/90"
             onClick={() => navigate("/login")}
           >
             <LeftOutlined />
@@ -75,7 +75,7 @@ const ForgotPassword = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="!w-[250px] !h-[50px] text-base font-medium !bg-[#003087] hover:!bg-[#003087]/90 rounded-full"
+                className="!w-[250px] !h-[50px] text-base font-medium !bg-primaryColor hover:!bg-primaryColor/90 rounded-full"
                 loading={isPending}
               >
                 Reset password

@@ -10,7 +10,7 @@ const GrammarPage = () => {
       <div className="space-y-4">
         {/* Test Structure */}
         <Card className="bg-white rounded-2xl px-10 py-6">
-          <h2 className="text-[#3758F9] text-[24px] font-semibold mb-4">
+          <h2 className="text-primaryColor text-[24px] font-semibold mb-4">
             Test Structure
           </h2>
           <p className="mb-4 text-[18px]">
@@ -30,7 +30,7 @@ const GrammarPage = () => {
 
         {/* Form Description */}
         <Card className="bg-white rounded-2xl px-10 py-6">
-          <h2 className="text-[#3758F9] text-[24px] font-semibold mb-4">
+          <h2 className="text-primaryColor text-[24px] font-semibold mb-4">
             Form Description
           </h2>
           <ul className="list-disc pl-8 space-y-1">
@@ -52,7 +52,7 @@ const GrammarPage = () => {
         {/* Begin Test Button */}
         <div className="flex justify-end mt-4">
           <button
-            className="bg-[#3758F9] text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-[16px] hover:bg-[#3758F9]/90 transition-all duration-200 border-none outline-none"
+            className="bg-primaryColor text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-[16px] hover:bg-primaryColor/90 transition-all duration-200 border-none outline-none"
             onClick={() => navigate("test")}
           >
             Begin the Test

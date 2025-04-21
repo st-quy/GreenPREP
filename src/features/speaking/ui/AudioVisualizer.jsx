@@ -41,7 +41,7 @@ const AudioVisualizer = ({ isRecording }) => {
       let sliceWidth = (canvas.width * 1.0) / bufferLengthRef.current;
       let x = 0;
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "#3758F9";
+      ctx.strokeStyle = "#003087";
       for (let i = 0; i < bufferLengthRef.current; i++) {
         let v = dataArrayRef.current[i] / 128.0;
         let y = (v * canvas.height) / 1.5;
@@ -58,7 +58,7 @@ const AudioVisualizer = ({ isRecording }) => {
     draw();
   };
   return (
-    <div className="relative w-[60vw] h-40 bg-white rounded-lg flex items-center justify-center outline outline-1 outline-blue-500">
+    <div className="relative w-[60vw] h-40 bg-white rounded-lg flex items-center justify-center outline outline-1 outline-primaryColor">
       <canvas ref={canvasRef} className="w-[95%] h-[90%] pb-8" />
     </div>
   );
