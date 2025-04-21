@@ -110,7 +110,7 @@ const LoginPage = () => {
             <div className="text-right">
               <Link
                 to="/forgot-password"
-                className="text-[#003087] hover:text-[#003087]/90 text-base"
+                className="text-primaryColor hover:text-primaryColor/90 text-base"
               >
                 Forgot password?
               </Link>
@@ -121,7 +121,7 @@ const LoginPage = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="!w-[250px] !h-[50px] text-base font-medium !bg-[#003087] hover:!bg-[#003087]/90 rounded-full"
+                className="!w-[250px] !h-[50px] text-base font-medium !bg-primaryColor hover:!bg-primaryColor/90 rounded-full"
                 loading={isPending}
               >
                 Login
@@ -132,7 +132,7 @@ const LoginPage = () => {
               <Text className="text-gray-600 text-base">
                 Don't have an account?{" "}
                 <span
-                  className="text-[#003087] hover:text-[#003087]/90 cursor-pointer font-medium"
+                  className="text-primaryColor hover:text-primaryColor/90 cursor-pointer font-medium"
                   onClick={() => navigate("/register")}
                 >
                   Sign up

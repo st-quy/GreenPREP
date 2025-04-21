@@ -13,12 +13,13 @@ const ReadingMarkButton = ({ questionId }) => {
   return (
     <Button
       type="primary"
+      ghost
       onClick={handleMark}
       icon={<FlagOutlined />}
-      className={`ml-4 px-3 py-1 text-sm font-medium rounded-xl transition-all duration-200 border-0 ${
+      className={`ml-4 px-3 py-1 text-sm font-medium rounded-xl border ${
         isMarked
-          ? "bg-yellow-500 !text-white hover:!bg-yellow-600"
-          : "bg-gray-200 !text-black hover:!bg-gray-300"
+          ? "!bg-yellow-600 !text-white !border-0 hover:!bg-yellow-700"
+          : "!text-primaryColor !border-primaryColor hover:!bg-primaryColor hover:!text-white"
       }`}
     >
       {isMarked ? "Marked" : "Mark"}

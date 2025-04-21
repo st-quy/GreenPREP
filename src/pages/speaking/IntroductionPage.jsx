@@ -11,7 +11,7 @@ const Introduction = () => {
   return (
     <div>
       <Card className="mb-2 shadow-sm p-8">
-        <h2 className="text-2xl font-bold text-blue-600 mb-1">
+        <h2 className="text-2xl font-bold text-primaryColor mb-1">
           Test Structure
         </h2>
         <p className="text-lg mb-1">
@@ -35,7 +35,7 @@ const Introduction = () => {
       </Card>
 
       <Card className="mb-2 shadow-sm p-8">
-        <h2 className="text-2xl font-bold text-blue-600 mb-1">
+        <h2 className="text-2xl font-bold text-primaryColor mb-1">
           Form Description
         </h2>
 
@@ -50,7 +50,7 @@ const Introduction = () => {
       </Card>
 
       <Card className="mb-2 shadow-sm p-8">
-        <h2 className="text-2xl font-bold text-blue-600 mb-1">
+        <h2 className="text-2xl font-bold text-primaryColor mb-1">
           Important Notes
         </h2>
 
@@ -68,7 +68,7 @@ const Introduction = () => {
           type="primary"
           size="middle"
           shape="round"
-          className="!text-base bg-[#3758F9] hover:bg-blue-700 flex items-center !p-6"
+          className="!text-base bg-primaryColor hover:bg-blue-700 flex items-center !p-6"
           onClick={() => navigate("test/1/question/1")}
         >
           Begin The Test <ArrowRightOutlined className="ml-1" />

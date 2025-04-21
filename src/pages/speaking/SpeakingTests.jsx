@@ -453,7 +453,7 @@ export default function SpeakingTests() {
     <>
       <div className="w-full space-y-4" key={componentKey}>
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 py-4 md:py-8 px-4 md:px-12">
-          <div className="text-blue-600 font-medium mb-2 flex">
+          <div className="text-primaryColor font-medium mb-2 flex">
             Part {partId}{" "}
             {partId != "4" && (
               <div className="text-black">&nbsp;- Question {questionsId}</div>
@@ -559,7 +559,7 @@ export default function SpeakingTests() {
             !isProcessingFinish && (
               <Button
                 type="primary"
-                className="bg-blue-700 hover:bg-blue-600 rounded-2xl w-full md:w-auto"
+                className="bg-primaryColor rounded-2xl w-full md:w-auto"
                 onClick={() => handleFinish(true)}
                 disabled={isProcessingFinish}
               >

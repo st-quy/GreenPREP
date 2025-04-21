@@ -24,7 +24,7 @@ const IntroReading = () => {
       <Card className="mb-4 border sm:mb-6 rounded-2xl  border-1 sm:p-2 md:p-10">
         <div>
           {/* Responsive padding */}
-          <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-[#3758F9] mb-3 sm:mb-4">
+          <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-primaryColor mb-3 sm:mb-4">
             Test Structure
           </div>
           <Paragraph className="mb-3 text-[#111928] text-sm sm:text-[18px] sm:mb-4">
@@ -63,7 +63,7 @@ const IntroReading = () => {
       <Card className="mb-4 shadow-sm border sm:mb-12 boder-1 rounded-2xl sm:p-2 md:p-10">
         <div>
           {/* Responsive padding */}
-          <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-[#3758F9] mb-2 sm:mb-4">
+          <div className="text-lg sm:text-xl md:text-[24px] font-semibold text-primaryColor mb-2 sm:mb-4">
             Form Description
           </div>
           <ul className="list-disc pl-5 space-y-1 text-[#111928] sm:space-y-2">
@@ -102,7 +102,7 @@ const IntroReading = () => {
               text-sm sm:text-base 
               lg:text-[16px]
               transition-colors
-              bg-[#3758F9]
+              bg-primaryColor
             "
         >
           <span>Begin the Test</span>

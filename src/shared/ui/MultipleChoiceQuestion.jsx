@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const MultipleChoiceQuestion = ({
   questionNumber,
@@ -8,14 +8,12 @@ const MultipleChoiceQuestion = ({
   selectedAnswer,
   handleAnswerSelect,
 }) => {
-  
-
   return (
     <div className="bg-gray-50 flex items-center justify-center min-h-screen p-4">
       <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-2xl">
         {/* Question Header */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold text-blue-600">
+          <h2 className="text-lg font-semibold text-primaryColor">
             Part {partNumber} - Question {questionNumber}
           </h2>
         </div>
@@ -31,8 +29,8 @@ const MultipleChoiceQuestion = ({
               key={index}
               className={`flex items-center ${
                 selectedAnswer === option.value
-                  ? 'bg-blue-50 border border-blue-200'
-                  : 'bg-gray-100'
+                  ? "bg-blue-50 border border-blue-200"
+                  : "bg-gray-100"
               } rounded-lg p-4 cursor-pointer hover:bg-blue-50 transition-colors`}
             >
               <input
@@ -41,7 +39,7 @@ const MultipleChoiceQuestion = ({
                 value={option.value}
                 checked={selectedAnswer === option.value}
                 onChange={() => handleAnswerSelect(option.value)}
-                className="form-radio h-5 w-5 text-blue-600"
+                className="form-radio h-5 w-5 text-primaryColor"
               />
               <span className="ml-3 text-gray-800">
                 {option.label}. {option.text}
@@ -49,7 +47,6 @@ const MultipleChoiceQuestion = ({
             </label>
           ))}
         </div>
-
       </div>
     </div>
   );

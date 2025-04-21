@@ -109,7 +109,7 @@ const TestingMicrophone = () => {
             <Flex
               justify="center"
               align="center"
-              className="w-full h-[120px] max-w-[120px] border-solid border-[1px] border-[#003087] rounded-full cursor-pointer"
+              className="w-full h-[120px] max-w-[120px] border-solid border-[1px] border-primaryColor rounded-full cursor-pointer"
               style={{ backgroundColor: bgColor }}
               onClick={handleClickStartMicrophone}
             >
@@ -175,7 +175,7 @@ const TestingMicrophone = () => {
               <Button
                 type="primary"
                 size="middle"
-                className="bg-white text-[#003087] border-solid border-[1px] border-[#003087] max-w-[185px] rounded-full py-4"
+                className="bg-white text-primaryColor border-solid border-[1px] border-primaryColor max-w-[185px] rounded-full py-4"
                 htmlType="submit"
                 onClick={handleReplayAudio}
               >
@@ -185,7 +185,7 @@ const TestingMicrophone = () => {
               <Button
                 type="primary"
                 size="middle"
-                className="bg-white text-[#3758F9] border-solid border-[1px] border-[#3758F9] max-w-[185px] rounded-full py-4"
+                className="bg-white text-primaryColor border-solid border-[1px] border-primaryColor max-w-[185px] rounded-full py-4 hover:!bg-primaryColor hover:!text-white"
                 htmlType="submit"
                 onClick={handleClickStartMicrophone}
               >
@@ -213,7 +213,7 @@ const TestingMicrophone = () => {
               <Button
                 type="primary"
                 size="middle"
-                className="rounded-full bg-[#3658F9] py-3 w-[114px] ml-auto mt-1 !p-6"
+                className="rounded-full bg-primaryColor py-3 w-[114px] ml-auto mt-1 !p-6"
                 htmlType="submit"
                 onClick={() => {
                   startTestInFullScreen();

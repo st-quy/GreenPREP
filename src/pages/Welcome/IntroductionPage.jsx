@@ -15,7 +15,7 @@ const IntroductionPage = () => {
           className="w-full py-10 px-20 shadow-[0_3px_10px_rgb(0,0,0,0.2)] !bg-white rounded-lg "
         >
           <Flex gap={10} vertical>
-            <Text className="text-lg/[26px] font-bold text-[#3758F9FF]">
+            <Text className="text-lg/[26px] font-bold text-primaryColor">
               Test Structure & Flow
             </Text>
             <Text className="text-2xl md:text-3xl lg:text-[40px]/[48px] font-bold">
@@ -33,7 +33,7 @@ const IntroductionPage = () => {
                 <Flex
                   justify="center"
                   align="center"
-                  className="w-full max-w-10 h-10 md:max-w-10 md:h-10 lg:max-w-14 lg:h-14 rounded-full text-lg md:text-xl lg:text-[28px]/[16px] font-medium border border-solid border-[#3758F9FF] text-[#3758F9FF]  hover:bg-[#3758F9FF] hover:text-white "
+                  className="w-full max-w-10 h-10 md:max-w-10 md:h-10 lg:max-w-14 lg:h-14 rounded-full text-lg md:text-xl lg:text-[28px]/[16px] font-medium border border-solid border-primaryColor text-primaryColor  hover:bg-primaryColor hover:text-white "
                 >
                   {index + 1}
                 </Flex>
@@ -51,7 +51,7 @@ const IntroductionPage = () => {
           <Button
             type="primary"
             size="middle"
-            className="text-1/4 md:text-1/5 lg:w-1/6 rounded-full !text-md mx-auto my-10 h-max-fit h-[48px]"
+            className="text-1/4 md:text-1/5 lg:w-1/6 rounded-full !text-md mx-auto my-10 h-max-fit h-[48px] bg-primaryColor"
             htmlType="button"
             onClick={() => navigate("/pre-condition")}
           >

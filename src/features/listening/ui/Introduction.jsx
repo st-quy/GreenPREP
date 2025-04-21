@@ -8,7 +8,7 @@ const Introduction = () => {
     <div className="bg-gray-50">
       {/* Test Structure Section */}
       <Card className="mb-4 rounded-2xl p-10 shadow-sm">
-        <h2 className="text-lg font-semibold text-[#4361ee] mb-2">
+        <h2 className="text-lg font-semibold text-primaryColor mb-2">
           Test Structure
         </h2>
         <p className="mb-2 text-[15px]">
@@ -25,7 +25,7 @@ const Introduction = () => {
 
       {/* Form Description Section */}
       <Card className="mb-4 rounded-2xl p-10 shadow-sm">
-        <h2 className="text-lg font-semibold text-[#4361ee] mb-2">
+        <h2 className="text-lg font-semibold text-primaryColor mb-2">
           Form Description
         </h2>
         <ul className="space-y-1 text-[15px] px-4">
@@ -47,7 +47,7 @@ const Introduction = () => {
 
       {/* Important Notes Section */}
       <Card className="mb-4 rounded-2xl p-10 shadow-sm">
-        <h2 className="text-lg font-semibold text-[#4361ee] mb-2">
+        <h2 className="text-lg font-semibold text-primaryColor mb-2">
           Important Notes
         </h2>
         <ul className="space-y-1 text-[15px] px-4">
@@ -59,7 +59,7 @@ const Introduction = () => {
       {/* Begin Test Button */}
       <div className="flex justify-end mt-3">
         <Button
-          className="bg-[#4361ee] !text-white px-4 p-6 rounded-full flex items-center gap-2 hover:!bg-[#3651d4] text-sm"
+          className="bg-primaryColor !text-white px-4 p-6 rounded-full flex items-center gap-2 hover:!bg-[#3651d4] text-sm"
           onClick={() => navigate("test")}
         >
           Begin the Test -&gt;

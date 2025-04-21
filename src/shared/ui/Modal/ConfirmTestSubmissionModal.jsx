@@ -59,7 +59,7 @@ export default function ConfirmTestSubmissionModal({
             size="large"
             onClick={onSubmit}
             loading={isLoading}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-primaryColor hover:bg-blue-700"
           >
             Submit
           </Button>
