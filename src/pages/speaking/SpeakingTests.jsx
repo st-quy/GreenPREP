@@ -93,10 +93,13 @@ export default function SpeakingTests() {
             const part = parts[Number(partId) - 1];
           }
           if (part && part.Questions && part.Questions.length > 0) {
+            const sortedQuestions = [...(part.Questions || [])].sort(
+              (a, b) => a.Sequence - b.Sequence
+            );
             if (partId == "4") {
-              setPartFourQuestion(part.Questions);
+              setPartFourQuestion(sortedQuestions);
             } else {
-              setQuestionsData(part.Questions[Number(questionsId) - 1]);
+              setQuestionsData(sortedQuestions[Number(questionsId) - 1]);
             }
             handleStartTest();
             // Set initial status based on whether we have a reading phase
