@@ -119,7 +119,12 @@ const ProfileUpdate = ({ openKey, setOpenKey }) => {
             >
               Cancel
             </Button>
-            <Button type="primary" htmlType="submit" loading={isPending}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isPending}
+              className="!bg-primaryColor"
+            >
               Update
             </Button>
           </div>

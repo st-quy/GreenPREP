@@ -32,7 +32,7 @@ const MultipleMatchingQuestion = ({ question, answer, onAnswerChange }) => {
               <select
                 value={answers[index + 1]}
                 onChange={(e) => handleAnswerChange(index, e.target.value)}
-                className="w-full md:w-48 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full md:w-48 px-3 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-primaryColor focus:border-transparent"
               >
                 <option value="">Select answer</option>
                 {answer.options.map((option, optIndex) => (

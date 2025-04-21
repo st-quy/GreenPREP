@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { FaPlay, FaPause } from 'react-icons/fa';
+import React, { useState, useRef, useEffect } from "react";
+import { FaPlay, FaPause } from "react-icons/fa";
 
-const STORAGE_KEY_PREFIX = 'listening_test_audio_';
+const STORAGE_KEY_PREFIX = "listening_test_audio_";
 
 const AudioPlayer = ({ audioUrl, questionId }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -14,7 +14,9 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
   const getStoredData = () => {
     const key = `${STORAGE_KEY_PREFIX}${questionId}`;
     const storedData = localStorage.getItem(key);
-    return storedData ? JSON.parse(storedData) : { playCount: 0, position: 0, lastButton: null };
+    return storedData
+      ? JSON.parse(storedData)
+      : { playCount: 0, position: 0, lastButton: null };
   };
 
   const [playData, setPlayData] = useState(getStoredData());
@@ -31,25 +33,29 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     if (audioRef.current) {
       // Prevent seeking
-      audioRef.current.addEventListener('seeking', preventSeeking);
-      audioRef.current.addEventListener('seeked', preventSeeking);
-      
+      audioRef.current.addEventListener("seeking", preventSeeking);
+      audioRef.current.addEventListener("seeked", preventSeeking);
+
       // Handle audio events
-      audioRef.current.addEventListener('error', handleError);
-      audioRef.current.addEventListener('ended', handleEnded);
-      audioRef.current.addEventListener('timeupdate', handleTimeUpdate);
-      audioRef.current.addEventListener('loadeddata', () => setIsLoading(false));
-      audioRef.current.addEventListener('waiting', () => setIsLoading(true));
-      audioRef.current.addEventListener('canplaythrough', () => setIsLoading(false));
-      
+      audioRef.current.addEventListener("error", handleError);
+      audioRef.current.addEventListener("ended", handleEnded);
+      audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
+      audioRef.current.addEventListener("loadeddata", () =>
+        setIsLoading(false)
+      );
+      audioRef.current.addEventListener("waiting", () => setIsLoading(true));
+      audioRef.current.addEventListener("canplaythrough", () =>
+        setIsLoading(false)
+      );
+
       // Preload audio
-      audioRef.current.preload = 'auto';
-      
+      audioRef.current.preload = "auto";
+
       // Set initial position if there was a stored position
       if (position > 0) {
         audioRef.current.currentTime = position;
@@ -57,18 +63,24 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
     }
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-      
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+
       if (audioRef.current) {
-        audioRef.current.removeEventListener('seeking', preventSeeking);
-        audioRef.current.removeEventListener('seeked', preventSeeking);
-        audioRef.current.removeEventListener('error', handleError);
-        audioRef.current.removeEventListener('ended', handleEnded);
-        audioRef.current.removeEventListener('timeupdate', handleTimeUpdate);
-        audioRef.current.removeEventListener('loadeddata', () => setIsLoading(false));
-        audioRef.current.removeEventListener('waiting', () => setIsLoading(true));
-        audioRef.current.removeEventListener('canplaythrough', () => setIsLoading(false));
+        audioRef.current.removeEventListener("seeking", preventSeeking);
+        audioRef.current.removeEventListener("seeked", preventSeeking);
+        audioRef.current.removeEventListener("error", handleError);
+        audioRef.current.removeEventListener("ended", handleEnded);
+        audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+        audioRef.current.removeEventListener("loadeddata", () =>
+          setIsLoading(false)
+        );
+        audioRef.current.removeEventListener("waiting", () =>
+          setIsLoading(true)
+        );
+        audioRef.current.removeEventListener("canplaythrough", () =>
+          setIsLoading(false)
+        );
       }
     };
   }, [position, questionId]);
@@ -83,15 +95,17 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
     if (audioRef.current) {
       updateStoredData({
         ...playData,
-        position: audioRef.current.currentTime
+        position: audioRef.current.currentTime,
       });
     }
   };
 
   const handleError = () => {
-    setError(isOnline 
-      ? 'Audio failed to load. Please try again or contact support.'
-      : 'No internet connection. Please check your connection and try again.');
+    setError(
+      isOnline
+        ? "Audio failed to load. Please try again or contact support."
+        : "No internet connection. Please check your connection and try again."
+    );
     setIsPlaying(false);
     setIsLoading(false);
     updateStoredData({ ...playData, lastButton: null });
@@ -102,18 +116,20 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
     updateStoredData({
       ...playData,
       position: 0,
-      lastButton: null
+      lastButton: null,
     });
   };
 
   const handlePlayPause = (buttonNumber) => {
     if (playCount >= 2 && !isPlaying) {
-      setError('You have reached the maximum number of plays (2)');
+      setError("You have reached the maximum number of plays (2)");
       return;
     }
 
     if (!isOnline) {
-      setError('No internet connection. Please check your connection and try again.');
+      setError(
+        "No internet connection. Please check your connection and try again."
+      );
       return;
     }
 
@@ -127,46 +143,56 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
       setIsPlaying(false);
       updateStoredData({
         ...playData,
-        lastButton: null
+        lastButton: null,
       });
     } else if (!isPlaying) {
       // Start new playback
       const startingNewPlay = currentButton !== buttonNumber;
-      
-      audioRef.current?.play().then(() => {
-        setIsPlaying(true);
-        updateStoredData({
-          ...playData,
-          playCount: startingNewPlay ? playCount + 1 : playCount,
-          lastButton: buttonNumber,
-          position: startingNewPlay ? 0 : position
+
+      audioRef.current
+        ?.play()
+        .then(() => {
+          setIsPlaying(true);
+          updateStoredData({
+            ...playData,
+            playCount: startingNewPlay ? playCount + 1 : playCount,
+            lastButton: buttonNumber,
+            position: startingNewPlay ? 0 : position,
+          });
+        })
+        .catch((error) => {
+          console.error("Playback failed:", error);
+          setError("Failed to play audio. Please try again.");
         });
-      }).catch(error => {
-        console.error('Playback failed:', error);
-        setError('Failed to play audio. Please try again.');
-      });
     }
   };
 
   return (
     <div className="space-y-4 w-full max-w-md mx-auto">
-      <audio 
-        ref={audioRef} 
+      <audio
+        ref={audioRef}
         src={audioUrl}
-        controlsList="nodownload noplaybackrate" 
+        controlsList="nodownload noplaybackrate"
       />
-      
+
       {error ? (
         <div className="text-red-600 text-center py-4 text-sm">{error}</div>
       ) : (
         <div className="flex gap-3">
           <button
             onClick={() => handlePlayPause(1)}
-            disabled={(playCount >= 1 && !isPlaying && currentButton !== 1) || !isOnline || isLoading}
+            disabled={
+              (playCount >= 1 && !isPlaying && currentButton !== 1) ||
+              !isOnline ||
+              isLoading
+            }
             className={`flex items-center gap-2 px-4 py-2 rounded-full border
-              ${(playCount >= 1 && !isPlaying && currentButton !== 1) || !isOnline || isLoading
-                ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50' 
-                : 'border-[#4255D4] text-[#4255D4] hover:bg-[#F8F9FF] bg-white'
+              ${
+                (playCount >= 1 && !isPlaying && currentButton !== 1) ||
+                !isOnline ||
+                isLoading
+                  ? "border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50"
+                  : "border-[#4255D4] text-[#4255D4] hover:bg-[#F8F9FF] bg-white"
               }`}
           >
             {isLoading ? (
@@ -179,11 +205,20 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
 
           <button
             onClick={() => handlePlayPause(2)}
-            disabled={(playCount >= 2 && !isPlaying && currentButton !== 2) || playCount === 0 || !isOnline || isLoading}
+            disabled={
+              (playCount >= 2 && !isPlaying && currentButton !== 2) ||
+              playCount === 0 ||
+              !isOnline ||
+              isLoading
+            }
             className={`flex items-center gap-2 px-4 py-2 rounded-full border
-              ${((playCount >= 2 && !isPlaying && currentButton !== 2) || playCount === 0 || !isOnline || isLoading)
-                ? 'border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50' 
-                : 'border-[#4255D4] text-[#4255D4] hover:bg-[#F8F9FF] bg-white'
+              ${
+                (playCount >= 2 && !isPlaying && currentButton !== 2) ||
+                playCount === 0 ||
+                !isOnline ||
+                isLoading
+                  ? "border-gray-200 text-gray-400 cursor-not-allowed bg-gray-50"
+                  : "border-[#4255D4] text-[#4255D4] hover:bg-[#F8F9FF] bg-white"
               }`}
           >
             {isLoading ? (
@@ -199,4 +234,4 @@ const AudioPlayer = ({ audioUrl, questionId }) => {
   );
 };
 
-export default AudioPlayer; 
+export default AudioPlayer;

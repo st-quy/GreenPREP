@@ -29,8 +29,8 @@ export default function SpeakingTransitionPage() {
   return (
     <div className="w-full space-y-8">
       {/* Part 1 Instructions */}
-      <div className="bg-white rounded-lg border border-solid border-gray-200 p-10">
-        <h2 className="text-blue-600 font-semibold text-2xl mb-3">
+      <div className="bg-white rounded-lg p-10 shadow-sm">
+        <h2 className="text-primaryColor font-semibold text-2xl mb-3">
           {part.title}
         </h2>
         <p className="mb-3 text-lg">{part.description}</p>
@@ -41,7 +41,7 @@ export default function SpeakingTransitionPage() {
 
       {/* Caution */}
       {part.caution && (
-        <div className="bg-white rounded-lg border border-solid border-gray-200 p-10">
+        <div className="bg-white rounded-lg p-10 shadow-sm">
           <h2 className="text-red-600 font-semibold text-2xl mb-3">Caution</h2>
           <p className="text-lg">{part.caution}</p>
         </div>
@@ -54,7 +54,7 @@ export default function SpeakingTransitionPage() {
           size="large"
           onClick={handleStart}
           shape="round"
-          className="bg-[#3758F9] hover:bg-blue-700 flex items-center"
+          className="bg-primaryColor hover:bg-blue-700 flex items-center"
           icon={<ArrowRightOutlined />}
           iconPosition="end"
         >

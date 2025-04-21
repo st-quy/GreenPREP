@@ -13,7 +13,7 @@ const IntroWriting = () => {
     <>
       {/* Test Structure Section */}
       <Card className=" rounded-2xl p-8 mb-4 w-full">
-        <h2 className="text-[#3758F9] text-2xl font-semibold mb-4">
+        <h2 className="text-primaryColor text-2xl font-semibold mb-4">
           Test Structure
         </h2>
         <div className="flex flex-col md:flex-row md:justify-between gap-4 md:gap-6">
@@ -65,7 +65,7 @@ const IntroWriting = () => {
 
       {/* Form Description Section */}
       <Card className="bg-white rounded-2xl p-8 mb-4 w-full">
-        <h2 className="text-[#3758F9] text-2xl font-semibold mb-4">
+        <h2 className="text-primaryColor text-2xl font-semibold mb-4">
           Form Description
         </h2>
         <ul className="list-disc pl-8 space-y-2">
@@ -88,7 +88,7 @@ const IntroWriting = () => {
       <div className="flex justify-end mt-4">
         <button
           onClick={() => navigate("test")}
-          className="bg-[#3758F9] text-white text-[16px] px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none"
+          className="bg-primaryColor text-white text-[16px] px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-[#2847E8] active:transform active:scale-95 border-none outline-none"
         >
           Begin the Test
           <img

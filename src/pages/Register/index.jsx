@@ -125,7 +125,7 @@ const Register = () => {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                className="!w-[250px] !h-[50px] text-base font-medium !bg-[#003087] hover:!bg-[#003087]/90 rounded-full"
+                className="!w-[250px] !h-[50px] text-base font-medium !bg-primaryColor hover:!bg-primaryColor/90 rounded-full"
                 loading={isPending}
               >
                 Sign up
@@ -138,7 +138,7 @@ const Register = () => {
               Already have an account?{" "}
               <span
                 onClick={() => navigate("/login")}
-                className="text-[#003087] hover:text-[#003087]/90 cursor-pointer font-medium"
+                className="text-primaryColor hover:text-primaryColor/90 cursor-pointer font-medium"
               >
                 Sign in
               </span>

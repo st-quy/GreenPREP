@@ -38,7 +38,7 @@ const WelcomeScreen = () => {
                 <h1 className="text-4xl lg:text-5xl font-bold text-gray-900">
                   Assess, Improve, and
                   <br />
-                  Achieve <span className="text-blue-600">Your Goals!</span>
+                  Achieve <span className="text-primaryColor">Your Goals!</span>
                 </h1>
                 <p className="text-lg text-gray-600">
                   This mock test helps you assess your English proficiency,
@@ -49,12 +49,11 @@ const WelcomeScreen = () => {
                   onClick={() => setIsModalOpen(true)}
                   type="primary"
                   size="large"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 !bg-primaryColor"
                   style={{
                     height: "48px",
                     padding: "0 32px",
                     fontSize: "18px",
-                    backgroundColor: "#3758F9",
                   }}
                 >
                   Get Started <ArrowRightOutlined />
@@ -120,7 +119,11 @@ const WelcomeScreen = () => {
                     />
                   </Form.Item>
                   <div className="flex justify-between items-center mt-6">
-                    <Button onClick={() => setIsModalOpen(false)} size="large">
+                    <Button
+                      onClick={() => setIsModalOpen(false)}
+                      size="large"
+                      className="border hover:!border-primaryColor hover:!text-primaryColor transition duration-300"
+                    >
                       Back
                     </Button>
                     <Button
@@ -128,7 +131,7 @@ const WelcomeScreen = () => {
                       size="large"
                       htmlType="submit"
                       // onClick={handleSubmit}
-                      className="!bg-blue-600 text-white"
+                      className="!bg-primaryColor text-white"
                       loading={isPending}
                     >
                       Submit Key

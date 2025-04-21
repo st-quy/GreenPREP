@@ -41,7 +41,7 @@ const ReadingQuestionNavigator = () => {
                   isActive
                     ? "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]"
                     : "bg-gray-50 text-gray-900 hover:bg-gray-100"
-                }`}
+                } hover:!text-primaryColor hover:!border-primaryColor`}
               >
                 {index + 1}
                 <div

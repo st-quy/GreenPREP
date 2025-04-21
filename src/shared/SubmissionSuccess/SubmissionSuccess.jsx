@@ -62,7 +62,7 @@ const SubmissionSuccess = ({
           <button
             onClick={handleNextTest}
             disabled={isNavigating}
-            className={`bg-[#2F80ED] text-white w-[160px] sm:w-[176px] md:w-[192px] h-[40px] sm:h-[44px] md:h-[48px] rounded-full flex items-center justify-center transition-all duration-300 mt-[30px] sm:mt-[35px] md:mt-[40px] border-none outline-none
+            className={`bg-primaryColor text-white w-[160px] sm:w-[176px] md:w-[192px] h-[40px] sm:h-[44px] md:h-[48px] rounded-full flex items-center justify-center transition-all duration-300 mt-[30px] sm:mt-[35px] md:mt-[40px] border-none outline-none
               ${isNavigating ? "opacity-75 cursor-not-allowed" : "hover:bg-blue-700"}`}
           >
             <span className="text-[14px] sm:text-[15px] md:text-[16px] leading-[20px] sm:leading-[22px] md:leading-[24px]">

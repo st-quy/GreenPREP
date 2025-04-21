@@ -120,11 +120,12 @@ const GrammarVocabTest = () => {
             {listQuestion.length > 0 && (
               <div className="flex flex-col gap-2 mb-4">
                 <div className="flex justify-between">
-                  <span className="text-blue-600 font-bold">
+                  <span className="text-primaryColor font-bold">
                     {listQuestion?.[currentQuestionIndex]?.Part?.Content}
                   </span>
                   <Button
                     type="primary"
+                    ghost
                     onClick={() =>
                       handleMarkQuestion(
                         listQuestion?.[currentQuestionIndex].ID
@@ -139,8 +140,11 @@ const GrammarVocabTest = () => {
                         <FlagOutlined color="" />
                       )
                     }
-                    className={`ml-4 px-3 py-1 text-sm font-medium rounded-xl transition-all duration-200 border-0
-                      ${markedQuestions[listQuestion?.[currentQuestionIndex].ID] ? "bg-yellow-500 !text-white hover:!bg-yellow-600" : "bg-gray-200 !text-black hover:!bg-gray-300"}`}
+                    className={`ml-4 px-3 py-1 text-sm font-medium rounded-xl border ${
+                      markedQuestions[listQuestion?.[currentQuestionIndex].ID]
+                        ? "!bg-yellow-600 !text-white !border-0 hover:!bg-yellow-700"
+                        : "!text-primaryColor !border-primaryColor hover:!bg-primaryColor hover:!text-white"
+                    }`}
                   >
                     {markedQuestions[listQuestion?.[currentQuestionIndex].ID]
                       ? "Unmark"
@@ -174,13 +178,13 @@ const GrammarVocabTest = () => {
             <Button
               onClick={handlePreviousQuestion}
               disabled={currentQuestionIndex === 0}
-              className="!bg-white shadow-sm text-[#3758F9] p-6 rounded-full text-sm"
+              className="!bg-white shadow-sm text-primaryColor p-6 rounded-full text-sm"
             >
               &lt;- Previous
             </Button>
             <Button
               onClick={handleNextQuestion}
-              className="bg-blue-600 hover:!bg-blue-700 !text-white p-6 rounded-full text-sm"
+              className="bg-primaryColor hover:!bg-blue-700 !text-white p-6 rounded-full text-sm"
             >
               {currentQuestionIndex === totalQuestions - 1
                 ? "Submit"
@@ -236,7 +240,7 @@ const GrammarVocabTest = () => {
                         <Button
                           key={index}
                           onClick={() => setCurrentQuestionIndex(index)}
-                          className={`w-11 h-11 rounded-xl text-sm font-medium items-center justify-center border-1 hover:!border-gray-300  bg-gray-50 text-gray-900 hover:bg-gray-100 ${currentQuestionIndex === index && "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]"}`}
+                          className={`w-11 h-11 rounded-xl text-sm font-medium items-center justify-center border-1 hover:!border-gray-300  bg-gray-50 text-gray-900 hover:bg-gray-100 ${currentQuestionIndex === index && "bg-[#E1E8FF] hover:!bg-[#d6e0ff] !border-[#4C6AFA] !text-[#4C6AFA]"} hover:!text-primaryColor hover:!border-primaryColor`}
                         >
                           {index + 1}
                           <div

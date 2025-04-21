@@ -52,7 +52,7 @@ const ReadingParts = () => {
   if (isLoading)
     return (
       <div className="w-full rounded-[20px] bg-white p-6 shadow-xl border border-gray-200  lg:p-8 lg:h-fit">
-        <div className="w-6 h-6 shadow-sm border border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
+        <div className="w-6 h-6 shadow-sm border border-gray-200 border-t-primaryColor rounded-full animate-spin"></div>
       </div>
     );
 

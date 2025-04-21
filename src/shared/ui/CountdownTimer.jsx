@@ -53,10 +53,7 @@ const CountdownTimer = ({ initialTime = 600, onSubmit }) => {
 
   return (
     <div className="relative">
-      <div
-        className="flex justify-center items-center bg-white w-20 h-10 shadow-md font-medium text-md md:text-lg"
-        style={{ color: "#3758F9" }}
-      >
+      <div className="flex justify-center items-center bg-white w-20 h-10 shadow-md font-medium text-md md:text-lg text-primaryColor">
         {isInitialized ? formattedTime : "Loading..."}
       </div>
 

@@ -3,7 +3,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className="flex my-10 gap-3 items-center sm:gap-4 bg-[#F9F9F9]">
+    <div className="flex my-10 gap-3 items-center sm:gap-4">
       <img
         src={ListenIcon}
         alt="listening icon"
