@@ -10,22 +10,18 @@ const TableSearch = ({ data = [], columns, isLoading = false }) => {
   const pageSize = 5;
 
   useEffect(() => {
-    setFilteredData(
-      data.filter((item) => {
-        const searchValue = searchText.toLowerCase();
+    const searchInObject = (obj) => {
+      if (!obj) return false;
+      return Object.values(obj).some((value) => {
+        if (value === null || value === undefined) return false;
+        if (typeof value === "object") return searchInObject(value);
+        return String(value).toLowerCase().includes(searchText.toLowerCase());
+      });
+    };
 
-        const searchInObject = (obj) => {
-          return Object.values(obj).some((value) => {
-            if (value === null || value === undefined) return false;
-            if (typeof value === "object") return searchInObject(value);
-            return String(value).toLowerCase().includes(searchValue);
-          });
-        };
-
-        return searchInObject(item);
-      })
-    );
-  }, [searchText]);
+    const newFilteredData = data.filter((item) => searchInObject(item));
+    setFilteredData(newFilteredData);
+  }, [searchText, data]);
 
   const start = (currentPage - 1) * pageSize + 1;
   const end = Math.min(start + pageSize - 1, filteredData.length);

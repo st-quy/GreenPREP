@@ -1,4 +1,4 @@
-import { ResetSuccessImg } from "@assets/images";
+import { SubmitSuccess } from "@assets/images";
 import { Link } from "react-router-dom";
 
 const ResetSuccess = () => {
@@ -6,7 +6,7 @@ const ResetSuccess = () => {
     <div className="flex flex-col items-center justify-center h-screen">
       <div className="text-center">
         <img
-          src={ResetSuccessImg}
+          src={SubmitSuccess}
           alt="Password Reset Success"
           className="mb-6 max-w-xxl"
         />
