@@ -29,8 +29,6 @@ export default {
       colors: {
         primaryColor: "#003087",
         primaryTextColor: "#637381",
-        stroke: "#DFE4EA",
-        gray: "#F9FAFB",
       },
     },
   },
