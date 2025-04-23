@@ -83,10 +83,12 @@ const WelcomeScreen = () => {
                           ? "Select session name"
                           : "No session available"
                       }
-                      options={data?.map((session) => ({
-                        label: `${session.sessionName + " - " + session.Classes.className}`,
-                        value: session.ID,
-                      }))}
+                      options={data
+                        .filter((item) => item.isPublished === false)
+                        ?.map((session) => ({
+                          label: `${session.sessionName + " - " + session.Classes.className}`,
+                          value: session.ID,
+                        }))}
                       showSearch
                       className="w-full"
                       disabled={isPending}

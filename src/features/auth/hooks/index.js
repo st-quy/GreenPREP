@@ -76,6 +76,7 @@ export const useResetPassword = () => {
 export const useGetProfile = () => {
   const { userId } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   return useQuery({
     queryKey: ["profile", userId],
@@ -96,6 +97,9 @@ export const useGetProfile = () => {
 
         return data.data;
       } catch (error) {
+        localStorage.clear()
+        sessionStorage.clear()
+        navigate("/login");
         message.error(error.response?.data?.message || 'Failed to fetch profile');
         return null;
       }

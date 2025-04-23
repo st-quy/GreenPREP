@@ -21,8 +21,10 @@ import RegisterAccount from "./registerAccount.png"
 import ForgotPasswordLion from "./forgot-password.png";
 import BgGreenWich from "./bgGreenwich.png"
 import LogoGreen from "./logoGreenprep.png"
+import SubmitSuccess from "./submitSuccess.png"
 
 export {
+  SubmitSuccess,
   LogoGreen,
   BgGreenWich,
   ForgotPasswordLion,

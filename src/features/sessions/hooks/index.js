@@ -28,25 +28,28 @@ export const useSessionRequest = () => {
 
   return useMutation({
     mutationFn: async (params) => {
-      const { data } = await SessionApi.createRequest(params);
-      return data;
+      try {
+        const { data } = await SessionApi.createRequest(params);
+        return data;
+      } catch ({response}) {
+        if (response?.data?.error) {
+          message.error("Failed to send request");
+          return;
+        }
+        if (response.data.data.status === "pending") {
+          sessionStorage.setItem("sessionId", response.data.data?.SessionID);
+          sessionStorage.setItem("requestId", response.data.data?.ID);
+          navigate("/waiting-for-approval");
+        } else{
+          message.error(response.data.message || "Failed to send request");
+        }
+      }
     },
     onSuccess({data}) {
     sessionStorage.setItem("sessionId", data?.SessionID);
     sessionStorage.setItem("requestId", data?.ID);
     dispatch(updateSessionId(data));
     navigate("/waiting-for-approval");
-    },
-    onError({response}) {
-      if (response?.data?.error) {
-        message.error("Failed to send request");
-        return;
-      }
-      if (response.data.data.status === "pending") {
-        sessionStorage.setItem("sessionId", response.data.data?.SessionID);
-        sessionStorage.setItem("requestId", response.data.data?.ID);
-        navigate("/waiting-for-approval");
-      }
     },
   });
 };
